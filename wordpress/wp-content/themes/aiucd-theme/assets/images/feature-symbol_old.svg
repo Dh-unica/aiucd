@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 160" width="120" height="160" role="img" aria-label="feature symbol">
+  <!-- Deep navy background with white digits (approximation of supplied artwork) -->
+  <rect width="120" height="160" fill="#02004b" />
+  <text x="18" y="54" font-family="Helvetica, Arial, sans-serif" font-size="48" fill="#ffffff" font-weight="400">10</text>
+  <text x="18" y="130" font-family="Helvetica, Arial, sans-serif" font-size="48" fill="#ffffff" font-weight="400">01</text>
+</svg>
