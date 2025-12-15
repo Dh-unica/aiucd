@@ -22,7 +22,7 @@
 			<!-- /wp:image -->
 
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer"></div>
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer"></div>
 			<!-- /wp:spacer -->
 
 			<!-- wp:image {"aspectRatio":"3/4","scale":"cover","className":"is-style-rounded"} -->
@@ -32,7 +32,7 @@
 			<!-- /wp:image -->
 
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer">
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer">
 			</div>
 			<!-- /wp:spacer -->
 
@@ -47,7 +47,7 @@
 		<!-- wp:column {"style":{"spacing":{"blockGap":"0"}}} -->
 		<div class="wp-block-column">
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer"></div>
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer"></div>
 			<!-- /wp:spacer -->
 
 			<!-- wp:image {"aspectRatio":"3/4","scale":"cover","className":"is-style-rounded"} -->
@@ -57,7 +57,7 @@
 			<!-- /wp:image -->
 
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer"></div>
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer"></div>
 			<!-- /wp:spacer -->
 
 			<!-- wp:image {"aspectRatio":"1","scale":"cover","className":"is-style-rounded"} -->
@@ -67,7 +67,7 @@
 			<!-- /wp:image -->
 
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer"></div>
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer"></div>
 			<!-- /wp:spacer -->
 
 			<!-- wp:image {"aspectRatio":"1","scale":"cover","className":"is-style-rounded"} -->
@@ -87,7 +87,7 @@
 			<!-- /wp:image -->
 
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer">
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer">
 			</div>
 			<!-- /wp:spacer -->
 
@@ -98,7 +98,7 @@
 			<!-- /wp:image -->
 
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer">
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer">
 			</div>
 			<!-- /wp:spacer -->
 
@@ -113,7 +113,7 @@
 		<!-- wp:column {"style":{"spacing":{"blockGap":"0"}}} -->
 		<div class="wp-block-column">
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer"></div>
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer"></div>
 			<!-- /wp:spacer -->
 
 			<!-- wp:image {"aspectRatio":"1","scale":"cover","className":"is-style-rounded"} -->
@@ -123,7 +123,7 @@
 			<!-- /wp:image -->
 
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer"></div>
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer"></div>
 			<!-- /wp:spacer -->
 
 			<!-- wp:image {"aspectRatio":"16/9","scale":"cover","className":"is-style-rounded"} -->
@@ -133,7 +133,7 @@
 			<!-- /wp:image -->
 
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer">
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer">
 			</div>
 			<!-- /wp:spacer -->
 

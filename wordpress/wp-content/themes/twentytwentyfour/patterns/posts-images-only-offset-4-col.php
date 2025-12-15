@@ -26,7 +26,7 @@
 		<!-- wp:column {"style":{"spacing":{"blockGap":"0","padding":{"top":"0"}}}} -->
 		<div class="wp-block-column" style="padding-top:0">
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer">
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer">
 			</div>
 			<!-- /wp:spacer -->
 
@@ -39,7 +39,7 @@
 			<!-- /wp:query -->
 
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer">
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer">
 			</div>
 			<!-- /wp:spacer -->
 		</div>
@@ -60,7 +60,7 @@
 		<!-- wp:column {"style":{"spacing":{"blockGap":"0","padding":{"top":"0"}}}} -->
 		<div class="wp-block-column" style="padding-top:0">
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer">
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer">
 			</div>
 			<!-- /wp:spacer -->
 
@@ -73,7 +73,7 @@
 			<!-- /wp:query -->
 
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
-			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer">
+			<div style="height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer">
 			</div>
 			<!-- /wp:spacer -->
 		</div>

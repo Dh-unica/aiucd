@@ -4,7 +4,7 @@ Theme URI: https://example.org/
 Description: Child theme for Twenty Twenty-Four with custom feature symbol.
 Author: Unica-dh
 Template: twentytwentyfour
-Version: 1.0
+Version: 1.1
 */
 
 /* Add custom child theme styles below. Parent styles are enqueued from the child functions.php */
@@ -12,6 +12,14 @@ Version: 1.0
 /* Force global content size to auto so header/content match expected widths */
 :root {
 	--wp--style--global--content-size: auto !important;
+}
+
+/* Ridurre lo spazio degli spacer da 50 a 10 per diminuire lo spazio tra titolo e header */
+/* Sovrascrivere il valore della variabile CSS spacing--50 con spacing--10 */
+:root,
+html,
+body {
+	--wp--preset--spacing--50: 1rem !important;
 }
 
 /* Ensure the admin toolbar is visible and contrasts with the site header for logged-in users */
