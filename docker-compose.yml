@@ -33,6 +33,8 @@ services:
       - ./php-config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
       # NOTE: uploads directory is now part of the bind mount above
       # This ensures proper permissions with user mapping
+      # Apache config for mod_headers (X-Accel-Buffering: disable nginx proxy buffering)
+      - ./apache-config/headers.conf:/etc/apache2/conf-enabled/headers.conf:ro
     depends_on:
       - db
     networks:
