@@ -22,6 +22,15 @@ body {
 	--wp--preset--spacing--50: 1rem !important;
 }
 
+body.home .wp-block-group.has-global-padding.is-layout-constrained {
+/*    display: none !important; */
+}
+
+/* Nasconde il DIV contenitore del titolo solo in Home Page */
+body.home .wp-block-group:has(> .wp-block-post-title) {
+    display: none;
+}
+
 /* Ensure the admin toolbar is visible and contrasts with the site header for logged-in users */
 #wpadminbar {
 	position: fixed !important;
