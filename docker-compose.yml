@@ -56,10 +56,14 @@ services:
       - aiucd_network
 
   # phpMyAdmin Service (Optional)
+  # Avviato solo su richiesta: `docker compose --profile admin up -d`
+  # In produzione non serve: evita conflitti sulla porta 8080.
   phpmyadmin:
     image: phpmyadmin:5.2.1
     container_name: aiucd_phpmyadmin
     restart: unless-stopped
+    profiles:
+      - admin
     ports:
       - "8080:80"
     environment:

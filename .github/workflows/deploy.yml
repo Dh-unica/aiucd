@@ -9,7 +9,12 @@ on:
 jobs:
   deploy:
     name: Deploy WordPress to Production
-    runs-on: self-hosted  # Usa runner sul server di produzione
+    # Vincola il deploy al runner "deploy" su 90.147.144.180 (utente dhpasteur)
+    # dove risiedono i container attivi e il bind mount wordpress/ con uploads.
+    # Senza la label custom, GitHub potrebbe scegliere altri runner condivisi a
+    # livello organization che girano su host diversi (es. "dhruby") e produrre
+    # deploy falliti con "port 8080 already allocated" + stato WordPress perso.
+    runs-on: [self-hosted, aiucd-prod]
     
     steps:
       - name: 🧹 Pre-checkout Cleanup
