@@ -347,6 +347,11 @@ ul#menu-menu-en a:hover {
 		left: auto !important;
 		z-index: 1000 !important;
 		border-radius: 8px !important;
+		/* Rende il menu scrollabile quando le voci superano l'altezza del viewport */
+		max-height: calc(100vh - 120px) !important;
+		overflow-y: auto !important;
+		overscroll-behavior: contain !important;
+		-webkit-overflow-scrolling: touch !important;
 	}
 	
 	/* Mostra menu quando è aperto - SPECIFICITÀ MASSIMA con selettore attributo */
