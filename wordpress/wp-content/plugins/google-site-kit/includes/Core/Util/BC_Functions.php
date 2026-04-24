@@ -11,7 +11,6 @@
 namespace Google\Site_Kit\Core\Util;
 
 use BadMethodCallException;
-use WP_REST_Request;
 
 /**
  * Class for providing backwards compatible core functions, without polyfilling.
@@ -19,6 +18,12 @@ use WP_REST_Request;
  * @since 1.7.0
  * @access private
  * @ignore
+ *
+ * @method static void wp_print_script_tag( $attributes )
+ * @method static void wp_print_inline_script_tag( $javascript, $attributes = array() )
+ * @method static bool array_is_list( array $value )
+ * @method static string wp_timezone_string()
+ * @method static \DateTimeZone wp_timezone()
  */
 class BC_Functions {
 
@@ -146,5 +151,58 @@ class BC_Functions {
 		}
 
 		return null;
+	}
+
+	/**
+	 * A fallback for the wp_timezone_string function introduced in WordPress 5.3.0.
+	 *
+	 * @since 1.176.0
+	 *
+	 * @return string PHP timezone string or a ±HH:MM offset.
+	 */
+	protected static function wp_timezone_string() {
+		$timezone_string = get_option( 'timezone_string' );
+
+		if ( $timezone_string ) {
+			return $timezone_string;
+		}
+
+		$offset  = (float) get_option( 'gmt_offset' );
+		$hours   = (int) $offset;
+		$minutes = ( $offset - $hours );
+
+		$sign      = ( $offset < 0 ) ? '-' : '+';
+		$abs_hour  = abs( $hours );
+		$abs_mins  = abs( $minutes * 60 );
+		$tz_offset = sprintf( '%s%02d:%02d', $sign, $abs_hour, $abs_mins );
+
+		return $tz_offset;
+	}
+
+	/**
+	 * A fallback for the wp_timezone function introduced in WordPress 5.3.0.
+	 *
+	 * @since 1.176.0
+	 *
+	 * @return \DateTimeZone Site timezone.
+	 */
+	protected static function wp_timezone() {
+		return new \DateTimeZone( self::wp_timezone_string() );
+	}
+
+	/**
+	 * A fallback for the array_is_list function introduced in PHP 8.1.
+	 *
+	 * @since 1.171.0
+	 *
+	 * @param array $value The array to check.
+	 * @return bool True if the array is a list, false otherwise.
+	 */
+	protected static function array_is_list( array $value ) {
+		if ( array() === $value ) {
+			return true;
+		}
+
+		return array_keys( $value ) === range( 0, count( $value ) - 1 );
 	}
 }

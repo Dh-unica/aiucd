@@ -55,6 +55,7 @@ class Leaflet_Map_Plugin_Option
     public $min = 0;
     public $max = 0;
     public $step = 0;
+    public $placeholder = '';
 
     /**
      * Instantiate class
@@ -71,16 +72,17 @@ class Leaflet_Map_Plugin_Option
 
         $option_filter = array(
             'display_name'     =>     FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'default'          =>     null,
+            'default'          =>     FILTER_DEFAULT,
             'type'             =>     FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'min'              =>     "",
-            'max'              =>     "",
-            'step'             =>     "",
+            'min'              =>     FILTER_DEFAULT,
+            'max'              =>     FILTER_DEFAULT,
+            'step'             =>     FILTER_DEFAULT,
+            'placeholder'      =>     FILTER_SANITIZE_FULL_SPECIAL_CHARS,
             'options'          =>     array(
                 'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
                 'flags'  => FILTER_FORCE_ARRAY
             ),
-            'helptext'         =>     null
+            'helptext'         =>     FILTER_DEFAULT
         );
 
         // get matching keys only
@@ -112,6 +114,7 @@ class Leaflet_Map_Plugin_Option
             name="<?php echo $name; ?>" 
             type="<?php echo $this->type; ?>" 
             id="<?php echo $name; ?>" 
+            placeholder="<?php echo htmlspecialchars($this->placeholder); ?>"
             value="<?php echo htmlspecialchars($value); ?>" 
             />
             <?php

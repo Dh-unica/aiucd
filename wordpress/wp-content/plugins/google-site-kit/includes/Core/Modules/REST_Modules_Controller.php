@@ -705,14 +705,17 @@ class REST_Modules_Controller {
 									continue;
 								}
 
-								// Update the module's ownerID to the ID of the user making the request.
-								$module_setting_updates = array(
-									'ownerID' => get_current_user_id(),
-								);
-								$recovered_module = $module->get_settings()->merge( $module_setting_updates );
+								if ( $module instanceof Module_With_Settings ) {
+									// Update the module's ownerID to the ID of the user making the request.
+									$module_setting_updates = array(
+										'ownerID' => get_current_user_id(),
+									);
 
-								if ( $recovered_module ) {
-									$response['success'][ $slug ] = true;
+									$recovered_module = $module->get_settings()->merge( $module_setting_updates );
+
+									if ( $recovered_module ) {
+										$response['success'][ $slug ] = true;
+									}
 								}
 							}
 
@@ -744,20 +747,21 @@ class REST_Modules_Controller {
 	 */
 	private function prepare_module_data_for_response( Module $module ) {
 		$module_data = array(
-			'slug'         => $module->slug,
-			'name'         => $module->name,
-			'description'  => $module->description,
-			'homepage'     => $module->homepage,
-			'internal'     => $module->internal,
-			'order'        => $module->order,
-			'forceActive'  => $module->force_active,
-			'recoverable'  => $module->is_recoverable(),
-			'shareable'    => $this->modules->is_module_shareable( $module->slug ),
-			'active'       => $this->modules->is_module_active( $module->slug ),
-			'connected'    => $this->modules->is_module_connected( $module->slug ),
-			'dependencies' => $this->modules->get_module_dependencies( $module->slug ),
-			'dependants'   => $this->modules->get_module_dependants( $module->slug ),
-			'owner'        => null,
+			'slug'           => $module->slug,
+			'name'           => $module->name,
+			'description'    => $module->description,
+			'homepage'       => $module->homepage,
+			'internal'       => $module->internal,
+			'order'          => $module->order,
+			'forceActive'    => $module->force_active,
+			'recoverable'    => $module->is_recoverable(),
+			'shareable'      => $this->modules->is_module_shareable( $module->slug ),
+			'active'         => $this->modules->is_module_active( $module->slug ),
+			'connected'      => $this->modules->is_module_connected( $module->slug ),
+			'disconnectedAt' => $this->modules->get_module_disconnected_at( $module->slug ),
+			'dependencies'   => $this->modules->get_module_dependencies( $module->slug ),
+			'dependants'     => $this->modules->get_module_dependants( $module->slug ),
+			'owner'          => null,
 		);
 
 		if ( current_user_can( 'list_users' ) && $module instanceof Module_With_Owner ) {

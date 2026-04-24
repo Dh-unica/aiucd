@@ -73,7 +73,7 @@ This plugin uses Docker for development. Simply:
 1. execute this command from the repo's root directory in your terminal:
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 You can also use NPM scripts to interact with Docker, if you make changes to Docker-related files:
@@ -108,6 +108,14 @@ However, you can also just give it an address, and the chosen geocoder (default:
 
 ```
 [leaflet-map address="Oslo, Norway"]
+```
+
+When using the OpenStreetMap Nominatim geocoder, the plugin sends a contact email in the request user agent. By default this uses the site admin email, but you can override it in the plugin settings with `Nominatim Contact Email (optional)` or in code with the `leaflet_map_nominatim_contact_email` filter.
+
+```php
+add_filter('leaflet_map_nominatim_contact_email', function ($email) {
+    return 'maps@example.com';
+});
 ```
 
 #### [leaflet-map] Options:
