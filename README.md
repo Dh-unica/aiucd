@@ -395,6 +395,32 @@ volumes:
   - ./php-config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
 ```
 
+### Aggiornamenti WordPress tracciati
+
+Gli aggiornamenti **non** vengono applicati silenziosamente in produzione.
+Auto-update di WP core/plugin/theme sono disabilitati a livello sia di
+`wp-config` (`WP_AUTO_UPDATE_CORE=false`, `AUTOMATIC_UPDATER_DISABLED=true`)
+sia di option DB (`auto_update_core_*=disabled`).
+
+Il flusso settimanale:
+
+1. Lunedi 06:00 ora italiana, il workflow [check-updates.yml](.github/workflows/check-updates.yml)
+   parte sul runner self-hosted.
+2. `wp-cli` (via `wordpress:cli` in container) verifica core/plugin/theme
+   updates disponibili.
+3. **Se ci sono update**: viene eseguito un backup obbligatorio
+   `pre_update_*` (DB + uploads) usando `scripts/backup-daily.sh --label
+   pre_update_TS`. Se il backup fallisce, l'update aborta.
+4. WP-CLI applica gli update in maintenance mode.
+5. Le modifiche ai file (es. `wordpress/wp-includes/`, plugin, temi) vengono
+   committate in un branch `chore/wp-update-YYYY-MM-DD` e viene aperta una
+   **Pull Request** con: lista degli update applicati, link ai backup
+   pre-update con MD5, comandi di rollback rapido.
+6. La PR richiede merge umano. Al merge, [deploy.yml](.github/workflows/deploy.yml)
+   ridistribuisce.
+
+Aggiornamento manuale on-demand: `gh workflow run check-updates.yml`.
+
 ### Persistenza dati produzione
 
 Gli **uploads** e i **backup DB** vivono FUORI dal workspace di GitHub Actions

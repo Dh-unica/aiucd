@@ -1,0 +1,257 @@
+name: Check & Apply WordPress Updates
+
+on:
+  schedule:
+    # Lunedi 04:00 UTC = 06:00 ora italiana CEST (05:00 in inverno)
+    - cron: '0 4 * * 1'
+  workflow_dispatch:
+
+# Evita corse in parallelo
+concurrency:
+  group: aiucd-wp-updates
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    name: Check, backup and propose WordPress updates
+    runs-on: [self-hosted, aiucd-prod]
+    env:
+      COMPOSE_DIR: /home/dhpasteur/actions-runner/_work/aiucd/aiucd
+      AIUCD_UPLOADS_DIR: ${{ vars.AIUCD_UPLOADS_DIR || '/home/dhpasteur/aiucd-data/uploads' }}
+      AIUCD_BACKUPS_DIR: ${{ vars.AIUCD_BACKUPS_DIR || '/home/dhpasteur/aiucd-data/backups' }}
+      BACKUP_SCRIPT: /home/dhpasteur/aiucd-data/scripts/backup-daily.sh
+      WPCLI_IMAGE: wordpress:cli-2.10
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          clean: false
+
+      - name: 🪪 Configure git identity
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+
+      - name: 🛡️ Verify persistent data dirs
+        run: |
+          set -e
+          for D in "$AIUCD_UPLOADS_DIR" "$AIUCD_BACKUPS_DIR"; do
+            if [ ! -d "$D" ]; then
+              echo "❌ ABORT: required persistent dir missing: $D"
+              exit 1
+            fi
+          done
+          if [ ! -x "$BACKUP_SCRIPT" ]; then
+            echo "❌ ABORT: backup script missing: $BACKUP_SCRIPT"
+            exit 1
+          fi
+          echo "✅ Persistent dirs and backup script OK"
+
+      - name: 🔍 Check for available updates
+        id: check
+        run: |
+          set -e
+          # Pulla l'image wp-cli silenziosamente (fast: layer cache)
+          docker pull -q "$WPCLI_IMAGE" >/dev/null
+
+          # Funzione: esegue wp-cli sui volumi del container WordPress
+          # Network = aiucd_aiucd_network, volumes-from = aiucd_wordpress
+          run_wp() {
+            docker run --rm \
+              --network aiucd_aiucd_network \
+              --volumes-from aiucd_wordpress \
+              --workdir /var/www/html \
+              -u 1001:1001 \
+              "$WPCLI_IMAGE" "$@"
+          }
+
+          echo "=== Core ==="
+          CORE_OUT=$(run_wp wp core check-update --format=table 2>&1 || true)
+          echo "$CORE_OUT"
+          if echo "$CORE_OUT" | grep -qE 'Success: WordPress is at the latest version'; then
+            CORE_HAS=0
+          elif echo "$CORE_OUT" | grep -qE 'available'; then
+            CORE_HAS=1
+          else
+            CORE_HAS=0
+          fi
+
+          echo "=== Plugins ==="
+          PLUGINS_OUT=$(run_wp wp plugin list --update=available --fields=name,version,update_version --format=table 2>&1 || true)
+          echo "$PLUGINS_OUT"
+          PLUGINS_HAS=$(echo "$PLUGINS_OUT" | grep -cE '^\|' || true)
+          [ "${PLUGINS_HAS:-0}" -gt 1 ] && PLUGINS_HAS=1 || PLUGINS_HAS=0
+
+          echo "=== Themes ==="
+          THEMES_OUT=$(run_wp wp theme list --update=available --fields=name,version,update_version --format=table 2>&1 || true)
+          echo "$THEMES_OUT"
+          THEMES_HAS=$(echo "$THEMES_OUT" | grep -cE '^\|' || true)
+          [ "${THEMES_HAS:-0}" -gt 1 ] && THEMES_HAS=1 || THEMES_HAS=0
+
+          {
+            echo "core<<EOF"
+            echo "$CORE_OUT"
+            echo "EOF"
+            echo "plugins<<EOF"
+            echo "$PLUGINS_OUT"
+            echo "EOF"
+            echo "themes<<EOF"
+            echo "$THEMES_OUT"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          if [ "$CORE_HAS" = 1 ] || [ "$PLUGINS_HAS" = 1 ] || [ "$THEMES_HAS" = 1 ]; then
+            echo "has_updates=true" >> "$GITHUB_OUTPUT"
+            echo "✅ Update available — backup + apply will follow"
+          else
+            echo "has_updates=false" >> "$GITHUB_OUTPUT"
+            echo "ℹ️ No update available — exiting"
+          fi
+
+      - name: 💾 Pre-update BACKUP (mandatory)
+        if: steps.check.outputs.has_updates == 'true'
+        id: backup
+        run: |
+          set -e
+          LABEL="pre_update_$(date +%Y%m%d_%H%M%S)"
+          echo "Running backup with label=$LABEL ..."
+          OUTPUT=$("$BACKUP_SCRIPT" --label "$LABEL")
+          echo "$OUTPUT"
+          DB_PATH=$(echo "$OUTPUT" | grep -oE 'BACKUP_DB_PATH=.+' | cut -d= -f2-)
+          FILES_PATH=$(echo "$OUTPUT" | grep -oE 'BACKUP_FILES_PATH=.+' | cut -d= -f2-)
+          if [ -z "$DB_PATH" ] || [ -z "$FILES_PATH" ] || [ ! -s "$DB_PATH" ] || [ ! -s "$FILES_PATH" ]; then
+            echo "❌ ABORT: pre-update backup missing or empty"
+            exit 1
+          fi
+          DB_SIZE=$(du -h "$DB_PATH" | cut -f1)
+          FILES_SIZE=$(du -h "$FILES_PATH" | cut -f1)
+          DB_MD5=$(md5sum "$DB_PATH" | cut -d' ' -f1)
+          FILES_MD5=$(md5sum "$FILES_PATH" | cut -d' ' -f1)
+          echo "✅ Backup OK"
+          echo "db_path=$DB_PATH"     >> "$GITHUB_OUTPUT"
+          echo "files_path=$FILES_PATH" >> "$GITHUB_OUTPUT"
+          echo "db_size=$DB_SIZE"     >> "$GITHUB_OUTPUT"
+          echo "files_size=$FILES_SIZE" >> "$GITHUB_OUTPUT"
+          echo "db_md5=$DB_MD5"       >> "$GITHUB_OUTPUT"
+          echo "files_md5=$FILES_MD5" >> "$GITHUB_OUTPUT"
+
+      - name: 🔧 Apply updates via WP-CLI
+        if: steps.check.outputs.has_updates == 'true'
+        run: |
+          set -e
+          run_wp() {
+            docker run --rm \
+              --network aiucd_aiucd_network \
+              --volumes-from aiucd_wordpress \
+              --workdir /var/www/html \
+              -u 1001:1001 \
+              "$WPCLI_IMAGE" "$@"
+          }
+
+          echo "=== Maintenance mode ON ==="
+          run_wp wp maintenance-mode activate || true
+
+          echo "=== Core update ==="
+          run_wp wp core update || echo "core skipped"
+          run_wp wp core update-db || true
+
+          echo "=== Plugin update ==="
+          run_wp wp plugin update --all || echo "plugins skipped"
+
+          echo "=== Theme update ==="
+          run_wp wp theme update --all || echo "themes skipped"
+
+          echo "=== Maintenance mode OFF ==="
+          run_wp wp maintenance-mode deactivate || true
+
+      - name: 📤 Commit, push and open PR
+        if: steps.check.outputs.has_updates == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          DATE=$(date +%Y-%m-%d)
+          BRANCH="chore/wp-update-${DATE}"
+
+          # Diff solo sui file potenzialmente modificati da WP-CLI
+          git add wordpress/ || true
+
+          if git diff --cached --quiet; then
+            echo "ℹ️ Nessuna modifica al filesystem dopo gli aggiornamenti (probabilmente solo DB)."
+            exit 0
+          fi
+
+          # Crea branch (sovrascrive se esiste gia' lo stesso giorno)
+          git switch -C "$BRANCH"
+          git commit -m "chore: aggiornamento WordPress ${DATE}"
+          git push -f origin "$BRANCH"
+
+          # Estrae versione WP corrente dal core
+          WP_VERSION=$(grep -oE "wp_version = '[^']+'" wordpress/wp-includes/version.php | head -1 | grep -oE "'[^']+'" | tr -d "'")
+
+          gh pr create \
+            --title "chore: aggiornamento WordPress ${DATE} (core ${WP_VERSION})" \
+            --body "$(cat <<BODY
+          ## Aggiornamento WordPress applicato dalla pipeline
+
+          **Versione core:** ${WP_VERSION}
+          **Data:** ${DATE}
+
+          ### Backup di sicurezza pre-update (sul server, fuori workspace CI)
+          | Tipo | Path | Size | MD5 |
+          |---|---|---|---|
+          | DB | \`${{ steps.backup.outputs.db_path }}\` | ${{ steps.backup.outputs.db_size }} | \`${{ steps.backup.outputs.db_md5 }}\` |
+          | Files | \`${{ steps.backup.outputs.files_path }}\` | ${{ steps.backup.outputs.files_size }} | \`${{ steps.backup.outputs.files_md5 }}\` |
+
+          ### Cosa cambia
+
+          #### Core
+          \`\`\`
+          ${{ steps.check.outputs.core }}
+          \`\`\`
+
+          #### Plugin
+          \`\`\`
+          ${{ steps.check.outputs.plugins }}
+          \`\`\`
+
+          #### Temi
+          \`\`\`
+          ${{ steps.check.outputs.themes }}
+          \`\`\`
+
+          ### Procedura di verifica prima di mergiare
+
+          1. Apri il sito: https://www.aiucd2026.unica.it/
+          2. Verifica home, menu mobile, /convegno/call-for-papers/
+          3. Se qualcosa non torna, **non mergiare** e chiedi rollback dal backup
+          4. Al merge, il workflow [deploy.yml](.github/workflows/deploy.yml) rideploia in produzione
+
+          ### Rollback rapido (in caso di problemi dopo il merge)
+
+          \`\`\`bash
+          # Sul server dhpasteur:
+          zcat ${{ steps.backup.outputs.db_path }} | docker compose exec -T db sh -c 'mysql -uroot -p"\$MYSQL_ROOT_PASSWORD" wordpress'
+          tar -xzf ${{ steps.backup.outputs.files_path }} -C /home/dhpasteur/aiucd-data/
+          \`\`\`
+
+          > PR aperta automaticamente da \`check-updates.yml\` — gli aggiornamenti **non** entrano in main senza review.
+          BODY
+          )" \
+            --base main \
+            --head "$BRANCH"
+
+          # Riporta workspace su main per non lasciare il runner sporco
+          git switch main
+
+      - name: 📊 Summary
+        if: always()
+        run: |
+          echo "================================"
+          echo "Has updates: ${{ steps.check.outputs.has_updates }}"
+          echo "================================"

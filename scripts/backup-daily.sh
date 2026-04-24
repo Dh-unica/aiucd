@@ -1,17 +1,30 @@
 #!/usr/bin/env bash
-# Daily backup di AIUCD: DB MariaDB (mysqldump) + uploads (tar.gz).
-# Pensato per girare via cron sul server di produzione (dhpasteur).
+# Backup di AIUCD: DB MariaDB (mysqldump) + uploads (tar.gz).
+# Pensato per girare via cron sul server di produzione (dhpasteur)
+# OPPURE invocato dal workflow check-updates.yml prima di un upgrade.
 # Rotazione: mantiene gli ultimi RETENTION_DAYS file per categoria.
+#
+# Uso:
+#   backup-daily.sh                       # label=daily
+#   backup-daily.sh --label pre_update    # label=pre_update
 #
 # Variabili sovrascrivibili da env:
 #   COMPOSE_DIR         dove vive docker-compose.yml
 #   AIUCD_BACKUPS_DIR   destinazione dump
 #   AIUCD_UPLOADS_DIR   sorgente uploads da archiviare
-#   RETENTION_DAYS      giorni di retention
+#   RETENTION_DAYS      giorni di retention (NON applicato a label != "daily")
 #
 # Exit code != 0 se uno dei due backup fallisce.
 
 set -euo pipefail
+
+LABEL="daily"
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --label) LABEL="$2"; shift 2 ;;
+    *) echo "Unknown arg: $1" >&2; exit 2 ;;
+  esac
+done
 
 COMPOSE_DIR="${COMPOSE_DIR:-/home/dhpasteur/actions-runner/_work/aiucd/aiucd}"
 AIUCD_BACKUPS_DIR="${AIUCD_BACKUPS_DIR:-/home/dhpasteur/aiucd-data/backups}"
@@ -19,14 +32,14 @@ AIUCD_UPLOADS_DIR="${AIUCD_UPLOADS_DIR:-/home/dhpasteur/aiucd-data/uploads}"
 RETENTION_DAYS="${RETENTION_DAYS:-30}"
 
 TS="$(date +%Y%m%d_%H%M%S)"
-DB_DUMP="$AIUCD_BACKUPS_DIR/db_daily_${TS}.sql.gz"
-FILES_DUMP="$AIUCD_BACKUPS_DIR/uploads_daily_${TS}.tar.gz"
+DB_DUMP="$AIUCD_BACKUPS_DIR/db_${LABEL}_${TS}.sql.gz"
+FILES_DUMP="$AIUCD_BACKUPS_DIR/uploads_${LABEL}_${TS}.tar.gz"
 
 log() { printf '[%(%F %T)T] %s\n' -1 "$*"; }
 
 mkdir -p "$AIUCD_BACKUPS_DIR"
 
-log "=== AIUCD daily backup START ==="
+log "=== AIUCD backup START label=$LABEL ==="
 log "compose_dir=$COMPOSE_DIR backups_dir=$AIUCD_BACKUPS_DIR uploads_dir=$AIUCD_UPLOADS_DIR retention=${RETENTION_DAYS}d"
 
 # --- DB ---
@@ -71,17 +84,26 @@ else
   fi
 fi
 
-# --- Rotation ---
-log "Rotating files older than ${RETENTION_DAYS} days..."
-find "$AIUCD_BACKUPS_DIR" -maxdepth 1 -type f \
-  \( -name 'db_daily_*.sql.gz' -o -name 'uploads_daily_*.tar.gz' \) \
-  -mtime "+${RETENTION_DAYS}" -print -delete | sed 's/^/  removed: /' || true
+# --- Rotation (solo per la categoria 'daily') ---
+if [ "$LABEL" = "daily" ]; then
+  log "Rotating daily files older than ${RETENTION_DAYS} days..."
+  find "$AIUCD_BACKUPS_DIR" -maxdepth 1 -type f \
+    \( -name 'db_daily_*.sql.gz' -o -name 'uploads_daily_*.tar.gz' \) \
+    -mtime "+${RETENTION_DAYS}" -print -delete | sed 's/^/  removed: /' || true
+fi
 
-REMAINING_DB=$(find "$AIUCD_BACKUPS_DIR" -maxdepth 1 -name 'db_daily_*.sql.gz' | wc -l)
-REMAINING_FILES=$(find "$AIUCD_BACKUPS_DIR" -maxdepth 1 -name 'uploads_daily_*.tar.gz' | wc -l)
-log "Retained: $REMAINING_DB DB dumps, $REMAINING_FILES uploads archives"
+REMAINING_DB=$(find "$AIUCD_BACKUPS_DIR" -maxdepth 1 -name "db_${LABEL}_*.sql.gz" | wc -l)
+REMAINING_FILES=$(find "$AIUCD_BACKUPS_DIR" -maxdepth 1 -name "uploads_${LABEL}_*.tar.gz" | wc -l)
+log "Retained '$LABEL': $REMAINING_DB DB dumps, $REMAINING_FILES uploads archives"
 
-log "=== AIUCD daily backup END (db_ok=$DB_OK files_ok=$FILES_OK) ==="
+log "=== AIUCD backup END label=$LABEL (db_ok=$DB_OK files_ok=$FILES_OK) ==="
+
+# Stampa il path dei dump appena creati cosi' i caller (es. workflow update)
+# possono parsarli e citarli nel body della PR.
+if [ "$DB_OK" = 1 ] && [ "$FILES_OK" = 1 ]; then
+  echo "BACKUP_DB_PATH=$DB_DUMP"
+  echo "BACKUP_FILES_PATH=$FILES_DUMP"
+fi
 
 if [ "$DB_OK" = 1 ] && [ "$FILES_OK" = 1 ]; then
   exit 0
