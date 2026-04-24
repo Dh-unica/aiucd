@@ -68,7 +68,9 @@ class Settings extends Module_Settings implements Setting_With_Owned_Keys_Interf
 	 * @return array
 	 */
 	protected function get_default() {
-		$defaults = array(
+		return array(
+			'contentPolicyState'                => '',
+			'policyInfoLink'                    => '',
 			'ownerID'                           => 0,
 			'publicationID'                     => '',
 			'publicationOnboardingState'        => '',
@@ -79,8 +81,6 @@ class Settings extends Module_Settings implements Setting_With_Owned_Keys_Interf
 			'postTypes'                         => array( 'post' ),
 			'productID'                         => 'openaccess',
 		);
-
-		return $defaults;
 	}
 
 	/**
@@ -181,6 +181,14 @@ class Settings extends Module_Settings implements Setting_With_Owned_Keys_Interf
 				if ( ! is_string( $option['productID'] ) ) {
 					$option['productID'] = 'openaccess';
 				}
+			}
+
+			if ( isset( $option['contentPolicyState'] ) && ! is_string( $option['contentPolicyState'] ) ) {
+				$option['contentPolicyState'] = '';
+			}
+
+			if ( isset( $option['policyInfoLink'] ) && ! is_string( $option['policyInfoLink'] ) ) {
+				$option['policyInfoLink'] = '';
 			}
 
 			return $option;

@@ -11,6 +11,7 @@
 namespace Google\Site_Kit\Core\Email_Reporting;
 
 use Google\Site_Kit\Core\User\Email_Reporting_Settings as Reporting_Settings;
+use Google\Site_Kit\Core\Util\BC_Functions;
 use Google\Site_Kit\Core\Util\Method_Proxy_Trait;
 
 /**
@@ -29,7 +30,7 @@ final class Email_Log {
 	 *
 	 * @since 1.166.0
 	 */
-	const POST_TYPE = 'gsk_email_log';
+	const POST_TYPE = 'googlesitekit_email';
 
 	/**
 	 * Report frequency meta key.
@@ -74,15 +75,44 @@ final class Email_Log {
 	const META_REPORT_REFERENCE_DATES = '_report_reference_dates';
 
 	/**
+	 * Site ID meta key.
+	 *
+	 * @since 1.172.0
+	 */
+	const META_SITE_ID = '_site_id';
+
+	/**
+	 * Template type meta key.
+	 *
+	 * @since 1.174.0
+	 */
+	const META_TEMPLATE_TYPE = '_template_type';
+
+	/**
+	 * Admin notified meta key.
+	 *
+	 * @since 1.175.0
+	 */
+	const META_ADMIN_NOTIFIED = '_admin_notified';
+
+	/**
 	 * Email log post statuses.
 	 *
 	 * Slugs must stay within the posts table varchar(20) limit.
 	 *
 	 * @since 1.166.0
 	 */
-	const STATUS_SENT      = 'gsk_email_sent';
-	const STATUS_FAILED    = 'gsk_email_failed';
-	const STATUS_SCHEDULED = 'gsk_email_scheduled';
+	const STATUS_SENT      = 'email_sent';
+	const STATUS_FAILED    = 'email_failed';
+	const STATUS_SCHEDULED = 'email_scheduled';
+
+	/**
+	 * Email template types.
+	 *
+	 * @since 1.174.0
+	 */
+	const TEMPLATE_TYPE_EMAIL_REPORT      = 'email-report';
+	const TEMPLATE_TYPE_SUBSCRIBE_SUCCESS = 'subscribe-success';
 
 	/**
 	 * Extracts a normalized date range array from an email log post.
@@ -101,7 +131,7 @@ final class Email_Log {
 		$normalized = array();
 		$keys       = array(
 			'startDate'        => 'startDate',
-			'sendDate'         => 'endDate',
+			'endDate'          => 'endDate',
 			'compareStartDate' => 'compareStartDate',
 			'compareEndDate'   => 'compareEndDate',
 		);
@@ -173,7 +203,15 @@ final class Email_Log {
 			return null;
 		}
 
-		$timestamp = is_numeric( $value ) ? (int) $value : strtotime( $value );
+		if ( is_numeric( $value ) ) {
+			$timestamp = (int) $value;
+		} else {
+			// Parse date strings in site timezone for consistent round-tripping.
+			$timezone  = BC_Functions::wp_timezone();
+			$date      = date_create_immutable( $value, $timezone );
+			$timestamp = $date ? $date->getTimestamp() : false;
+		}
+
 		if ( empty( $timestamp ) || $timestamp < 0 ) {
 			return null;
 		}
@@ -195,8 +233,8 @@ final class Email_Log {
 			return null;
 		}
 
-		if ( function_exists( 'wp_timezone' ) && function_exists( 'wp_date' ) ) {
-			$timezone = wp_timezone();
+		if ( function_exists( 'wp_date' ) ) {
+			$timezone = BC_Functions::wp_timezone();
 			if ( $timezone ) {
 				return wp_date( 'Y-m-d', $timestamp, $timezone );
 			}
@@ -334,6 +372,39 @@ final class Email_Log {
 				'sanitize_callback' => array( __CLASS__, 'sanitize_reference_dates' ),
 			)
 		);
+
+		register_post_meta(
+			self::POST_TYPE,
+			self::META_SITE_ID,
+			array(
+				'type'              => 'integer',
+				'single'            => true,
+				'auth_callback'     => $auth_callback,
+				'sanitize_callback' => array( __CLASS__, 'sanitize_site_id' ),
+			)
+		);
+
+		register_post_meta(
+			self::POST_TYPE,
+			self::META_TEMPLATE_TYPE,
+			array(
+				'type'              => 'string',
+				'single'            => true,
+				'auth_callback'     => $auth_callback,
+				'sanitize_callback' => array( __CLASS__, 'sanitize_template_type' ),
+			)
+		);
+
+		register_post_meta(
+			self::POST_TYPE,
+			self::META_ADMIN_NOTIFIED,
+			array(
+				'type'              => 'string',
+				'single'            => true,
+				'auth_callback'     => $auth_callback,
+				'sanitize_callback' => array( __CLASS__, 'sanitize_admin_notified' ),
+			)
+		);
 	}
 
 	/**
@@ -448,21 +519,128 @@ final class Email_Log {
 			return '';
 		}
 
-		$keys      = array( 'startDate', 'sendDate', 'compareStartDate', 'compareEndDate' );
-		$raw_dates = (array) $value;
-		// Pre-seed ( 'startDate', 'sendDate', 'compareStartDate', 'compareEndDate' ) keys
-		// so missing timestamps normalize to 0 and consumers always see a full schema.
-		$normalized = array_fill_keys( $keys, 0 );
-
-		foreach ( $keys as $key ) {
-			if ( isset( $raw_dates[ $key ] ) ) {
-				$normalized[ $key ] = absint( $raw_dates[ $key ] );
-			}
-		}
-
-		$encoded = wp_json_encode( $normalized, JSON_UNESCAPED_UNICODE );
+		$normalized = self::normalize_reference_dates( (array) $value );
+		$encoded    = wp_json_encode( $normalized, JSON_UNESCAPED_UNICODE );
 
 		return is_string( $encoded ) ? $encoded : '';
+	}
+
+	/**
+	 * Sanitizes the site ID meta value.
+	 *
+	 * @since 1.172.0
+	 *
+	 * @param mixed $value Meta value.
+	 * @return int Sanitized site ID.
+	 */
+	public static function sanitize_site_id( $value ) {
+		return absint( $value );
+	}
+
+	/**
+	 * Sanitizes the template type meta value.
+	 *
+	 * @since 1.174.0
+	 *
+	 * @param mixed $value Meta value.
+	 * @return string Sanitized template type.
+	 */
+	public static function sanitize_template_type( $value ) {
+		$value = sanitize_text_field( $value );
+
+		$allowed = array(
+			self::TEMPLATE_TYPE_EMAIL_REPORT,
+			self::TEMPLATE_TYPE_SUBSCRIBE_SUCCESS,
+		);
+
+		if ( in_array( $value, $allowed, true ) ) {
+			return $value;
+		}
+
+		return self::TEMPLATE_TYPE_EMAIL_REPORT;
+	}
+
+	/**
+	 * Sanitizes the admin notified meta value.
+	 *
+	 * @since 1.175.0
+	 *
+	 * @param mixed $value Meta value.
+	 * @return string Sanitized value: '1' if truthy, empty string otherwise.
+	 */
+	public static function sanitize_admin_notified( $value ) {
+		return $value ? '1' : '';
+	}
+
+	/**
+	 * Normalizes reference date values into timestamps for storage.
+	 *
+	 * @since 1.170.0
+	 *
+	 * @param array $raw_dates Raw reference date values keyed by meta field.
+	 * @return array Normalized timestamps keyed by meta field.
+	 */
+	protected static function normalize_reference_dates( array $raw_dates ) {
+		$keys       = array( 'startDate', 'endDate', 'compareStartDate', 'compareEndDate' );
+		$normalized = array();
+
+		foreach ( $keys as $key ) {
+			if ( ! isset( $raw_dates[ $key ] ) ) {
+				if ( 'compareStartDate' === $key || 'compareEndDate' === $key ) {
+					$normalized[ $key ] = 0;
+				}
+				continue;
+			}
+
+			$timestamp = self::normalize_reference_date_value( $raw_dates[ $key ] );
+
+			if ( null === $timestamp ) {
+				if ( 'compareStartDate' === $key || 'compareEndDate' === $key ) {
+					$normalized[ $key ] = 0;
+				}
+				continue;
+			}
+
+			// Store as integer timestamp.
+			$normalized[ $key ] = (int) $timestamp;
+		}
+
+		return $normalized;
+	}
+
+	/**
+	 * Normalizes a single reference date value into a timestamp.
+	 *
+	 * @since 1.170.0
+	 *
+	 * @param mixed $raw_value Date value.
+	 * @return int|null Normalized timestamp or null when invalid.
+	 */
+	protected static function normalize_reference_date_value( $raw_value ) {
+		if ( is_string( $raw_value ) ) {
+			$raw_value = trim( $raw_value );
+		}
+
+		if ( '' === $raw_value ) {
+			return null;
+		}
+
+		if ( is_numeric( $raw_value ) ) {
+			$timestamp = $raw_value;
+		} else {
+			// Parse date strings in the site timezone so the resulting UTC
+			// timestamp represents the correct calendar day when converted
+			// back via format_reference_date().
+			$timezone  = BC_Functions::wp_timezone();
+			$date      = date_create_immutable( $raw_value, $timezone );
+			$timestamp = $date ? $date->getTimestamp() : false;
+		}
+
+		if ( false === $timestamp || $timestamp <= 0 ) {
+			return null;
+		}
+
+		return $timestamp;
 	}
 
 	/**
