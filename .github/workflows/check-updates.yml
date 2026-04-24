@@ -61,8 +61,18 @@ jobs:
 
           # Funzione: esegue wp-cli sui volumi del container WordPress
           # Network = aiucd_aiucd_network, volumes-from = aiucd_wordpress
+          # Estrai le env WORDPRESS_* dal container in esecuzione, cosi' il
+          # container wp-cli separato vede gli stessi DB_HOST/DB_USER/... e
+          # wp-config.php si risolve correttamente (altrimenti cade sui
+          # default di wp-config-docker.php: mysql/example/example).
+          WP_ENV_FILE="$(mktemp)"
+          trap 'rm -f "$WP_ENV_FILE"' EXIT
+          docker inspect aiucd_wordpress --format '{{range .Config.Env}}{{println .}}{{end}}' \
+            | grep -E '^WORDPRESS_' > "$WP_ENV_FILE"
+
           run_wp() {
             docker run --rm \
+              --env-file "$WP_ENV_FILE" \
               --network aiucd_aiucd_network \
               --volumes-from aiucd_wordpress \
               --workdir /var/www/html \
@@ -144,8 +154,18 @@ jobs:
         if: steps.check.outputs.has_updates == 'true'
         run: |
           set -e
+          # Estrai le env WORDPRESS_* dal container in esecuzione, cosi' il
+          # container wp-cli separato vede gli stessi DB_HOST/DB_USER/... e
+          # wp-config.php si risolve correttamente (altrimenti cade sui
+          # default di wp-config-docker.php: mysql/example/example).
+          WP_ENV_FILE="$(mktemp)"
+          trap 'rm -f "$WP_ENV_FILE"' EXIT
+          docker inspect aiucd_wordpress --format '{{range .Config.Env}}{{println .}}{{end}}' \
+            | grep -E '^WORDPRESS_' > "$WP_ENV_FILE"
+
           run_wp() {
             docker run --rm \
+              --env-file "$WP_ENV_FILE" \
               --network aiucd_aiucd_network \
               --volumes-from aiucd_wordpress \
               --workdir /var/www/html \
