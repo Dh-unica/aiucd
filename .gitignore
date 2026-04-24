@@ -6,8 +6,10 @@
 # (cfr docker-compose.yml AIUCD_UPLOADS_DIR), quindi versioniamo solo il .gitkeep
 wordpress/wp-content/uploads/*
 !wordpress/wp-content/uploads/.gitkeep
-wordpress/.htaccess
 wordpress/wp-config.php
+# wordpress/.htaccess: versionato (regole WP standard), serve da bootstrap
+# se il file viene perso (es. ripristino macchina) altrimenti tutti i
+# permalink restituiscono 404. WP puo' rigenerarlo da Admin > Permalink.
 
 # WordPress core files - opzionale: puoi scegliere se versionare o no
 # wordpress/wp-admin/
