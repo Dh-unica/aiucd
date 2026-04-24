@@ -29,10 +29,11 @@ services:
     volumes:
       # Bind mount per codice versionabile
       - ./wordpress:/var/www/html
+      # Uploads persistenti FUORI dal workspace del runner CI
+      # (vedi README "Persistenza dati") per evitare cancellazione su checkout
+      - ${AIUCD_UPLOADS_DIR:-./wordpress/wp-content/uploads}:/var/www/html/wp-content/uploads
       # PHP configuration for upload limits
       - ./php-config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
-      # NOTE: uploads directory is now part of the bind mount above
-      # This ensures proper permissions with user mapping
       # Apache config for mod_headers (X-Accel-Buffering: disable nginx proxy buffering)
       - ./apache-config/headers.conf:/etc/apache2/conf-enabled/headers.conf:ro
     depends_on:

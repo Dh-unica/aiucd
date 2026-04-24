@@ -19,27 +19,40 @@ jobs:
     steps:
       - name: 🧹 Pre-checkout Cleanup
         run: |
-          echo "Fixing permissions for Git checkout..."
-          # Stop containers first to release file locks
-          docker compose down 2>/dev/null || true
-          
-          # Fix permissions on wordpress directory using Docker (no sudo needed)
-          if [ -d wordpress ]; then
-            echo "Fixing wordpress/ permissions..."
-            docker run --rm -v "$(pwd)/wordpress:/workspace" alpine:latest \
-              sh -c "chmod -R 755 /workspace" 2>/dev/null || true
-          fi
-          
-          # Remove only Git metadata that might conflict
+          echo "Pre-checkout sanity check (NO chmod, NO container shutdown)"
+          # Solo metadata git eventuali
           rm -rf .git/index.lock 2>/dev/null || true
-          
-          echo "✅ Permissions fixed, ready for checkout"
-      
+          echo "✅ Ready for checkout"
+
       - name: 📥 Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           clean: false  # Don't delete untracked files (WordPress runtime files)
+
+      - name: 🛡️ Verify persistent data dirs (anti-disaster guardrail)
+        env:
+          AIUCD_UPLOADS_DIR: ${{ vars.AIUCD_UPLOADS_DIR || '/home/dhpasteur/aiucd-data/uploads' }}
+          AIUCD_BACKUPS_DIR: ${{ vars.AIUCD_BACKUPS_DIR || '/home/dhpasteur/aiucd-data/backups' }}
+        run: |
+          set -e
+          echo "Checking persistent data dirs OUTSIDE the runner workspace..."
+          for D in "$AIUCD_UPLOADS_DIR" "$AIUCD_BACKUPS_DIR"; do
+            if [ ! -d "$D" ]; then
+              echo "❌ ABORT: required persistent dir missing: $D"
+              echo "   Create it on the server BEFORE re-running the deploy."
+              exit 1
+            fi
+          done
+          UPLOADS_FILES=$(find "$AIUCD_UPLOADS_DIR" -mindepth 1 -maxdepth 1 | wc -l)
+          if [ "$UPLOADS_FILES" -lt 1 ]; then
+            echo "❌ ABORT: $AIUCD_UPLOADS_DIR is EMPTY."
+            echo "   Refusing to deploy to avoid wiping uploads on first start."
+            echo "   Restore uploads into $AIUCD_UPLOADS_DIR and retry."
+            exit 1
+          fi
+          echo "✅ Uploads dir OK ($UPLOADS_FILES top-level entries) — $AIUCD_UPLOADS_DIR"
+          echo "✅ Backups dir OK — $AIUCD_BACKUPS_DIR"
       
       - name: 🔍 Diagnostic - Analyze Permissions
         run: |
@@ -73,24 +86,28 @@ jobs:
           echo "Message: ${{ github.event.head_commit.message }}"
       
       - name: 💾 Backup Database
+        env:
+          AIUCD_BACKUPS_DIR: ${{ vars.AIUCD_BACKUPS_DIR || '/home/dhpasteur/aiucd-data/backups' }}
         run: |
-          echo "Creating database backup..."
-          mkdir -p ./backups
-          BACKUP_FILE="./backups/db_backup_$(date +%Y%m%d_%H%M%S).sql"
-          
+          echo "Creating database backup OUTSIDE the workspace..."
+          mkdir -p "$AIUCD_BACKUPS_DIR"
+          BACKUP_FILE="$AIUCD_BACKUPS_DIR/db_backup_$(date +%Y%m%d_%H%M%S).sql.gz"
+
           # Source environment variables
           if [ -f .env ]; then
-            export $(cat .env | grep -v '^#' | xargs)
+            set -a; . ./.env; set +a
           fi
-          
-          # Backup only if containers are running
+
           if docker compose ps | grep -q "Up"; then
-            docker compose exec -T db mysqldump -u root -p"${MYSQL_ROOT_PASSWORD}" wordpress > "$BACKUP_FILE" 2>/dev/null || echo "⚠️  Database backup skipped (containers not running or first deploy)"
-            
-            if [ -f "$BACKUP_FILE" ]; then
-              echo "✅ Backup saved: $BACKUP_FILE"
-              # Keep only last 10 backups
-              ls -t ./backups/db_backup_*.sql 2>/dev/null | tail -n +11 | xargs -r rm
+            docker compose exec -T db sh -c "exec mysqldump -uroot -p\"\$MYSQL_ROOT_PASSWORD\" --single-transaction --quick --lock-tables=false --routines --triggers --events --default-character-set=utf8mb4 wordpress" 2>/dev/null \
+              | gzip > "$BACKUP_FILE" || echo "⚠️  Database backup failed"
+
+            if [ -s "$BACKUP_FILE" ]; then
+              echo "✅ Backup saved: $BACKUP_FILE ($(du -h "$BACKUP_FILE" | cut -f1))"
+              # Mantieni solo gli ultimi 14 backup
+              ls -t "$AIUCD_BACKUPS_DIR"/db_backup_*.sql.gz 2>/dev/null | tail -n +15 | xargs -r rm
+            else
+              rm -f "$BACKUP_FILE"
             fi
           else
             echo "⚠️  Skipping backup - containers not running (first deploy?)"
@@ -121,30 +138,28 @@ jobs:
           echo "✅ Configuration ready"
       
       - name: 🐳 Deploy Docker Containers
+        env:
+          AIUCD_UPLOADS_DIR: ${{ vars.AIUCD_UPLOADS_DIR || '/home/dhpasteur/aiucd-data/uploads' }}
         run: |
-          echo "Deploying containers..."
-          
-          # Stop existing containers
+          echo "Deploying containers (uploads bind: $AIUCD_UPLOADS_DIR)..."
+
           docker compose down || true
-          
-          # Pull latest images (only if newer versions available)
           docker compose pull --quiet
-          
-          # Start containers with proper user mapping
           docker compose up -d
-          
-          # Wait a moment for containers to start
+
           sleep 5
-          
-          # Show container status
+
           echo "Container status:"
           docker compose ps
-          
-          # Show container logs (last 20 lines)
+
+          echo ""
+          echo "Effective uploads mount:"
+          docker compose exec -T wordpress sh -c "mount | grep wp-content/uploads || true; ls -la /var/www/html/wp-content/uploads | head -5"
+
           echo ""
           echo "WordPress container logs:"
           docker compose logs --tail=20 wordpress
-          
+
           echo "✅ Containers deployed"
       
       - name: 🏥 Health Check
@@ -231,29 +246,20 @@ jobs:
       
       - name: 🔴 Rollback on Failure
         if: failure()
+        env:
+          AIUCD_BACKUPS_DIR: ${{ vars.AIUCD_BACKUPS_DIR || '/home/dhpasteur/aiucd-data/backups' }}
         run: |
           echo "================================"
-          echo "❌ DEPLOYMENT FAILED - ROLLING BACK"
+          echo "❌ DEPLOYMENT FAILED — diagnostic only"
           echo "================================"
-          
-          # Try to restore from latest backup
-          LATEST_BACKUP=$(ls -t ./backups/db_backup_*.sql 2>/dev/null | head -n 1)
-          
-          if [ -n "$LATEST_BACKUP" ]; then
-            echo "📥 Restoring database from: $LATEST_BACKUP"
-            
-            # Source environment variables
-            if [ -f .env ]; then
-              export $(cat .env | grep -v '^#' | xargs)
-            fi
-            
-            # Restore database
-            docker compose exec -T db mysql -u root -p"${MYSQL_ROOT_PASSWORD}" wordpress < "$LATEST_BACKUP" || echo "⚠️  Database restore failed"
-          fi
-          
-          # Restart containers
-          docker compose down
-          docker compose up -d
-          
-          echo "🔴 Please check logs for error details"
-          docker compose logs --tail=50
+          # NOTE: il rollback automatico del DB è disabilitato per evitare
+          # restore inopportuni in caso di failure non legate al DB.
+          # I backup sono in $AIUCD_BACKUPS_DIR (gli ultimi 14 ruotati).
+          echo "Latest DB backups available for manual restore:"
+          ls -lh "$AIUCD_BACKUPS_DIR"/db_backup_*.sql.gz 2>/dev/null | tail -5 || echo "  (no backups found)"
+          echo ""
+          echo "Container status:"
+          docker compose ps || true
+          echo ""
+          echo "Recent logs:"
+          docker compose logs --tail=80 || true

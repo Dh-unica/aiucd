@@ -1,0 +1,5 @@
+# Mountpoint per uploads persistenti
+# Questa directory deve esistere nel checkout per consentire il bind mount
+# di runtime configurato via AIUCD_UPLOADS_DIR (vedi docker-compose.yml e README.md).
+# Non aggiungere file qui: gli uploads veri vivono FUORI dal repo, in produzione
+# in /home/dhpasteur/aiucd-data/uploads.

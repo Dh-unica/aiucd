@@ -371,6 +371,16 @@ volumes:
   - ./wordpress:/var/www/html
 ```
 
+**Bind Mount esterno** per gli uploads (dati utente, FUORI dal workspace CI):
+
+```yaml
+volumes:
+  - ${AIUCD_UPLOADS_DIR:-./wordpress/wp-content/uploads}:/var/www/html/wp-content/uploads
+```
+
+In sviluppo locale `AIUCD_UPLOADS_DIR` non è settato → fallback al path nel repo.
+In produzione punta a `/home/dhpasteur/aiucd-data/uploads` (vedi sezione "Persistenza dati produzione").
+
 **Named Volume** solo per database:
 
 ```yaml
@@ -384,6 +394,39 @@ volumes:
 volumes:
   - ./php-config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
 ```
+
+### Persistenza dati produzione
+
+Gli **uploads** e i **backup DB** vivono FUORI dal workspace di GitHub Actions
+per evitare che un `actions/checkout` (o uno switch di runner) li cancelli —
+incidente già accaduto il 23/04/2026 con perdita di 85MB di uploads.
+
+**Layout server (`dhpasteur@90.147.144.180`):**
+
+```text
+/home/dhpasteur/aiucd-data/
+├── uploads/    # bind mount → /var/www/html/wp-content/uploads
+└── backups/    # dump DB ruotati (ultimi 14)
+```
+
+Setup iniziale (una tantum, già eseguito sul server di produzione):
+
+```bash
+mkdir -p /home/dhpasteur/aiucd-data/{uploads,backups}
+mv /percorso/al/repo/wordpress/wp-content/uploads/* /home/dhpasteur/aiucd-data/uploads/
+chown -R 1001:1001 /home/dhpasteur/aiucd-data
+```
+
+E nel `.env` produttivo:
+
+```bash
+AIUCD_UPLOADS_DIR=/home/dhpasteur/aiucd-data/uploads
+AIUCD_BACKUPS_DIR=/home/dhpasteur/aiucd-data/backups
+```
+
+Il workflow [.github/workflows/deploy.yml](.github/workflows/deploy.yml) include
+una guardia anti-disastro: se `AIUCD_UPLOADS_DIR` manca o è vuota, il deploy
+**aborta** prima di toccare i container.
 
 ### Network Isolation
 

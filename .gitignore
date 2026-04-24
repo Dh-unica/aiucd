@@ -2,7 +2,10 @@
 .env
 
 # WordPress - Ignora uploads ma mantieni codice versionabile
-wordpress/wp-content/uploads/
+# La directory uploads/ deve esistere come mountpoint per il bind di runtime
+# (cfr docker-compose.yml AIUCD_UPLOADS_DIR), quindi versioniamo solo il .gitkeep
+wordpress/wp-content/uploads/*
+!wordpress/wp-content/uploads/.gitkeep
 wordpress/.htaccess
 wordpress/wp-config.php
 
