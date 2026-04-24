@@ -80,28 +80,32 @@ jobs:
               "$WPCLI_IMAGE" "$@"
           }
 
+          # Helper: conta le righe di dati (output - header). Usa --format=csv
+          # che produce una riga header + N righe dati. Se N>=1 ci sono update.
+          count_data_rows() { awk 'NR>1 && NF>0 { c++ } END { print c+0 }'; }
+
           echo "=== Core ==="
-          CORE_OUT=$(run_wp wp core check-update --format=table 2>&1 || true)
-          echo "$CORE_OUT"
-          if echo "$CORE_OUT" | grep -qE 'Success: WordPress is at the latest version'; then
-            CORE_HAS=0
-          elif echo "$CORE_OUT" | grep -qE 'available'; then
-            CORE_HAS=1
-          else
-            CORE_HAS=0
-          fi
+          CORE_CSV=$(run_wp wp core check-update --format=csv 2>&1 || true)
+          echo "$CORE_CSV"
+          CORE_N=$(printf '%s\n' "$CORE_CSV" | count_data_rows)
+          [ "$CORE_N" -ge 1 ] && CORE_HAS=1 || CORE_HAS=0
 
           echo "=== Plugins ==="
-          PLUGINS_OUT=$(run_wp wp plugin list --update=available --fields=name,version,update_version --format=table 2>&1 || true)
-          echo "$PLUGINS_OUT"
-          PLUGINS_HAS=$(echo "$PLUGINS_OUT" | grep -cE '^\|' || true)
-          [ "${PLUGINS_HAS:-0}" -gt 1 ] && PLUGINS_HAS=1 || PLUGINS_HAS=0
+          PLUGINS_CSV=$(run_wp wp plugin list --update=available --fields=name,version,update_version --format=csv 2>&1 || true)
+          echo "$PLUGINS_CSV"
+          PLUGINS_N=$(printf '%s\n' "$PLUGINS_CSV" | count_data_rows)
+          [ "$PLUGINS_N" -ge 1 ] && PLUGINS_HAS=1 || PLUGINS_HAS=0
 
           echo "=== Themes ==="
+          THEMES_CSV=$(run_wp wp theme list --update=available --fields=name,version,update_version --format=csv 2>&1 || true)
+          echo "$THEMES_CSV"
+          THEMES_N=$(printf '%s\n' "$THEMES_CSV" | count_data_rows)
+          [ "$THEMES_N" -ge 1 ] && THEMES_HAS=1 || THEMES_HAS=0
+
+          # Versioni "pretty" da mettere nella PR body
+          CORE_OUT=$(run_wp wp core check-update --format=table 2>&1 || true)
+          PLUGINS_OUT=$(run_wp wp plugin list --update=available --fields=name,version,update_version --format=table 2>&1 || true)
           THEMES_OUT=$(run_wp wp theme list --update=available --fields=name,version,update_version --format=table 2>&1 || true)
-          echo "$THEMES_OUT"
-          THEMES_HAS=$(echo "$THEMES_OUT" | grep -cE '^\|' || true)
-          [ "${THEMES_HAS:-0}" -gt 1 ] && THEMES_HAS=1 || THEMES_HAS=0
 
           {
             echo "core<<EOF"
