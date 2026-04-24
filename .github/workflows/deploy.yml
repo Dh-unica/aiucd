@@ -114,9 +114,12 @@ jobs:
           fi
       
       - name: 🔧 Update Configuration
+        env:
+          AIUCD_UPLOADS_DIR: ${{ vars.AIUCD_UPLOADS_DIR || '/home/dhpasteur/aiucd-data/uploads' }}
+          AIUCD_BACKUPS_DIR: ${{ vars.AIUCD_BACKUPS_DIR || '/home/dhpasteur/aiucd-data/backups' }}
         run: |
           echo "Checking configuration files..."
-          
+
           # Ensure .env exists (don't overwrite if exists)
           if [ ! -f .env ]; then
             if [ -f .env.example ]; then
@@ -134,8 +137,18 @@ jobs:
               exit 1
             fi
           fi
-          
-          echo "✅ Configuration ready"
+
+          # Idempotent: ensure persistent data dir vars are present and aligned
+          for KV in "AIUCD_UPLOADS_DIR=$AIUCD_UPLOADS_DIR" "AIUCD_BACKUPS_DIR=$AIUCD_BACKUPS_DIR"; do
+            KEY="${KV%%=*}"
+            if grep -q "^${KEY}=" .env; then
+              # Replace value if differs
+              sed -i "s|^${KEY}=.*|${KV}|" .env
+            else
+              echo "$KV" >> .env
+            fi
+          done
+          echo "✅ Configuration ready (AIUCD_UPLOADS_DIR=$AIUCD_UPLOADS_DIR)"
       
       - name: 🐳 Deploy Docker Containers
         env:
