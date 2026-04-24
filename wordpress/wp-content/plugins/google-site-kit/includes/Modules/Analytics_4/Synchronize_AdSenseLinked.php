@@ -13,9 +13,9 @@ namespace Google\Site_Kit\Modules\Analytics_4;
 use Google\Site_Kit\Core\Permissions\Permissions;
 use Google\Site_Kit\Core\Storage\Options;
 use Google\Site_Kit\Core\Storage\User_Options;
-use Google\Site_Kit\Modules\Adsense;
+use Google\Site_Kit\Modules\AdSense;
 use Google\Site_Kit\Modules\Analytics_4;
-use Google\Site_Kit\Modules\AdSense\Settings as Adsense_Settings;
+use Google\Site_Kit\Modules\AdSense\Settings as AdSense_Settings;
 
 /**
  * The base class for Synchronizing the adSenseLinked status.
@@ -81,7 +81,7 @@ class Synchronize_AdSenseLinked {
 	}
 
 	/**
-	 * Cron callback for synchronizing the adsense linked data.
+	 * Cron callback for synchronizing the AdSense linked data.
 	 *
 	 * @since 1.123.0
 	 * @since 1.130.0 Added check for property ID, so it can return early if property ID is not set.
@@ -125,8 +125,6 @@ class Synchronize_AdSenseLinked {
 	 * Synchronize the AdSenseLinked status.
 	 *
 	 * @since 1.123.0
-	 *
-	 * @return null
 	 */
 	protected function synchronize_adsense_linked_status() {
 		$settings_ga4              = $this->analytics_4->get_settings()->get();

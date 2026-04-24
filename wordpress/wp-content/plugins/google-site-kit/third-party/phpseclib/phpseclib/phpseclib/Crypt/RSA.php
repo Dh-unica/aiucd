@@ -64,7 +64,7 @@ use Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger;
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common\AsymmetricKey
+abstract class RSA extends AsymmetricKey
 {
     /**
      * Algorithm Name
@@ -283,7 +283,7 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
         $regSize = $bits >> 1;
         // divide by two to see how many bits P and Q would be
         if ($regSize > self::$smallestPrime) {
-            $num_primes = \floor($bits / self::$smallestPrime);
+            $num_primes = floor($bits / self::$smallestPrime);
             $regSize = self::$smallestPrime;
         } else {
             $num_primes = 2;
@@ -298,18 +298,18 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
                 if (self::$configFile) {
                     $config['config'] = self::$configFile;
                 }
-                $rsa = \openssl_pkey_new(['private_key_bits' => $bits] + $config);
-                \openssl_pkey_export($rsa, $privatekeystr, null, $config);
+                $rsa = openssl_pkey_new(['private_key_bits' => $bits] + $config);
+                openssl_pkey_export($rsa, $privatekeystr, null, $config);
                 // clear the buffer of error strings stemming from a minimalistic openssl.cnf
                 // https://github.com/php/php-src/issues/11054 talks about other errors this'll pick up
-                while (\openssl_error_string() !== \false) {
+                while (openssl_error_string() !== \false) {
                 }
-                return \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA::load($privatekeystr);
+                return RSA::load($privatekeystr);
             }
         }
         static $e;
         if (!isset($e)) {
-            $e = new \Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger(self::$defaultExponent);
+            $e = new BigInteger(self::$defaultExponent);
         }
         $n = clone self::$one;
         $exponents = $coefficients = $primes = [];
@@ -317,16 +317,15 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
         do {
             for ($i = 1; $i <= $num_primes; $i++) {
                 if ($i != $num_primes) {
-                    $primes[$i] = \Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger::randomPrime($regSize);
+                    $primes[$i] = BigInteger::randomPrime($regSize);
                 } else {
-                    \extract(\Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger::minMaxBits($bits));
-                    /** @var BigInteger $min
-                     *  @var BigInteger $max
-                     */
+                    $minMax = BigInteger::minMaxBits($bits);
+                    $min = $minMax['min'];
+                    $max = $minMax['max'];
                     list($min) = $min->divide($n);
                     $min = $min->add(self::$one);
                     list($max) = $max->divide($n);
-                    $primes[$i] = \Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger::randomRangePrime($min, $max);
+                    $primes[$i] = BigInteger::randomRangePrime($min, $max);
                 }
                 // the first coefficient is calculated differently from the rest
                 // ie. instead of being $primes[1]->modInverse($primes[2]), it's $primes[2]->modInverse($primes[1])
@@ -363,7 +362,7 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
         //     coefficient       INTEGER,  -- (inverse of q) mod p
         //     otherPrimeInfos   OtherPrimeInfos OPTIONAL
         // }
-        $privatekey = new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA\PrivateKey();
+        $privatekey = new PrivateKey();
         $privatekey->modulus = $n;
         $privatekey->k = $bits >> 3;
         $privatekey->publicExponent = $e;
@@ -388,7 +387,7 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
      */
     protected static function onLoad(array $components)
     {
-        $key = $components['isPublicKey'] ? new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA\PublicKey() : new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA\PrivateKey();
+        $key = $components['isPublicKey'] ? new PublicKey() : new PrivateKey();
         $key->modulus = $components['modulus'];
         $key->publicExponent = $components['publicExponent'];
         $key->k = $key->modulus->getLengthInBytes();
@@ -401,7 +400,7 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
             $key->exponents = $components['exponents'];
             $key->coefficients = $components['coefficients'];
         }
-        if ($components['format'] == \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA\Formats\Keys\PSS::class) {
+        if ($components['format'] == PSS::class) {
             // in the X509 world RSA keys are assumed to use PKCS1 padding by default. only if the key is
             // explicitly a PSS key is the use of PSS assumed. phpseclib does not work like this. phpseclib
             // uses PSS padding by default. it assumes the more secure method by default and altho it provides
@@ -428,7 +427,7 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
     protected static function initialize_static_variables()
     {
         if (!isset(self::$configFile)) {
-            self::$configFile = \dirname(__FILE__) . '/../openssl.cnf';
+            self::$configFile = dirname(__FILE__) . '/../openssl.cnf';
         }
         parent::initialize_static_variables();
     }
@@ -441,7 +440,7 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
     {
         parent::__construct();
         $this->hLen = $this->hash->getLengthInBytes();
-        $this->mgfHash = new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Hash('sha256');
+        $this->mgfHash = new Hash('sha256');
         $this->mgfHLen = $this->mgfHash->getLengthInBytes();
     }
     /**
@@ -459,10 +458,10 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
             return \false;
         }
         $x = $x->toBytes();
-        if (\strlen($x) > $xLen) {
+        if (strlen($x) > $xLen) {
             throw new \OutOfRangeException('Resultant string length out of range');
         }
-        return \str_pad($x, $xLen, \chr(0), \STR_PAD_LEFT);
+        return str_pad($x, $xLen, chr(0), \STR_PAD_LEFT);
     }
     /**
      * Octet-String-to-Integer primitive
@@ -474,7 +473,7 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
      */
     protected function os2ip($x)
     {
-        return new \Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger($x, 256);
+        return new BigInteger($x, 256);
     }
     /**
      * EMSA-PKCS1-V1_5-ENCODE
@@ -520,11 +519,11 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
                 $t = "010\r\x06\t`\x86H\x01e\x03\x04\x02\x06\x05\x00\x04 ";
         }
         $t .= $h;
-        $tLen = \strlen($t);
+        $tLen = strlen($t);
         if ($emLen < $tLen + 11) {
             throw new \LengthException('Intended encoded message length too short');
         }
-        $ps = \str_repeat(\chr(0xff), $emLen - $tLen - 3);
+        $ps = str_repeat(chr(0xff), $emLen - $tLen - 3);
         $em = "\x00\x01{$ps}\x00{$t}";
         return $em;
     }
@@ -570,14 +569,14 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
                 $t = "0/0\v\x06\t`\x86H\x01e\x03\x04\x02\x06\x04 ";
                 break;
             default:
-                throw new \Google\Site_Kit_Dependencies\phpseclib3\Exception\UnsupportedAlgorithmException('md2 and md5 require NULLs');
+                throw new UnsupportedAlgorithmException('md2 and md5 require NULLs');
         }
         $t .= $h;
-        $tLen = \strlen($t);
+        $tLen = strlen($t);
         if ($emLen < $tLen + 11) {
             throw new \LengthException('Intended encoded message length too short');
         }
-        $ps = \str_repeat(\chr(0xff), $emLen - $tLen - 3);
+        $ps = str_repeat(chr(0xff), $emLen - $tLen - 3);
         $em = "\x00\x01{$ps}\x00{$t}";
         return $em;
     }
@@ -594,12 +593,12 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
     {
         // if $maskLen would yield strings larger than 4GB, PKCS#1 suggests a "Mask too long" error be output.
         $t = '';
-        $count = \ceil($maskLen / $this->mgfHLen);
+        $count = ceil($maskLen / $this->mgfHLen);
         for ($i = 0; $i < $count; $i++) {
-            $c = \pack('N', $i);
+            $c = pack('N', $i);
             $t .= $this->mgfHash->hash($mgfSeed . $c);
         }
-        return \substr($t, 0, $maskLen);
+        return substr($t, 0, $maskLen);
     }
     /**
      * Returns the key size
@@ -624,7 +623,7 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
     {
         $new = clone $this;
         // Crypt\Hash supports algorithms that PKCS#1 doesn't support.  md5-96 and sha1-96, for example.
-        switch (\strtolower($hash)) {
+        switch (strtolower($hash)) {
             case 'md2':
             case 'md5':
             case 'sha1':
@@ -634,10 +633,10 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
             case 'sha224':
             case 'sha512/224':
             case 'sha512/256':
-                $new->hash = new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Hash($hash);
+                $new->hash = new Hash($hash);
                 break;
             default:
-                throw new \Google\Site_Kit_Dependencies\phpseclib3\Exception\UnsupportedAlgorithmException('The only supported hash algorithms are: md2, md5, sha1, sha256, sha384, sha512, sha224, sha512/224, sha512/256');
+                throw new UnsupportedAlgorithmException('The only supported hash algorithms are: md2, md5, sha1, sha256, sha384, sha512, sha224, sha512/224, sha512/256');
         }
         $new->hLen = $new->hash->getLengthInBytes();
         return $new;
@@ -654,7 +653,7 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
     {
         $new = clone $this;
         // Crypt\Hash supports algorithms that PKCS#1 doesn't support.  md5-96 and sha1-96, for example.
-        switch (\strtolower($hash)) {
+        switch (strtolower($hash)) {
             case 'md2':
             case 'md5':
             case 'sha1':
@@ -664,10 +663,10 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
             case 'sha224':
             case 'sha512/224':
             case 'sha512/256':
-                $new->mgfHash = new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Hash($hash);
+                $new->mgfHash = new Hash($hash);
                 break;
             default:
-                throw new \Google\Site_Kit_Dependencies\phpseclib3\Exception\UnsupportedAlgorithmException('The only supported hash algorithms are: md2, md5, sha1, sha256, sha384, sha512, sha224, sha512/224, sha512/256');
+                throw new UnsupportedAlgorithmException('The only supported hash algorithms are: md2, md5, sha1, sha256, sha384, sha512, sha224, sha512/224, sha512/256');
         }
         $new->mgfHLen = $new->mgfHash->getLengthInBytes();
         return $new;
@@ -753,7 +752,7 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
             }
         }
         if ($encryptedCount > 1) {
-            throw new \Google\Site_Kit_Dependencies\phpseclib3\Exception\InconsistentSetupException('Multiple encryption padding modes have been selected; at most only one should be selected');
+            throw new InconsistentSetupException('Multiple encryption padding modes have been selected; at most only one should be selected');
         }
         $encryptionPadding = $selected;
         $masks = [self::SIGNATURE_PSS, self::SIGNATURE_RELAXED_PKCS1, self::SIGNATURE_PKCS1];
@@ -766,7 +765,7 @@ abstract class RSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
             }
         }
         if ($signatureCount > 1) {
-            throw new \Google\Site_Kit_Dependencies\phpseclib3\Exception\InconsistentSetupException('Multiple signature padding modes have been selected; at most only one should be selected');
+            throw new InconsistentSetupException('Multiple signature padding modes have been selected; at most only one should be selected');
         }
         $signaturePadding = $selected;
         $new = clone $this;

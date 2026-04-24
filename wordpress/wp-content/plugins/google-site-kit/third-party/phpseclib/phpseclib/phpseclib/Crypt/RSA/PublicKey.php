@@ -26,7 +26,7 @@ use Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger;
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA implements \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common\PublicKey
+final class PublicKey extends RSA implements Common\PublicKey
 {
     use Common\Traits\Fingerprint;
     /**
@@ -35,7 +35,7 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
      * @param BigInteger $x
      * @return BigInteger
      */
-    private function exponentiate(\Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger $x)
+    private function exponentiate(BigInteger $x)
     {
         return $x->modPow($this->exponent, $this->modulus);
     }
@@ -67,7 +67,7 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
     private function rsassa_pkcs1_v1_5_verify($m, $s)
     {
         // Length checking
-        if (\strlen($s) != $this->k) {
+        if (strlen($s) != $this->k) {
             return \false;
         }
         // RSA verification
@@ -86,16 +86,16 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
         // too short" and stop.
         try {
             $em2 = $this->emsa_pkcs1_v1_5_encode($m, $this->k);
-            $r1 = \hash_equals($em, $em2);
+            $r1 = hash_equals($em, $em2);
         } catch (\LengthException $e) {
             $exception = \true;
         }
         try {
             $em3 = $this->emsa_pkcs1_v1_5_encode_without_null($m, $this->k);
-            $r2 = \hash_equals($em, $em3);
+            $r2 = hash_equals($em, $em3);
         } catch (\LengthException $e) {
             $exception = \true;
-        } catch (\Google\Site_Kit_Dependencies\phpseclib3\Exception\UnsupportedAlgorithmException $e) {
+        } catch (UnsupportedAlgorithmException $e) {
             $r2 = \false;
         }
         if ($exception) {
@@ -124,7 +124,7 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
     private function rsassa_pkcs1_v1_5_relaxed_verify($m, $s)
     {
         // Length checking
-        if (\strlen($s) != $this->k) {
+        if (strlen($s) != $this->k) {
             return \false;
         }
         // RSA verification
@@ -137,15 +137,15 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
         if ($em === \false) {
             return \false;
         }
-        if (\Google\Site_Kit_Dependencies\phpseclib3\Common\Functions\Strings::shift($em, 2) != "\x00\x01") {
+        if (Strings::shift($em, 2) != "\x00\x01") {
             return \false;
         }
-        $em = \ltrim($em, "\xff");
-        if (\Google\Site_Kit_Dependencies\phpseclib3\Common\Functions\Strings::shift($em) != "\x00") {
+        $em = ltrim($em, "\xff");
+        if (Strings::shift($em) != "\x00") {
             return \false;
         }
-        $decoded = \Google\Site_Kit_Dependencies\phpseclib3\File\ASN1::decodeBER($em);
-        if (!\is_array($decoded) || empty($decoded[0]) || \strlen($em) > $decoded[0]['length']) {
+        $decoded = ASN1::decodeBER($em);
+        if (!is_array($decoded) || empty($decoded[0]) || strlen($em) > $decoded[0]['length']) {
             return \false;
         }
         static $oids;
@@ -164,9 +164,9 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
                 'id-sha512/224' => '2.16.840.1.101.3.4.2.5',
                 'id-sha512/256' => '2.16.840.1.101.3.4.2.6',
             ];
-            \Google\Site_Kit_Dependencies\phpseclib3\File\ASN1::loadOIDs($oids);
+            ASN1::loadOIDs($oids);
         }
-        $decoded = \Google\Site_Kit_Dependencies\phpseclib3\File\ASN1::asn1map($decoded[0], \Google\Site_Kit_Dependencies\phpseclib3\File\ASN1\Maps\DigestInfo::MAP);
+        $decoded = ASN1::asn1map($decoded[0], DigestInfo::MAP);
         if (!isset($decoded) || $decoded === \false) {
             return \false;
         }
@@ -177,11 +177,11 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
             return \false;
         }
         $hash = $decoded['digestAlgorithm']['algorithm'];
-        $hash = \substr($hash, 0, 3) == 'id-' ? \substr($hash, 3) : $hash;
-        $hash = new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Hash($hash);
+        $hash = substr($hash, 0, 3) == 'id-' ? substr($hash, 3) : $hash;
+        $hash = new Hash($hash);
         $em = $hash->hash($m);
         $em2 = $decoded['digest'];
-        return \hash_equals($em, $em2);
+        return hash_equals($em, $em2);
     }
     /**
      * EMSA-PSS-VERIFY
@@ -204,27 +204,27 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
         if ($emLen < $this->hLen + $sLen + 2) {
             return \false;
         }
-        if ($em[\strlen($em) - 1] != \chr(0xbc)) {
+        if ($em[strlen($em) - 1] != chr(0xbc)) {
             return \false;
         }
-        $maskedDB = \substr($em, 0, -$this->hLen - 1);
-        $h = \substr($em, -$this->hLen - 1, $this->hLen);
-        $temp = \chr(0xff << ($emBits & 7));
+        $maskedDB = substr($em, 0, -$this->hLen - 1);
+        $h = substr($em, -$this->hLen - 1, $this->hLen);
+        $temp = chr(256 - (1 << ($emBits & 7)));
         if ((~$maskedDB[0] & $temp) != $temp) {
             return \false;
         }
         $dbMask = $this->mgf1($h, $emLen - $this->hLen - 1);
         $db = $maskedDB ^ $dbMask;
-        $db[0] = ~\chr(0xff << ($emBits & 7)) & $db[0];
+        $db[0] = ~chr(256 - (1 << ($emBits & 7))) & $db[0];
         $temp = $emLen - $this->hLen - $sLen - 2;
-        if (\substr($db, 0, $temp) != \str_repeat(\chr(0), $temp) || \ord($db[$temp]) != 1) {
+        if (substr($db, 0, $temp) != str_repeat(chr(0), $temp) || ord($db[$temp]) != 1) {
             return \false;
         }
-        $salt = \substr($db, $temp + 1);
+        $salt = substr($db, $temp + 1);
         // should be $sLen long
         $m2 = "\x00\x00\x00\x00\x00\x00\x00\x00" . $mHash . $salt;
         $h2 = $this->hash->hash($m2);
-        return \hash_equals($h, $h2);
+        return hash_equals($h, $h2);
     }
     /**
      * RSASSA-PSS-VERIFY
@@ -238,11 +238,11 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
     private function rsassa_pss_verify($m, $s)
     {
         // Length checking
-        if (\strlen($s) != $this->k) {
+        if (strlen($s) != $this->k) {
             return \false;
         }
         // RSA verification
-        $modBits = \strlen($this->modulus->toBits());
+        $modBits = strlen($this->modulus->toBits());
         $s2 = $this->os2ip($s);
         $m2 = $this->rsavp1($s2);
         $em = $this->i2osp($m2, $this->k);
@@ -284,7 +284,7 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
      */
     private function rsaes_pkcs1_v1_5_encrypt($m, $pkcs15_compat = \false)
     {
-        $mLen = \strlen($m);
+        $mLen = strlen($m);
         // Length checking
         if ($mLen > $this->k - 11) {
             throw new \LengthException('Message too long');
@@ -292,13 +292,13 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
         // EME-PKCS1-v1_5 encoding
         $psLen = $this->k - $mLen - 3;
         $ps = '';
-        while (\strlen($ps) != $psLen) {
-            $temp = \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Random::string($psLen - \strlen($ps));
-            $temp = \str_replace("\x00", '', $temp);
+        while (strlen($ps) != $psLen) {
+            $temp = Random::string($psLen - strlen($ps));
+            $temp = str_replace("\x00", '', $temp);
             $ps .= $temp;
         }
         $type = 2;
-        $em = \chr(0) . \chr($type) . $ps . \chr(0) . $m;
+        $em = chr(0) . chr($type) . $ps . chr(0) . $m;
         // RSA encryption
         $m = $this->os2ip($em);
         $c = $this->rsaep($m);
@@ -318,7 +318,7 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
      */
     private function rsaes_oaep_encrypt($m)
     {
-        $mLen = \strlen($m);
+        $mLen = strlen($m);
         // Length checking
         // if $l is larger than two million terrabytes and you're using sha1, PKCS#1 suggests a "Label too long" error
         // be output.
@@ -327,14 +327,14 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
         }
         // EME-OAEP encoding
         $lHash = $this->hash->hash($this->label);
-        $ps = \str_repeat(\chr(0), $this->k - $mLen - 2 * $this->hLen - 2);
-        $db = $lHash . $ps . \chr(1) . $m;
-        $seed = \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Random::string($this->hLen);
+        $ps = str_repeat(chr(0), $this->k - $mLen - 2 * $this->hLen - 2);
+        $db = $lHash . $ps . chr(1) . $m;
+        $seed = Random::string($this->hLen);
         $dbMask = $this->mgf1($seed, $this->k - $this->hLen - 1);
         $maskedDB = $db ^ $dbMask;
         $seedMask = $this->mgf1($maskedDB, $this->hLen);
         $maskedSeed = $seed ^ $seedMask;
-        $em = \chr(0) . $maskedSeed . $maskedDB;
+        $em = chr(0) . $maskedSeed . $maskedDB;
         // RSA encryption
         $m = $this->os2ip($em);
         $c = $this->rsaep($m);
@@ -368,7 +368,7 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
      */
     private function raw_encrypt($m)
     {
-        if (\strlen($m) > $this->k) {
+        if (strlen($m) > $this->k) {
             throw new \LengthException('Message too long');
         }
         $temp = $this->os2ip($m);
@@ -413,11 +413,11 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
     public function toString($type, array $options = [])
     {
         $type = self::validatePlugin('Keys', $type, 'savePublicKey');
-        if ($type == \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA\Formats\Keys\PSS::class) {
+        if ($type == PSS::class) {
             if ($this->signaturePadding == self::SIGNATURE_PSS) {
                 $options += ['hash' => $this->hash->getHash(), 'MGFHash' => $this->mgfHash->getHash(), 'saltLength' => $this->getSaltLength()];
             } else {
-                throw new \Google\Site_Kit_Dependencies\phpseclib3\Exception\UnsupportedFormatException('The PSS format can only be used when the signature method has been explicitly set to PSS');
+                throw new UnsupportedFormatException('The PSS format can only be used when the signature method has been explicitly set to PSS');
             }
         }
         return $type::savePublicKey($this->modulus, $this->publicExponent, $options);
@@ -429,7 +429,7 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA
      */
     public function asPrivateKey()
     {
-        $new = new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\RSA\PrivateKey();
+        $new = new PrivateKey();
         $new->exponent = $this->exponent;
         $new->modulus = $this->modulus;
         $new->k = $this->k;

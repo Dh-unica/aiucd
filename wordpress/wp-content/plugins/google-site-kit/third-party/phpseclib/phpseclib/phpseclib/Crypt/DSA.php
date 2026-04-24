@@ -39,7 +39,7 @@ use Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger;
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class DSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common\AsymmetricKey
+abstract class DSA extends AsymmetricKey
 {
     /**
      * Algorithm Name
@@ -122,11 +122,11 @@ abstract class DSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
             default:
                 throw new \InvalidArgumentException('Invalid values for N and L');
         }
-        $two = new \Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger(2);
-        $q = \Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger::randomPrime($N);
+        $two = new BigInteger(2);
+        $q = BigInteger::randomPrime($N);
         $divisor = $q->multiply($two);
         do {
-            $x = \Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger::random($L);
+            $x = BigInteger::random($L);
             list(, $c) = $x->divide($divisor);
             $p = $x->subtract($c->subtract(self::$one));
         } while ($p->getLength() != $L || !$p->isPrime());
@@ -144,7 +144,7 @@ abstract class DSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
             }
             $h = $h->add(self::$one);
         }
-        $dsa = new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\DSA\Parameters();
+        $dsa = new Parameters();
         $dsa->p = $p;
         $dsa->q = $q;
         $dsa->g = $g;
@@ -171,20 +171,20 @@ abstract class DSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
         if (!isset(self::$engines['PHP'])) {
             self::useBestEngine();
         }
-        if (\count($args) == 2 && \is_int($args[0]) && \is_int($args[1])) {
+        if (count($args) == 2 && is_int($args[0]) && is_int($args[1])) {
             $params = self::createParameters($args[0], $args[1]);
-        } elseif (\count($args) == 1 && $args[0] instanceof \Google\Site_Kit_Dependencies\phpseclib3\Crypt\DSA\Parameters) {
+        } elseif (count($args) == 1 && $args[0] instanceof Parameters) {
             $params = $args[0];
-        } elseif (!\count($args)) {
+        } elseif (!count($args)) {
             $params = self::createParameters();
         } else {
-            throw new \Google\Site_Kit_Dependencies\phpseclib3\Exception\InsufficientSetupException('Valid parameters are either two integers (L and N), a single DSA object or no parameters at all.');
+            throw new InsufficientSetupException('Valid parameters are either two integers (L and N), a single DSA object or no parameters at all.');
         }
-        $private = new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\DSA\PrivateKey();
+        $private = new PrivateKey();
         $private->p = $params->p;
         $private->q = $params->q;
         $private->g = $params->g;
-        $private->x = \Google\Site_Kit_Dependencies\phpseclib3\Math\BigInteger::randomRange(self::$one, $private->q->subtract(self::$one));
+        $private->x = BigInteger::randomRange(self::$one, $private->q->subtract(self::$one));
         $private->y = $private->g->powMod($private->x, $private->p);
         //$public = clone $private;
         //unset($public->x);
@@ -201,12 +201,12 @@ abstract class DSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
             self::useBestEngine();
         }
         if (!isset($components['x']) && !isset($components['y'])) {
-            $new = new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\DSA\Parameters();
+            $new = new Parameters();
         } elseif (isset($components['x'])) {
-            $new = new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\DSA\PrivateKey();
+            $new = new PrivateKey();
             $new->x = $components['x'];
         } else {
-            $new = new \Google\Site_Kit_Dependencies\phpseclib3\Crypt\DSA\PublicKey();
+            $new = new PublicKey();
         }
         $new->p = $components['p'];
         $new->q = $components['q'];
@@ -250,7 +250,7 @@ abstract class DSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
         if (!isset(self::$engines['PHP'])) {
             self::useBestEngine();
         }
-        return self::$engines['OpenSSL'] && \in_array($this->hash->getHash(), \openssl_get_md_methods()) ? 'OpenSSL' : 'PHP';
+        return self::$engines['OpenSSL'] && in_array($this->hash->getHash(), openssl_get_md_methods()) ? 'OpenSSL' : 'PHP';
     }
     /**
      * Returns the parameters
@@ -265,7 +265,7 @@ abstract class DSA extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common
     {
         $type = self::validatePlugin('Keys', 'PKCS1', 'saveParameters');
         $key = $type::saveParameters($this->p, $this->q, $this->g);
-        return \Google\Site_Kit_Dependencies\phpseclib3\Crypt\DSA::load($key, 'PKCS1')->withHash($this->hash->getHash())->withSignatureFormat($this->shortFormat);
+        return DSA::load($key, 'PKCS1')->withHash($this->hash->getHash())->withSignatureFormat($this->shortFormat);
     }
     /**
      * Determines the signature padding mode

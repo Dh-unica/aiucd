@@ -141,6 +141,14 @@ final class Modules implements Provides_Feature_Metrics {
 	private $dashboard_sharing_controller;
 
 	/**
+	 * Disconnected_Modules setting instance.
+	 *
+	 * @since 1.172.0
+	 * @var Disconnected_Modules
+	 */
+	private $disconnected_modules;
+
+	/**
 	 * Core module class names.
 	 *
 	 * @since 1.21.0
@@ -176,12 +184,13 @@ final class Modules implements Provides_Feature_Metrics {
 		?Authentication $authentication = null,
 		?Assets $assets = null
 	) {
-		$this->context          = $context;
-		$this->options          = $options ?: new Options( $this->context );
-		$this->sharing_settings = new Module_Sharing_Settings( $this->options );
-		$this->user_options     = $user_options ?: new User_Options( $this->context );
-		$this->authentication   = $authentication ?: new Authentication( $this->context, $this->options, $this->user_options );
-		$this->assets           = $assets ?: new Assets( $this->context );
+		$this->context              = $context;
+		$this->options              = $options ?: new Options( $this->context );
+		$this->sharing_settings     = new Module_Sharing_Settings( $this->options );
+		$this->user_options         = $user_options ?: new User_Options( $this->context );
+		$this->authentication       = $authentication ?: new Authentication( $this->context, $this->options, $this->user_options );
+		$this->assets               = $assets ?: new Assets( $this->context );
+		$this->disconnected_modules = new Disconnected_Modules( $this->options );
 
 		$this->rest_controller              = new REST_Modules_Controller( $this );
 		$this->dashboard_sharing_controller = new REST_Dashboard_Sharing_Controller( $this );
@@ -309,7 +318,7 @@ final class Modules implements Provides_Feature_Metrics {
 
 							if ( ! $module instanceof Module_With_Service_Entity ) {
 								// If the option was just added, set the ownerID directly and bail.
-								if ( empty( $old_values ) ) {
+								if ( empty( $old_values ) && $module instanceof Module_With_Settings ) {
 									$module->get_settings()->merge(
 										array(
 											'ownerID' => get_current_user_id(),
@@ -348,7 +357,7 @@ final class Modules implements Provides_Feature_Metrics {
 									);
 								}
 
-								if ( $changed_settings ) {
+								if ( $changed_settings && $module instanceof Module_With_Settings ) {
 									$module->get_settings()->merge(
 										array(
 											'ownerID' => get_current_user_id(),
@@ -423,7 +432,7 @@ final class Modules implements Provides_Feature_Metrics {
 	 * @since 1.0.0
 	 * @since 1.85.0 Filter out modules which are missing any of the dependencies specified in `depends_on`.
 	 *
-	 * @return array Available modules as $slug => $module pairs.
+	 * @return Module[] Available modules as $slug => $module pairs.
 	 */
 	public function get_available_modules() {
 		if ( empty( $this->modules ) ) {
@@ -494,6 +503,21 @@ final class Modules implements Provides_Feature_Metrics {
 				return $module->force_active || in_array( $module->slug, $option, true );
 			}
 		);
+	}
+
+	/**
+	 * Resets runtime caches for authentication and module clients.
+	 *
+	 * Recreate authentication and clear the module registry arrays so subsequent
+	 * module lookups build fresh instances bound to the current user context.
+	 *
+	 * @since 1.175.0
+	 */
+	public function reset_runtime_caches() {
+		$this->authentication = new Authentication( $this->context, $this->options, $this->user_options );
+		$this->modules        = array();
+		$this->dependencies   = array();
+		$this->dependants     = array();
 	}
 
 	/**
@@ -627,6 +651,21 @@ final class Modules implements Provides_Feature_Metrics {
 	}
 
 	/**
+	 * Checks whether the module identified by the given slug is disconnected
+	 * and returns the timestamp of disconnection.
+	 *
+	 * @since 1.172.0
+	 *
+	 * @param string $slug Unique module slug.
+	 * @return null|int Null if module is not disconnected, timestamp of disconnection otherwise.
+	 */
+	public function get_module_disconnected_at( $slug ) {
+		$disconnected_modules = $this->disconnected_modules->get();
+
+		return isset( $disconnected_modules[ $slug ] ) ? $disconnected_modules[ $slug ] : null;
+	}
+
+	/**
 	 * Checks whether the module identified by the given slug is shareable.
 	 *
 	 * @since 1.105.0
@@ -664,6 +703,8 @@ final class Modules implements Provides_Feature_Metrics {
 		$option[] = $slug;
 
 		$this->set_active_modules_option( $option );
+
+		$this->disconnected_modules->remove( $slug );
 
 		if ( $module instanceof Module_With_Activation ) {
 			$module->on_activation();
@@ -721,6 +762,8 @@ final class Modules implements Provides_Feature_Metrics {
 		}
 
 		$this->sharing_settings->unset_module( $slug );
+
+		$this->disconnected_modules->add( $slug );
 
 		return true;
 	}

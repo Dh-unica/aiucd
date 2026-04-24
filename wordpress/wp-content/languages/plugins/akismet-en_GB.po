@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Akismet Anti-spam: Spam Protection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-11-12 16:50:48+0000\n"
+"PO-Revision-Date: 2026-04-20 20:25:14+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -50,6 +50,111 @@ msgstr "Machine learning accuracy"
 #: views/setup.php:16
 msgid "Protect your site from comment spam and contact form spam — automatically."
 msgstr "Protect your site from comment spam and contact form spam — automatically."
+
+#. translators: The placeholder is a URL.
+#: views/setup-jetpack.php:83
+msgid "Want to use a different account? <a href=\"%s\" class=\"akismet-external-link\">Visit akismet.com</a> to set it up and get your API key."
+msgstr "Want to use a different account? <a href=\"%s\" class=\"akismet-external-link\">Visit akismet.com</a> to set it up and get your API key."
+
+#: views/setup-jetpack.php:73
+msgid "By connecting, we'll use your Jetpack account to activate Akismet on this site."
+msgstr "By connecting, we'll use your Jetpack account to activate Akismet on this site."
+
+#: views/setup-jetpack.php:62
+msgid "Contact support"
+msgstr "Contact support"
+
+#: views/setup-jetpack.php:58
+msgid "Your Akismet account appears to be suspended. This sometimes happens if there's a billing or verification issue. Please contact our support team so we can help you get it sorted."
+msgstr "Your Akismet account appears to be suspended. This sometimes happens if there's a billing or verification issue. Please contact our support team so we can help you get it sorted."
+
+#: views/setup-jetpack.php:49
+msgid "Choose a plan on Akismet.com"
+msgstr "Choose a plan on Akismet.com"
+
+#: views/setup-jetpack.php:45
+msgid "Your Jetpack account is connected, but it doesn't have an active Akismet subscription yet. To continue, please choose a plan on Akismet.com."
+msgstr "Your Jetpack account is connected, but it doesn't have an active Akismet subscription yet. To continue, please choose a plan on Akismet.com."
+
+#. translators: %s is the WordPress.com username
+#: views/setup-jetpack.php:31
+msgid "Signed in as %s"
+msgstr "Signed in as %s"
+
+#: views/notice.php:364
+msgid "Increase your limit"
+msgstr "Increase your limit"
+
+#. translators: The placeholder is the name of an Akismet subscription plan,
+#. like "Akismet Pro" or "Akismet Business" .
+#: views/notice.php:359
+msgid "Add an %s subscription"
+msgstr "Add an %s subscription"
+
+#: views/notice.php:317
+msgid "Your Akismet usage has been over your plan&#8217;s limit for two consecutive months. Next month, we will restrict your account after you reach the limit. Increase your limit to make sure your site stays protected from spam."
+msgstr "Your Akismet usage has been over your plan&#8217;s limit for two consecutive months. Next month, we will restrict your account after you reach the limit. Increase your limit to make sure your site stays protected from spam."
+
+#. translators: The placeholder is a URL to the Akismet contact form.
+#: views/notice.php:247
+msgid "Please enter a new key or <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">contact Akismet support</a>"
+msgstr "Please enter a new key or <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">contact Akismet support</a>"
+
+#: views/notice.php:201 views/setup-jetpack.php:53
+msgid "Once you've chosen a plan, return here to complete your setup."
+msgstr "Once you've chosen a plan, return here to complete your setup."
+
+#. translators: the placeholder is the URL to the Akismet pricing page.
+#: views/notice.php:198
+msgid "Please <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">choose a free or paid plan</a> so Akismet can protect your site from spam."
+msgstr "Please <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">choose a free or paid plan</a> so Akismet can protect your site from spam."
+
+#. translators: the placeholder is a clickable URL to the Akismet account
+#. upgrade page.
+#: views/notice.php:176
+msgid "You can help us fight spam and upgrade your account by <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">contributing a token amount</a>"
+msgstr "You can help us fight spam and upgrade your account by <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">contributing a token amount</a>"
+
+#. translators: The placeholder is a URL.
+#. translators: The placeholder is a URL to the Akismet contact form.
+#: views/notice.php:165 views/notice.php:187
+msgid "Please contact <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">Akismet support</a> for assistance."
+msgstr "Please contact <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">Akismet support</a> for assistance."
+
+#. translators: The placeholder is a URL.
+#: views/notice.php:154
+msgid "Please visit <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">Akismet.com</a> to purchase a new subscription."
+msgstr "Please visit <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">Akismet.com</a> to purchase a new subscription."
+
+#. translators: The placeholder is a URL.
+#: views/notice.php:143
+msgid "We cannot process your payment. Please <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">update your payment details</a>"
+msgstr "We cannot process your payment. Please <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">update your payment details</a>"
+
+#. translators: The placeholder is a URL.
+#: views/notice.php:121
+msgid "Please contact your web host or firewall administrator and give them <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">this information about Akismet&#8217;s system requirements</a>"
+msgstr "Please contact your web host or firewall administrator and give them <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">this information about Akismet&#8217;s system requirements</a>"
+
+#: views/notice.php:115
+msgid "Your web host or server administrator has disabled PHP&#8217;s <code>gethostbynamel</code> function."
+msgstr "Your web host or server administrator has disabled PHP&#8217;s <code>gethostbynamel</code> function."
+
+#. translators: the placeholder is a clickable URL that leads to more
+#. information regarding an error code.
+#: views/notice.php:93
+msgid "For more information, see the <a class=\"akismet-external-link\" href=\"%s\">error documentation on akismet.com</a>"
+msgstr "For more information, see the <a class=\"akismet-external-link\" href=\"%s\">error documentation on Akismet.com</a>"
+
+#. translators: The placeholder is a URL to the contact form.
+#: views/notice.php:64
+msgid "If you believe your site should not be classified as commercial, <a class=\"akismet-external-link\" href=\"%s\">please get in touch</a>"
+msgstr "If you believe your site should not be classified as commercial, <a class=\"akismet-external-link\" href=\"%s\">please get in touch</a>"
+
+#. translators: The placeholder is a URL.
+#: views/notice.php:58
+msgid "Your current subscription is for <a class=\"akismet-external-link\" href=\"%s\">personal, non-commercial use</a>. Please upgrade your plan to continue using Akismet."
+msgstr "Your current subscription is for <a class=\"akismet-external-link\" href=\"%s\">personal, non-commercial use</a>. Please upgrade your plan to continue using Akismet."
 
 #: class.akismet-admin.php:718
 msgid "Akismet provisionally cleared this comment."
@@ -235,11 +340,24 @@ msgstr "(opens in a new tab)"
 msgid "Upgrade to %s"
 msgstr "Upgrade to %s"
 
+#: views/notice.php:312 views/notice.php:320 views/notice.php:328
+#: views/notice.php:337
+msgid "Learn more about usage limits"
+msgstr "Learn more about usage limits"
+
 #. translators: The first placeholder is a date, the second is a (formatted)
 #. number, the third is another formatted number.
 #: views/notice.php:304
 msgid "Since %1$s, your account made %2$s API calls, compared to your plan&#8217;s limit of %3$s."
 msgstr "Since %1$s, your account made %2$s API calls, compared to your plan&#8217;s limit of %3$s."
+
+#: views/notice.php:334
+msgid "Your Akismet usage has been over your plan&#8217;s limit for three consecutive months. We have restricted your account for the rest of the month. Increase your limit to make sure your site stays protected from spam."
+msgstr "Your Akismet usage has been over your plan&#8217;s limit for three consecutive months. We have restricted your account for the rest of the month. Increase your limit to make sure your site stays protected from spam."
+
+#: views/notice.php:325
+msgid "Your Akismet usage is nearing your plan&#8217;s limit for the third consecutive month. We will restrict your account after you reach the limit. Increase your limit to make sure your site stays protected from spam."
+msgstr "Your Akismet usage is nearing your plan&#8217;s limit for the third consecutive month. We will restrict your account after you reach the limit. Increase your limit to make sure your site stays protected from spam."
 
 #: views/notice.php:291
 msgid "Your account has been restricted"
@@ -552,6 +670,11 @@ msgstr[1] "Akismet has saved you %s days!"
 msgid "Akismet filters out spam, so you can focus on more important things."
 msgstr "Akismet filters out spam, so you can focus on more important things."
 
+#. translators: The placeholder is a URL.
+#: views/notice.php:264
+msgid "The connection to akismet.com could not be established. Please refer to <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">our guide about firewalls</a> and check your server configuration."
+msgstr "The connection to Akismet.com could not be established. Please refer to <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">our guide about firewalls</a> and check your server configuration."
+
 #: views/notice.php:258
 msgid "The API key you entered could not be verified."
 msgstr "The API key you entered could not be verified."
@@ -617,6 +740,11 @@ msgstr "The key you entered is invalid. Please double-check it."
 #: views/notice.php:183
 msgid "There is a problem with your API key."
 msgstr "There is a problem with your API key."
+
+#. translators: The placeholder is a URL.
+#: views/notice.php:132
+msgid "Your firewall may be blocking Akismet from connecting to its API. Please contact your host and refer to <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">our guide about firewalls</a>"
+msgstr "Your firewall may be blocking Akismet from connecting to its API. Please contact your host and refer to <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">our guide about firewalls</a>"
 
 #: views/notice.php:112
 msgid "Network functions are disabled."

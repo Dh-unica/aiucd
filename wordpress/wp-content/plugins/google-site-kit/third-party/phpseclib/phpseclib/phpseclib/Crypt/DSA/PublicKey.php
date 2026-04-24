@@ -18,7 +18,7 @@ use Google\Site_Kit_Dependencies\phpseclib3\Crypt\DSA\Formats\Signature\ASN1 as 
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\DSA implements \Google\Site_Kit_Dependencies\phpseclib3\Crypt\Common\PublicKey
+final class PublicKey extends DSA implements Common\PublicKey
 {
     use Common\Traits\Fingerprint;
     /**
@@ -33,13 +33,14 @@ final class PublicKey extends \Google\Site_Kit_Dependencies\phpseclib3\Crypt\DSA
     {
         $format = $this->sigFormat;
         $params = $format::load($signature);
-        if ($params === \false || \count($params) != 2) {
+        if ($params === \false || count($params) != 2) {
             return \false;
         }
-        \extract($params);
-        if (self::$engines['OpenSSL'] && \in_array($this->hash->getHash(), \openssl_get_md_methods())) {
-            $sig = $format != 'ASN1' ? \Google\Site_Kit_Dependencies\phpseclib3\Crypt\DSA\Formats\Signature\ASN1::save($r, $s) : $signature;
-            $result = \openssl_verify($message, $sig, $this->toString('PKCS8'), $this->hash->getHash());
+        $r = $params['r'];
+        $s = $params['s'];
+        if (self::$engines['OpenSSL'] && in_array($this->hash->getHash(), openssl_get_md_methods())) {
+            $sig = $format != 'ASN1' ? ASN1Signature::save($r, $s) : $signature;
+            $result = openssl_verify($message, $sig, $this->toString('PKCS8'), $this->hash->getHash());
             if ($result != -1) {
                 return (bool) $result;
             }
