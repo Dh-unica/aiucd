@@ -57,18 +57,20 @@ class Nav_Menus extends Abstract_Option {
 			return array();
 		}
 
-		$fields = array();
+		$parts = array();
 		foreach ( $nav_menus[ $current_theme ] as $location => $lang ) {
-			$fields[ $location ]['label'] = sprintf( 'menu: %s', $location );
-
 			if ( empty( $lang ) ) {
-				/* translators: default value when a menu location is not used. */
-				$fields[ $location ]['value'] = __( 'Not used', 'polylang' );
+				$parts[] = sprintf( '%1$s: %2$s', $location, __( 'Not used', 'polylang' ) );
 			} else {
-				$fields[ $location ]['value'] = $this->format_array_for_site_health_info( $lang );
+				$parts[] = sprintf(
+					'%1$s: %2$s',
+					$location,
+					$this->format_array_for_site_health_info( $lang )
+				);
 			}
 		}
-		return $fields;
+
+		return $this->format_single_value_for_site_health_info( implode( ' | ', $parts ) );
 	}
 
 	/**
