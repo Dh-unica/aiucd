@@ -1,0 +1,334 @@
+/* =========================================================
+   AIUCD 2026 Companion — tab Mappa (Campus Sa Duchessa)
+   ========================================================= */
+
+.mappa-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-md);
+  align-items: start;
+}
+@media (max-width: 980px) {
+  .mappa-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mappa-canvas {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-sm);
+}
+
+/* =========================================================
+   CTA "Come arrivare alla sede" sotto il titolo
+   ========================================================= */
+
+.venue-directions-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: var(--space-sm);
+  padding: 10px 18px;
+  background: var(--navy);
+  color: var(--paper);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
+}
+.venue-directions-btn:hover {
+  background: var(--navy-deep);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.venue-directions-btn:focus-visible {
+  outline: 3px solid var(--rust);
+  outline-offset: 2px;
+}
+.venue-directions-btn .icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* =========================================================
+   Tabs piani (Primo piano / Piano terra)
+   ========================================================= */
+
+.mappa-floors-tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--line-soft);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+}
+.mappa-floor-tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted-2);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.mappa-floor-tab:hover { color: var(--ink); }
+.mappa-floor-tab[aria-selected="true"] {
+  background: var(--paper);
+  color: var(--navy);
+  box-shadow: var(--shadow-sm);
+}
+
+/* =========================================================
+   Stage immagine piano + marker overlay
+   ========================================================= */
+
+.mappa-floor-figure {
+  margin: 0;
+}
+.mappa-floor-canvas {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--base);
+  border: 1px solid var(--line);
+}
+.mappa-floor-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.mappa-floor-caption {
+  margin-top: var(--space-sm);
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.mappa-markers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Marker = bottone trasparente posizionato sull'aula reale, con etichetta
+   "compatta" che mostra il nome e lo stato live tramite data-state. */
+.room-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  appearance: none;
+  border: 2px solid var(--navy);
+  background: rgba(0, 0, 96, 0.10);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px;
+  color: var(--navy);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: background var(--t-base), border-color var(--t-base),
+              transform var(--t-fast), box-shadow var(--t-base);
+}
+.room-marker:hover {
+  transform: translate(-50%, -50%) scale(1.04);
+  box-shadow: var(--shadow-md);
+}
+.room-marker:focus-visible {
+  outline: 3px solid var(--rust);
+  outline-offset: 2px;
+}
+.room-marker-name {
+  font-family: "Cardo", serif;
+  font-size: clamp(11px, 1.6vw, 18px);
+  line-height: 1;
+}
+.room-marker-tag {
+  font-size: clamp(8px, 1vw, 10px);
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+/* room state colors (marker fill + border) */
+.room-marker[data-state="live"] {
+  background: rgba(216, 97, 60, 0.85);
+  border-color: var(--rust-dark);
+  color: #fff;
+  animation: room-pulse 2.4s infinite ease-in-out;
+}
+.room-marker[data-state="discussion"] {
+  background: rgba(31, 138, 112, 0.78);
+  border-color: #15604d;
+  color: #fff;
+}
+.room-marker[data-state="break"] {
+  background: rgba(194, 169, 144, 0.85);
+  border-color: #a48b6f;
+  color: var(--ink);
+}
+.room-marker[data-state="upcoming"] {
+  background: rgba(0, 0, 96, 0.55);
+  border-color: var(--navy-deep);
+  color: #fff;
+}
+.room-marker[data-state="finished"] {
+  background: rgba(0, 0, 96, 0.30);
+  border-color: var(--navy-deep);
+  color: #fff;
+}
+.room-marker[data-state="closed"] {
+  background: rgba(0, 0, 96, 0.10);
+  border-color: var(--navy);
+  color: var(--navy);
+}
+
+@keyframes room-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(216, 97, 60, 0); }
+  50%      { box-shadow: 0 0 0 6px rgba(216, 97, 60, 0.35); }
+}
+
+.room-marker.selected {
+  outline: 3px solid var(--navy);
+  outline-offset: 2px;
+}
+
+/* Legenda sotto la mappa */
+.mappa-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--line);
+}
+.mappa-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+.mappa-legend-item .dot {
+  width: 14px; height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.mappa-legend-item .dot.live { background: var(--rust); }
+.mappa-legend-item .dot.discussion { background: var(--c-memories); }
+.mappa-legend-item .dot.break { background: var(--sand); }
+.mappa-legend-item .dot.upcoming { background: var(--navy); opacity: 0.6; }
+.mappa-legend-item .dot.finished { background: var(--navy); opacity: 0.35; }
+
+/* Side panel */
+.mappa-side {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 156px;
+}
+.mappa-side .empty {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-style: italic;
+}
+.mappa-side .room-title {
+  font-family: "Cardo", serif;
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.mappa-side .room-state-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-sm);
+}
+.mappa-side[data-state="live"] .room-state-badge {
+  background: rgba(216, 97, 60, 0.15);
+  color: var(--rust-dark);
+}
+.mappa-side[data-state="live"] .room-state-badge::before {
+  content: ""; width: 8px; height: 8px;
+  background: var(--rust); border-radius: 50%;
+  animation: live-pulse 1.4s infinite ease-in-out;
+}
+.mappa-side[data-state="break"] .room-state-badge { background: rgba(194,169,144,0.3); color: var(--rust-dark); }
+.mappa-side[data-state="discussion"] .room-state-badge { background: rgba(177,197,164,0.4); color: #2d5a3a; }
+.mappa-side[data-state="upcoming"] .room-state-badge,
+.mappa-side[data-state="finished"] .room-state-badge { background: var(--line-soft); color: var(--muted-2); }
+
+.mappa-side .talk-now-block {
+  background: var(--base);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-sm);
+  cursor: pointer;
+  transition: background var(--t-fast);
+}
+.mappa-side .talk-now-block:hover { background: var(--line-soft); }
+.mappa-side .talk-now-block .when {
+  font-family: "Cardo", serif;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+.mappa-side .talk-now-block .what {
+  font-size: var(--fs-sm);
+  line-height: 1.35;
+  margin-top: 2px;
+}
+.mappa-side .talk-now-block .who {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.mappa-side h4 {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  font-weight: 700;
+  margin: var(--space-md) 0 var(--space-sm);
+}
+
+.mappa-tip {
+  background: var(--accent);
+  border-left: 3px solid var(--rust);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: var(--fs-xs);
+  color: var(--ink);
+  margin-top: var(--space-sm);
+  line-height: 1.45;
+}

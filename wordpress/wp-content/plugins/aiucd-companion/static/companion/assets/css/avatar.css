@@ -1,0 +1,452 @@
+/* =========================================================
+   AIUCD 2026 Companion — Avatar guida "Noa" (Sprint B1)
+   Bolla riusabile: heading + testo, opzionale "×" di dismiss.
+   Linkata DOPO glyphs.css perché riusa .glyph come base.
+   ========================================================= */
+
+.noa-bubble {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--rust);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0 0 var(--space-md) 0;
+}
+
+.noa-bubble-glyph {
+  width: 32px;
+  height: 32px;
+  color: var(--rust);
+  flex-shrink: 0;
+  /* Allinea visivamente con la prima riga di testo */
+  margin-top: 2px;
+}
+
+.noa-bubble-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.noa-bubble-heading {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rust-dark);
+  margin-bottom: 4px;
+}
+
+.noa-bubble-text {
+  color: var(--ink);
+}
+
+.noa-bubble-text strong {
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.noa-bubble-action {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--muted-2);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: background var(--t-fast), color var(--t-fast);
+  min-height: 32px;
+  min-width: 32px;
+}
+.noa-bubble-action:hover {
+  background: var(--line-soft);
+  color: var(--ink);
+}
+
+/* --- Variante onboarding: più larga, vicino al CTA percorsi ---------- */
+.noa-bubble--onboarding {
+  background: linear-gradient(180deg, #fff 0%, var(--line-soft) 100%);
+  border-left-width: 4px;
+  padding-right: 48px; /* spazio per la "×" */
+  margin-top: var(--space-md);
+}
+.noa-bubble--onboarding .noa-bubble-glyph {
+  width: 40px;
+  height: 40px;
+}
+
+/* --- Variante gap-tip nel programma --------------------------------- */
+.noa-bubble--programma-gap {
+  background: var(--paper);
+  border-left-color: var(--c-data);
+  margin-bottom: var(--space-md);
+}
+.noa-bubble--programma-gap .noa-bubble-heading {
+  color: var(--c-data);
+}
+.noa-bubble--programma-gap .noa-bubble-glyph {
+  color: var(--c-data);
+}
+
+/* --- Variante path-intro (sobria, riusabile) ------------------------ */
+.noa-bubble--path-intro {
+  border-left-color: var(--c-memories);
+}
+.noa-bubble--path-intro .noa-bubble-heading,
+.noa-bubble--path-intro .noa-bubble-glyph {
+  color: var(--c-memories);
+}
+
+/* --- Variante empty-state --------------------------------------------*/
+.noa-bubble--empty-state {
+  border-left-color: var(--muted-2);
+  background: var(--line-soft);
+}
+
+/* --- Mobile: stack ---------------------------------------------------*/
+@media (max-width: 480px) {
+  .noa-bubble {
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+  }
+  .noa-bubble-glyph {
+    margin-top: 0;
+  }
+  .noa-bubble--onboarding {
+    padding-right: var(--space-md);
+  }
+  .noa-bubble-action {
+    top: 4px;
+    right: 4px;
+  }
+}
+
+/* =========================================================
+   Noa FAB + drawer (Sprint B1 iter 2, 2026-05-10)
+   FAB sempre visibile in basso a destra. Drawer sul lato sinistro
+   (specchio del .agenda-drawer); su mobile diventa bottom-sheet.
+   ========================================================= */
+
+.noa-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--rust);
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(216, 97, 60, 0.35), 0 2px 6px rgba(0, 0, 0, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10500; /* sopra tab/topbar (49/50), sotto drawer/overlay (11000) */
+  transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s;
+}
+.noa-fab:hover {
+  transform: scale(1.06);
+  box-shadow: 0 12px 28px rgba(216, 97, 60, 0.45), 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.noa-fab:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 3px;
+}
+.noa-fab .glyph {
+  width: 30px;
+  height: 30px;
+  color: #fff;
+}
+.noa-fab-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border: 2px solid var(--rust);
+  border-radius: 50%;
+  font-size: 0;
+}
+
+/* Mobile: il FAB si solleva sopra al bottom-tab */
+@media (max-width: 767px) {
+  .noa-fab {
+    right: 14px;
+    bottom: calc(56px + env(safe-area-inset-bottom) + 14px);
+    width: 52px;
+    height: 52px;
+  }
+}
+
+/* Drawer (specchio dell'agenda-drawer, ma sul lato SINISTRO) */
+.noa-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(440px, 100vw);
+  max-width: 100%;
+  background: var(--paper);
+  box-shadow: 6px 0 24px rgba(0, 0, 0, 0.18);
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 11000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.noa-drawer[data-open="true"] {
+  transform: translateX(0);
+}
+.noa-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 10999;
+}
+.noa-drawer-backdrop[data-open="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Mobile: bottom-sheet */
+@media (max-width: 767px) {
+  .noa-drawer {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 85vh;
+    transform: translateY(100%);
+    border-radius: 16px 16px 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .noa-drawer[data-open="true"] {
+    transform: translateY(0);
+  }
+}
+
+.noa-drawer-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.noa-drawer-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px 18px 14px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(216, 97, 60, 0.05), transparent);
+}
+.noa-drawer-avatar {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(216, 97, 60, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rust);
+}
+.noa-drawer-headtext {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.noa-drawer-headtext h2 {
+  font-family: "Cardo", serif;
+  font-size: 22px;
+  margin: 0 0 4px;
+  color: var(--navy);
+}
+.noa-drawer-headtext p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.noa-drawer .drawer-close {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.noa-drawer .drawer-close:hover { background: var(--line-soft); color: var(--navy); }
+.noa-drawer .drawer-close .icon { width: 16px; height: 16px; }
+
+.noa-drawer-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.noa-section h3 {
+  font-family: "Cardo", serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--navy);
+}
+.noa-section p {
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.noa-section--context {
+  background: rgba(216, 97, 60, 0.06);
+  border-left: 3px solid var(--rust);
+  padding: 12px 14px;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Path tiles grid */
+.noa-paths-group {
+  margin-top: 10px;
+}
+.noa-paths-group h4 {
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+.noa-paths-count {
+  color: var(--muted-2);
+  font-weight: 500;
+}
+.noa-paths-tiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+.noa-path-tile {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s;
+}
+.noa-path-tile:hover {
+  border-color: var(--rust);
+  background: rgba(216, 97, 60, 0.04);
+}
+.noa-path-tile-id {
+  font-family: "Cardo", serif;
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.noa-path-tile-name {
+  flex: 1 1 auto;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.noa-path-tile-meta {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--muted-2);
+}
+
+/* Suggestions list */
+.noa-suggestions-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.noa-suggestions-list li { margin-bottom: 4px; }
+.noa-suggestions-list .icon { color: var(--rust); }
+
+/* CTA buttons */
+.noa-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--navy);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.noa-cta-btn:hover {
+  background: var(--rust);
+}
+.noa-cta-btn--ghost {
+  background: transparent;
+  color: var(--navy);
+  border: 1px solid var(--line);
+}
+.noa-cta-btn--ghost:hover {
+  background: var(--line-soft);
+  color: var(--navy);
+}
+.noa-cta-btn .icon { width: 14px; height: 14px; }
+
+/* Footer */
+.noa-drawer-foot {
+  border-top: 1px solid var(--line);
+  padding: 10px 18px;
+  display: flex;
+  justify-content: flex-end;
+}
+.noa-link {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: underline;
+  padding: 4px 6px;
+}
+.noa-link:hover { color: var(--rust); }

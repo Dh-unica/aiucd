@@ -1,0 +1,786 @@
+/* =========================================================
+   AIUCD 2026 Companion — tab Catalogo
+   Porting del mockup_catalogo.html con mappa Leaflet hero,
+   overlay testuale, search bar, pannello filtri, cards.
+   ========================================================= */
+
+/* =============== MAP HERO (full-bleed + overlay) =============== */
+.cat-host {
+  /* Wrapper di tutta la sezione catalogo */
+}
+
+.cat-host .map-hero {
+  position: relative;
+  /* Crea uno stacking context isolato: i pannelli interni (.map-overlay,
+     .filters) hanno z-index 1000 ma NON devono sovrastare topbar (50) e
+     tab-nav (49) durante lo scroll. Con `isolation: isolate` lo stacking
+     dei figli è confinato a questo contenitore. */
+  isolation: isolate;
+  /* Full-bleed: esce dai limiti di `<main>` (max-width 1440) e occupa tutta
+     la larghezza del viewport. Trick: 100vw + offset negativo per
+     centrarsi rispetto al genitore. */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  height: 600px;
+  background: var(--navy);
+  overflow: hidden;
+  margin-bottom: var(--space-lg);
+}
+
+.cat-host #cat-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.cat-host .map-overlay {
+  position: absolute;
+  top: 24px; right: 24px;
+  width: clamp(280px, 28%, 360px);
+  max-width: calc(100% - 48px);
+  background: var(--navy);
+  color: #fff;
+  border-radius: 16px;
+  padding: 22px 24px;
+  z-index: 1000;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  transition: padding 0.25s ease, max-width 0.25s ease;
+}
+.cat-host .map-overlay::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(ellipse at top right, rgba(216,97,60,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom left, rgba(31,138,112,0.18) 0%, transparent 55%);
+  pointer-events: none;
+}
+.cat-host .map-overlay-inner { position: relative; z-index: 2; }
+
+/* Stato collassato dell'overlay descrizione (toggle via .panels-control nel
+   .map-bottom-controls). Diventa una pillola compatta con label sintetica. */
+.cat-host .map-overlay.collapsed {
+  width: auto;
+  max-width: 260px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+}
+.cat-host .map-overlay.collapsed .map-overlay-inner { display: none; }
+.cat-host .map-overlay.collapsed::before {
+  content: "Esplora i contributi sulla mappa";
+  position: relative;
+  color: rgba(255, 255, 255, 0.92);
+  background: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  inset: auto;
+  z-index: 3;
+}
+.cat-host .map-overlay .eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #fff;
+  padding: 5px 11px; border-radius: 999px;
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.cat-host .map-overlay .eyebrow::before {
+  content: ""; width: 7px; height: 7px;
+  background: var(--rust); border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(216,97,60,0.25);
+}
+.cat-host .map-overlay h1 {
+  font-size: 21px;
+  line-height: 1.2;
+  color: #fff;
+  margin: 0 0 8px;
+  font-family: "Cardo", serif;
+  font-weight: 700;
+}
+.cat-host .map-overlay h1 em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+.cat-host .map-overlay .lead {
+  font-size: 12.5px;
+  line-height: 1.5;
+  opacity: 0.88;
+  margin: 0 0 14px;
+  color: rgba(255,255,255,0.95);
+}
+.cat-host .map-overlay .stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+.cat-host .map-overlay .stat {
+  display: flex; flex-direction: column;
+  text-align: center;
+}
+.cat-host .map-overlay .stat .num {
+  font-family: "Cardo", serif;
+  font-size: 22px; font-weight: 700; line-height: 1;
+  color: #fff;
+}
+.cat-host .map-overlay .stat .lbl {
+  font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); margin-top: 4px;
+  line-height: 1.2;
+}
+
+/* =============== SEARCH BAR =============== */
+.cat-host .search-bar.map-search {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(240px, 30%, 460px);
+  z-index: 1000;
+}
+.cat-host .search-bar { position: relative; }
+.cat-host .search-bar input {
+  width: 100%;
+  padding: 14px 18px 14px 50px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  border: 2px solid var(--navy);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.97);
+  color: var(--ink);
+  box-shadow: 0 6px 20px rgba(0, 0, 96, 0.18);
+  outline: none;
+  transition: box-shadow 0.15s, border-color 0.15s, background 0.15s;
+  backdrop-filter: blur(6px);
+}
+.cat-host .search-bar input::placeholder { color: #777; font-weight: 400; }
+.cat-host .search-bar input:focus {
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(216,97,60,0.4), 0 8px 26px rgba(0, 0, 96, 0.24);
+}
+.cat-host .search-bar::before {
+  content: "";
+  position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+  width: 20px; height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000060' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+  background-size: contain; background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* =============== MARKER & POPUP =============== */
+.cat-host .institution-marker {
+  background: transparent !important;
+  border: none !important;
+}
+.cat-host .marker-bubble {
+  position: relative;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  font-family: "Inter", sans-serif;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,96,0.4);
+  border: 2.5px solid #fff;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+.cat-host .marker-bubble:hover { transform: scale(1.1); }
+.cat-host .marker-bubble.size-1 { width: 28px; height: 28px; font-size: 11px; }
+.cat-host .marker-bubble.size-2 { width: 36px; height: 36px; font-size: 12px; }
+.cat-host .marker-bubble.size-3 { width: 46px; height: 46px; font-size: 14px; }
+.cat-host .marker-bubble.size-4 { width: 58px; height: 58px; font-size: 16px; }
+
+.leaflet-popup-content-wrapper {
+  border-radius: 14px !important;
+  box-shadow: var(--shadow-lg) !important;
+  padding: 0 !important;
+  background: #fff !important;
+}
+.leaflet-popup-tip { background: #fff !important; }
+.leaflet-popup-content { margin: 0 !important; min-width: 260px; max-width: 340px; }
+.leaflet-popup-close-button {
+  color: var(--navy) !important;
+  font-size: 22px !important;
+  padding: 8px 10px !important;
+}
+.cat-host .pop {
+  font-family: "Inter", sans-serif;
+}
+.cat-host .pop-head {
+  background: var(--navy);
+  color: #fff;
+  padding: 12px 16px 10px;
+  border-radius: 14px 14px 0 0;
+}
+.cat-host .pop-head h3 {
+  color: #fff; font-family: "Cardo", serif;
+  font-size: 15px; margin: 0; line-height: 1.3;
+}
+.cat-host .pop-head .pop-city {
+  font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent); margin-top: 2px;
+}
+.cat-host .pop-stats {
+  display: flex; gap: 14px;
+  padding: 8px 16px;
+  background: var(--accent);
+  color: var(--navy);
+  font-size: 12px;
+}
+.cat-host .pop-stats span { padding: 4px 0; font-weight: 600; }
+.cat-host .pop-stats span strong { font-size: 14px; font-weight: 700; }
+.cat-host .pop-papers {
+  max-height: 230px; overflow-y: auto;
+  padding: 10px 16px 14px;
+}
+.cat-host .pop-paper {
+  padding: 7px 0; border-bottom: 1px solid var(--line);
+  font-size: 12.5px; line-height: 1.4;
+  cursor: pointer;
+}
+.cat-host .pop-paper:last-child { border-bottom: none; }
+.cat-host .pop-paper:hover { color: var(--rust); }
+.cat-host .pop-paper .pp-mode {
+  display: inline-block;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 6px; border-radius: 4px;
+  margin-right: 6px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.cat-host .pop-paper .pp-mode.oral   { background: #e0e0f4; color: var(--navy); }
+.cat-host .pop-paper .pp-mode.poster { background: #fde4d6; color: var(--rust-dark); }
+.cat-host .pop-paper .pp-title { color: var(--ink); font-weight: 500; }
+
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background-color: rgba(0, 0, 96, 0.18) !important;
+}
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background-color: var(--navy) !important;
+  color: #fff !important;
+  font-family: "Inter", sans-serif !important;
+  font-weight: 700 !important;
+  border: 2.5px solid #fff;
+  box-shadow: 0 4px 12px rgba(0,0,96,0.4);
+}
+
+/* =============== MAP CONTROLS (Italia/Europa/Tutte) =============== */
+.cat-host .map-bottom-controls {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  gap: 10px;
+}
+.cat-host .map-actions {
+  display: flex; gap: 4px;
+  background: rgba(255,255,255,0.95);
+  padding: 4px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(6px);
+}
+.cat-host .map-actions button {
+  padding: 8px 14px; font-size: 12px;
+  background: transparent; border: none; border-radius: 8px;
+  color: var(--navy); cursor: pointer;
+  font-weight: 600; letter-spacing: 0.04em;
+  font-family: "Inter", sans-serif;
+  transition: background 0.15s;
+}
+.cat-host .map-actions button:hover { background: var(--accent); }
+.cat-host .map-actions button.active {
+  background: var(--navy);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Bottone unificato espandi/comprimi entrambi i pannelli (overlay + filtri).
+   Replica del componente "panels-control" del mockup. */
+.cat-host .panels-control {
+  display: inline-flex;
+  align-items: center; gap: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  padding: 9px 14px;
+  border-radius: 12px;
+  color: var(--navy);
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(6px);
+  transition: background 0.15s, color 0.15s;
+}
+.cat-host .panels-control:hover {
+  background: var(--navy);
+  color: #fff;
+}
+.cat-host .panels-control .pc-icon {
+  width: 16px; height: 16px;
+  flex-shrink: 0;
+}
+.cat-host .panels-control .pc-icon-expand { display: none; }
+.cat-host .panels-control.all-collapsed .pc-icon-compress { display: none; }
+.cat-host .panels-control.all-collapsed .pc-icon-expand { display: inline-block; }
+
+/* =============== LEGENDA COLORI MARKER (collassabile) =============== */
+.cat-host .map-legend {
+  position: absolute;
+  bottom: 28px; right: 12px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(6px);
+  overflow: hidden;
+  max-width: 280px;
+  font-family: "Inter", sans-serif;
+}
+.cat-host .map-legend-toggle {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--navy);
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.cat-host .map-legend-toggle svg {
+  width: 14px; height: 14px;
+  flex-shrink: 0;
+}
+.cat-host .map-legend-toggle .ml-label { flex: 1 1 auto; text-align: left; }
+.cat-host .map-legend-toggle .ml-chevron { transition: transform 0.25s ease; }
+.cat-host .map-legend.open .map-legend-toggle .ml-chevron { transform: rotate(180deg); }
+.cat-host .map-legend-body {
+  display: none;
+  padding: 4px 14px 14px;
+  border-top: 1px solid var(--line);
+}
+.cat-host .map-legend.open .map-legend-body { display: block; }
+.cat-host .map-legend-body h4 {
+  margin: 10px 0 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+.cat-host .map-legend-body ul {
+  list-style: none; padding: 0; margin: 0 0 10px;
+  display: grid; gap: 6px;
+}
+.cat-host .map-legend-body li {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.cat-host .map-legend-body li .dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.04);
+}
+.cat-host .map-legend-body .ml-hint {
+  margin: 8px 0 0;
+  padding-top: 8px;
+  border-top: 1px dashed var(--line);
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.cat-host .map-legend-body .ml-hint strong { color: var(--navy); font-weight: 700; }
+
+/* =============== PANNELLO FILTRI =============== */
+.cat-host .filters {
+  position: absolute;
+  top: 24px;
+  left: 64px;
+  width: clamp(260px, 24%, 320px);
+  max-height: calc(100% - 48px);
+  z-index: 1000;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-lg);
+  overflow-y: auto;
+  transition: padding 0.25s ease, max-width 0.25s ease;
+}
+
+/* Stato collassato del pannello filtri (toggle via .panels-control). */
+.cat-host .filters.collapsed {
+  width: auto;
+  max-width: 140px;
+  max-height: none;
+  padding: 8px 14px;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+}
+.cat-host .filters.collapsed .filters-body { display: none; }
+.cat-host .filters.collapsed::before {
+  content: "Filtri";
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.cat-host .filters h2 {
+  font-size: 13px; margin: 0 0 14px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--navy);
+  font-weight: 700;
+  font-family: "Inter", sans-serif;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--accent);
+}
+.cat-host .filter-group { margin-bottom: 18px; }
+.cat-host .filter-group:last-of-type { margin-bottom: 6px; }
+.cat-host .filter-group h3 {
+  font-family: "Inter", sans-serif;
+  font-size: 10.5px; margin: 0 0 8px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--navy);
+  font-weight: 700;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.cat-host .filter-option {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 6px; margin: 0 -6px;
+  border-radius: 8px; cursor: pointer;
+  font-size: 12.5px;
+  transition: background 0.12s;
+}
+.cat-host .filter-option:hover { background: var(--base); }
+.cat-host .filter-option input { margin: 0; accent-color: var(--navy); cursor: pointer; }
+.cat-host .filter-option .chip-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+.cat-host .filter-option .count {
+  margin-left: auto; font-size: 11px; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  background: var(--base);
+  padding: 1px 7px; border-radius: 99px;
+}
+.cat-host .filter-option.faded { opacity: 0.4; }
+
+.cat-host select.filter-select {
+  width: 100%; padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-family: "Inter", sans-serif;
+  background: #fff; color: var(--ink);
+}
+.cat-host select.filter-select:focus {
+  outline: none;
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(0,0,96,0.1);
+}
+
+.cat-host .filter-reset {
+  margin-top: 6px; width: 100%;
+  padding: 8px; font-size: 11px;
+  background: none; border: 1px solid var(--rust);
+  border-radius: 8px; color: var(--rust);
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-weight: 600; letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.cat-host .filter-reset:hover {
+  background: var(--rust); color: #fff;
+}
+
+/* =============== TOOLBAR =============== */
+.cat-host .cat-toolbar {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 12px 18px;
+  margin-bottom: var(--space-md);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.cat-host .results-count {
+  font-size: 13px; color: var(--muted);
+  display: flex; align-items: center; gap: 8px;
+}
+.cat-host .results-count strong {
+  color: var(--navy); font-size: 22px; font-weight: 700;
+  font-family: "Cardo", serif;
+  line-height: 1;
+}
+.cat-host .results-meta {
+  color: var(--muted); font-size: 12px;
+  border-left: 1px solid var(--line);
+  padding-left: 12px; margin-left: 6px;
+}
+.cat-host .results-meta.inst-meta strong {
+  font-family: "Cardo", serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--rust);
+  line-height: 1;
+  margin-right: 2px;
+}
+
+.cat-host .view-switch {
+  display: flex; gap: 4px;
+  background: var(--accent);
+  padding: 4px; border-radius: 10px;
+}
+.cat-host .view-switch button {
+  padding: 7px 12px; font-size: 12.5px;
+  background: transparent; border: none; border-radius: 7px;
+  color: var(--navy); cursor: pointer; font-weight: 600;
+  font-family: "Inter", sans-serif;
+  transition: background 0.15s;
+}
+.cat-host .view-switch button:hover { background: rgba(255,255,255,0.5); }
+.cat-host .view-switch button.active {
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+}
+
+/* =============== CARDS =============== */
+.cat-host .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 18px;
+}
+.cat-host .group-header {
+  grid-column: 1 / -1;
+  margin: 12px 0 6px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--accent);
+  display: flex; align-items: baseline; justify-content: space-between;
+}
+.cat-host .group-header h2 {
+  font-size: 20px; margin: 0; color: var(--navy); font-weight: 700;
+  display: flex; align-items: center; gap: 12px;
+  font-family: "Cardo", serif;
+}
+.cat-host .group-header h2 .chip-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+}
+.cat-host .group-header .group-count {
+  font-size: 12px; color: var(--muted);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 600;
+}
+
+.cat-host article.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  display: flex; flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.cat-host article.card::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--card-color, var(--navy));
+}
+.cat-host article.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--card-color, var(--navy));
+}
+.cat-host .card-saved-star {
+  position: absolute;
+  top: 12px; right: 14px;
+  color: var(--rust);
+  font-size: 18px;
+}
+.cat-host .card-header {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 12px; margin-top: 4px;
+}
+.cat-host .badge {
+  font-size: 10.5px; font-weight: 700;
+  padding: 4px 10px; border-radius: 99px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: "Inter", sans-serif;
+}
+.cat-host .badge-mode-oral   { background: #e0e0f4; color: var(--navy); }
+.cat-host .badge-mode-poster { background: #fde4d6; color: var(--rust-dark); }
+.cat-host .badge-area { background: var(--accent); color: var(--navy); }
+.cat-host .badge-gigliozzi {
+  background: var(--rust); color: #fff;
+  box-shadow: 0 2px 6px rgba(216,97,60,0.4);
+}
+
+.cat-host .card h3 {
+  font-family: "Cardo", serif;
+  font-size: 17px; margin: 0 0 8px; line-height: 1.3;
+  color: var(--ink); font-weight: 700;
+}
+.cat-host .card-authors {
+  font-size: 12.5px; color: var(--muted); margin-bottom: 10px;
+  line-height: 1.45;
+}
+.cat-host .card-authors strong { color: var(--ink); font-weight: 600; }
+.cat-host .card-authors .author-aff { color: var(--rust-dark); font-style: italic; }
+.cat-host .card-authors .author-more { color: var(--navy); font-weight: 600; }
+.cat-host .card-abstract {
+  font-size: 13px; color: #2a2a2a;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex-grow: 1;
+  margin-bottom: 12px;
+  line-height: 1.55;
+}
+.cat-host .card-footer {
+  font-size: 11.5px; color: var(--navy); font-weight: 600;
+  margin-top: auto;
+  letter-spacing: 0.04em;
+  display: flex; align-items: center; gap: 6px;
+}
+.cat-host .card-footer::after {
+  content: "→";
+  transition: transform 0.2s;
+}
+.cat-host article.card:hover .card-footer::after {
+  transform: translateX(4px);
+}
+
+.cat-host .empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--muted);
+  font-size: 14px;
+  background: var(--paper);
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+}
+.cat-host .empty-state strong {
+  color: var(--navy); display: block; font-size: 20px;
+  margin-bottom: 6px; font-family: "Cardo", serif;
+}
+
+/* =============== RESPONSIVE =============== */
+@media (max-width: 980px) {
+  .cat-host .map-hero {
+    height: 480px;
+    /* su mobile evitiamo di "esplodere" oltre il viewport: niente trick full-bleed */
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: var(--radius-lg);
+  }
+  .cat-host .map-overlay {
+    top: auto; bottom: 80px; right: 12px; left: 12px;
+    width: auto;
+    max-width: none;
+    padding: 14px 16px;
+  }
+  .cat-host .map-overlay h1 { font-size: 18px; }
+  .cat-host .map-overlay .lead { display: none; }
+  .cat-host .map-overlay .stats {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    padding: 8px 0;
+  }
+  .cat-host .map-overlay .stat .num { font-size: 18px; }
+  .cat-host .map-overlay .stat .lbl { font-size: 8px; }
+  .cat-host .filters { display: none; }
+  /* Su mobile il pannello filtri è già nascosto e l'overlay diventa una
+     fascia inferiore informativa: il bottone "Comprimi/Espandi" agirebbe
+     solo sull'overlay e creerebbe pannelli a metà sopra alla mappa.
+     Replichiamo la scelta del mockup di partenza: niente toggle su mobile. */
+  .cat-host .panels-control { display: none; }
+  .cat-host .search-bar.map-search {
+    width: calc(100% - 32px);
+    top: 14px;
+  }
+  .cat-host .map-bottom-controls { bottom: 14px; }
+}
+
+@media (max-width: 580px) {
+  .cat-host .map-overlay { display: none; }
+  .cat-host .map-hero { height: 360px; }
+  .cat-host .cards {
+    grid-template-columns: 1fr;
+  }
+  /* Search bar: appoggiata in cima alla mappa con sfondo solido e ombra,
+     niente più aspetto "fluttuante" sopra il map tile. */
+  .cat-host .search-bar.map-search {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    transform: none;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(6px);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+  }
+  /* Legenda: alzata sopra la pill "Italia/Europa/Tutte" per evitare la
+     collisione orizzontale che la rende parzialmente illeggibile. */
+  .cat-host .map-legend {
+    bottom: 76px;
+    right: 12px;
+    left: auto;
+    max-width: calc(100% - 24px);
+  }
+  .cat-host .map-legend.open .map-legend-body {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  /* Controlli zoom Leaflet: di default sono in top-left, ma la search bar
+     mobile è full-width al top e li copre interamente. Li sposto in basso a
+     sinistra, lontano da search bar (top) e legenda (bottom-right). */
+  .cat-host .leaflet-top.leaflet-left {
+    top: auto;
+    bottom: 24px;
+  }
+}

@@ -1,0 +1,708 @@
+{
+  "Università di Bologna": {
+    "lat": 44.4949,
+    "lng": 11.3426,
+    "city": "Bologna"
+  },
+  "Università degli Studi di Cagliari": {
+    "lat": 39.2238,
+    "lng": 9.1217,
+    "city": "Cagliari"
+  },
+  "Università Cagliari": {
+    "lat": 39.2238,
+    "lng": 9.1217,
+    "city": "Cagliari"
+  },
+  "CNR-ILC": {
+    "lat": 43.7155,
+    "lng": 10.4015,
+    "city": "Pisa"
+  },
+  "CNR-ILIESI": {
+    "lat": 41.8983,
+    "lng": 12.4789,
+    "city": "Roma"
+  },
+  "Ca' Foscari Venezia": {
+    "lat": 45.4319,
+    "lng": 12.3268,
+    "city": "Venezia"
+  },
+  "Università di Catania": {
+    "lat": 37.5253,
+    "lng": 15.0709,
+    "city": "Catania"
+  },
+  "Università degli Studi di Catania": {
+    "lat": 37.5253,
+    "lng": 15.0709,
+    "city": "Catania"
+  },
+  "CRS4": {
+    "lat": 39.0097,
+    "lng": 9.0173,
+    "city": "Pula (CA)"
+  },
+  "Università di Torino": {
+    "lat": 45.0703,
+    "lng": 7.6869,
+    "city": "Torino"
+  },
+  "Università di Pisa": {
+    "lat": 43.7196,
+    "lng": 10.4017,
+    "city": "Pisa"
+  },
+  "Università di Pavia": {
+    "lat": 45.1896,
+    "lng": 9.1547,
+    "city": "Pavia"
+  },
+  "Università di Macerata": {
+    "lat": 43.3007,
+    "lng": 13.4534,
+    "city": "Macerata"
+  },
+  "Università di Verona": {
+    "lat": 45.4313,
+    "lng": 10.9925,
+    "city": "Verona"
+  },
+  "University of Verona": {
+    "lat": 45.4313,
+    "lng": 10.9925,
+    "city": "Verona"
+  },
+  "Consiglio Nazionale delle Ricerche": {
+    "lat": 41.9028,
+    "lng": 12.516,
+    "city": "Roma"
+  },
+  "CNR": {
+    "lat": 41.9028,
+    "lng": 12.516,
+    "city": "Roma"
+  },
+  "Università degli studi di Napoli \"Federico II\"": {
+    "lat": 40.8518,
+    "lng": 14.2681,
+    "city": "Napoli"
+  },
+  "Università degli Studi di Napoli": {
+    "lat": 40.8518,
+    "lng": 14.2681,
+    "city": "Napoli"
+  },
+  "Sapienza Università di Roma": {
+    "lat": 41.9028,
+    "lng": 12.516,
+    "city": "Roma"
+  },
+  "Università di Firenze": {
+    "lat": 43.7696,
+    "lng": 11.2558,
+    "city": "Firenze"
+  },
+  "Dedagroup": {
+    "lat": 46.0667,
+    "lng": 11.1167,
+    "city": "Trento"
+  },
+  "CNR ISEM": {
+    "lat": 39.2238,
+    "lng": 9.1217,
+    "city": "Cagliari"
+  },
+  "Università degli Studi di Genova": {
+    "lat": 44.4056,
+    "lng": 8.9463,
+    "city": "Genova"
+  },
+  "Università degli Studi di Sassari": {
+    "lat": 40.7259,
+    "lng": 8.5557,
+    "city": "Sassari"
+  },
+  "VeDPH": {
+    "lat": 45.4319,
+    "lng": 12.3268,
+    "city": "Venezia"
+  },
+  "SRCTS": {
+    "lat": 37.5079,
+    "lng": 15.083,
+    "city": "Catania"
+  },
+  "Università degli Studi di Trieste": {
+    "lat": 45.6495,
+    "lng": 13.7768,
+    "city": "Trieste"
+  },
+  "Università di Milano": {
+    "lat": 45.4642,
+    "lng": 9.19,
+    "city": "Milano"
+  },
+  "ISSASCO": {
+    "lat": 41.8919,
+    "lng": 12.5113,
+    "city": "Roma"
+  },
+  "IMATI-CNR": {
+    "lat": 45.1896,
+    "lng": 9.1547,
+    "city": "Pavia"
+  },
+  "Università della Calabria / Istituto di Informatica e Telematica - Consiglio Nazionale delle Ricerche": {
+    "lat": 39.3617,
+    "lng": 16.2266,
+    "city": "Rende (CS)"
+  },
+  "University of Graz": {
+    "lat": 47.0779,
+    "lng": 15.4505,
+    "city": "Graz"
+  },
+  "King's College London": {
+    "lat": 51.5118,
+    "lng": -0.1162,
+    "city": "London"
+  },
+  "Universität Bern": {
+    "lat": 46.9508,
+    "lng": 7.4382,
+    "city": "Bern"
+  },
+  "Bibliotheca Hertziana - Max Planck Institute for Art History": {
+    "lat": 41.9019,
+    "lng": 12.4818,
+    "city": "Roma"
+  },
+  "University of Lausanne": {
+    "lat": 46.5197,
+    "lng": 6.6323,
+    "city": "Lausanne"
+  },
+  "CHAM - Centro de Humanidades": {
+    "lat": 38.7223,
+    "lng": -9.1393,
+    "city": "Lisboa"
+  },
+  "Alexandru Ioan Cuza University of Iasi": {
+    "lat": 47.1737,
+    "lng": 27.5806,
+    "city": "Iași"
+  },
+  "University College Dublin": {
+    "lat": 53.307,
+    "lng": -6.2226,
+    "city": "Dublin"
+  },
+  "Independent Researcher": null,
+  "ALexandru Ioan Cuza University of Iași": {
+    "lat": 47.1585,
+    "lng": 27.6014,
+    "city": "Iași"
+  },
+  "Accademia di Belle Arti di Bari": {
+    "lat": 41.1171,
+    "lng": 16.8719,
+    "city": "Bari"
+  },
+  "Accademia di Belle Arti di Verona": {
+    "lat": 45.4384,
+    "lng": 10.9916,
+    "city": "Verona"
+  },
+  "Alexandru Ioan Cuza University of Iași": {
+    "lat": 47.1585,
+    "lng": 27.6014,
+    "city": "Iași"
+  },
+  "Athens School of Fine Arts": {
+    "lat": 37.9838,
+    "lng": 23.7275,
+    "city": "Athens"
+  },
+  "Biblioteca Civica \"Attilio Hortis\" Trieste": {
+    "lat": 45.6495,
+    "lng": 13.7768,
+    "city": "Trieste"
+  },
+  "Biblioteca civica Attilio Hortis": {
+    "lat": 45.6495,
+    "lng": 13.7768,
+    "city": "Trieste"
+  },
+  "Bibliotheca Hertziana – Max Planck Institute for Art History": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "CNR-IIT": {
+    "lat": 43.7228,
+    "lng": 10.4017,
+    "city": "Pisa"
+  },
+  "CNR-ISEM": {
+    "lat": 39.2238,
+    "lng": 9.1217,
+    "city": "Cagliari"
+  },
+  "CNR-ISPC": {
+    "lat": 40.8518,
+    "lng": 14.2681,
+    "city": "Napoli"
+  },
+  "CNR-ISTC": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "CNR-ISTI": {
+    "lat": 43.7228,
+    "lng": 10.4017,
+    "city": "Pisa"
+  },
+  "CREA": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "Cambridge University": {
+    "lat": 52.2053,
+    "lng": 0.1218,
+    "city": "Cambridge"
+  },
+  "Centre fort Ibero-American Studies, Faculty of Arts, Charles University": {
+    "lat": 50.0755,
+    "lng": 14.4378,
+    "city": "Praha"
+  },
+  "Centro Conservazione Restauro La Venaria Reale": {
+    "lat": 45.0703,
+    "lng": 7.6869,
+    "city": "Torino"
+  },
+  "Cineca": {
+    "lat": 44.4949,
+    "lng": 11.3426,
+    "city": "Bologna"
+  },
+  "DH UNICA - Università degli Studi di Cagliari": {
+    "lat": 39.2238,
+    "lng": 9.1217,
+    "city": "Cagliari"
+  },
+  "DHLab - Bibliotheca Hertziana – Max Planck Institute for Art History": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "DHLab - KNAW Humanities Cluster": {
+    "lat": 50.0755,
+    "lng": 14.4378,
+    "city": "Praha"
+  },
+  "DSWLab": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "Dipartimento di Filologia, Letteratura e Linguistica, Università di Pisa": {
+    "lat": 43.7228,
+    "lng": 10.4017,
+    "city": "Pisa"
+  },
+  "Dipartimento di Informatica, Università degli Studi di Milano": {
+    "lat": 45.4642,
+    "lng": 9.19,
+    "city": "Milano"
+  },
+  "Fondazione 1563 per l’Arte e la Cultura": {
+    "lat": 45.0703,
+    "lng": 7.6869,
+    "city": "Torino"
+  },
+  "Fondazione Centro Conservazione e Restauro La Venaria Reale": {
+    "lat": 45.0703,
+    "lng": 7.6869,
+    "city": "Torino"
+  },
+  "Fondazione Federico Zeri - University of Bologna": {
+    "lat": 44.4949,
+    "lng": 11.3426,
+    "city": "Bologna"
+  },
+  "Fondazione Federico Zeri, Università di Bologna": {
+    "lat": 44.4949,
+    "lng": 11.3426,
+    "city": "Bologna"
+  },
+  "Fotothek - Bibliotheca Hertziana – Max Planck Institute for Art History": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "Highly Qualified Expert Sapienza University of Rome": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "ICCU": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "Istituto Storico Italiano per l'Età Moderna e Contemporanea": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "Istituto di Informatica e Telematica - Consiglio Nazionale delle Ricerche": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "Johannes Gutenberg-Universität Mainz": {
+    "lat": 49.9929,
+    "lng": 8.2473,
+    "city": "Mainz"
+  },
+  "Responsabile area Documentazione e Comunicazione Centro Conservazione Restauro \"La Venaria Reale\"": {
+    "lat": 39.2238,
+    "lng": 9.1217,
+    "city": "Cagliari"
+  },
+  "Scuola superiore Sant'Anna - Pisa": {
+    "lat": 43.7228,
+    "lng": 10.4017,
+    "city": "Pisa"
+  },
+  "Società Umanitaria - Cineteca Sarda di Cagliari": {
+    "lat": 39.2238,
+    "lng": 9.1217,
+    "city": "Cagliari"
+  },
+  "UniCA": {
+    "lat": 39.2238,
+    "lng": 9.1217,
+    "city": "Cagliari"
+  },
+  "Unimore": {
+    "lat": 44.6471,
+    "lng": 10.9252,
+    "city": "Modena"
+  },
+  "University of Bari Aldo Moro": {
+    "lat": 41.1171,
+    "lng": 16.8719,
+    "city": "Bari"
+  },
+  "University of Bologna, Department of Computer Science and Engineering": {
+    "lat": 44.4949,
+    "lng": 11.3426,
+    "city": "Bologna"
+  },
+  "University of Cambridge": {
+    "lat": 52.2053,
+    "lng": 0.1218,
+    "city": "Cambridge"
+  },
+  "University of Milano": {
+    "lat": 45.4642,
+    "lng": 9.19,
+    "city": "Milano"
+  },
+  "University of Naples \"L'Orientale\"": {
+    "lat": 40.8518,
+    "lng": 14.2681,
+    "city": "Napoli"
+  },
+  "University of Oxford": {
+    "lat": 51.752,
+    "lng": -1.2577,
+    "city": "Oxford"
+  },
+  "University of Rome \"Tor Vergata\"": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "University of Saarbrücken": {
+    "lat": 49.2354,
+    "lng": 6.9969,
+    "city": "Saarbrücken"
+  },
+  "Università Ca Foscari Venezia": {
+    "lat": 45.4408,
+    "lng": 12.3155,
+    "city": "Venezia"
+  },
+  "Università G. d'Annunzio Chieti-Pescara": {
+    "lat": 42.4584,
+    "lng": 14.2081,
+    "city": "Pescara"
+  },
+  "Università La Sapienza di Roma": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "Università Normale Pisa": {
+    "lat": 43.7228,
+    "lng": 10.4017,
+    "city": "Pisa"
+  },
+  "Università Statale di Milano": {
+    "lat": 45.4642,
+    "lng": 9.19,
+    "city": "Milano"
+  },
+  "Università degli Studi di Bari Aldo Moro - Dipartimento di Ricerca e Innovazione Umanistica": {
+    "lat": 41.1171,
+    "lng": 16.8719,
+    "city": "Bari"
+  },
+  "Università degli Studi di Bologna": {
+    "lat": 44.4949,
+    "lng": 11.3426,
+    "city": "Bologna"
+  },
+  "Università degli Studi di Modena e Reggio Emilia": {
+    "lat": 44.6989,
+    "lng": 10.6297,
+    "city": "Reggio Emilia"
+  },
+  "Università degli Studi di Napoli \"Federico II\"": {
+    "lat": 40.8518,
+    "lng": 14.2681,
+    "city": "Napoli"
+  },
+  "Università degli Studi di Parma": {
+    "lat": 44.8015,
+    "lng": 10.3279,
+    "city": "Parma"
+  },
+  "Università degli studi di Catania": {
+    "lat": 37.5079,
+    "lng": 15.083,
+    "city": "Catania"
+  },
+  "Università degli studi di Genova": {
+    "lat": 44.4056,
+    "lng": 8.9463,
+    "city": "Genova"
+  },
+  "Università degli studi di Trieste": {
+    "lat": 45.6495,
+    "lng": 13.7768,
+    "city": "Trieste"
+  },
+  "Università di Bari": {
+    "lat": 41.1171,
+    "lng": 16.8719,
+    "city": "Bari"
+  },
+  "Università di Cagliari": {
+    "lat": 39.2238,
+    "lng": 9.1217,
+    "city": "Cagliari"
+  },
+  "Università di Genova": {
+    "lat": 44.4056,
+    "lng": 8.9463,
+    "city": "Genova"
+  },
+  "Università di Napoli Federico II": {
+    "lat": 40.8518,
+    "lng": 14.2681,
+    "city": "Napoli"
+  },
+  "Università di Padova": {
+    "lat": 45.4064,
+    "lng": 11.8768,
+    "city": "Padova"
+  },
+  "Università di Roma 'Tor Vergata'": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "Università di Roma Tor Vergata": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "Università di Salerno": {
+    "lat": 40.6824,
+    "lng": 14.7681,
+    "city": "Salerno"
+  },
+  "Università di Siena": {
+    "lat": 43.3188,
+    "lng": 11.3308,
+    "city": "Siena"
+  },
+  "Università di Torino, Italia": {
+    "lat": 45.0703,
+    "lng": 7.6869,
+    "city": "Torino"
+  },
+  "Università per Stranieri di Siena": {
+    "lat": 43.3188,
+    "lng": 11.3308,
+    "city": "Siena"
+  },
+  "Venice Centre for Digital and Public Humanities, Department of Humanities, Ca’ Foscari University Venice": {
+    "lat": 45.4408,
+    "lng": 12.3155,
+    "city": "Venezia"
+  },
+  "CNR - ISTC": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "Dottorato in Editoria e Innovazione": {
+    "lat": 45.4642,
+    "lng": 9.19,
+    "city": "Milano"
+  },
+  "Fondazione Luigi Micheletti": {
+    "lat": 45.5416,
+    "lng": 10.2118,
+    "city": "Brescia"
+  },
+  "Gruppo META": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "I Tatti - The Harvard University Center for Italian Renaissance Studies": {
+    "lat": 43.7696,
+    "lng": 11.2558,
+    "city": "Firenze"
+  },
+  "IHC/IN2PAST": {
+    "lat": 38.7223,
+    "lng": -9.1393,
+    "city": "Lisbon"
+  },
+  "IIIF Consortium": {
+    "lat": 37.4275,
+    "lng": -122.1697,
+    "city": "Stanford"
+  },
+  "ISTI CNR": {
+    "lat": 43.7228,
+    "lng": 10.4017,
+    "city": "Pisa"
+  },
+  "ISTITUTO ITALIANO DI STUDI GERMANICI": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "Kunsthistorisches Institut in Florenz – Max-Planck-Institut": {
+    "lat": 43.7696,
+    "lng": 11.2558,
+    "city": "Firenze"
+  },
+  "Lund University": {
+    "lat": 55.7047,
+    "lng": 13.191,
+    "city": "Lund"
+  },
+  "MIM: Ministero dell'Istruzione e del Merito": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "Marburg University": {
+    "lat": 50.8021,
+    "lng": 8.7666,
+    "city": "Marburg"
+  },
+  "Ministero della Cultura": {
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "city": "Roma"
+  },
+  "RS WORKS EE": {
+    "lat": 59.437,
+    "lng": 24.7536,
+    "city": "Tallinn"
+  },
+  "RWTH Aachen University": {
+    "lat": 50.7753,
+    "lng": 6.0839,
+    "city": "Aachen"
+  },
+  "Schola Cantorum Basiliensis": {
+    "lat": 47.5596,
+    "lng": 7.5886,
+    "city": "Basel"
+  },
+  "Studio Legale Ciurcina": {
+    "lat": 45.0703,
+    "lng": 7.6869,
+    "city": "Torino"
+  },
+  "University of Groningen": {
+    "lat": 53.2194,
+    "lng": 6.5665,
+    "city": "Groningen"
+  },
+  "University of Helsinki": {
+    "lat": 60.1699,
+    "lng": 24.9384,
+    "city": "Helsinki"
+  },
+  "University of Oxfird": {
+    "lat": 51.752,
+    "lng": -1.2577,
+    "city": "Oxford"
+  },
+  "University of Potsdam": {
+    "lat": 52.3906,
+    "lng": 13.0645,
+    "city": "Potsdam"
+  },
+  "University of Salento": {
+    "lat": 40.3515,
+    "lng": 18.175,
+    "city": "Lecce"
+  },
+  "Università Telematica Pegaso": {
+    "lat": 40.8518,
+    "lng": 14.2681,
+    "city": "Napoli"
+  },
+  "Università degli studi di Teramo": {
+    "lat": 42.6614,
+    "lng": 13.6989,
+    "city": "Teramo"
+  },
+  "Università di Brescia": {
+    "lat": 45.5416,
+    "lng": 10.2118,
+    "city": "Brescia"
+  },
+  "Università di Teramo": {
+    "lat": 42.6614,
+    "lng": 13.6989,
+    "city": "Teramo"
+  },
+  "Universität Augsburg": {
+    "lat": 48.3705,
+    "lng": 10.8978,
+    "city": "Augsburg"
+  },
+  "storica dell'arte specialista,conservatore Museo San Giacomo di Lu": {
+    "lat": 45.0703,
+    "lng": 7.6869,
+    "city": "Torino"
+  }
+}

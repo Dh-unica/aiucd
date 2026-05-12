@@ -1,0 +1,22 @@
+{
+  "version": "20260512-1844",
+  "generated_at": "2026-05-12T16:44:15+00:00",
+  "files": {
+    "papers.json": "2f9dd228af31f91aacf53e096b97178865563437c2050a66ceac4880f4cafa9e",
+    "program.json": "3e39ce2bec1affbef159b5ca9b4fd8a4f9d135d5c8d61fe399e00bf3bdb4256b",
+    "posters.json": "36d0835296ff18de7176fd1d84925865b1baff4c4294c68db3c82ee7a6be1396",
+    "paths.json": "def3d9b2ce57b789c0079258740af7d92be74af507aab1ec0251a78cbec38088",
+    "poi.json": "7a4046e6b90311f36ef4d84666b8f94504223cb574c287be170ae77a4f59f260"
+  },
+  "stats": {
+    "talks_total": 134,
+    "talks_oral": 94,
+    "talks_poster": 40,
+    "scheduled_in_program": 92,
+    "posters_in_session": 40,
+    "paths": 14,
+    "paths_with_conflict": 5,
+    "pois": 32,
+    "pois_with_distance": 32
+  }
+}

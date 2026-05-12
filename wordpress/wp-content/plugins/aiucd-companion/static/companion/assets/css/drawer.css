@@ -1,0 +1,284 @@
+/* =========================================================
+   AIUCD 2026 Companion — drawer "I miei talk" + overlay percorsi
+   - Drawer: slide-in da destra su desktop, bottom-sheet su mobile.
+   - Overlay percorsi: full-screen, slide-up.
+   ========================================================= */
+
+/* =============== TOPBAR BUTTON ★ =============== */
+.topbar-agenda-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 10px;
+  background: var(--paper);
+  color: var(--navy);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  transition: background var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast);
+  min-height: 36px;
+  flex-shrink: 0;
+}
+.topbar-agenda-btn:hover,
+.topbar-agenda-btn:focus-visible {
+  background: var(--line-soft);
+  border-color: var(--navy-soft);
+  outline: none;
+  box-shadow: var(--shadow-sm);
+}
+.topbar-agenda-icon {
+  color: var(--rust);
+  font-size: 16px;
+  line-height: 1;
+}
+.topbar-agenda-label {
+  white-space: nowrap;
+}
+.topbar-agenda-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+.topbar-agenda-count[data-empty="true"] {
+  background: var(--line-soft);
+  color: var(--muted-2);
+}
+
+@media (max-width: 540px) {
+  .topbar-agenda-label {
+    display: none;
+  }
+  .topbar-agenda-btn {
+    padding: 6px 10px;
+  }
+}
+
+/* =============== DRAWER · I miei talk =============== */
+.agenda-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(420px, 100vw);
+  background: var(--paper);
+  box-shadow: var(--shadow-lg);
+  z-index: 11000;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform var(--t-slow) cubic-bezier(.4, 0, .2, 1);
+  will-change: transform;
+}
+.agenda-drawer[data-open="true"] {
+  transform: translateX(0);
+}
+.agenda-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 60, 0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10999;
+  transition: opacity var(--t-base);
+}
+.agenda-drawer-backdrop[data-open="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.drawer-head h2 {
+  font-size: var(--fs-md);
+  margin: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.drawer-head h2 .drawer-icon {
+  color: var(--rust);
+  font-size: 18px;
+}
+.drawer-head .count-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: "Inter", sans-serif;
+}
+.drawer-close {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.drawer-close:hover,
+.drawer-close:focus-visible {
+  background: var(--line-soft);
+  color: var(--navy);
+  outline: none;
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Bottom-sheet drag handle (only mobile) */
+.drawer-handle {
+  display: none;
+  margin: 8px auto 0;
+  width: 44px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+  flex-shrink: 0;
+}
+
+/* =============== MOBILE: bottom-sheet =============== */
+@media (max-width: 767px) {
+  .agenda-drawer {
+    top: auto;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 85vh;
+    border-radius: 16px 16px 0 0;
+    transform: translateY(100%);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .agenda-drawer[data-open="true"] {
+    transform: translateY(0);
+  }
+  .drawer-handle {
+    display: block;
+  }
+  .drawer-head {
+    padding-top: var(--space-sm);
+  }
+}
+
+/* =============== OVERLAY · Percorsi suggeriti =============== */
+.paths-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--base);
+  z-index: 11000;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform var(--t-slow) cubic-bezier(.4, 0, .2, 1);
+  will-change: transform;
+}
+.paths-overlay[data-open="true"] {
+  transform: translateY(0);
+}
+.paths-overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 60, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10999;
+  transition: opacity var(--t-base);
+}
+.paths-overlay-backdrop[data-open="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.paths-overlay-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  box-shadow: var(--shadow-sm);
+}
+.paths-overlay-head h2 {
+  font-size: var(--fs-md);
+  margin: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.paths-overlay-head h2 .overlay-icon {
+  color: var(--rust);
+  font-size: 18px;
+}
+.paths-overlay-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-lg);
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* =============== EMPTY STATE drawer =============== */
+.drawer-empty {
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  color: var(--muted);
+}
+.drawer-empty strong {
+  display: block;
+  color: var(--navy);
+  font-family: "Cardo", serif;
+  font-size: var(--fs-md);
+  margin-bottom: var(--space-sm);
+}
+.drawer-empty p {
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* NOTE: la CTA "Esplora i percorsi suggeriti" (.paths-cta) ha gli stili in
+   program.css già esistenti — non ridichiarata qui per evitare cascata duplicata. */

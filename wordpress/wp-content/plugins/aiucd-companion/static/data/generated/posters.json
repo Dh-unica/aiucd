@@ -1,0 +1,910 @@
+[
+  {
+    "id": 14,
+    "title": "I Vangeli digitali e accessibili, per un’editoria religiosa universale e senza barriere",
+    "authors_raw": "Giulia D'Arcangelo (Università di Tor Vergata)",
+    "authors": [
+      {
+        "name": "Giulia D'Arcangelo",
+        "aff": "Dottorato in Editoria e Innovazione"
+      }
+    ],
+    "abstract": "Il progetto sviluppa un modello EPUB 3 dei Vangeli, accessibile e navigabile, che valorizza la complessità testuale del testo biblico e ne garantisce la fruizione anche a persone con disabilità visive. Fondato su marcatura semantica coerente e organizzazione rigorosa del contenuto, il modello rappresenta un riferimento editoriale replicabile e adattabile a edizioni bibliche in altre lingue e contesti culturali.\n\nThe project develops an accessible, navigable EPUB 3 model of the Gospels, enhancing the textual complexity of the Bible while ensuring accessibility for users with visual impairments. Based on coherent semantic markup and rigorous content structuring, the model serves as a replicable editorial reference adaptable to Bible editions in other languages and cultural contexts.",
+    "area_code": "archives",
+    "area_label": "Archivi ed edizioni",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 18,
+    "title": "Partecipazione, mediazione e conoscenza: Àndalas de Cultura quale ecosistema digitale del patrimonio culturale della Sardegna",
+    "authors_raw": "Carolina Floris (Università degli Studi di Cagliari)",
+    "authors": [
+      {
+        "name": "Carolina Floris",
+        "aff": "Università di Cagliari"
+      }
+    ],
+    "abstract": "Il contributo prende in esame il progetto Àndalas de Cultura per riflettere sul ruolo che le infrastrutture digitali pubbliche possono assumere nei processi di mediazione del patrimonio e nella costruzione condivisa della conoscenza. Inserito nel più ampio contesto di rinnovamento delle politiche digitali a livello nazionale ed europeo, il caso viene letto come parte di un progressivo superamento di approcci emergenziali e tecnocentrici. Àndalas è assunto come un laboratorio osservativo attraverso cui indagare come pratiche di aggregazione, interoperabilità e riuso dei contenuti digitali, insieme a metodologie partecipative — dalla co-creation alla formazione degli operatori — incidano concretamente sulle modalità di accesso al patrimonio, sulla produzione di sapere e sulle relazioni tra istituzioni culturali e comunità in un contesto insulare policentrico. In questa prospettiva, l’infrastruttura si configura come uno spazio in cui il patrimonio prende forma attraverso pratiche d’uso, interpretazione e partecipazione.",
+    "area_code": "co-construction",
+    "area_label": "DH e co-costruzione di conoscenza",
+    "iscritto": false,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 19,
+    "title": "Archivi letterari nativi digitali: modelli descrittivi ed edizioni sperimentali",
+    "authors_raw": "Elena Barchielli (Universität Bern); Simon Willemin (Universität Bern); Elena Spadini (Universität Bern)",
+    "authors": [
+      {
+        "name": "Elena Barchielli",
+        "aff": "Universität Bern"
+      },
+      {
+        "name": "Simon Willemin",
+        "aff": "Universität Bern"
+      },
+      {
+        "name": "Elena Spadini",
+        "aff": "Universität Bern"
+      }
+    ],
+    "abstract": "Le opere letterarie contemporanee sono sempre più spesso create direttamente in formato digitale, mentre la filologia, la descrizione archivistica e l’editoria scientifica restano in larga misura ancorate a paradigmi analogici. La crescente presenza di materiali nativamente digitali negli archivi letterari impone quindi una ridefinizione teorica e metodologica delle nozioni di documento, testo, versione e materialità. Il progetto affronta queste sfide considerando i documenti born-digital non solo come oggetti da preservare tecnicamente, ma come fonti filologiche primarie che richiedono nuovi modelli descrittivi, flussi di lavoro editoriali e quadri interpretativi.\nAttraverso lo studio di archivi letterari svizzeri italofoni e francofoni, il progetto analizza file conservati su supporti digitali (floppy disk, chiavi USB, hard disk) e documenti acquisiti in formato digitale. Da un lato, mira a sviluppare uno schema di metadati specifico per gli archivi letterari nativamente digitali, basato sugli standard esistenti e su ontologie emergenti, formalizzato in OWL e implementato in RDF, anche mediante l’estrazione automatizzata di dati con strumenti di digital forensics. Dall’altro, propone prototipi di edizioni digitali sperimentali che tengano conto delle specificità delle fonti born-digital, ripensando l’intero workflow filologico: dalla raccolta delle fonti alla collazione, dalla (de)codifica testuale all’apparato critico.\nIntegrando approcci filologici, archivistici e fore…",
+    "area_code": "archives",
+    "area_label": "Archivi ed edizioni",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 20,
+    "title": "From Violin Lessons to Linked Open Data. Reconstructing Tartini’s Scuola delle Nazioni through Digital Prosopography and Digital Editions",
+    "authors_raw": "Selina Galka (University of Graz); Cristina Scuderi (Università Statale di Milano); Marcella Tambuscio (University of Graz); Rolf Wissman (Schola Cantorum Basiliensis ); Georg Vogeler (University of Graz)",
+    "authors": [
+      {
+        "name": "Selina Galka",
+        "aff": "University of Graz"
+      },
+      {
+        "name": "Cristina Scuderi",
+        "aff": "Università Statale di Milano"
+      },
+      {
+        "name": "Marcella Tambuscio",
+        "aff": "University of Graz"
+      },
+      {
+        "name": "Rolf Wissman",
+        "aff": "Schola Cantorum Basiliensis"
+      },
+      {
+        "name": "Georg Vogeler",
+        "aff": "University of Graz"
+      }
+    ],
+    "abstract": "Giuseppe Tartini (1692–1770) was celebrated in the eighteenth century not only as a violinist, but also as maestro delle nazioni, attracting students from across Europe to his teaching activity in Padua. While his compositions and theoretical writings have been extensively studied, the pedagogical practices, didactic materials, and transnational networks through which his musical knowledge circulated remain largely unexplored. This research project addresses this gap by conceptualising Tartini’s Scuola delle Nazioni not as a fixed institution, but as a dynamic, historically situated network of persons, texts, musical works, and mediating agents.\nThe project develops a digital prosopographical dataset on pupils, patrons, printers, and other actors, modelled as individual scholarly assertions explicitly linked to sources, temporal scope, and interpretative context, and expressed in RDF following CIDOC CRM–compliant patterns and FAIR principles. Musical sources and works are collected and systematically linked to international reference systems - most notably RISM - extending existing data models where necessary. In parallel, digital scholarly “assertive” editions of Tartini’s pedagogical writings and related materials are created using TEI and MEI. The resulting interconnected data infrastructure, published in the long-term repository GAMS, enables advanced analytical and visual approaches, including mobility flows, temporal contact networks, multilayered social graphs, and …",
+    "area_code": "data",
+    "area_label": "Dati e rappresentazione conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 22,
+    "title": "Verso una classificazione funzionale dei prompt basata sulle intenzioni cognitive esplicitate dagli studenti nell'interazione con l'IA",
+    "authors_raw": "Daniele Scala (Università degli Studi di Genova); Salvatore Varriale (Università degli Studi di Genova)",
+    "authors": [
+      {
+        "name": "Daniele Scala",
+        "aff": "Università degli Studi di Genova"
+      },
+      {
+        "name": "Salvatore Varriale",
+        "aff": "Università degli Studi di Genova"
+      }
+    ],
+    "abstract": "Il contributo propone una cornice teorico-metodologica per interpretare il prompt come azione cognitiva esplicitata linguisticamente nell’interazione con sistemi di intelligenza artificiale generativa. Superando l’attuale lettura prettamente tecnica del prompt engineering, lo studio adotta la tassonomia di Bloom nella sua versione rivista come framework di riferimento per una classificazione delle operazioni cognitive richieste nei prompt. Tale classificazione consente di analizzare le interazioni studente–IA in termini di intenzioni cognitive. L’obiettivo è offrire uno strumento di analisi che permetta di osservare e comprendere come l’IA generativa venga utilizzata nei processi di apprendimento in ambito educativo.",
+    "area_code": "co-construction",
+    "area_label": "DH e co-costruzione di conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 24,
+    "title": "Reveduti, Correcti, Aprobati et Confirmati: The Digital Edition of the Statutes of Ascoli",
+    "authors_raw": "Michela Parma (Johannes Gutenberg-Universität Mainz); Fabio Mariani (Universität Augsburg)",
+    "authors": [
+      {
+        "name": "Michela Parma",
+        "aff": "Johannes Gutenberg-Universität Mainz"
+      },
+      {
+        "name": "Fabio Mariani",
+        "aff": "Universität Augsburg"
+      }
+    ],
+    "abstract": "This paper presents the digital edition of the statutes of Ascoli, a normative corpus promulgated in 1377 and preserved in a printed edition of 1496. The project aims to make a significant source for the legal and institutional history of the city accessible through a digital edition, based on a full transcription encoded in XML according to the TEI guidelines. The edition highlights the structural complexity of the statutory text by making explicit references to people, places, events, and thematic domains, and provides differentiated modes of access for both specialist and non-specialist audiences. Particular attention is devoted to the sustainability and long-term preservation of the project by adopting a static architecture.",
+    "area_code": "archives",
+    "area_label": "Archivi ed edizioni",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 26,
+    "title": "Strategie di engagement nella creazione e sostenibilità di un parco letterario: i risultati del progetto CHANGES",
+    "authors_raw": "Sara Obbiso (Alma Mater Studiorum Università di Bologna)",
+    "authors": [
+      {
+        "name": "Sara Obbiso",
+        "aff": "Università di Bologna"
+      }
+    ],
+    "abstract": "Il progetto CHANGES (2022-2025) ha offerto l’occasione per sperimentare un approccio innovativo alla valorizzazione digitale del patrimonio culturale nel contesto dei “Parchi Letterari”, grazie alla progettazione di tecnologie immersive e alla co-creazione di narrazioni e percorsi attraverso diverse strategie di public engagement. Il coinvolgimento di numerosi e diversificati attori ha richiesto un grande sforzo di collaborazione tra università, aziende tecnologiche, amministrazioni locali e società civile. Ciò ha portato ad affrontare molteplici sfide legate alla gestione di team multidisciplinari o al divario digitale, ma nello stesso tempo ha consentito di individuare soluzioni concrete e condivise riguardo problematiche come l’accessibilità ai luoghi dei parchi e alle informazioni sul loro patrimonio culturale, l’inclusione e la sostenibilità del progetto nel tempo. Scopo del contributo è quello di presentare e discutere i risultati del lavoro svolto nello specifico sui casi-studio dei Parchi Letterari \"Grazia Deledda\" a Galtellì e \"Carlo Levi\" ad Aliano, che hanno visto la creazione di contenuti digitali e multimediali fruibili tramite touchscreen, web app e mappe interattive. L'integrazione di tecniche di acquisizione tradizionali (2D, fotogrammetria) e innovative (Gaussian Splatting, modellazione 3D immersiva, tour virtuali interattivi) ha permesso di creare esperienze coinvolgenti e accessibili sia on-site che da remoto. Gli obiettivi di scalabilità e sostenibilità…",
+    "area_code": "co-construction",
+    "area_label": "DH e co-costruzione di conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 27,
+    "title": "SEBASTIAN: uno strumento per l’organizzazione, l’analisi spaziale e la visualizzazione di dati storici",
+    "authors_raw": "Christian Marcantonio (DSWLab); Giuseppe Consolo (University of Graz)",
+    "authors": [
+      {
+        "name": "Christian Marcantonio",
+        "aff": "DSWLab"
+      },
+      {
+        "name": "Giuseppe Consolo",
+        "aff": "University of Graz"
+      }
+    ],
+    "abstract": "Il contributo presenta SEBASTIAN, uno strumento per l’analisi spaziale e la visualizzazione di dati storici. Inserendosi nel dibattito delle Digital Humanities sul ruolo del digitale come elemento capace di incidere sulle pratiche interpretative e sulle forme di mediazione del sapere storico, il progetto pone al centro il passaggio dal testo al dato come momento metodologicamente rilevante della ricerca storica. Le informazioni contenute nelle fonti vengono scomposte, normalizzate e organizzate in forma strutturata, così da renderle interrogabili, comparabili e visualizzabili attraverso strumenti cartografici digitali.\nIl caso di studio, caratterizzato da una lunga durata istituzionale e da una documentazione ricca seppur frammentaria, costituisce un banco di prova per sperimentare un modello di organizzazione dei dati orientato all’analisi territoriale di lungo periodo. L’unità minima di analisi non è il documento nel suo complesso, ma il singolo elemento territoriale attestato nelle fonti, registrato all’interno di una struttura tabellare progettata ad hoc, che consente di mantenere un collegamento esplicito tra dato, fonte documentaria e contesto archivistico. A partire dai dati strutturati, SEBASTIAN integra un ambiente di analisi e visualizzazione basato su strumenti Python che consente di generare mappe interattive in formato HTML. La visualizzazione è intesa come parte integrante del processo di analisi e come interfaccia di accesso ai dati. Particolare attenzione è…",
+    "area_code": "archives",
+    "area_label": "Archivi ed edizioni",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 28,
+    "title": "Beyond Archives: A Three-Stage Workflow for Relational Digital Libraries of Written and Oral Memory Sources",
+    "authors_raw": "Giulia Lembo (Università di Napoli \"L'Orientale\")",
+    "authors": [
+      {
+        "name": "Giulia Lembo",
+        "aff": "University of Naples \"L'Orientale\""
+      }
+    ],
+    "abstract": "The project Beyond Archives aims to develop a relational digital library for memory sources in conflicted historical settings, using the post-war Julian–Dalmatian exodus to Naples as a laboratory. It connects institutional records and oral testimonies in one environment while keeping differences in provenance, access conditions, and narrative contexts readable. The approach adopts a three-stage workflow applied in parallel to written and oral streams: digitization produces stable surrogates and minimal metadata; formalization creates aligned, inspectable structural and textual layers; publication reassembles these layers into traceable access paths across facsimiles, transcriptions, and TEI encoding. We present early results from an iterative cycle of model building (SegModel-A/B; ATRModel-1–3) on the written stream, where semantic layout segmentation and ATR are trained in eScriptorium/Kraken and exported as PAGE/ALTO to preserve coordinates for correction and TEI-oriented modelling. Two segmentation iterations show stable head/body regions, while stamps, marginalia, and signatures remain the main sources of variance. Three ATR cycles yield sizeable gains over the public baseline and an error profile dominated by recurrent whitespace mismatches and letter substitutions. Finally, we discuss implications for targeted ground-truth expansion, out-of-sample testing on new lots, and planned releases of checkpoints and paradata to support reuse.",
+    "area_code": "archives",
+    "area_label": "Archivi ed edizioni",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 30,
+    "title": "Gamification per la valorizzazione dei beni musicali. Un’ipotesi di raccolta di dati catalografici in crowdsourcing",
+    "authors_raw": "Marcello Ranieri (Alma Mater Studiorum Università di Bologna)",
+    "authors": [
+      {
+        "name": "Marcello Ranieri",
+        "aff": "Università di Bologna"
+      }
+    ],
+    "abstract": "La gamification è l’inserimento di dinamiche di gioco nello svolgimento di compiti che normalmente non le prevedono. Uno degli effetti positivi può consistere nell’attrarre pubblici nuovi verso la fruizione di beni culturali. Si ipotizza un esempio di applicazione della gamification anche per il coinvolgimento del pubblico nella catalogazione, raccogliendo dati in crowdsourcing. Per i brani estratti da opere di arti performative, ad esempio incisi su disco, le attuali norme di descrizione catalografica non prevedono l’indicazione della posizione del brano all’interno dell’opera completa. Viene dunque trascurato lo svolgimento nel tempo che è connaturato alla fruizione delle arti performative. Per la valorizzazione di questo aspetto, invece, e per una fruizione più rispondente all’ordine originale, risulterebbe preferibile inserire nel catalogo dati descrittivi della posizione dei brani estratti all’interno dell’opera. Tale operazione richiederebbe l’intervento di catalogatori professionali formati appositamente, con impatto economico ed effetti sull’organizzazione del lavoro di catalogazione. La gamification del medesimo compito mediante piattaforme di crowdsourging non richiederebbe invece ai giocatori competenze iniziali e il risultato potrebbe raggiungere la medesima precisione attraverso correzioni successive durante le sessioni di gioco.",
+    "area_code": "co-construction",
+    "area_label": "DH e co-costruzione di conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 31,
+    "title": "Valorizzazione digitale del patrimonio culturale: Public- Private-partnership e partecipazione sociale",
+    "authors_raw": "Annalisa Ciliberti (Accademia di Belle Arti di Bari)",
+    "authors": [
+      {
+        "name": "Annalisa Ciliberti",
+        "aff": "Accademia di Belle Arti di Bari"
+      }
+    ],
+    "abstract": "La ricerca esplora un modello sperimentale di valorizzazione digitale delle masserie storiche del territorio pugliese attraverso un approccio critico alle pratiche di fruizione del patrimonio culturale. A partire da una rassegna comparativa di casi nazionali e internazionali e dall’analisi delle più recenti strategie digitali applicate ai contesti rurali, il lavoro indaga come strumenti e piattaforme possano sostenere forme di turismo etico e accesso pubblico evitando processi di mercificazione del bene culturale. Viene proposto un dispositivo di partenariato pubblico-privato orientato a trasparenza gestionale, partecipazione comunitaria e sostenibilità culturale, articolato in tre assi principali: un hub digitale per la co-produzione di contenuti e la gestione dei flussi di visita; percorsi esperienziali ibridi che integrano presenza fisica e strumenti immersivi; collaborazioni con istituzioni formative e artistiche per attività di ricerca e co-creazione. Il contributo discute condizioni di trasferibilità, limiti applicativi e rischi di derive estrattive, offrendo linee guida operative per una valorizzazione pubblica e sostenibile del patrimonio rurale.",
+    "area_code": "co-construction",
+    "area_label": "DH e co-costruzione di conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 40,
+    "title": "Ontologycore: A Formal Knowledge Graph of Internet Aesthetics",
+    "authors_raw": "Shiho Nakamura (Alma Mater Studiorum Università di Bologna); Anouk Flinkert (Alma Mater Studiorum Università di Bologna); Ekaterina Krasnova (Alma Mater Studiorum Università di Bologna)",
+    "authors": [
+      {
+        "name": "Shiho Nakamura",
+        "aff": "Università di Bologna"
+      },
+      {
+        "name": "Anouk Flinkert",
+        "aff": "Università di Bologna"
+      },
+      {
+        "name": "Ekaterina Krasnova",
+        "aff": "Università di Bologna"
+      }
+    ],
+    "abstract": "This paper presents Ontologycore, an ontology and knowledge graph designed to capture the structure and creative processes underlying internet aesthetics; cultural, visual, and lifestyle styles such as \"Y2K\" or \"Dark Academia\" that emerge and evolve primarily through social media platforms. Applying Rhodes' 4P theory of creativity and the CREON ontology for modeling creativity theories, the project formalizes six prominent internet aesthetics with the aim of answering the following question: to what extent can a formal ontology describe the inherently fluid and multidimensional character of internet aesthetics and the creative processes behind them? The methodology follows a bottom-up approach based on eXtreme Design principles, utilizing Protégé software to develop the ontology. The ontology organizes knowledge around four top-level classes corresponding to the 4P theory: Person (creators, influencers, consumers), Process (Convergence, Divergence, and Metaconvergence), Product (aesthetic elements and creative outputs), and Press (media and platforms). The concept of meta-convergence, the phase in which divergent aesthetic experimentation solidifies into a culturally recognizable style, is central to modeling how aesthetics stabilize over time. Accuracy was evaluated through competency questions and SPARQL queries using an expanded dataset of 124 unique aesthetic element instances. Results indicate that aesthetics share common creative procedures but are distinguishable by…",
+    "area_code": "data",
+    "area_label": "Dati e rappresentazione conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 51,
+    "title": "[hidden]: A Workflow for the Preservation and Collaborative Reuse of Analog Oral History Collections",
+    "authors_raw": "Laurent Antoine Fintoni (Alma Mater Studiorum Università di Bologna); Nike del Quercio (Alma Mater Studiorum Università di Bologna); Costanza Paollilo (Alma Mater Studiorum Università di Bologna)",
+    "authors": [
+      {
+        "name": "Laurent Antoine Fintoni",
+        "aff": "Università di Bologna"
+      },
+      {
+        "name": "Nike del Quercio",
+        "aff": "Università di Bologna"
+      },
+      {
+        "name": "Costanza Paollilo",
+        "aff": "Università di Bologna"
+      }
+    ],
+    "abstract": "This paper presents [hidden], a Horizon Europe-funded project developing a reusable workflow for the FAIR-ification of legacy oral history collections to allow for the transition of these important but underused collections to current Open Science standards. Making use of a unique analog collection about Italian mass culture, the workflow is being developed jointly by domain experts and digital humanists with particular attention to the preservation of the recorded voice as a core epistemic dimension, standards-based interoperability and semantic enrichment, and compliance with contemporary privacy regulations. This paper presents the initial stages of the project, detailing the collection used, the elements of the workflow, and approaches through which FAIR-ification is reframed as a process of co-produced knowledge.",
+    "area_code": "memories",
+    "area_label": "Memorie, Storia, patrimonio",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 52,
+    "title": "A Workflow-Centred Approach to Managing Semantic Artifacts as Linked Open Data",
+    "authors_raw": "Michele Mallia (CNR-ILC); Fahad Khan (CNR-ILC); Valeria Quochi (CNR-ILC)",
+    "authors": [
+      {
+        "name": "Michele Mallia",
+        "aff": "CNR-ILC"
+      },
+      {
+        "name": "Fahad Khan",
+        "aff": "CNR-ILC"
+      },
+      {
+        "name": "Valeria Quochi",
+        "aff": "CNR-ILC"
+      }
+    ],
+    "abstract": "Semantic Artifacts such as vocabularies and lexica are increasingly published as Linked Open Data, yet their management often relies on fragmented and ad-hoc practices. This paper presents a workflow-centred approach for the ingestion, validation, editing and publication of RDF-based Semantic Artifacts within a dedicated infrastructural pilot. The proposed workflow integrates certified repositories, automated quality checks, controlled editing environments and semantic web publication services, supporting both SKOS vocabularies and OntoLex-Lemon lexica. By formalising each step of the lifecycle of a Semantic Artifact, the workflow ensures compliance with FAIR and Linked Data principles, supports versioning and traceability, and reduces technical barriers for Digital Humanities practitioners. The paper discusses how a workflow-oriented design can improve sustainability, reusability and interoperability of semantic resources across research communities.",
+    "area_code": "data",
+    "area_label": "Dati e rappresentazione conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 58,
+    "title": "Tra riconoscimento disciplinare e prospettiva pubblica: un modello logico-applicativo per le conoscenze e le competenze nelle DH",
+    "authors_raw": "Lisa Reggiani (CNR-ILIESI)",
+    "authors": [
+      {
+        "name": "Lisa Reggiani",
+        "aff": "Consiglio Nazionale delle Ricerche"
+      }
+    ],
+    "abstract": "Il contributo propone un modello logico-applicativo per le conoscenze e le competenze nelle DH, che le sistematizza in uno schema complessivo e ne chiarisce la proiezione verso l’esterno, evidenziando l’opportunità di trasferirle, quale prezioso corredo contrassegnato da un solido impianto metodologico, sia alle altre comunità di ricerca che a segmenti diversificati della società, per assicurare un’autentica cittadinanza digitale allargata.\nTale modello, ispirato a quello per l’informazione-documentazione di Duplessis, presenta tre livelli concentrici: un nucleo metodologico, uno strato intermedio euristico-trasversale e uno più esterno, di natura didattica e formativa.\nAlcuni tratti distintivi delle DH intersecano tutti e tre i livelli e garantiscono il confronto dialogico con differenti comunità scientifiche e con la società: la multi-, inter- e trans-disciplinarità, affine alla intertwingularity di Ted Nelson, una vocazione epistemologica che si traduce nella predilezione per team  interfunzionali e nella valorizzazione delle diversità e della complementarità di competenze e professionalità; la co-progettazione, corrispondente al design thinking, in cui la dimensione collaborativa permea tutte le fasi ideative e applicative; un approccio metodologico, assimilabile al digital thinking, che incorpora, in un’integrazione progressiva, punti di vista, conoscenze, metodi, strategie e strumenti secondo una prospettiva funzionale.\nAlcune realizzazioni esemplificano l’applicazio…",
+    "area_code": "co-construction",
+    "area_label": "DH e co-costruzione di conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 61,
+    "title": "Il restauro testuale dei papiri nel progetto <PROGETTO>: <PIATTAFORMA> e l’integrazione di modelli linguistici",
+    "authors_raw": "Simone Zenzaro (CNR-ILC); Federico Boschetti (CNR-ILC); Angelo Mario Del Grosso (CNR-ILC); Graziano Ranocchia (Università di Pisa)",
+    "authors": [
+      {
+        "name": "Simone Zenzaro",
+        "aff": "CNR-ILC"
+      },
+      {
+        "name": "Federico Boschetti",
+        "aff": "CNR-ILC"
+      },
+      {
+        "name": "Angelo Mario Del Grosso",
+        "aff": "CNR-ILC"
+      },
+      {
+        "name": "Graziano Ranocchia",
+        "aff": "Dipartimento di Filologia, Letteratura e Linguistica, Università di Pisa"
+      }
+    ],
+    "abstract": "Il contributo presenta un approccio automatizzato per il restauro testuale dei papiri di Ercolano basata su modelli linguistici di tipo Transformer. L’integrazione dell’intelligenza artificiale nella piattaforma <PIATTAFORMA> tramite API RESTful abilita un workflow collaborativo in cui i suggerimenti automatici di supplementi testuali che supportano, senza sostituirla, la discussione filologica. L’approccio propone una filologia assistita da tecnologie di AI generativa che bilancia analisi computazionale e controllo editoriale umano, ponendo attenzione alla sostenibilità tecnologica dell’edizione scientifica digitale.",
+    "area_code": "co-construction",
+    "area_label": "DH e co-costruzione di conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 62,
+    "title": "MAGIC–MeMo: Shared Digitization Practices for the Written Memory of Montecassino",
+    "authors_raw": "Elvira Zambardi (Università degli Studi di Napoli \"Federico II\"); Ylenia Nardone (Università degli Studi di Napoli \"Federico II\"); Giuseppina Civitillo (Università degli Studi di Napoli \"Federico II\")",
+    "authors": [
+      {
+        "name": "Elvira Zambardi",
+        "aff": "Università degli studi di Napoli \"Federico II\""
+      },
+      {
+        "name": "Ylenia Nardone",
+        "aff": "Università degli studi di Napoli \"Federico II\""
+      },
+      {
+        "name": "Giuseppina Civitillo",
+        "aff": "Università degli studi di Napoli \"Federico II\""
+      }
+    ],
+    "abstract": "The contribution presents the experience of collaboration between the MeMo – Memory of Montecassino and MAGIC projects, both engaged in the digitization, description, and enhancement of manuscript heritage, with particular reference to manuscript fragments and glossed Bibles preserved at the Abbey of Montecassino. The aim is to demonstrate how the integration of initiatives developed within different institutional contexts makes it possible to address, in a coordinated manner, issues related to digital reproduction, scholarly cataloguing, material analysis of artifacts, and the sustainability of digital infrastructures. MeMo is based on a long-term research trajectory dedicated to the systematic study of the Montecassino manuscript heritage and to the design of an open and interoperable digital environment capable of integrating images and codicological descriptions according to shared standards. MAGIC, launched in 2023, operates as a center for advanced technological services, integrating high-resolution acquisition, non-destructive diagnostic analyses, and experiments based on artificial intelligence. The collaboration between the two projects represents a virtuous model of integration between humanistic expertise and technological resources, grounded in Open Access infrastructures compliant with the FAIR principles. The experience gained from work on manuscript fragments and glossed Bibles demonstrates how advanced digitization, when guided by scholarly needs and embedd…",
+    "area_code": "memories",
+    "area_label": "Memorie, Storia, patrimonio",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 67,
+    "title": "Verso un grande corpus diacronico dell’italiano: il contributo degli esempi del GDLI",
+    "authors_raw": "Eva Sassolini (CNR-ILC); Marco Biffi (Università di Firenze); Sebastiana Cucurullo (CNR-ILC); Simonetta Montemagni (CNR-ILC)",
+    "authors": [
+      {
+        "name": "Eva Sassolini",
+        "aff": "CNR-ILC"
+      },
+      {
+        "name": "Marco Biffi",
+        "aff": "Università di Firenze"
+      },
+      {
+        "name": "Sebastiana Cucurullo",
+        "aff": "CNR-ILC"
+      },
+      {
+        "name": "Simonetta Montemagni",
+        "aff": "CNR-ILC"
+      }
+    ],
+    "abstract": "La disponibilità di corpora di ampie dimensioni dedicati alle varietà storiche dell’italiano costituisce tuttora una criticità. Sebbene negli ultimi anni siano state avviate diverse iniziative in questa direzione, le risorse esistenti risultano ancora limitate per estensione cronologica e dimensioni. In tale quadro si colloca il progetto ILC-DiacrITA, corpus diacronico dell’italiano sviluppato presso l’Istituto di Linguistica Computazionale “A. Zampolli” del CNR (CNR-ILC), la cui copertura dei secoli più antichi risulta tuttavia ancora poco consistente. Un’opportunità decisiva di ampliamento è offerta dal progetto di informatizzazione del Grande Dizionario della Lingua Italiana di Salvatore Battaglia (GDLI). Oltre alla strutturazione del dizionario, il progetto ha previsto l’estrazione sistematica degli esempi citati nelle voci lessicografiche, con l’obiettivo di trasformarli in una risorsa testuale autonoma da valorizzare (corpus GDLI). Il corpus così ottenuto rappresenta un patrimonio linguistico di eccezionale rilevanza: esso comprende oltre due milioni di passi e più di quaranta milioni di occorrenze (dato attualmente in fase di validazione), coprendo un arco cronologico di oltre un millennio. Pur caratterizzato da una prevalente matrice letteraria, il corpus GDLI presenta una notevole varietà di registri e tipologie testuali, includendo, accanto a lirica e narrativa, testi agiografici e trattatistici, documenti pratici e legislativi, nonché materiali della stampa peri…",
+    "area_code": "memories",
+    "area_label": "Memorie, Storia, patrimonio",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 70,
+    "title": "Trascrivere automaticamente i registri catastali sardi del primo Novecento con Transkribus: risultati di un caso di studio",
+    "authors_raw": "Andrea Pergola (Università degli Studi di Cagliari); Cecilia Tasca (Università degli Studi di Cagliari)",
+    "authors": [
+      {
+        "name": "Andrea Pergola",
+        "aff": "Università di Cagliari"
+      },
+      {
+        "name": "Cecilia Tasca",
+        "aff": "Università di Cagliari"
+      }
+    ],
+    "abstract": "L'articolo presenta i risultati del processo di digitalizzazione e trascrizione automatica di una serie di registri catastali sardi dei primi del Novecento attraverso l’utilizzo dell’applicativo Transkribus. Tale processo ha permesso la creazione di tre modelli personalizzati (tabella, layout, trascrizione) sviluppati attraverso l’etichettatura e la trascrizione manuale di 21 registri, che hanno portato a un significativo miglioramento dei modelli base proposti dalla piattaforma, consentendo di ottenere dataset strutturati interrogabili con un margine di errore contenuto.",
+    "area_code": "archives",
+    "area_label": "Archivi ed edizioni",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 77,
+    "title": "Implementing a controlled vocabulary for medieval administrative acts: theoretical and methodological considerations",
+    "authors_raw": "Chiara De Bastiani (Università Ca' Foscari Venezia)",
+    "authors": [
+      {
+        "name": "Chiara De Bastiani",
+        "aff": "Università Ca Foscari Venezia"
+      }
+    ],
+    "abstract": "This paper presents the theoretical and methodological considerations on the implementation of a controlled vocabulary for medieval administrative acts expressed in imperial diplomas. The controlled vocabulary constitutes an expansion of an ontological module for the bibliographic description of medieval charters related to Germanic emperors.  It is being conceived in order to overcome the heuristic limitations of the so far implemented bibliographic module. In fact, the bibliographic module currently in use models the acts as events, but does not allow for finer grained inquiries on the data. While the controlled vocabulary is still under construction, this paper presents the theoretical and methodological underpinnings for its implementation, starting from the literature on ontologies and the semantic modelling of medieval charters.",
+    "area_code": "data",
+    "area_label": "Dati e rappresentazione conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 81,
+    "title": "L’Archivio del Centro Conservazione e Restauro “La Venaria  Reale”: un caso studio per la diffusione dei dati tecnico scientifici",
+    "authors_raw": "Stefania De Blasi (Centro Conservazione Restauro \"La Venaria Reale\"); Lorena Palmieri (Museo San Giacomo di Lu); Chiara Pipino (Centro Conservazione Restauro \"La Venaria Reale\")",
+    "authors": [
+      {
+        "name": "Stefania De Blasi",
+        "aff": "Responsabile area Documentazione e Comunicazione Centro Conservazione Restauro \"La Venaria Reale\""
+      },
+      {
+        "name": "Lorena Palmieri",
+        "aff": "storica dell'arte specialista,conservatore Museo San Giacomo di Lu"
+      },
+      {
+        "name": "Chiara Pipino",
+        "aff": "Centro Conservazione Restauro La Venaria Reale"
+      }
+    ],
+    "abstract": "Il contributo presenta il quadro metodologico e i primi risultati di un tirocinio di ricerca condotto sull’Archivio del Centro Conservazione e Restauro “La Venaria Reale” con un focus particolare sugli interventi di diagnostica eseguiti durante il restauro di dipinti su tela.  \nIl progetto formativo si inserisce nel contesto del Master di II livello Esperti nelle attività di valutazione e di tutela del patrimonio culturale (2023-2025) dell’Università di Roma Tre e prende le mosse dalla recente attività di catalogazione e pubblicazione online degli archivi del Centro, avviata nell’ambito del bando PNRR 2023.  \nIl contributo intende mostrare come la documentazione diagnostica, spesso utilizzata esclusivamente in \nambito tecnico-scientifico, possa costituire una risorsa significativa per la costruzione di forme di accesso e \ndivulgazione del sapere. In questo senso, l’Archivio Restauri viene analizzato come caso di studio per esplorare le potenzialità di riuso e disseminazione dei dati scientifici in un’ottica di apertura, inclusività e condivisione della conoscenza.",
+    "area_code": "other",
+    "area_label": "Altri contributi DH",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 82,
+    "title": "Strumenti digitali per i percorsi di visita della Palazzina di Caccia di Stupinigi: Residenza Sabauda e Museo dell'Ammobiliamento",
+    "authors_raw": "Stefania De Blasi (Fondazione Centro Conservazione e Restauro La Venaria Reale)",
+    "authors": [
+      {
+        "name": "Stefania De Blasi",
+        "aff": "Fondazione Centro Conservazione e Restauro La Venaria Reale"
+      }
+    ],
+    "abstract": "La Palazzina di Caccia di Stupinigi, padiglione di caccia alle porte di Torino progettato nel 1729, ha una duplice funzione e missione: inserita nel sito seriale UNESCO delle Residenze Sabaude, rappresenta l'immagine della vita di corte nel Settecento, e al contempo è dal 1926 il primo Museo dell’Ammobiliamento italiano. In occasione dei cento anni del Museo, la Fondazione Ordine Mauriziano (FOM), proprietaria del Bene, ha avviato una riflessione sui percorsi di visita grazie ad una massiva campagna di digitalizzazione degli inventari del XIX e XX secolo della Real Casa, schede e immagini storiche delle collezioni. L’obiettivo è rendere accessibile e comprensibile ad un pubblico universale le due anime del luogo e distinguere, nell’articolato susseguirsi di stanze, cosa sia riferibile alla storia della Residenza e cosa invece sia rappresentativo del Museo. La creazione di una piattaforma web based “Collezioni in Ordine”, in grado di gestire dati provenienti da sistemi pregressi di catalogazione on line e locali, inventari storici e schede per la conservazione programmata, ha consentito di creare un catalogo delle collezioni consultabile sul sito web della FOM, affrontando molte criticità.\nI dati accessibili sono stati base per definire un percorso di visita che presenta, attraverso QR code e pannelli fotografici, approfondimenti su opere, sulla storia e sul restauro o sulle destinazioni d’uso delle sale nei diversi periodi. È anche disponibile un’esperienza immersiva attra…",
+    "area_code": "memories",
+    "area_label": "Memorie, Storia, patrimonio",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 83,
+    "title": "Ricostruzione virtuale di un patrimonio disperso: le collezioni di disegni a Genova nel XIX secolo.",
+    "authors_raw": "Giulia Pilosu (Università degli Studi di Genova)",
+    "authors": [
+      {
+        "name": "Giulia Pilosu",
+        "aff": "Università degli studi di Genova"
+      }
+    ],
+    "abstract": "Il progetto presentato si concentra sulla ricostruzione digitale delle collezioni di disegni presenti a Genova nel XIX secolo, un ambito ancora in parte inesplorato rispetto alle raccolte nobiliari cittadine di dipinti e statuaria che si sviluppano nei secoli precedenti, a partire dal Cinquecento. Sebbene in questo periodo il collezionismo grafico assuma caratteri più specifici, coinvolgendo tanto l'aristocrazia quanto il ceto artistico, la natura fortemente privata e personale della raccolte ha portato in diversi casi alla massiccia dispersione del patrimonio alla morte del collezionista. L'indagine si sofferma sulle vicende collezionistiche dello scultore e professore accademico Santo Varni e del marchese Marcello Durazzo: due percorsi speculari che permettono di testare diverse tipologie di virtual reunification su nuclei con genesi e destini diversi. L'obiettivo finale è la ricomposizione dell'assetto originale di questi complessi grafici, oggi frammentati tra istituzioni pubbliche, mercato antiquario e raccolte private. Metodologicamente, la ricerca si fonda sulla definizione di una struttura di dati capace di connettere le diverse fonti disponibili, tra cui cataloghi d’asta, archivi personali e carteggi inediti, per poter mappare lo spostamento delle opere. L’esito ultimo è lo sviluppo di un database, concepito come catalogo virtuale, capace di ricomporre l’unità delle collezioni e di restituirne l’accessibilità, al fine di comprendere le scelte collezionistiche e la…",
+    "area_code": "memories",
+    "area_label": "Memorie, Storia, patrimonio",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 84,
+    "title": "Il videogioco come strumento di mediazione interculturale",
+    "authors_raw": "Alessia Stocco (Università di Pisa)",
+    "authors": [
+      {
+        "name": "Alessia Stocco",
+        "aff": "Università di Pisa"
+      }
+    ],
+    "abstract": "Il presente elaborato indaga come il videogioco possa diventare uno strumento propedeutico al Diritto Interculturale, ponendo al centro dell’analisi la figura dell’Avatar e la necessità di comprendere il punto di vista altrui (\"decentramento\"). Partendo da un’introduzione all’Effetto Proteo e alla Retorica Procedurale, la ricerca ipotizza che l’immersione in un sistema di regole diverse dalle proprie costringa il giocatore a una mediazione attiva tra il proprio ordinamento valoriale e quello imposto dal software. Attraverso l’analisi di tre casi studio (The Legend of Zelda: Tears of the Kingdom, Papers, Please e Indika), il lavoro dimostra come le meccaniche di gioco facciano vivere all’utente tre esperienze diverse: il bisogno di collaborare con altre culture per sopravvivere (The Legend of Zelda), la difficile scelta tra seguire la burocrazia o la propria coscienza (Papers, Please) e la messa in discussione dei dogmi religiosi imposti (Indika). I risultati ottenuti suggeriscono che l’esperienza di videogioco possa offrire un laboratorio sicuro per sperimentare la diversità, pur evidenziando i rischi etici legati al cinismo o alla desensibilizzazione.\nParole chiave: Videogiochi; Diritto Interculturale; Effetto Proteo; Game Design; Empatia;",
+    "area_code": "co-construction",
+    "area_label": "DH e co-costruzione di conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 89,
+    "title": "Addestramento di un modello di HTR in Transkribus per testi plurilingui di età moderna: il caso del Ripulimento della lingua sarda (Madau)",
+    "authors_raw": "Giulia Murgia (Università degli Studi di Cagliari); Michela Incollu (Università degli Studi di Cagliari)",
+    "authors": [
+      {
+        "name": "Giulia Murgia",
+        "aff": "Università di Cagliari"
+      },
+      {
+        "name": "Michela Incollu",
+        "aff": "Università di Cagliari"
+      }
+    ],
+    "abstract": "Il contributo illustra le metodologie adottate per l’addestramento, tramite la piattaforma Transkribus, di un modello sperimentale di Handwritten Text Recognition (HTR) applicato a un manoscritto plurilingue di età moderna, il Ripulimento della lingua sarda di Matteo Madau (XVIII secolo). Viene riportato l’intero flusso di lavoro: preparazione dati e analisi del layout del documento; creazione della Ground Truth, con particolare attenzione alla metodologia impiegata per garantire la coerenza dei dati utili all’addestramento; criteri adottati per la selezione del modello base; avvio del processo di fine-tuning. I risultati del primo ciclo di addestramento sono presentati e valutati attraverso successivi test del modello su nuove pagine non viste durante l’addestramento. Le trascrizioni ottenute sono analizzate in relazione alla tipologia e alla frequenza degli errori di riconoscimento automatico. Tale analisi consente di misurare le effettive prestazioni del modello e di individuarne le principali criticità, in vista di futuri cicli di addestramento volti a migliorarne l’affidabilità.",
+    "area_code": "textualities",
+    "area_label": "Testualità digitali",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 91,
+    "title": "Tra fotografia e segno: la trascrizione informatizzata dei registri storici Alinari",
+    "authors_raw": "Pamela Krzemien (Università di Pisa)",
+    "authors": [
+      {
+        "name": "Pamela Krzemien",
+        "aff": "Università di Pisa"
+      }
+    ],
+    "abstract": "Il progetto di ricerca è incentrato sulla valorizzazione dei registri storici Alinari, pertinenti il fondo Patronato: si tratta di due registri, ordinati rispettivamente in ordine cronologico e alfabetico, prodotti dalla storica società fotografica Fratelli Alinari per documentare la produzione di negativi e positivi su commissione (1893-2019).\nAl fine di poter ricollegare i negativi fotografici alle informazioni manoscritte, si è resa necessaria una trascrizione informatizzata dei registri attraverso un procedimento HTR; per tale procedura è stata utilizzata la piattaforma Transkribus.\nData l'eterogeneità della tipologia di grafie e l'ampiezza dell'arco cronologico, sono stati predisposti dunque due modelli per il recognition text: uno indirizzato alla lettura di una scrittura più calligrafica, tipica della fine del XIX sec./inizio XX, l'altra per una lettura di una grafia più confusa e imprecisa, che parrebbe affermarsi e imporsi a partire dal periodo della Seconda Guerra Mondiale. Un terzo modello è stato necessario per la costruzione di un sistema tabellare che risultava totalmente assente nella lista dei modelli presenti all'interno del programma.\nIl risultato è stato dunque migrato su Excel, pronto per essere fruito, e alla trascrizione delle singole commissioni saranno affiancate le stringhe identificative delle immagini delle lastre.\nL'importanza del progetto risulta fondamentale considerati: la fragilità dei manoscritti cartacei; la temporanea non accessibilità de…",
+    "area_code": "archives",
+    "area_label": "Archivi ed edizioni",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 108,
+    "title": "Mappe, scale e interpretazione. Per una cartografia digitale semantica dello spazio narrativo",
+    "authors_raw": "Lorenzo Sabatino (Alma Mater Studiorum Università di Bologna)",
+    "authors": [
+      {
+        "name": "Lorenzo Sabatino",
+        "aff": "Università di Bologna"
+      }
+    ],
+    "abstract": "Il contributo propone una riflessione metodologica sul ruolo della cartografia digitale come interfaccia interpretativa, capace di sostenere un paradigma di scalar reading per lo studio della letteratura moderna e contemporanea, superando il rischio di riduzione positivista dello spazio narrativo. Attraverso due casi di studio complementari, rappresentati dall’Atlante illustrato dei Promessi sposi e il workflow GaddAtlas sul Pasticciaccio di Carlo Emilio Gadda, si dimostra come l’integrazione di cartografia esplorativa e modellizzazione ontologica consenta il passaggio progressivo dall’analisi visuale di primo livello a forme di interrogazione semantica specialistiche, formalizzando incertezza, stratificazione e ambivalenza dello spazio del racconto.",
+    "area_code": "data",
+    "area_label": "Dati e rappresentazione conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 110,
+    "title": "Dai workflow descrittivi ai workflow applicativi tramite AEON e l'IA",
+    "authors_raw": "Francesco Pinna (CNR-OVI); Emiliano Degl'Innocenti (CNR-OVI)",
+    "authors": [
+      {
+        "name": "Francesco Pinna",
+        "aff": "CNR"
+      },
+      {
+        "name": "Emiliano Degl'Innocenti",
+        "aff": "CNR"
+      }
+    ],
+    "abstract": "AEON (dAriah sErvice Oriented iNfrastructure) è la piattaforma web sviluppata da DARIAH-IT in H2IOSC per catalogare servizi e comporre, validare ed eseguire workflow applicativi nelle Scienze Umane e Sociali, in coerenza con i principi FAIR e l'ecosistema EOSC. Il paper analizza il divario tra workflow descrittivi – ricchi di contesto e utili alla trasparenza metodologica e alla discovery (come quelli dello SSHOC Marketplace), e pipeline eseguibili, che richiedono contratti di dato espliciti, specifiche API e controlli formali. Proponiamo una metodologia in cui un chatbot/LLM agent legge un workflow narrativo, segmenta gli step, distingue componenti computabili e concettuali, estrae azioni, entità e vincoli, quindi mappa ogni azione sui servizi AEON vincolandosi ai JSON manifest (input/output, formati, schemi, parametri e requisiti d'accesso). L'agente genera una proto-pipeline (Pipeline.json e bozza XML per WSO2 Micro Integrator/CAR) che viene sottoposta ai controlli del Connector e al ciclo di validazione, generazione e deploy di AEON, preservando tracciabilità, riproducibilità e governance. L'approccio è esemplificato sul workflow “Automatic Text Recognition Roadmap”, mostrando come la narrazione possa essere tradotta in una catena minima di servizi (ingestion → HTR → post-processing → TEI export). Discutiamo infine implicazioni e limiti (mediazione semantica, granularità degli step, lacune nei metadati) e delineiamo sviluppi futuri verso un “workflow translator agent” …",
+    "area_code": "co-construction",
+    "area_label": "DH e co-costruzione di conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 111,
+    "title": "Strategie di protezione, governance e sostenibilità degli archivi orali",
+    "authors_raw": "Rosaria Deluca (CNR-IIT); Elvira Mercatanti (CNR-ILC); Monica Monachini (CNR-ILC)",
+    "authors": [
+      {
+        "name": "Rosaria Deluca",
+        "aff": "CNR-IIT"
+      },
+      {
+        "name": "Elvira Mercatanti",
+        "aff": "CNR-ILC"
+      },
+      {
+        "name": "Monica Monachini",
+        "aff": "CNR-ILC"
+      }
+    ],
+    "abstract": "Il contributo presenta il modello sviluppato e adottato dal progetto [project name 1] per la gestione responsabile e sostenibile degli archivi orali, che pongono sfide particolarmente complesse sul piano normativo ed etico. Al centro del progetto si colloca il dato vocale, un oggetto “ibrido” che è al tempo stesso documento storico, fonte per la ricerca scientifica e dato personale sensibile, in quanto potenzialmente biometrico.\nPer rispondere a questa complessità, [project name 1] integra i principi FAIR con l’approccio di Privacy by Design, sviluppando un sistema che rende i dati accessibili e riutilizzabili senza compromettere la tutela dei diritti delle persone coinvolte. Il modello si fonda su una governance chiara delle responsabilità, sul principio di accountability e su un sistema di accesso differenziato, capace di proteggere le fonti e i diritti fondamentali, garantendo al contempo la solidità giuridica degli archivi.\nQuesto approccio viene messo a confronto con il progetto [project name 2], un archivio digitale di testimonianze non letterarie di sopravvissuti ai Lager, che affronta problematiche analoghe legate alla gestione di dati orali particolarmente delicati e alla distribuzione delle responsabilità tra più soggetti. Attraverso l’analisi di questo caso di studio, il contributo mostra come il modello [project name 1] possa accompagnare il passaggio da archivi di progetto a risorse FAIR, sostenibili e riutilizzabili, nel rispetto della protezione dei dati per…",
+    "area_code": "archives",
+    "area_label": "Archivi ed edizioni",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 117,
+    "title": "Biblioteche filosofiche private e memoria culturale: http://picus.unica.it/",
+    "authors_raw": "Andrea Lamberti (Università degli Studi di Cagliari); Giovanna Granata (Università degli Studi di Cagliari)",
+    "authors": [
+      {
+        "name": "Andrea Lamberti",
+        "aff": "Università di Cagliari"
+      },
+      {
+        "name": "Giovanna Granata",
+        "aff": "Università di Cagliari"
+      }
+    ],
+    "abstract": "La creazione di spazi virtuali che accolgano in maniera strutturata dati e materiali è nell’attuale era digitale un passaggio essenziale per la conservazione e la ricostruzione della nostra memoria culturale. Gli straordinari mezzi impiegati negli ultimi anni per preservare la documentazione, attraverso gli strumenti e i processi di digitalizzazione, non sempre hanno coinciso con una maggiore accessibilità. La sovrabbondanza di dati, riversati online in modo disorganizzato, ha di fatto costituito un limite alla loro fruizione, soprattutto laddove non sono stati previsti criteri e parametri con i quali ordinare e ricercare le informazioni.\nNei primi anni Duemila, il progetto “Biblioteche filosofiche private di età moderna e contemporanea”, che ha portato alla realizzazione del sito web http://picus.unica.it/, ha rappresentato una vera e propria novità nel campo dell’umanistica digitale, con lo scopo di conservare e diffondere parti significative della nostra storia culturale, attraverso una ricerca al confine tra biblioteconomia e filosofia. La proposta progettuale ha restituito visibilità a un patrimonio altrimenti destinato ad essere trascurato: i cataloghi e gli inventari delle raccolte librarie private con un impatto significativo nella storia della filosofia e della cultura europea.\nNel 2026, il sito web è stato oggetto di un lavoro profondo di rinnovamento che ha inteso sfruttare al massimo le possibilità offerte dalla conversione digitale e dalla sua pervasività, lim…",
+    "area_code": "memories",
+    "area_label": "Memorie, Storia, patrimonio",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 121,
+    "title": "La Digital Library e l’Ecosistema digitale per la cultura come  opportunità di public engagement",
+    "authors_raw": "Biancamaria Hermanin (Ministero della Cultura)",
+    "authors": [
+      {
+        "name": "Biancamaria Hermanin",
+        "aff": "Ministero della Cultura"
+      }
+    ],
+    "abstract": "The concept of the digital library, although common for thirty years, remains difficult to define due to its \nintrinsic complexity. This complexity stems from the multidimensional nature of the system, combining \ntechnological, cultural, and social factors typical of memory institutions. Digital libraries are not mere IT \narchitectures but complex systems where components interact dynamically and non-linearly, following the \nlogic that “everything depends on everything else” (Rickles et al., 2007). Their development requires \ncritical choices that affect both processes and final products, highlighting essential (domain modeling) and \naccidental (technological) complexity.\nThe evolution of the World Wide Web has transformed digital libraries into increasingly accessible public \ninfrastructures, redefining the role of humanistic research and promoting public engagement. In this \ncontext, Ecomic, the digital ecosystem for culture promoted by the Central Institute for the Digitization of \nCultural Heritage of Italian Ministry of Culture, is a dynamic network of subjects, data, and technologies, \nbased on the Data as a Service and Knowledge as a Service paradigms. A key element of Ecomic is its \nknowledge graphs, which transform digital resources from isolated elements into nodes of a relational \nsystem. The integration of graphs from different domains overcomes the fragmentation between archives, \nlibraries, and museums, creating a heritage explorable from multiple perspective…",
+    "area_code": "data",
+    "area_label": "Dati e rappresentazione conoscenza",
+    "iscritto": false,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 122,
+    "title": "Grafoteca e la costruzione digitale della memoria manoscritta: curatela, metadatazione e reti di risorse",
+    "authors_raw": "Amalia Carrano (Ricercatrice Indipendente)",
+    "authors": [
+      {
+        "name": "Amalia Carrano",
+        "aff": "Independent Researcher"
+      }
+    ],
+    "abstract": "La scrittura a mano, intesa come pratica culturale e oggetto di studio, è oggi attraversata da una progressiva marginalizzazione nei contesti digitali; parallelamente, le risorse dedicate alla cultura grafologica, intesa come tradizione di studi e pratiche sull’analisi della scrittura, risultano spesso frammentate tra collezioni fisiche e ambienti eterogenei. Tale dispersione rende complessa la reperibilità delle fonti, la loro contestualizzazione e il riuso informato in ambito di ricerca e di valorizzazione culturale. Il contributo presenta Grafoteca, una biblioteca digitale curatoriale dedicata alla manoscrittura e alla cultura grafologica, basata su attività di selezione, curatela e descrizione. Il progetto raccoglie e mette in relazione testi, studi e materiali documentari, costruendo un ambiente informativo coerente che favorisce il recupero, l’esplorazione e il riuso. Accanto all’archivio descrittivo, la piattaforma integra una rete di collegamenti a portali e collezioni digitali esterne, configurandosi come strumento di orientamento verso biblioteche, archivi e istituzioni culturali nazionali e internazionali impegnate nella conservazione e valorizzazione dei patrimoni manoscritti. Il sistema è realizzato su piattaforma Omeka Classic e adotta lo standard Dublin Core come schema descrittivo di base, integrato da pratiche di metadatazione arricchita e curatela digitale. L’architettura informativa si fonda su percorsi tematici e strategie di mediazione culturale volte …",
+    "area_code": "archives",
+    "area_label": "Archivi ed edizioni",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 131,
+    "title": "Il ruolo del Test Plan per la validazione:  Il caso d'uso del Marketplace H2IOSC",
+    "authors_raw": "Vittoria Fabiani (CNR-ILIESI)",
+    "authors": [
+      {
+        "name": "Vittoria Fabiani",
+        "aff": "CNR-ILIESI"
+      }
+    ],
+    "abstract": "L'implementazione di un progetto di discipline umanistiche, come una piattaforma digitale, comporta un processo in più fasi che nella maggioranza dei casi implicano il design delle interfacce e conseguentemente l’architettura e la configurazione di backend e di frontend. \nAll’interno di questo processo di sviluppo, il Test Plan è il documento che assicura l'affidabilità della piattaforma. Esso si inserisce in un flusso documentale volto a sostenere l'intero ciclo di vita del progetto: dal design (modellazione dei dati) al monitoraggio dello sviluppo tecnologico, fino alla validazione e alla conservazione a lungo termine dei risultati. \n\nQuesto lavoro nasce dal caso d’uso sviluppato per la progettazione del Marketplace di H2IOSC¹ (Humanities and Cultural Heritage Italian Open Science Cloud), una piattaforma a servizio delle DH, dedicata a raccogliere e disseminare i prodotti della ricerca umanistica.",
+    "area_code": "other",
+    "area_label": "Altri contributi DH",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 132,
+    "title": "Lexicon Philosophicum: una rivista digitale per la condivisione della conoscenza umanistica",
+    "authors_raw": "Pietro  Restaneo (CNR-ILIESI); Maria Cristina Dalfino (CNR-ILIESI); Pamela Barletta (CNR-ILIESI)",
+    "authors": [
+      {
+        "name": "Pietro  Restaneo",
+        "aff": "CNR-ILIESI"
+      },
+      {
+        "name": "Maria Cristina Dalfino",
+        "aff": "CNR-ILIESI"
+      },
+      {
+        "name": "Pamela Barletta",
+        "aff": "CNR-ILIESI"
+      }
+    ],
+    "abstract": "Lo scopo di questo contributo è quello di offrire alcuni spunti di riflessione nell’ambito dell’editoria accademica istituzionale (Institutional Publishing) in Diamond Open Access, basati sull’esperienza nella gestione della rivista Lexicon Philosophicum: International Journal for the History of Texts and Ideas. Nell’articolo si cercherà in particolare di mettere in luce il ruolo del digitale e del public engagement nel caso specifico di Lexicon Philosophicum, non solo per la ricerca umanistica in senso stretto ma anche in generale per le Digital Humanities. Si illustrerà quanto, nel processo evolutivo della Rivista, si è fatto per tenersi al passo con le trasformazioni nella definizione di scienza aperta, quali le criticità da affrontare e quali gli obiettivi da perseguire nel public engagement.",
+    "area_code": "co-construction",
+    "area_label": "DH e co-costruzione di conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 134,
+    "title": "Modelli digitali interattivi per gli archivi teatrali storici: mappare le relazioni semantiche al Teatro Metastasio di Prato (1827–1860)",
+    "authors_raw": "Matilde Innocenti (Università di Firenze)",
+    "authors": [
+      {
+        "name": "Matilde Innocenti",
+        "aff": "Università di Firenze"
+      }
+    ],
+    "abstract": "A partire da un’analisi storico-archivistica sistematica, il contributo propone una riflessione teorica che si concretizza nello sviluppo di un modello digitale per la conservazione, l’accessibilità e la valorizzazione del fondo del Teatro Metastasio di Prato relativo al periodo 1827–1860. Il modello introduce una descrizione “aumentata”, intesa come superamento della mediazione archivistica esclusivamente gerarchica, a favore di un approccio ergodico, capace di integrare entità eterogenee e di investigare in modo modulare e dinamico relazioni semantiche complesse. Interattivo e configurabile, il modello si fonda su un database di consultazione concepito come infrastruttura di interrogazione, in cui la definizione di categorie interpretative consente di incrociare i dati e di mettere in dialogo i contenuti all’interno di una struttura a matrice stratificata. Tale impostazione permette di restituire e ricostruire, sia graficamente sia attraverso i testi, le dinamiche istituzionali, amministrative ed economiche che regolavano il funzionamento del Teatro.\nL’adozione di un repository pubblico mira, infine, a garantire la riusabilità e la sostenibilità del modello, prevedendo la possibilità di una sua espansione e integrazione nel tempo.",
+    "area_code": "archives",
+    "area_label": "Archivi ed edizioni",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 136,
+    "title": "Intelligenza artificiale, reference digitale e accessibilità: l’esperienza di Alphabetica",
+    "authors_raw": "Flavia Bruni (ICCU); Elisabetta Castro (ICCU)",
+    "authors": [
+      {
+        "name": "Flavia Bruni",
+        "aff": "ICCU"
+      },
+      {
+        "name": "Elisabetta Castro",
+        "aff": "ICCU"
+      }
+    ],
+    "abstract": "I primi tentativi di applicazione dell’intelligenza artificiale ai cataloghi online si sono concentrati sulla catalogazione piuttosto che sul reference e sulla fruizione. Alphabetica, il portale lanciato dall’ICCU nel 2021 per offrire un’esperienza di ricerca innovativa, propone invece un ‘reference occultato’, ovvero suggerimenti e percorsi di navigazione basati su criteri biblioteconomici e non sulla profilazione degli utenti tipica dei motori di ricerca commerciali. Questo contributo illustra sinteticamente le scelte adottate in fase di progettazione del portale e gli sviluppi tuttora in corso, in particolare per quanto riguarda la reperibilità delle risorse accessibili (Braille, audiolibri, CAA, alta leggibilità, LIA) anche in un nuovo catalogo afferente in corso di sviluppo grazie a un recente finanziamento di cui l’ICCU è risultato vincitore.",
+    "area_code": "archives",
+    "area_label": "Archivi ed edizioni",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 143,
+    "title": "The Sinergy project: documenting the tangible and intangible heritage of rural societies in the Alpujarra (Sierra Nevada).",
+    "authors_raw": "Alessandro Panetta (CNR-ISEM)",
+    "authors": [
+      {
+        "name": "Alessandro Panetta",
+        "aff": "CNR-ISEM"
+      }
+    ],
+    "abstract": "The Sinergy project, developed jointly by CNR-ISEM and the University of Granada, is dedicated to the study of rural societies in the Sierra Nevada (Alpujarra, Barranco del Poqueira) in recent centuries, starting with the documentation of the tangible and intangible heritage linked to the historical management of environmental resources. The area preserves a rich heritage of artefacts linked to irrigated crops (acequias, cisterns, canals), slope arrangements (terraces, walls), buildings and roads, now partly abandoned and in rapid decline. The research adopts a regressive method, starting from practices still in use or recently abandoned to trace back to older ones, reconstructing management systems, agro-forestry-pastoral activities, forms of settlement and social relations connected to environmental resources. On an operational level, the project involves a series of archaeological surveys, the integration of 3D photogrammetry for the survey and monitoring of artefacts, and the collection of oral sources, with the aim of producing a reusable database and a complex, multi-level interpretation useful for research and heritage management.",
+    "area_code": "memories",
+    "area_label": "Memorie, Storia, patrimonio",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 146,
+    "title": "Digital Humanities e Liceo Classico: un laboratorio di Learning Design",
+    "authors_raw": "Paolo Sartori (IISCA 'Tacito-Metelli' Terni)",
+    "authors": [
+      {
+        "name": "Paolo Sartori (IISCA 'Tacito-Metelli' (Terni))",
+        "aff": ""
+      }
+    ],
+    "abstract": "L’informatica umanistica, nelle sue varie declinazioni, si sta gradualmente facendo strada anche nei percorsi formativi della scuola secondaria di secondo grado, in particolare al Liceo Classico. La sua introduzione nelle attività didattiche è di grande importanza per dare forma alle competenze digitali previste nei piani formativi della scuola secondaria e per orientare i discenti alle professioni digitali del futuro, e in particolare a quelle nel settore culturale. Il Liceo Classico rappresenta il tipo di scuola che più di altre può trarre beneficio dall’inserimento di percorsi formativi nelle Digital Humanities per quanto concerne il rinnovamento del piano di studi, la diversificazione delle metodologie didattiche e la formazione di profili in uscita capaci tanto nelle competenze umanistiche quanto in quelle digitali, e per orientare gli studi classici verso le professioni digitali in ambito culturale, ampliando il tradizionale pubblico di riferimento per il Liceo Classico.\nLe sperimentazioni didattiche in corso di sviluppo mostrano la necessità di una progettazione sistematica di un curriculum formativo tanto per alunni quanto per docenti, che coinvolga scuole, ministeri, università ed enti certificatori, per evitare la dispersione e l’indebolimento di iniziative e risultati attesi, e per mettere a punto un sistema formativo che congiunga verticalmente e in modo organico scuola ed università.\nIl presente contributo intende dare conto degli ultimi sviluppi della didatti…",
+    "area_code": "co-construction",
+    "area_label": "DH e co-costruzione di conoscenza",
+    "iscritto": false,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 149,
+    "title": "Raccontando e valorizzando il patrimonio culturale. Dalle prime esperienze ai progetti futuri",
+    "authors_raw": "Giovanni Serreli (CNR-ISEM); Maria Grazia Rosaria Mele (CNR-ISEM); Luigi Serra (CNR-ISEM); Samuel Aldo Iacolina (CRS4)",
+    "authors": [
+      {
+        "name": "Giovanni Serreli",
+        "aff": "CNR ISEM"
+      },
+      {
+        "name": "Maria Grazia Rosaria Mele",
+        "aff": "CNR ISEM"
+      },
+      {
+        "name": "Luigi Serra",
+        "aff": "CNR ISEM"
+      },
+      {
+        "name": "Samuel Aldo Iacolina",
+        "aff": "CRS4"
+      }
+    ],
+    "abstract": "Fin dalle origini l’Istituto ha dedicato particolare attenzione alle attività di divulgazione delle ricerche in ambito storico, già prima che la cosiddetta Terza missione fosse istituzionalizzata. Al principio furono mostre e pubblicazioni destinate a larghe fasce di popolazione; dopo il primo decennio del Duemila gli storici dell’Istituto, in collaborazione con altri specialisti, si sono dedicato anche ad attività di divulgazione e comunicazione scientifica attraverso allestimenti multimediali e musealizzazioni. La filosofia che ha animato queste esperienze è stata quella del coinvolgimento sensoriale e immersivo del fruitore attraverso installazioni multimediali interattive nelle quali sono personaggi, monumenti e testimonianze materiali a raccontarsi in prima persona. Nella realizzazione dei prodotti multimediali e degli allestimenti sono state coinvolte comunità e compagnie di rievocazione storica locali. Tali esperienze hanno permesso la valorizzazione dei beni storico-culturali di alcune realtà locali (un castello medievale; un’epigrafe cinquecentesca sull’incursione del corsaro Barbarossa a Gonnostramatza; una torre costiera) e sono diventate modello di approccio alla valorizzazione del patrimonio culturale materiale e immateriale. Ci sono state anche criticità dovute a difficoltà di aggiornamento dei prodotti e mancanza di continuità progettuale e amministrativa. Facendo tesoro di ciò, i ricercatori dell’Istituto sono ora impegnati in altri due progetti di valorizz…",
+    "area_code": "memories",
+    "area_label": "Memorie, Storia, patrimonio",
+    "iscritto": false,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  },
+  {
+    "id": 120,
+    "title": "Edizione digitale commentata di Le libere donne di Magliano di Mario Tobino: primi passi, metodi e prospettive |",
+    "authors_raw": "Fabio Zarroli (Università degli Studi di Parma)",
+    "authors": [
+      {
+        "name": "Fabio Zarroli",
+        "aff": "Università degli Studi di Parma"
+      }
+    ],
+    "abstract": "Il contributo ha per obiettivo la presentazione del progetto di edizione digitale commentata di Le libere donne di Magliano di Mario Tobino (Vallecchi, Firenze 1953). Il progetto si inserisce nell’ambito della letteratura a tema manicomiale e degli psichiatri scrittori e coniuga alle nuove opportunità offerte dalle Digital Humanities una intensa attività di ricerca archivistica e documentale, condotta sia sulle carte del fondo autoriale che su documenti di carattere istituzionale. L’edizione mira perciò, da un lato, a fornire gli strumenti interpretativi e documentali necessari a sciogliere nodi e questioni interne al testo e/o alla sua stesura, dall’altro, ad aprire possibilità di analisi linguistica (confronto tra testo clinico e testo letterario), stilistiche (ricorrenze formali, tematiche e linguistiche) e di contenuto (documentazione dei fatti reali), permesse da precise scelte di codifica. Per quest’ultima si utilizza il linguaggio standard de-facto nell’ambito delle edizioni scientifiche digitali XML-TEI, mentre per la visualizzazione e per la funzione del testo si è ricorso al sistema web TEI publisher.",
+    "area_code": "archives",
+    "area_label": "Archivi ed edizioni",
+    "iscritto": true,
+    "photo": null,
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30"
+  }
+]

@@ -1,0 +1,90 @@
+/* AIUCD 2026 Companion · Glifi nuragici come icone delle aree tematiche
+   (Sprint B3, 2026-05-10). Pixel-art SVG monochrome che ereditano il colore via
+   `currentColor`. Strategia: mask-image così il glifo prende automaticamente il
+   color del contenitore (chip, badge, ecc.) senza dover inline il SVG. */
+
+.glyph {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  background-color: currentColor;
+  -webkit-mask-position: center;
+          mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+          mask-size: contain;
+  /* Pixel-art crisp scaling */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  flex-shrink: 0;
+}
+
+.glyph--co-construction { -webkit-mask-image: url(../img/glyphs/co-construction.svg); mask-image: url(../img/glyphs/co-construction.svg); }
+.glyph--archives        { -webkit-mask-image: url(../img/glyphs/archives.svg);        mask-image: url(../img/glyphs/archives.svg); }
+.glyph--memories        { -webkit-mask-image: url(../img/glyphs/memories.svg);        mask-image: url(../img/glyphs/memories.svg); }
+.glyph--data            { -webkit-mask-image: url(../img/glyphs/data.svg);            mask-image: url(../img/glyphs/data.svg); }
+.glyph--textualities    { -webkit-mask-image: url(../img/glyphs/textualities.svg);    mask-image: url(../img/glyphs/textualities.svg); }
+.glyph--other           { -webkit-mask-image: url(../img/glyphs/other.svg);           mask-image: url(../img/glyphs/other.svg); }
+
+/* Tagli dimensionali standard */
+.glyph--sm  { width: 14px; height: 14px; }
+.glyph--md  { width: 20px; height: 20px; }
+.glyph--lg  { width: 32px; height: 32px; }
+.glyph--xl  { width: 48px; height: 48px; }
+
+/* Icone funzionali (Sprint B3 iter 2): stesso pattern dei .glyph (mask-image +
+   currentColor) ma con SVG vector stroke (stile Feather/Lucide), distinte dai
+   glifi pixel-art riservati alle aree tematiche. */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  background-color: currentColor;
+  -webkit-mask-position: center;
+          mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+          mask-size: contain;
+  flex-shrink: 0;
+}
+.icon--star-filled  { -webkit-mask-image: url(../img/icons/star-filled.svg);  mask-image: url(../img/icons/star-filled.svg); }
+.icon--star-outline { -webkit-mask-image: url(../img/icons/star-outline.svg); mask-image: url(../img/icons/star-outline.svg); }
+.icon--compass      { -webkit-mask-image: url(../img/icons/compass.svg);      mask-image: url(../img/icons/compass.svg); }
+.icon--calendar     { -webkit-mask-image: url(../img/icons/calendar.svg);     mask-image: url(../img/icons/calendar.svg); }
+.icon--external     { -webkit-mask-image: url(../img/icons/external.svg);     mask-image: url(../img/icons/external.svg); }
+.icon--warning      { -webkit-mask-image: url(../img/icons/warning.svg);      mask-image: url(../img/icons/warning.svg); }
+.icon--close        { -webkit-mask-image: url(../img/icons/close.svg);        mask-image: url(../img/icons/close.svg); }
+
+.icon--sm { width: 14px; height: 14px; }
+.icon--md { width: 18px; height: 18px; }
+.icon--lg { width: 24px; height: 24px; }
+
+/* Pattern di sfondo pibiones (A6).
+   Tile 24×24, applicato con opacità molto bassa per non disturbare la lettura.
+   Usabile come: <element class="bg-pibiones">…</element>
+   Default colore navy; override via --pibiones-color. */
+.bg-pibiones {
+  position: relative;
+  isolation: isolate;
+}
+.bg-pibiones::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--pibiones-color, var(--navy));
+  -webkit-mask-image: url(../img/patterns/pibiones.svg);
+          mask-image: url(../img/patterns/pibiones.svg);
+  -webkit-mask-repeat: repeat;
+          mask-repeat: repeat;
+  -webkit-mask-size: 24px 24px;
+          mask-size: 24px 24px;
+  opacity: var(--pibiones-opacity, 0.045);
+  pointer-events: none;
+  z-index: -1;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}

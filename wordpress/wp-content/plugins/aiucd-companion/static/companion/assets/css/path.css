@@ -1,0 +1,657 @@
+/* =========================================================
+   AIUCD 2026 Companion — tab Path (percorsi tematici AI)
+   ========================================================= */
+
+/* Sub-tab navigation: "I miei talk" vs "Percorsi suggeriti" */
+.agenda-subtabs {
+  display: inline-flex;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px;
+  margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-sm);
+  gap: 0;
+}
+.agenda-subtab {
+  background: transparent;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--ink);
+  min-height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.agenda-subtab[aria-selected="true"] {
+  background: var(--navy);
+  color: #fff;
+  font-weight: 600;
+}
+.agenda-subtab .count-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  padding: 0 6px;
+  height: 20px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  font-size: 11px;
+  font-weight: 700;
+}
+.agenda-subtab[aria-selected="false"] .count-pill {
+  background: var(--line-soft);
+  color: var(--muted-2);
+}
+
+.criterion-tabs {
+  display: inline-flex;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px;
+  margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+}
+.criterion-tab {
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--ink);
+  min-height: var(--tap-min);
+}
+.criterion-tab[aria-selected="true"] {
+  background: var(--navy);
+  color: #fff;
+  font-weight: 600;
+}
+
+.ai-disclaimer {
+  background: rgba(216, 97, 60, 0.08);
+  border: 1px solid rgba(216, 97, 60, 0.25);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-lg);
+  font-size: var(--fs-sm);
+  color: var(--ink);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.ai-disclaimer .badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: var(--rust);
+  color: #fff;
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+/* Lista percorsi (vista cards) */
+.paths-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-md);
+}
+
+.path-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--navy);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  cursor: pointer;
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.path-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.path-card[data-criterion="A"] { border-left-color: var(--c-co-construction); }
+.path-card[data-criterion="B"] { border-left-color: var(--c-archives); }
+.path-card[data-criterion="C"] { border-left-color: var(--rust); }
+
+.path-card .path-id {
+  font-family: "Cardo", serif;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--muted-2);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.path-card .path-name {
+  font-family: "Cardo", serif;
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.25;
+}
+.path-card .path-intro {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.path-card .path-meta {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--line-soft);
+}
+.path-card .path-meta .chip {
+  background: var(--line-soft);
+  font-size: var(--fs-xs);
+}
+.path-card .path-meta .chip.conflict-chip {
+  background: rgba(216, 97, 60, 0.12);
+  color: var(--rust-dark);
+  font-weight: 600;
+}
+
+/* Vista dettaglio percorso (timeline) */
+.path-detail {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  margin-top: var(--space-md);
+}
+.path-detail-head {
+  display: flex; gap: var(--space-md);
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--line);
+}
+.path-detail-head .back-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  color: var(--navy);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.path-detail-head .back-btn:hover { background: var(--line-soft); }
+.path-detail-head h3 {
+  font-size: var(--fs-lg);
+  margin: 0 0 4px;
+}
+.path-detail-head .intro {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Bolla "voce di Noa" sopra la timeline di un percorso */
+.path-noa-intro {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  margin: 8px 0 12px;
+  background: rgba(216, 97, 60, 0.06);
+  border-left: 3px solid var(--rust);
+  border-radius: 0 8px 8px 0;
+}
+.path-noa-intro .noa-glyph {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  color: var(--rust);
+  margin-top: 2px;
+}
+.path-noa-intro p {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--ink);
+  font-style: italic;
+}
+
+/* Timeline verticale */
+.path-timeline {
+  position: relative;
+  padding-left: 20px;
+}
+.path-timeline::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 8px; bottom: 8px;
+  width: 2px;
+  background: var(--line);
+}
+.timeline-day {
+  position: relative;
+  margin-bottom: var(--space-md);
+}
+.timeline-day-header {
+  font-family: "Cardo", serif;
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: var(--space-sm);
+  margin-left: -4px;
+  padding-left: 16px;
+  position: relative;
+}
+.timeline-day-header::before {
+  content: "";
+  position: absolute;
+  left: -2px; top: 6px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 3px solid var(--paper);
+}
+.timeline-talk {
+  margin-bottom: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--base);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--t-fast), transform var(--t-fast);
+  position: relative;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: var(--space-sm);
+  align-items: baseline;
+}
+.timeline-talk:hover { background: var(--line-soft); transform: translateX(2px); }
+.timeline-talk::before {
+  content: "";
+  position: absolute;
+  left: -16px; top: 16px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--paper);
+}
+.timeline-talk .when {
+  font-family: "Cardo", serif;
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+.timeline-talk .where {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  margin-top: 2px;
+}
+.timeline-talk .what {
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  color: var(--ink);
+}
+.timeline-talk .who {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 2px;
+}
+.timeline-talk .talk-id {
+  font-family: "Cardo", serif;
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--navy);
+  margin-right: 6px;
+}
+
+/* CONFLICT GROUP — il punto chiave: quando due talk del percorso sono allo
+   stesso orario, l'utente sceglie quale seguire. */
+.timeline-conflict {
+  position: relative;
+  padding: var(--space-sm) 0;
+  margin-bottom: var(--space-md);
+}
+.timeline-conflict::before {
+  content: "";
+  position: absolute;
+  left: -16px; top: 16px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--rust);
+  border: 2px solid var(--paper);
+  animation: live-pulse 1.4s infinite ease-in-out;
+}
+.timeline-conflict-header {
+  display: flex; align-items: center; gap: 10px;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rust-dark);
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+  margin-left: 90px;
+}
+.timeline-conflict-header::before {
+  content: "⚠";
+  font-size: 14px;
+}
+.conflict-options {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr;
+  gap: var(--space-sm);
+}
+.conflict-options .when {
+  font-family: "Cardo", serif;
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+  align-self: start;
+  padding-top: var(--space-sm);
+}
+.conflict-option {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--paper);
+  border: 2px solid rgba(216, 97, 60, 0.3);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--t-fast), background var(--t-fast);
+}
+.conflict-option:hover {
+  border-color: var(--rust);
+  background: rgba(216, 97, 60, 0.04);
+}
+.conflict-option .where {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rust-dark);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.conflict-option .what {
+  font-size: var(--fs-sm);
+  line-height: 1.35;
+  color: var(--ink);
+}
+.conflict-option .who {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 4px;
+}
+.conflict-vs {
+  font-family: "Cardo", serif;
+  font-style: italic;
+  color: var(--muted-2);
+  font-size: var(--fs-xs);
+  text-align: center;
+  align-self: center;
+  padding: 0 4px;
+}
+
+@media (max-width: 720px) {
+  .conflict-options {
+    grid-template-columns: 1fr;
+  }
+  .conflict-options .when {
+    padding-top: 0;
+  }
+  .conflict-vs {
+    padding: 4px 0;
+  }
+  .timeline-talk {
+    grid-template-columns: 64px 1fr;
+  }
+  .timeline-conflict-header { margin-left: 0; }
+}
+
+/* ===== "La mia agenda" — vista personale dei talk salvati ===== */
+
+.my-agenda-empty {
+  background: var(--paper);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--muted);
+}
+.my-agenda-empty strong {
+  display: block;
+  color: var(--navy);
+  font-family: "Cardo", serif;
+  font-size: var(--fs-md);
+  margin-bottom: 6px;
+}
+
+.my-agenda-banner {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md) var(--space-lg);
+  margin-bottom: var(--space-lg);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+  box-shadow: var(--shadow-sm);
+}
+.my-agenda-banner .stat {
+  font-family: "Cardo", serif;
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: var(--navy);
+}
+.my-agenda-banner .stat .count {
+  font-size: var(--fs-lg);
+  margin-right: 6px;
+}
+.my-agenda-banner .traveler {
+  flex: 1;
+  min-width: 200px;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+.my-agenda-banner .traveler strong { color: var(--navy); }
+.my-agenda-banner .traveler .pulse {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--rust);
+  margin-right: 6px;
+  animation: live-pulse 1.4s infinite ease-in-out;
+}
+.my-agenda-banner .actions { margin-left: auto; }
+
+.my-agenda-day {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-sm);
+}
+.my-agenda-day h3 {
+  font-size: var(--fs-md);
+  font-family: "Cardo", serif;
+  color: var(--navy);
+  margin: 0 0 var(--space-sm);
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--accent);
+}
+
+.my-agenda-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 32px;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-sm);
+  border-bottom: 1px solid var(--line-soft);
+  align-items: start;
+  cursor: pointer;
+  transition: background var(--t-fast);
+  border-radius: var(--radius-sm);
+}
+.my-agenda-row:last-child { border-bottom: none; }
+.my-agenda-row:hover { background: var(--line-soft); }
+
+.my-agenda-row .when {
+  font-family: "Cardo", serif;
+  font-weight: 700;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-sm);
+  line-height: 1.2;
+}
+.my-agenda-row .when .where {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  font-weight: 500;
+  margin-top: 4px;
+}
+.my-agenda-row .what {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+}
+.my-agenda-row .what .talk-id {
+  font-family: "Cardo", serif;
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--navy);
+  margin-right: 6px;
+}
+.my-agenda-row .what .who {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 2px;
+}
+.my-agenda-row .remove-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: var(--muted-2);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+  align-self: center;
+}
+.my-agenda-row .remove-btn:hover {
+  background: rgba(216, 97, 60, 0.15);
+  color: var(--rust);
+}
+
+/* Stati temporali del talk in agenda */
+.my-agenda-row[data-status="past"] {
+  opacity: 0.5;
+}
+.my-agenda-row[data-status="past"] .when::after {
+  content: "✓";
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--c-memories);
+  font-weight: 700;
+  font-size: 14px;
+}
+.my-agenda-row[data-status="live"] {
+  background: rgba(216, 97, 60, 0.08);
+  border-left: 4px solid var(--rust);
+  padding-left: var(--space-sm);
+  margin-left: -4px;
+}
+.my-agenda-row[data-status="live"] .when::before {
+  content: "●";
+  display: inline-block;
+  margin-right: 6px;
+  color: var(--rust);
+  font-size: 12px;
+  animation: live-pulse 1.4s infinite ease-in-out;
+}
+.my-agenda-row[data-status="next"] {
+  background: rgba(194, 169, 144, 0.18);
+  border-left: 4px solid var(--sand);
+  padding-left: var(--space-sm);
+  margin-left: -4px;
+}
+.my-agenda-row[data-status="next"] .when::before {
+  content: "↓";
+  display: inline-block;
+  margin-right: 6px;
+  color: var(--rust);
+  font-weight: 700;
+}
+
+/* Conflitti nell'agenda personale: stesso orario, marker rust */
+.my-agenda-conflict-marker {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 8px;
+  background: rgba(216,97,60,0.15);
+  color: var(--rust-dark);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Pulsante "aggiungi tutto il percorso" nel detail di un percorso */
+.add-all-btn {
+  margin-top: var(--space-sm);
+}
+
+/* Export buttons */
+.agenda-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 720px) {
+  .my-agenda-row {
+    grid-template-columns: 80px 1fr 32px;
+  }
+  .my-agenda-banner { flex-direction: column; align-items: stretch; }
+  .my-agenda-banner .actions { margin-left: 0; }
+}

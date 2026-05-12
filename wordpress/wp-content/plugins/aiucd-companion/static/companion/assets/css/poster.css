@@ -1,0 +1,453 @@
+/* =========================================================
+   AIUCD 2026 Companion — tab Poster (galleria a grafo D3)
+   ========================================================= */
+
+.cat-host { /* reset eventuali contaminazioni */ }
+
+.poster-host {
+  /* nessuna restrizione max-width; il grafo riempie il layout */
+}
+
+.poster-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+.poster-toolbar .area-filters {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.poster-toolbar .area-filter {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px 6px 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  transition: opacity var(--t-fast), border-color var(--t-fast);
+}
+.poster-toolbar .area-filter[data-active="false"] { opacity: 0.5; }
+.poster-toolbar .area-filter[data-active="true"]  { border-color: var(--navy); }
+.poster-toolbar .area-filter:hover { background: var(--line-soft); }
+.poster-toolbar .area-filter .swatch {
+  width: 10px; height: 10px; border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.poster-view-switch {
+  margin-left: auto;
+  display: inline-flex;
+  background: var(--accent);
+  padding: 4px;
+  border-radius: 10px;
+  gap: 0;
+}
+.poster-view-switch button {
+  background: transparent;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--navy);
+  min-height: var(--tap-min);
+}
+.poster-view-switch button.active {
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+}
+
+.poster-search-row {
+  display: flex; gap: 8px; align-items: center;
+}
+.poster-search-row input {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  outline: none;
+  min-width: 220px;
+}
+.poster-search-row input:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(0,0,96,0.1);
+}
+
+/* =============== GRAFO =============== */
+.poster-graph-wrap {
+  position: relative;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  height: 660px;
+}
+.poster-graph-wrap svg {
+  width: 100%; height: 100%;
+  cursor: grab;
+  display: block;
+}
+.poster-graph-wrap svg:active { cursor: grabbing; }
+
+.poster-graph-wrap .area-halo {
+  fill: var(--halo-color, var(--accent));
+  fill-opacity: 0.05;
+  stroke: var(--halo-color, var(--accent));
+  stroke-opacity: 0.2;
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+.poster-graph-wrap .area-halo-label {
+  font-family: "Cardo", serif;
+  font-style: italic;
+  font-size: 14px;
+  fill: var(--muted);
+  text-anchor: middle;
+  pointer-events: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 10px;
+}
+
+.poster-graph-wrap .link {
+  stroke: var(--line);
+  stroke-width: 1.2;
+  stroke-opacity: 0.45;
+  transition: stroke-opacity 0.2s;
+}
+.poster-graph-wrap .link.dim { stroke-opacity: 0.06; }
+.poster-graph-wrap .link.highlight { stroke: var(--rust); stroke-opacity: 1; stroke-width: 2; }
+
+.poster-graph-wrap .node {
+  cursor: pointer;
+}
+.poster-graph-wrap .node circle.bg {
+  fill: var(--node-color, var(--navy));
+  stroke: #fff;
+  stroke-width: 3;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  transition: transform 0.15s;
+}
+.poster-graph-wrap .node:hover circle.bg {
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.25));
+}
+.poster-graph-wrap .node.selected circle.bg {
+  stroke: var(--rust);
+  stroke-width: 4;
+}
+.poster-graph-wrap .node.dim {
+  opacity: 0.18;
+  pointer-events: none;
+}
+.poster-graph-wrap .node text.initials {
+  fill: #fff;
+  font-family: "Cardo", serif;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+  user-select: none;
+}
+.poster-graph-wrap .node-label {
+  fill: var(--ink);
+  font-family: "Inter", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  text-anchor: middle;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.poster-graph-wrap .node:hover .node-label,
+.poster-graph-wrap .node.selected .node-label {
+  opacity: 1;
+}
+
+.poster-graph-wrap .legend {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(255,255,255,0.95);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: var(--fs-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 260px;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(4px);
+}
+.poster-graph-wrap .legend-row {
+  display: flex; align-items: center; gap: 8px;
+}
+.poster-graph-wrap .legend-row .swatch {
+  width: 10px; height: 10px; border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.poster-graph-wrap .controls {
+  position: absolute;
+  top: 12px; right: 12px;
+  display: flex; gap: 6px;
+}
+.poster-graph-wrap .controls button {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.95);
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--navy);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+.poster-graph-wrap .controls button:hover { background: var(--accent); }
+
+/* =============== SIDE SHEET =============== */
+.poster-side {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100vh;
+  width: 380px;
+  max-width: 100vw;
+  background: var(--paper);
+  border-left: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+  /* Sopra agli overlay Leaflet della tab Catalogo (z-index 1000) e ai sticky companion */
+  z-index: 9000;
+  transform: translateX(100%);
+  transition: transform var(--t-base);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.poster-side[data-open="true"] {
+  transform: translateX(0);
+}
+.poster-side .ps-head {
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  position: relative;
+}
+.poster-side .ps-close {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  width: 32px; height: 32px;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--muted);
+}
+.poster-side .ps-close:hover { background: var(--line-soft); color: var(--navy); }
+
+.poster-side .ps-photo {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  background: var(--photo-color, var(--navy));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cardo", serif;
+  font-weight: 700;
+  font-size: 32px;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+}
+.poster-side .ps-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.poster-side .ps-area {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #fff;
+}
+
+.poster-side .ps-title {
+  font-family: "Cardo", serif;
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.poster-side .ps-body {
+  padding: var(--space-lg);
+}
+.poster-side .ps-section { margin-bottom: var(--space-md); }
+.poster-side .ps-section h4 {
+  font-family: "Inter", sans-serif;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+.poster-side .ps-authors {
+  font-size: var(--fs-sm);
+  color: var(--ink);
+  line-height: 1.5;
+}
+.poster-side .ps-authors .aff {
+  color: var(--muted);
+  font-style: italic;
+}
+.poster-side .ps-abstract {
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.poster-side .ps-related h4 { margin-bottom: 10px; }
+.poster-side .related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 8px;
+}
+.poster-side .related-thumb {
+  width: 100%; aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--related-color, var(--navy));
+  color: #fff;
+  display: flex;
+  align-items: center; justify-content: center;
+  font-family: "Cardo", serif;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: transform var(--t-fast);
+}
+.poster-side .related-thumb:hover { transform: scale(1.08); }
+
+.poster-side .ps-actions {
+  padding: var(--space-md);
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--base);
+}
+
+@media (max-width: 720px) {
+  .poster-side { width: 100vw; }
+  .poster-graph-wrap { height: 480px; }
+}
+
+/* =============== VISTA GRIGLIA (alternativa al grafo) =============== */
+.poster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-md);
+}
+.poster-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--card-color, var(--navy));
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  cursor: pointer;
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+.poster-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.poster-card .pc-photo {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--photo-color, var(--navy));
+  color: #fff;
+  display: flex;
+  align-items: center; justify-content: center;
+  font-family: "Cardo", serif;
+  font-weight: 700;
+  font-size: 20px;
+}
+.poster-card .pc-id {
+  font-family: "Cardo", serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted-2);
+}
+.poster-card .pc-title {
+  font-family: "Cardo", serif;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.poster-card .pc-author {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-style: italic;
+}
+.poster-card .pc-area {
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+  background: var(--card-color, var(--navy));
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+/* =============== EMPTY =============== */
+.poster-empty {
+  background: var(--paper);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--muted);
+}
+.poster-empty strong {
+  display: block;
+  color: var(--navy);
+  font-family: "Cardo", serif;
+  font-size: var(--fs-md);
+  margin-bottom: 6px;
+}

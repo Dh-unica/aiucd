@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIUCD 2026 · Companion del convegno</title>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css?v=tabcountdown1">
+  <link rel="stylesheet" href="assets/css/program.css?v=subgrid2-mobilefix">
+  <link rel="stylesheet" href="assets/css/path.css?v=noa-intro1">
+  <link rel="stylesheet" href="assets/css/mappa.css?v=bugfix1">
+  <link rel="stylesheet" href="assets/css/cagliari.css?v=sprintD2">
+  <link rel="stylesheet" href="assets/css/catalog.css?v=mobile-fix2">
+  <link rel="stylesheet" href="assets/css/poster.css">
+  <link rel="stylesheet" href="assets/css/numeri.css">
+  <link rel="stylesheet" href="assets/css/drawer.css">
+  <link rel="stylesheet" href="assets/css/mobile-nav.css">
+  <link rel="stylesheet" href="assets/css/glyphs.css?v=icons1">
+  <link rel="stylesheet" href="assets/css/avatar.css?v=noa-drawer1">
+</head>
+<body>
+
+<!-- ===== TOPBAR ===== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#programma">
+      <div class="brand-mark">
+        <img src="../aiucd_site_static/wp-content/uploads/2025/12/logo_blu-1-150x150.png" alt="AIUCD 2026">
+      </div>
+      <div class="brand-text">
+        <strong>AIUCD 2026 · Cagliari</strong>
+        <small>3—5 giugno · Companion</small>
+      </div>
+    </a>
+    <button class="live-indicator" id="live-indicator" type="button" data-state="pre" aria-label="Pre-convegno">
+      <span class="live-indicator-text">
+        <span class="live-indicator-label">Pre-convegno</span>
+        <span class="live-indicator-detail" aria-hidden="true"></span>
+      </span>
+      <span class="live-indicator-progress" aria-hidden="true"><span class="live-indicator-progress-fill"></span></span>
+    </button>
+    <button class="topbar-agenda-btn" id="topbar-agenda-btn" type="button" aria-haspopup="dialog" aria-controls="agenda-drawer">
+      <span class="topbar-agenda-icon icon icon--star-filled" aria-hidden="true"></span>
+      <span class="topbar-agenda-label">Il mio AIUCD26</span>
+      <span class="topbar-agenda-count" id="topbar-agenda-count" data-empty="true">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- ===== TAB NAV ===== -->
+<nav class="tab-nav">
+  <div class="tab-nav-inner" role="tablist">
+    <button class="tab-btn" role="tab" data-tab="catalogo" aria-selected="false">Esplora</button>
+    <button class="tab-btn" role="tab" data-tab="programma" aria-selected="true"><span class="tab-countdown" id="tab-countdown-top" hidden></span><span class="tab-label">Programma</span></button>
+    <button class="tab-btn" role="tab" data-tab="poster" aria-selected="false">Poster</button>
+    <button class="tab-btn" role="tab" data-tab="mappa" aria-selected="false">Sede</button>
+    <button class="tab-btn" role="tab" data-tab="cagliari" aria-selected="false">Esplora Cagliari</button>
+    <button class="tab-btn" role="tab" data-tab="numeri" aria-selected="false">Cifre del convegno</button>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<main>
+  <section class="tab-section" data-tab="programma" data-active="true">
+    <!-- Render via JS -->
+  </section>
+
+  <section class="tab-section" data-tab="catalogo"><!-- renderCatalog --></section>
+  <section class="tab-section" data-tab="poster"><!-- renderPoster --></section>
+  <section class="tab-section" data-tab="mappa"><!-- renderMappa --></section>
+  <section class="tab-section" data-tab="cagliari"><!-- renderCagliari --></section>
+  <section class="tab-section" data-tab="numeri"><!-- renderNumeri --></section>
+</main>
+
+<!-- ===== PARTNER STRIP (placeholder) ===== -->
+<footer class="partners-strip">
+  <div class="partners-strip-inner">
+    <div class="partners-label">Con il patrocinio e il sostegno di</div>
+    <div class="partners-row">
+      <a href="https://www.aiucd.it/" target="_blank" rel="noopener">
+        <img src="../aiucd_site_static/wp-content/uploads/2025/12/logo_aiucd_trimmed-1.png" alt="AIUCD">
+      </a>
+      <a href="https://www.unica.it/" target="_blank" rel="noopener">
+        <img src="../aiucd_site_static/wp-content/uploads/2025/12/dh_UNICA_BLACK-copia-1-300x138.png" alt="DH UNICA">
+      </a>
+      <a href="#" target="_blank" rel="noopener">
+        <img src="../aiucd_site_static/wp-content/uploads/2025/12/logo_fondazione_sardegna-300x110.png" alt="Fondazione Sardegna">
+      </a>
+      <a href="#" target="_blank" rel="noopener">
+        <img src="../aiucd_site_static/wp-content/uploads/2025/12/Logo-Parri-9-ets-copy-removebg-preview-300x86.png" alt="Istituto Parri">
+      </a>
+      <a href="#" target="_blank" rel="noopener">
+        <img src="../aiucd_site_static/wp-content/uploads/2025/12/ISSASCO_logo_senza_testo_copia-removebg-preview-150x150.png" alt="ISSASCO">
+      </a>
+      <a href="#" target="_blank" rel="noopener">
+        <img src="../aiucd_site_static/wp-content/uploads/2025/12/APEnet_grigio_CMYK-300x212.png" alt="APEnet">
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== DRAWER · I miei talk ===== -->
+<aside class="agenda-drawer" id="agenda-drawer" role="dialog" aria-modal="true" aria-labelledby="agenda-drawer-title" data-open="false" hidden>
+  <!-- Render via JS -->
+</aside>
+<div class="agenda-drawer-backdrop" id="agenda-drawer-backdrop" data-open="false" hidden></div>
+
+<!-- ===== OVERLAY · Percorsi suggeriti ===== -->
+<aside class="paths-overlay" id="paths-overlay" role="dialog" aria-modal="true" aria-labelledby="paths-overlay-title" data-open="false" hidden>
+  <!-- Render via JS -->
+</aside>
+<div class="paths-overlay-backdrop" id="paths-overlay-backdrop" data-open="false" hidden></div>
+
+<!-- ===== NOA · drawer (sinistra) + FAB sempre visibile ===== -->
+<aside class="noa-drawer" id="noa-drawer" role="dialog" aria-modal="true" aria-labelledby="noa-drawer-title" data-open="false" hidden>
+  <!-- Render via JS -->
+</aside>
+<div class="noa-drawer-backdrop" id="noa-drawer-backdrop" data-open="false" hidden></div>
+<button class="noa-fab" id="noa-fab" type="button" aria-label="Apri Noa, la tua guida del convegno" aria-controls="noa-drawer" aria-haspopup="dialog" data-has-suggestion="false">
+  <span class="glyph glyph--memories" aria-hidden="true"></span>
+</button>
+
+<!-- ===== MOBILE BOTTOM NAV (visibile solo su mobile, vedi mobile-nav.css) ===== -->
+<nav class="mobile-bottom-nav" aria-label="Navigazione principale">
+  <div class="mobile-bottom-nav-inner" role="tablist">
+    <button class="mb-tab" type="button" role="tab" data-tab="catalogo" aria-selected="false">
+      <span class="mb-tab-icon" aria-hidden="true">⌕</span>
+      <span class="mb-tab-label">Esplora</span>
+    </button>
+    <button class="mb-tab" type="button" role="tab" data-tab="programma" aria-selected="true">
+      <span class="mb-tab-icon" aria-hidden="true">▦</span>
+      <span class="mb-tab-label"><span class="mb-tab-countdown" id="tab-countdown-mobile" hidden></span>Programma</span>
+    </button>
+    <button class="mb-tab" type="button" role="tab" data-tab="poster" aria-selected="false">
+      <span class="mb-tab-icon" aria-hidden="true">▥</span>
+      <span class="mb-tab-label">Poster</span>
+    </button>
+    <button class="mb-tab" type="button" role="tab" data-tab="mappa" aria-selected="false">
+      <span class="mb-tab-icon" aria-hidden="true">⌖</span>
+      <span class="mb-tab-label">Sede</span>
+    </button>
+    <button class="mb-tab" type="button" role="tab" data-tab="cagliari" aria-selected="false">
+      <span class="mb-tab-icon" aria-hidden="true">⬢</span>
+      <span class="mb-tab-label">Cagliari</span>
+    </button>
+    <button class="mb-tab" type="button" role="tab" data-tab="numeri" aria-selected="false">
+      <span class="mb-tab-icon" aria-hidden="true">∑</span>
+      <span class="mb-tab-label">Cifre</span>
+    </button>
+  </div>
+</nav>
+
+<script type="module" src="assets/js/app.js?v=sprintD2"></script>
+</body>
+</html>

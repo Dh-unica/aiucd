@@ -1,0 +1,275 @@
+[
+  {
+    "id": "a1",
+    "criterion": "A",
+    "name": "AI generativa: riflessione e applicazioni",
+    "intro": "Si parte dall'agenda strategica di Ciotti, si attraversano applicazioni e implicazioni. Ideale per chi vuole farsi un'idea **ragionata** della presenza dell'AI generativa nel convegno, oltre i singoli use-case.",
+    "paper_ids": [
+      53,
+      69,
+      17,
+      11,
+      128,
+      102,
+      125
+    ],
+    "conflict_paper_ids": []
+  },
+  {
+    "id": "a2",
+    "criterion": "A",
+    "name": "LLM e applicazioni a corpora storico-culturali",
+    "intro": "Per chi vuole vedere LLM e modelli di linguaggio **al lavoro** su materiali concreti del patrimonio (musicologia, letteratura, scienze umane).",
+    "paper_ids": [
+      47,
+      68,
+      126,
+      90,
+      130,
+      44
+    ],
+    "conflict_paper_ids": []
+  },
+  {
+    "id": "a3",
+    "criterion": "A",
+    "name": "Archivi partecipativi e co-costruzione di memoria con le comunità",
+    "intro": "Cinque archivi che nascono **dal basso**: comunità, territori, identità. Forse il filo più nitido del convegno per chi è interessato a public engagement e DH partecipative.",
+    "paper_ids": [
+      4,
+      34,
+      88,
+      12,
+      38,
+      74,
+      48,
+      129
+    ],
+    "conflict_paper_ids": []
+  },
+  {
+    "id": "a4",
+    "criterion": "A",
+    "name": "Edizioni digitali e filologia computazionale",
+    "intro": "Filologia che incontra il digitale: edizioni, manoscritti, autografi, palinsesti. Per chi cerca il *core* tradizionale della disciplina aggiornato a strumenti contemporanei.",
+    "paper_ids": [
+      148,
+      86,
+      103,
+      23,
+      37,
+      139,
+      93
+    ],
+    "conflict_paper_ids": []
+  },
+  {
+    "id": "a5",
+    "criterion": "A",
+    "name": "GIS, geografia digitale e cartografia del patrimonio",
+    "intro": "Quando il dato è **luogo**: dai porti minori della Sardegna alla toponimia rumena, dal cinema ai romanzi ecocritici. Tutti i talk con dimensione geografica/cartografica.",
+    "paper_ids": [
+      99,
+      151,
+      100,
+      137,
+      57,
+      85,
+      54
+    ],
+    "conflict_paper_ids": []
+  },
+  {
+    "id": "a6",
+    "criterion": "A",
+    "name": "Linguistica computazionale, NLP e annotazione testuale",
+    "intro": "Per chi viene dalla linguistica e dall'NLP: corpora, treebank, annotazione semantica, analisi computazionale.",
+    "paper_ids": [
+      72,
+      65,
+      119,
+      107,
+      133,
+      55,
+      101,
+      36,
+      153
+    ],
+    "conflict_paper_ids": [
+      65
+    ]
+  },
+  {
+    "id": "a7",
+    "criterion": "A",
+    "name": "Linked Open Data, ontologie e infrastrutture FAIR",
+    "intro": "Il versante più infrastrutturale del convegno: LOD, schema semantici, ontologie, FAIR.",
+    "paper_ids": [
+      95,
+      141,
+      59,
+      7,
+      64,
+      42,
+      78,
+      94
+    ],
+    "conflict_paper_ids": [
+      94
+    ]
+  },
+  {
+    "id": "a8",
+    "criterion": "A",
+    "name": "Patrimonio museale, public engagement e mediazione digitale",
+    "intro": "Musei, mostre, realtà virtuale, esperienze phygital, mediazione del patrimonio. Per chi vuole capire come il digitale **incontra il pubblico** dentro le istituzioni culturali.",
+    "paper_ids": [
+      66,
+      5,
+      8,
+      43,
+      80,
+      142,
+      50,
+      73
+    ],
+    "conflict_paper_ids": [
+      73
+    ]
+  },
+  {
+    "id": "b1",
+    "criterion": "B",
+    "name": "Tre giorni con l'AI dentro le Digital Humanities",
+    "intro": "Tutti i talk dove l'intelligenza artificiale è protagonista — come strumento, come oggetto di riflessione, come problema. Un *macro-percorso* che attraversa 14 talk in 3 giorni.",
+    "paper_ids": [
+      53,
+      69,
+      17,
+      11,
+      47,
+      68,
+      126,
+      128,
+      72,
+      90,
+      130,
+      44,
+      102,
+      3
+    ],
+    "conflict_paper_ids": []
+  },
+  {
+    "id": "b2",
+    "criterion": "B",
+    "name": "Tre giorni nel patrimonio digitale: archivi, edizioni, memorie",
+    "intro": "Il filo del patrimonio in tutte le sue forme — archivi di comunità, edizioni, manoscritti, musei, GIS, palinsesti. **23 talk** che disegnano il convegno-patrimonio.",
+    "paper_ids": [
+      4,
+      34,
+      88,
+      12,
+      38,
+      66,
+      140,
+      150,
+      5,
+      8,
+      43,
+      80,
+      142,
+      112,
+      86,
+      103,
+      99,
+      151,
+      137,
+      55,
+      118,
+      93
+    ],
+    "conflict_paper_ids": []
+  },
+  {
+    "id": "b3",
+    "criterion": "B",
+    "name": "Tre giorni con la linguistica e la testualità computazionale",
+    "intro": "Tutti i talk che lavorano con il linguaggio e i testi attraverso strumenti computazionali — corpora, NLP, distant reading, edizioni, annotazione, treebank.",
+    "paper_ids": [
+      113,
+      72,
+      65,
+      152,
+      71,
+      35,
+      56,
+      119,
+      138,
+      148,
+      107,
+      133,
+      55,
+      101,
+      36,
+      153,
+      147
+    ],
+    "conflict_paper_ids": [
+      65,
+      147
+    ]
+  },
+  {
+    "id": "c1",
+    "criterion": "C",
+    "name": "Comunità, partecipazione e co-costruzione del sapere",
+    "intro": "Un percorso che abbraccia archivi (1C), memorie (4B), public engagement (5C, 6B): tutti i talk che mettono al centro **la relazione tra ricerca e comunità di provenienza** del patrimonio.",
+    "paper_ids": [
+      4,
+      34,
+      88,
+      12,
+      38,
+      46,
+      74,
+      50,
+      48,
+      129
+    ],
+    "conflict_paper_ids": []
+  },
+  {
+    "id": "c2",
+    "criterion": "C",
+    "name": "L'AI come questione epistemologica delle DH",
+    "intro": "Non l'AI come strumento tra i tanti, ma come **interrogazione critica** sull'identità e i metodi delle DH: agenda strategica, formazione del filologo computazionale, etica dei synthetic media, automazione della ricerca, crisi della memoria.",
+    "paper_ids": [
+      53,
+      69,
+      11,
+      145,
+      128,
+      10,
+      102,
+      3
+    ],
+    "conflict_paper_ids": [
+      10
+    ]
+  },
+  {
+    "id": "c3",
+    "criterion": "C",
+    "name": "Sardegna come laboratorio: territorio, lingua, memoria",
+    "intro": "Un percorso \"site-specific\" attorno alla Sardegna come oggetto di ricerca DH — partigiani, treebank del sardo, cinema e mostre locali, porti minori, storia marittima, ricostruzioni 3D di mostre cagliaritane. Pesca da quattro aree diverse.",
+    "paper_ids": [
+      88,
+      133,
+      29,
+      151,
+      137
+    ],
+    "conflict_paper_ids": []
+  }
+]

@@ -1,0 +1,818 @@
+{
+  "days": [
+    {
+      "date": "2026-06-03",
+      "label": "Mercoledì 3 giugno 2026",
+      "blocks": [
+        {
+          "type": "break",
+          "label": "Colazione di benvenuto",
+          "start": "12:00",
+          "end": "13:00"
+        },
+        {
+          "type": "plenary",
+          "start": "13:30",
+          "end": "14:45",
+          "room": "Aula Capitini",
+          "title": "Apertura dei lavori"
+        },
+        {
+          "type": "session",
+          "session_id": "1",
+          "tracks": [
+            {
+              "code": "1A",
+              "room": "Aula 5A",
+              "title": "Intelligenza Artificiale generativa e riflessione teorica",
+              "chair": "Marina Buzzoni (Università Ca' Foscari, Venezia)",
+              "talks": [
+                {
+                  "paper_id": 53,
+                  "start": "15:00",
+                  "end": "15:20"
+                },
+                {
+                  "paper_id": 69,
+                  "start": "15:20",
+                  "end": "15:40"
+                },
+                {
+                  "paper_id": 17,
+                  "start": "15:40",
+                  "end": "16:00"
+                },
+                {
+                  "paper_id": 11,
+                  "start": "16:00",
+                  "end": "16:20"
+                }
+              ]
+            },
+            {
+              "code": "1B",
+              "room": "Aula 6A",
+              "title": "Corpora digitali: requisiti e soluzioni gestionali",
+              "chair": "Emmanuela Carbè (Università Ca' Foscari  Venezia)",
+              "talks": [
+                {
+                  "paper_id": 113,
+                  "start": "15:00",
+                  "end": "15:20"
+                },
+                {
+                  "paper_id": 127,
+                  "start": "15:20",
+                  "end": "15:40"
+                },
+                {
+                  "paper_id": 21,
+                  "start": "15:40",
+                  "end": "16:00"
+                }
+              ]
+            },
+            {
+              "code": "1C",
+              "room": "Aula 2A",
+              "title": "Co-produzione di archivi e collezioni di comunità",
+              "chair": "Federico Valacchi (Università di Macerata)",
+              "talks": [
+                {
+                  "paper_id": 4,
+                  "start": "15:00",
+                  "end": "15:20"
+                },
+                {
+                  "paper_id": 34,
+                  "start": "15:20",
+                  "end": "15:40"
+                },
+                {
+                  "paper_id": 88,
+                  "start": "15:40",
+                  "end": "16:00"
+                },
+                {
+                  "paper_id": 12,
+                  "start": "16:00",
+                  "end": "16:20"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "break",
+          "label": "Network caffè",
+          "start": "16:45",
+          "end": "17:30"
+        },
+        {
+          "type": "session",
+          "session_id": "2",
+          "tracks": [
+            {
+              "code": "2A",
+              "room": "Aula 5A",
+              "title": "Large Language Models: applicazioni umanistiche",
+              "chair": "Arianna Ciula (King's College London)",
+              "talks": [
+                {
+                  "paper_id": 47,
+                  "start": "17:30",
+                  "end": "17:40"
+                },
+                {
+                  "paper_id": 68,
+                  "start": "17:40",
+                  "end": "18:10"
+                },
+                {
+                  "paper_id": 126,
+                  "start": "18:10",
+                  "end": "18:30"
+                },
+                {
+                  "paper_id": 128,
+                  "start": "18:30",
+                  "end": "18:40"
+                }
+              ]
+            },
+            {
+              "code": "2B",
+              "room": "Aula 6A",
+              "title": "Open Science, sostenibilità e pratiche aperte",
+              "chair": "Mario Bochicchio (Università degli Studi di Bari \"Aldo Moro\")",
+              "talks": [
+                {
+                  "paper_id": 145,
+                  "start": "17:30",
+                  "end": "17:40"
+                },
+                {
+                  "paper_id": 63,
+                  "start": "17:40",
+                  "end": "18:10"
+                },
+                {
+                  "paper_id": 104,
+                  "start": "18:10",
+                  "end": "18:30"
+                },
+                {
+                  "paper_id": 10,
+                  "start": "18:30",
+                  "end": "18:40"
+                }
+              ]
+            },
+            {
+              "code": "2C",
+              "room": "Aula 2A",
+              "title": "Modelli digitali per gestire e condividere fonti multidisciplinari",
+              "chair": "Andrea Pergola (Università degli Studi di Cagliari)",
+              "talks": [
+                {
+                  "paper_id": 38,
+                  "start": "17:30",
+                  "end": "17:40"
+                },
+                {
+                  "paper_id": 66,
+                  "start": "17:40",
+                  "end": "18:10"
+                },
+                {
+                  "paper_id": 140,
+                  "start": "18:10",
+                  "end": "18:30"
+                },
+                {
+                  "paper_id": 29,
+                  "start": "18:30",
+                  "end": "18:40"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2026-06-04",
+      "label": "Giovedì 4 giugno 2026",
+      "blocks": [
+        {
+          "type": "session",
+          "session_id": "3",
+          "tracks": [
+            {
+              "code": "3A",
+              "room": "Aula 5A",
+              "title": "AI e NLP per testi e recupero dell'informazione",
+              "chair": "Andrea Bolioli (ricercatore indipendedete/osservatorio AIUCD DH-AI)",
+              "talks": [
+                {
+                  "paper_id": 72,
+                  "start": "9:00",
+                  "end": "9:20"
+                },
+                {
+                  "paper_id": 90,
+                  "start": "9:20",
+                  "end": "9:40"
+                },
+                {
+                  "paper_id": 130,
+                  "start": "9:40",
+                  "end": "10:00"
+                },
+                {
+                  "paper_id": 44,
+                  "start": "10:00",
+                  "end": "10:20"
+                }
+              ]
+            },
+            {
+              "code": "3B",
+              "room": "Aula 6A",
+              "title": "DH per storia, diritto e arte",
+              "chair": "Manfredi Scanagatta (UniMore)",
+              "talks": [
+                {
+                  "paper_id": 98,
+                  "start": "9:00",
+                  "end": "9:20"
+                },
+                {
+                  "paper_id": 16,
+                  "start": "9:20",
+                  "end": "9:40"
+                },
+                {
+                  "paper_id": 41,
+                  "start": "9:40",
+                  "end": "10:00"
+                },
+                {
+                  "paper_id": 109,
+                  "start": "10:00",
+                  "end": "10:20"
+                }
+              ]
+            },
+            {
+              "code": "3C",
+              "room": "Aula 2A",
+              "title": "Analisi computazionale del testo letterario",
+              "chair": "Angelo Mario Del Grosso (CNR-ILC)",
+              "talks": [
+                {
+                  "paper_id": 65,
+                  "start": "9:00",
+                  "end": "9:20"
+                },
+                {
+                  "paper_id": 148,
+                  "start": "9:20",
+                  "end": "9:40"
+                },
+                {
+                  "paper_id": 152,
+                  "start": "9:40",
+                  "end": "10:00"
+                },
+                {
+                  "paper_id": 71,
+                  "start": "10:00",
+                  "end": "10:20"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "break",
+          "label": "Network caffè",
+          "start": "10:45",
+          "end": "11:30"
+        },
+        {
+          "type": "session",
+          "session_id": "4",
+          "tracks": [
+            {
+              "code": "4A",
+              "room": "Aula 5A",
+              "title": "Studi letterari digitali e distant reading",
+              "chair": "Christian D'Agata (Università di Catania)",
+              "talks": [
+                {
+                  "paper_id": 35,
+                  "start": "11:30",
+                  "end": "11:40"
+                },
+                {
+                  "paper_id": 56,
+                  "start": "11:40",
+                  "end": "12:00"
+                },
+                {
+                  "paper_id": 119,
+                  "start": "12:00",
+                  "end": "12:20"
+                },
+                {
+                  "paper_id": 138,
+                  "start": "12:20",
+                  "end": "12:40"
+                }
+              ]
+            },
+            {
+              "code": "4B",
+              "room": "Aula 6A",
+              "title": "Musei e accesso digitale",
+              "chair": "Nicola Barbuti (Università degli Studi di Bari Aldo Moro Bari)",
+              "talks": [
+                {
+                  "paper_id": 5,
+                  "start": "11:30",
+                  "end": "11:40"
+                },
+                {
+                  "paper_id": 8,
+                  "start": "11:40",
+                  "end": "12:00"
+                },
+                {
+                  "paper_id": 43,
+                  "start": "12:00",
+                  "end": "12:20"
+                },
+                {
+                  "paper_id": 80,
+                  "start": "12:20",
+                  "end": "12:40"
+                }
+              ]
+            },
+            {
+              "code": "4C",
+              "room": "Aula 2A",
+              "title": "Formazione, didattica e laboratori DH",
+              "chair": "Michela Tardella (CNR-ILIESI)",
+              "talks": [
+                {
+                  "paper_id": 46,
+                  "start": "11:30",
+                  "end": "11:40"
+                },
+                {
+                  "paper_id": 49,
+                  "start": "11:40",
+                  "end": "12:00"
+                },
+                {
+                  "paper_id": 124,
+                  "start": "12:00",
+                  "end": "12:20"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "break",
+          "label": "PRANZO",
+          "start": "13:00",
+          "end": "14:30"
+        },
+        {
+          "type": "plenary",
+          "start": "14:30",
+          "end": "15:00",
+          "room": "Aula Capitini",
+          "title": "POSTER SESSION"
+        },
+        {
+          "type": "session",
+          "session_id": "5",
+          "tracks": [
+            {
+              "code": "5A",
+              "room": "Aula 5A",
+              "title": "Linked Open Data, modelli semantici, infrastrutture",
+              "chair": "Francesca Tomasi (Alma Mater Studiorum Università di Bologna)",
+              "talks": [
+                {
+                  "paper_id": 95,
+                  "start": "15:00",
+                  "end": "15:20"
+                },
+                {
+                  "paper_id": 141,
+                  "start": "15:20",
+                  "end": "15:40"
+                },
+                {
+                  "paper_id": 59,
+                  "start": "15:40",
+                  "end": "16:00"
+                },
+                {
+                  "paper_id": 44,
+                  "start": "16:00",
+                  "end": "16:20"
+                }
+              ]
+            },
+            {
+              "code": "5B",
+              "room": "Aula 6A",
+              "title": "Patrimonio culturale: sistemi informativi integrati",
+              "chair": "Alessandro Laruffa (Istituto Storico Italiano per l'Età Moderna e Contemporanea)",
+              "talks": [
+                {
+                  "paper_id": 142,
+                  "start": "15:00",
+                  "end": "15:20"
+                },
+                {
+                  "paper_id": 112,
+                  "start": "15:20",
+                  "end": "15:40"
+                },
+                {
+                  "paper_id": 86,
+                  "start": "15:40",
+                  "end": "16:00"
+                },
+                {
+                  "paper_id": 103,
+                  "start": "16:00",
+                  "end": "16:20"
+                }
+              ]
+            },
+            {
+              "code": "5C",
+              "room": "Aula 2A",
+              "title": "Crowdsourcing e public engagement",
+              "chair": "Enrica Salvatori (Università di Pisa)",
+              "talks": [
+                {
+                  "paper_id": 74,
+                  "start": "15:00",
+                  "end": "15:20"
+                },
+                {
+                  "paper_id": 73,
+                  "start": "15:20",
+                  "end": "15:40"
+                },
+                {
+                  "paper_id": 50,
+                  "start": "15:40",
+                  "end": "16:00"
+                },
+                {
+                  "paper_id": 102,
+                  "start": "16:00",
+                  "end": "16:20"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "break",
+          "label": "Network caffè",
+          "start": "16:45",
+          "end": "17:25"
+        },
+        {
+          "type": "plenary",
+          "start": "17:30",
+          "end": "19:30",
+          "room": "Aula Capitini",
+          "title": "ASSEMBLEA DEI SOCI AIUCD"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-05",
+      "label": "Venerdì 5 giugno 2026",
+      "blocks": [
+        {
+          "type": "session",
+          "session_id": "6",
+          "tracks": [
+            {
+              "code": "6A",
+              "room": "Aula 5A",
+              "title": "Modellazione testuale e linguistica computazionale",
+              "chair": "Federico Boschetti (CNR-ILC)",
+              "talks": [
+                {
+                  "paper_id": 107,
+                  "start": "9:00",
+                  "end": "9:20"
+                },
+                {
+                  "paper_id": 133,
+                  "start": "9:20",
+                  "end": "9:40"
+                },
+                {
+                  "paper_id": 32,
+                  "start": "9:40",
+                  "end": "10:00"
+                },
+                {
+                  "paper_id": 125,
+                  "start": "10:00",
+                  "end": "10:20"
+                }
+              ]
+            },
+            {
+              "code": "6B",
+              "room": "Aula 6A",
+              "title": "Co-creazione, ricerca partecipativa, comunità",
+              "chair": "Francesca Frontini (CNR-ILC)",
+              "talks": [
+                {
+                  "paper_id": 48,
+                  "start": "9:00",
+                  "end": "9:20"
+                },
+                {
+                  "paper_id": 129,
+                  "start": "9:20",
+                  "end": "9:40"
+                },
+                {
+                  "paper_id": 123,
+                  "start": "9:40",
+                  "end": "10:00"
+                },
+                {
+                  "paper_id": 3,
+                  "start": "10:00",
+                  "end": "10:20"
+                }
+              ]
+            },
+            {
+              "code": "6C",
+              "room": "Aula 2A",
+              "title": "AI e automazione per archivi e patrimonio",
+              "chair": "Fabio Ciotti (Università di Tor Vergata)",
+              "talks": [
+                {
+                  "paper_id": 60,
+                  "start": "9:00",
+                  "end": "9:20"
+                },
+                {
+                  "paper_id": 33,
+                  "start": "9:20",
+                  "end": "9:40"
+                },
+                {
+                  "paper_id": 94,
+                  "start": "9:40",
+                  "end": "10:00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "break",
+          "label": "Network caffè",
+          "start": "10:45",
+          "end": "11:30"
+        },
+        {
+          "type": "session",
+          "session_id": "7",
+          "tracks": [
+            {
+              "code": "7A",
+              "room": "Aula 5A",
+              "title": "Ontologie, FAIR data e modellazione della conoscenza",
+              "chair": "Daria Spampinato (CNR-ISTC)",
+              "talks": [
+                {
+                  "paper_id": 7,
+                  "start": "11:30",
+                  "end": "11:40"
+                },
+                {
+                  "paper_id": 64,
+                  "start": "11:40",
+                  "end": "12:00"
+                },
+                {
+                  "paper_id": 42,
+                  "start": "12:00",
+                  "end": "12:20"
+                },
+                {
+                  "paper_id": 78,
+                  "start": "12:20",
+                  "end": "12:40"
+                }
+              ]
+            },
+            {
+              "code": "7B",
+              "room": "Aula 6A",
+              "title": "GIS e spazializzazioni digitali",
+              "chair": "Chiara Cocco (University College Dublin)",
+              "talks": [
+                {
+                  "paper_id": 99,
+                  "start": "11:30",
+                  "end": "11:40"
+                },
+                {
+                  "paper_id": 151,
+                  "start": "11:40",
+                  "end": "12:00"
+                },
+                {
+                  "paper_id": 100,
+                  "start": "12:00",
+                  "end": "12:20"
+                },
+                {
+                  "paper_id": 137,
+                  "start": "12:20",
+                  "end": "12:40"
+                }
+              ]
+            },
+            {
+              "code": "7C",
+              "room": "Aula 2A",
+              "title": "Modelli, Metodi e Prospettive dell’Edizione Digitale",
+              "chair": "Paolo Monella (Università degli Studi di Enna “Kore”)",
+              "talks": [
+                {
+                  "paper_id": 23,
+                  "start": "11:30",
+                  "end": "11:40"
+                },
+                {
+                  "paper_id": 37,
+                  "start": "11:40",
+                  "end": "12:00"
+                },
+                {
+                  "paper_id": 139,
+                  "start": "12:00",
+                  "end": "12:20"
+                },
+                {
+                  "paper_id": 45,
+                  "start": "12:20",
+                  "end": "12:40"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "break",
+          "label": "PRANZO",
+          "start": "13:00",
+          "end": "14:30"
+        },
+        {
+          "type": "plenary",
+          "start": "14:30",
+          "end": "15:00",
+          "room": "Aula Capitini",
+          "title": "POSTER SESSION"
+        },
+        {
+          "type": "session",
+          "session_id": "8",
+          "tracks": [
+            {
+              "code": "8A",
+              "room": "Aula 5A",
+              "title": "Grafi, linked data e mapping",
+              "chair": "Alessandro Adamou (DHLab - Bibliotheca Hertziana - Max Planck Institute for Art History)",
+              "talks": [
+                {
+                  "paper_id": 75,
+                  "start": "15:00",
+                  "end": "15:20"
+                },
+                {
+                  "paper_id": 96,
+                  "start": "15:20",
+                  "end": "15:40"
+                },
+                {
+                  "paper_id": 118,
+                  "start": "15:40",
+                  "end": "16:00"
+                },
+                {
+                  "paper_id": 93,
+                  "start": "16:00",
+                  "end": "16:20"
+                }
+              ]
+            },
+            {
+              "code": "8B",
+              "room": "Aula 6A",
+              "title": "Geografie letterarie e multimediali",
+              "chair": "Raffaele Argolas (DH UniCa - Università di Cagliari)",
+              "talks": [
+                {
+                  "paper_id": 57,
+                  "start": "15:00",
+                  "end": "15:20"
+                },
+                {
+                  "paper_id": 85,
+                  "start": "15:20",
+                  "end": "15:40"
+                },
+                {
+                  "paper_id": 54,
+                  "start": "15:40",
+                  "end": "16:00"
+                },
+                {
+                  "paper_id": 147,
+                  "start": "16:00",
+                  "end": "16:20"
+                }
+              ]
+            },
+            {
+              "code": "8C",
+              "room": "Aula 2A",
+              "title": "Annotazioni e markup",
+              "chair": "Simone Rebora (Università di Verona)",
+              "talks": [
+                {
+                  "paper_id": 55,
+                  "start": "15:00",
+                  "end": "15:20"
+                },
+                {
+                  "paper_id": 101,
+                  "start": "15:20",
+                  "end": "15:40"
+                },
+                {
+                  "paper_id": 36,
+                  "start": "15:40",
+                  "end": "16:00"
+                },
+                {
+                  "paper_id": 153,
+                  "start": "16:00",
+                  "end": "16:20"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "plenary",
+          "start": "17:00",
+          "end": "18:00",
+          "room": "Aula Capitini",
+          "title": "KEYNOTE » Philp Crowe (University College Dublin -TtbD- dialoga con Arianna Ciula (King's College London) e Francesca Tomasi (Alma Mater Studiorum Università di Bologna)"
+        },
+        {
+          "type": "plenary",
+          "start": "18:00",
+          "end": "18:15",
+          "room": "Aula Capitini",
+          "title": "PREMIO GIGLIOZZI"
+        },
+        {
+          "type": "plenary",
+          "start": "18:15",
+          "end": "18:45",
+          "room": "Aula Capitini",
+          "title": "CONCLUSIONI"
+        }
+      ]
+    }
+  ]
+}

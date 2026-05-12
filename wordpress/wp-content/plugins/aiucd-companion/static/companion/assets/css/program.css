@@ -1,0 +1,753 @@
+/* =========================================================
+   AIUCD 2026 Companion — tab Programma (griglia tempo × aula)
+   ========================================================= */
+
+/* ---- toolbar (tab giorno + filtri area) ---- */
+.program-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  align-items: center;
+}
+.day-tabs {
+  display: inline-flex;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px;
+  box-shadow: var(--shadow-sm);
+}
+.day-tab {
+  background: transparent;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--ink);
+  transition: background var(--t-fast), color var(--t-fast);
+  min-height: var(--tap-min);
+  white-space: nowrap;
+}
+.day-tab:hover { color: var(--navy); }
+.day-tab[aria-selected="true"] {
+  background: var(--navy);
+  color: #fff;
+  font-weight: 600;
+}
+.day-tab .day-label-short {
+  display: none;
+}
+
+.area-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.area-filter.area-all {
+  font-weight: 600;
+  background: var(--paper);
+  border-color: var(--line);
+}
+.area-filter.area-all[data-active="true"] {
+  background: var(--navy);
+  color: #fff;
+  border-color: var(--navy);
+}
+.area-filter.area-all[data-active="false"] {
+  opacity: 0.55;
+}
+.area-filter {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px 6px 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background var(--t-fast), border-color var(--t-fast), opacity var(--t-fast);
+  min-height: 32px;
+}
+.area-filter[data-active="false"] {
+  opacity: 0.55;
+}
+.area-filter[data-active="true"] {
+  border-color: var(--navy);
+}
+.area-filter .swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.area-filter:hover {
+  background: var(--line-soft);
+}
+
+/* =========================================================
+   LIVE SNAPSHOT — strip "in corso" integrata nel Programma
+   Visibile solo quando il giorno selezionato è oggi.
+   Sostituisce il vecchio tab "In corso" (vedi A1 in UX_PLAN.md).
+   ========================================================= */
+.live-snapshot {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--line-soft) 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-sm);
+}
+.live-snapshot.is-empty {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  padding: var(--space-md) var(--space-lg);
+}
+.live-snapshot.is-empty strong { color: var(--navy); }
+
+.live-snapshot-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-sm) var(--space-md);
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  border-bottom: 1px dashed var(--line);
+}
+.live-snapshot-strip .snap-time {
+  font-family: "Cardo", serif;
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+.live-snapshot-strip .snap-summary {
+  flex: 1;
+  min-width: 200px;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+.live-snapshot-strip .snap-summary strong { color: var(--navy); }
+.live-snapshot-strip .snap-tag {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rust);
+  font-weight: 700;
+  align-self: center;
+}
+.snap-pulse {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--rust);
+  margin-right: 6px;
+  vertical-align: 1px;
+  animation: live-pulse 1.4s infinite ease-in-out;
+}
+
+.live-snapshot-rooms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-sm);
+}
+
+.snap-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  min-height: 88px;
+}
+.snap-card[data-state="live"] {
+  border-left: 3px solid var(--rust);
+}
+.snap-card[data-state="discussion"] {
+  border-left: 3px solid var(--sage);
+}
+.snap-card[data-state="break"],
+.snap-card[data-state="upcoming"] {
+  border-left: 3px solid var(--sand);
+}
+.snap-card[data-state="finished"] {
+  border-left: 3px solid var(--mist);
+  opacity: 0.7;
+}
+.snap-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+.snap-card .snap-room {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--navy);
+  font-weight: 700;
+}
+.snap-card .snap-state {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.snap-card[data-state="live"] .snap-state { color: var(--rust); }
+.snap-card[data-state="discussion"] .snap-state { color: var(--sage); }
+.snap-talk {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.snap-talk[data-paper-id]:hover {
+  color: var(--navy);
+  text-decoration: underline;
+}
+.snap-talk-empty {
+  color: var(--muted);
+  font-style: italic;
+  font-weight: 400;
+}
+.snap-meta {
+  font-size: var(--fs-xs);
+  color: var(--muted-2);
+  font-variant-numeric: tabular-nums;
+}
+.snap-meta strong { color: var(--navy); font-variant-numeric: tabular-nums; }
+.snap-progress {
+  height: 3px;
+  background: var(--line-soft);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+.snap-progress-fill {
+  height: 100%;
+  background: var(--rust);
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}
+
+/* Su schermi stretti, una card per riga */
+@media (max-width: 600px) {
+  .live-snapshot-rooms {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- griglia ---- */
+.program-grid-wrap {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.program-grid {
+  display: grid;
+  /* minmax(0, 1fr) consente alle colonne di comprimersi sotto la min-content width
+     dei talk-cell, così su laptop 1280-1366 le 3 aule entrano senza scroll orizzontale. */
+  grid-template-columns: 56px repeat(3, minmax(0, 1fr));
+  gap: 0;
+  position: relative;
+}
+
+@media (max-width: 720px) {
+  .program-grid {
+    grid-template-columns: 48px 1fr;
+  }
+  .program-grid .room-header,
+  .program-grid .session-track-header,
+  .program-grid .talk-cell {
+    grid-column: 2 / -1 !important;
+  }
+  /* Su mobile rimuoviamo gli header globali di aula: ogni track-column
+     stampa la propria aula come eyebrow .session-track-room. Mantenere
+     un header sticky "Aula 16" mentre l'utente scorre nelle altre aule
+     era fuorviante. */
+  .program-grid .room-header {
+    display: none;
+  }
+}
+
+/* room headers */
+.room-header {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--navy);
+  font-weight: 700;
+  padding: var(--space-sm) var(--space-sm);
+  border-bottom: 2px solid var(--navy);
+  position: sticky;
+  top: 132px; /* sotto topbar + tabnav */
+  background: var(--paper);
+  z-index: 5;
+}
+.room-header:first-child {
+  background: transparent;
+  border-bottom-color: transparent;
+}
+
+/* time-marker rows in the leftmost column */
+.time-marker {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  padding: var(--space-xs) var(--space-sm);
+  text-align: right;
+  border-right: 1px solid var(--line);
+  background: var(--base);
+}
+
+/* full-width blocks (plenarie, pause, registrazioni) */
+.block-full {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  margin: 4px 0;
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+}
+.block-full .time {
+  font-weight: 700;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+  font-family: "Cardo", serif;
+  font-size: var(--fs-sm);
+}
+.block-full .label {
+  color: var(--ink);
+}
+.block-full[data-type="plenary"] {
+  background: linear-gradient(90deg, rgba(0, 0, 96, 0.06), rgba(0, 0, 96, 0.02));
+  border-left: 4px solid var(--navy);
+  font-weight: 600;
+}
+.block-full[data-type="break"] {
+  background: var(--line-soft);
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* session header (1A / 1B / 1C — fascia sopra alle celle) */
+.session-track-header {
+  background: var(--accent);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--line);
+  font-size: var(--fs-xs);
+}
+.session-track-header .session-track-room {
+  display: none;
+}
+/* Mobile: l'header globale di aula è nascosto (vedi sopra) e qui mostriamo
+   l'aula come eyebrow dentro ogni track-column. Sticky così l'utente sa in
+   quale aula sta scrollando senza che resti "Aula 16" fissa altrove. */
+@media (max-width: 720px) {
+  .session-block .track-column {
+    position: relative;
+  }
+  .session-track-header .session-track-room {
+    display: block;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--navy);
+    font-weight: 700;
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--navy);
+  }
+  .session-block .session-track-header {
+    position: sticky;
+    top: 60px;
+    z-index: 3;
+  }
+}
+.session-track-header .code {
+  display: inline-block;
+  font-weight: 800;
+  color: var(--navy);
+  font-family: "Cardo", serif;
+  font-size: var(--fs-sm);
+  margin-right: 8px;
+}
+.session-track-header .title {
+  font-weight: 600;
+  color: var(--ink);
+}
+.session-track-header .chair {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 2px;
+  font-style: italic;
+}
+
+/* talk cells */
+.talk-cell {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--c-other);
+  padding: 8px 10px;
+  margin: 3px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: transform var(--t-fast), box-shadow var(--t-fast), opacity var(--t-fast);
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+}
+.talk-cell:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.talk-cell.area-co-construction { border-left-color: var(--c-co-construction); }
+.talk-cell.area-archives        { border-left-color: var(--c-archives); }
+.talk-cell.area-memories        { border-left-color: var(--c-memories); }
+.talk-cell.area-data            { border-left-color: var(--c-data); }
+.talk-cell.area-textualities    { border-left-color: var(--c-textualities); }
+.talk-cell.area-other           { border-left-color: var(--c-other); }
+
+.talk-cell .talk-time {
+  font-size: 10.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  margin-bottom: 2px;
+  letter-spacing: 0.02em;
+}
+.talk-cell .talk-id {
+  display: inline-block;
+  font-family: "Cardo", serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-right: 5px;
+}
+.talk-cell .talk-title {
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.32;
+  color: var(--ink);
+  margin-bottom: 3px;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  /* clamp a 3 righe */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.talk-cell .talk-author {
+  font-size: 10.5px;
+  color: var(--muted);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* A schermi medi (laptop 1280-1366) il padding di main si riduce per fare spazio */
+@media (max-width: 1366px) and (min-width: 721px) {
+  main { padding: var(--space-md); }
+  .program-grid-wrap { padding: var(--space-sm); }
+  .talk-cell { padding: 6px 8px; margin: 2px; }
+  .talk-cell .talk-title { font-size: 12px; }
+  .session-block .session-id-cell { padding: 6px; font-size: var(--fs-base); }
+  .session-track-header { padding: 6px 10px; }
+}
+.talk-cell .talk-icons {
+  position: absolute;
+  top: 6px; right: 6px;
+  display: flex; gap: 4px;
+}
+.talk-cell .talk-icon {
+  font-size: 12px;
+  line-height: 1;
+}
+.talk-cell .talk-icon.saved { color: var(--rust); }
+.talk-cell .talk-icon.live {
+  color: var(--rust);
+  animation: live-pulse 1.4s infinite ease-in-out;
+}
+.talk-cell.dim {
+  opacity: 0.18;
+  pointer-events: none;
+}
+/* Filtri: i talk fuori filtro spariscono davvero (display:none),
+   compresi le track-column e session-block che restano vuoti. */
+.talk-cell.filtered-out,
+.track-column.filtered-out,
+.session-block.filtered-out {
+  display: none !important;
+}
+
+/* ===== Banner CTA percorsi tematici ===== */
+.paths-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+  border: none;
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.paths-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.paths-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top right, rgba(216, 97, 60, 0.25) 0%, transparent 60%);
+  pointer-events: none;
+}
+.paths-cta .cta-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.paths-cta .cta-text {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+  z-index: 1;
+}
+.paths-cta .cta-title {
+  font-family: "Cardo", serif;
+  font-size: var(--fs-md);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.paths-cta .cta-sub {
+  font-size: var(--fs-sm);
+  color: var(--accent);
+  line-height: 1.4;
+}
+.paths-cta .cta-arrow {
+  font-size: 22px;
+  font-weight: 700;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  transition: transform var(--t-fast);
+}
+.paths-cta:hover .cta-arrow {
+  transform: translateX(4px);
+}
+.paths-cta .cta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--rust);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  margin-right: 8px;
+  vertical-align: 2px;
+}
+.talk-cell.discussion {
+  background: var(--line-soft);
+  cursor: default;
+  font-style: italic;
+  color: var(--muted);
+  text-align: center;
+}
+.talk-cell.discussion:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* session block container: 3 colonne con header sessione + talks */
+.session-block {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 56px repeat(3, minmax(0, 1fr));
+  margin: var(--space-sm) 0;
+  border-top: 1px dashed var(--line);
+  padding-top: var(--space-sm);
+  position: relative;
+}
+@media (max-width: 720px) {
+  /* On mobile, stack: id-cell (small) then each track full-width below */
+  .session-block {
+    display: block;
+    margin-bottom: var(--space-md);
+  }
+  .session-block .session-id-cell {
+    text-align: left !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--line);
+    padding: var(--space-sm) 0 !important;
+    margin-bottom: 4px;
+  }
+  .session-block .track-column {
+    display: flex;
+    flex-direction: column;
+    grid-template-rows: none;
+    grid-row: auto;
+    border-right: none !important;
+    border-bottom: 1px dashed var(--line-soft);
+    padding-bottom: var(--space-sm);
+    margin-bottom: var(--space-sm);
+  }
+  .session-block .track-column > .talk-cell,
+  .session-block .track-column > .session-track-header {
+    grid-row: auto;
+  }
+  .session-block .track-column:last-child {
+    border-bottom: none;
+  }
+}
+.session-block .session-id-cell {
+  font-family: "Cardo", serif;
+  font-weight: 700;
+  font-size: var(--fs-md);
+  color: var(--navy);
+  padding: var(--space-sm);
+  text-align: right;
+  border-right: 1px solid var(--line);
+  align-self: start;
+}
+.session-block .track-column {
+  display: grid;
+  /* Eredita le righe del .session-block (auto per header + auto per ogni slot
+     orario): così le talk-cell delle 3 aule allo stesso slot stanno sulla
+     stessa riga grid, l'altezza viene presa dal contenuto più alto della riga,
+     e la now-line orizzontale taglia tutte e 3 le colonne sullo stesso slot. */
+  grid-template-rows: subgrid;
+  grid-row: 1 / -1;
+  border-right: 1px solid var(--line-soft);
+}
+.session-block .track-column:last-child {
+  border-right: none;
+}
+/* Talk-cell allineate alla riga grid: stretchano verticalmente per occupare
+   tutta la riga slot, così la now-line cade alla stessa altezza in tutte e 3
+   le aule. */
+.session-block .track-column > .talk-cell {
+  align-self: stretch;
+}
+
+/* Override mobile: la regola desktop subgrid sopra è definita DOPO il media
+   query iniziale (a riga 583), quindi vince in cascata. Ridichiariamo qui per
+   ripristinare il flex-column su mobile e annullare i grid-row inline scritti
+   dal JS sui talk-cell e header. */
+@media (max-width: 720px) {
+  .session-block .track-column {
+    display: flex !important;
+    flex-direction: column;
+    grid-template-rows: none !important;
+    grid-row: auto !important;
+    border-right: none !important;
+  }
+  .session-block .track-column > .talk-cell,
+  .session-block .track-column > .session-track-header {
+    grid-row: auto !important;
+    align-self: stretch;
+  }
+  .session-block {
+    grid-template-rows: none !important;
+  }
+  .session-block .session-id-cell {
+    grid-row: auto !important;
+  }
+}
+
+/* "now" line — desktop: una linea orizzontale nel .program-grid-wrap che
+   attraversa tutte e 3 le aule (le talk-cell sono allineate sulla stessa
+   riga grid via subgrid). */
+.now-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: var(--rust);
+  z-index: 4;
+  pointer-events: none;
+  box-shadow: 0 0 12px rgba(216, 97, 60, 0.4);
+}
+.now-line::before {
+  content: attr(data-label);
+  position: absolute;
+  left: 0;
+  top: -10px;
+  background: var(--rust);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.now-line::after {
+  content: "";
+  position: absolute;
+  right: -4px; top: -3px;
+  width: 8px; height: 8px;
+  background: var(--rust);
+  border-radius: 50%;
+  animation: live-pulse 1.4s infinite ease-in-out;
+}
+
+/* Mobile: il layout stacca le aule in colonne uniche. Per non perdere il
+   segnale visivo dell'avanzamento dell'ora, la now-line viene replicata
+   dentro ogni .track-column "live" (variant .now-line--column, ancorata
+   alla colonna invece che al wrap). */
+.now-line--column {
+  left: 4px;
+  right: 4px;
+}
+
+/* discussion blocks within track */
+.session-block .discussion-row {
+  margin: 4px;
+  padding: var(--space-sm);
+  text-align: center;
+  background: var(--line-soft);
+  color: var(--muted);
+  border-radius: var(--radius-sm);
+  font-style: italic;
+  font-size: var(--fs-xs);
+}

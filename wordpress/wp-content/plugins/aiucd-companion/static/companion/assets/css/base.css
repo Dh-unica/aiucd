@@ -1,0 +1,604 @@
+/* =========================================================
+   AIUCD 2026 Companion — base, topbar, tab nav, modal shell
+   ========================================================= */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--base);
+  color: var(--ink);
+  line-height: 1.55;
+  font-size: var(--fs-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+h1, h2, h3, h4, h5 {
+  font-family: "Cardo", Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+a { color: var(--navy); text-decoration: none; }
+a:hover { color: var(--rust); }
+
+/* =============== TOPBAR =============== */
+.topbar {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-inner {
+  max-width: 1440px; margin: 0 auto;
+  padding: var(--space-sm) var(--space-lg);
+  display: flex; align-items: center; gap: var(--space-md);
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex; align-items: center; gap: var(--space-sm);
+  text-decoration: none; color: var(--navy);
+  flex-shrink: 0;
+}
+.brand-mark {
+  width: 48px; height: 48px;
+  /* Bordi squadrati come da requisito; il crop di 3px taglia il margine
+     bianco intorno al simbolo senza alterare le proporzioni del logo. */
+  border-radius: 0;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  background: transparent;
+}
+.brand-mark img {
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  margin: -3px;
+  object-fit: cover;
+  display: block;
+}
+.brand-text strong {
+  display: block; font-size: var(--fs-sm); font-weight: 700;
+  color: var(--navy); font-family: "Cardo", serif;
+}
+.brand-text small {
+  display: block; font-size: var(--fs-xs); color: var(--muted);
+  letter-spacing: 0.18em; text-transform: uppercase; margin-top: 1px;
+}
+.live-indicator {
+  margin-left: auto;
+  position: relative;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px 8px;
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  overflow: hidden;
+  transition: filter var(--t-base);
+}
+.live-indicator:hover { filter: brightness(0.95); }
+.live-indicator:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+}
+/* Quando il bottone agenda è dopo .live-indicator, leva il margin-left auto
+   da .live-indicator solo se segue immediatamente .brand (caso tipico): non
+   serve cambiare struttura, basta che il bottone non spinga oltre lo schermo. */
+.topbar-inner > .topbar-agenda-btn {
+  /* Niente push extra: live-indicator ha già margin-left: auto e raggruppa il
+     resto a destra. Il bottone si dispone subito dopo. */
+}
+.live-indicator::before {
+  content: ""; width: 8px; height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.live-indicator-text {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  min-width: 0;
+}
+.live-indicator-detail {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  opacity: 0.78;
+  font-size: 0.92em;
+}
+.live-indicator-detail[hidden] { display: none; }
+.live-indicator-progress {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.05);
+  pointer-events: none;
+  border-radius: 0 0 999px 999px;
+  overflow: hidden;
+}
+.live-indicator-progress-fill {
+  display: block; height: 100%; width: 0%;
+  background: currentColor;
+  opacity: 0.55;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* Stati */
+.live-indicator[data-state="pre"]   { color: var(--muted-2); background: var(--line-soft); }
+.live-indicator[data-variant="pre-soon"]     { color: var(--rust); background: rgba(216, 97, 60, 0.08); }
+.live-indicator[data-variant="pre-imminent"] { color: var(--rust); background: rgba(216, 97, 60, 0.18); }
+.live-indicator[data-variant="pre-imminent"]::before { animation: live-pulse 1.4s infinite ease-in-out; }
+.live-indicator[data-state="live"]  {
+  color: var(--rust);
+  background: rgba(216, 97, 60, 0.12);
+}
+.live-indicator[data-state="live"]::before { animation: live-pulse 1.4s infinite ease-in-out; }
+.live-indicator[data-state="break"] { color: var(--sand); background: rgba(194, 169, 144, 0.18); }
+.live-indicator[data-state="post"]  { color: var(--navy); background: var(--accent); }
+/* Modificatore "ultimo giorno": tinta rust più satura per richiamare l'attenzione */
+.live-indicator[data-last-day="true"][data-state="break"] {
+  color: var(--rust);
+  background: rgba(216, 97, 60, 0.10);
+}
+.live-indicator[data-last-day="true"][data-state="live"] {
+  background: rgba(216, 97, 60, 0.18);
+}
+
+@keyframes live-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(216, 97, 60, 0.5); transform: scale(1); }
+  50%      { box-shadow: 0 0 0 6px rgba(216, 97, 60, 0); transform: scale(1.15); }
+}
+
+/* Mobile stretto: nascondi detail per non far overflow del topbar */
+@media (max-width: 480px) {
+  .live-indicator-detail { display: none; }
+}
+
+/* =============== TAB NAVIGATION =============== */
+.tab-nav {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  position: sticky; top: 71px; z-index: 49;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-nav-inner {
+  max-width: 1440px; margin: 0 auto;
+  padding: 0 var(--space-lg);
+  display: flex; gap: var(--space-md);
+}
+
+/* Fade-out gradient ai bordi della tab-nav su mobile: indica che ci sono tab fuori schermo
+   da scrollare. Usa CSS mask-image: i bordi del container appaiono semitrasparenti.
+   Solo <768px dove l'overflow-x è effettivamente attivo. */
+@media (max-width: 768px) {
+  .tab-nav {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+  }
+  .tab-nav-inner {
+    /* compenso il padding del mask: i tab ai bordi non devono essere completamente nascosti */
+    padding: 0 var(--space-md);
+  }
+}
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: var(--space-md) 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--ink);
+  border-bottom: 3px solid transparent;
+  transition: color var(--t-fast), border-color var(--t-fast);
+  white-space: nowrap;
+  min-height: var(--tap-min);
+}
+.tab-btn:hover { color: var(--navy); }
+.tab-btn[aria-selected="true"] {
+  color: var(--navy);
+  border-bottom-color: var(--navy);
+  font-weight: 600;
+}
+
+/* Countdown T-N sul tab Programma quando mancano ≤ 10 giorni. Il prefisso T-N
+   è rust per richiamare l'attenzione; al tab attivo resta il navy del border. */
+.tab-btn--countdown {
+  color: var(--rust);
+  font-weight: 700;
+}
+.tab-btn--countdown[aria-selected="true"] {
+  color: var(--rust);
+  border-bottom-color: var(--rust);
+}
+.tab-countdown,
+.mb-tab-countdown {
+  color: var(--rust);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-right: 4px;
+}
+.tab-countdown[hidden],
+.mb-tab-countdown[hidden] {
+  display: none;
+}
+/* Mobile bottom-tab: il countdown è dentro la label, sostituisce parte del nome */
+.mb-tab.tab-btn--countdown .mb-tab-label,
+.mb-tab--countdown .mb-tab-label { color: var(--rust); }
+.mb-tab.tab-btn--countdown[aria-selected="true"]::before {
+  background: var(--rust);
+}
+
+/* =============== MAIN =============== */
+main {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--space-lg);
+}
+
+.tab-section { display: none; }
+.tab-section[data-active="true"] { display: block; }
+
+.section-head {
+  margin-bottom: var(--space-lg);
+}
+.section-head h2 {
+  font-size: var(--fs-lg);
+  display: flex; align-items: baseline; gap: 14px;
+  margin-bottom: 4px;
+}
+.section-head h2 .sub-mark {
+  display: inline-block; width: 28px; height: 4px;
+  background: var(--rust); border-radius: 2px;
+}
+.section-sub {
+  color: var(--muted); font-size: var(--fs-sm);
+  max-width: 760px;
+}
+
+/* =============== UTIL =============== */
+.placeholder {
+  background: var(--paper);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--muted);
+}
+.placeholder strong { color: var(--navy); display: block; margin-bottom: 6px; }
+
+/* =============== MODAL =============== */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  /* Opacità alta per nascondere overlay Leaflet sottostanti anche quando
+     backdrop-filter non è disponibile (alcuni headless / accessibility setting). */
+  background: rgba(0, 0, 60, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  align-items: center; justify-content: center;
+  padding: var(--space-md);
+  /* Gerarchia stacking globale:
+       Leaflet 1000 < poster overlay 9000 < drawer/overlay backdrop 10999
+       < drawer/overlay panel 11000 < modale talk 12000 < cal-menu popover 12500.
+     Il modale del talk è il livello "dettaglio"; deve sovrastare drawer "I miei talk"
+     e overlay "Percorsi" da cui può essere invocato. Il cal-menu sta ancora sopra
+     perché è un popover invocabile sia dal modale sia dal drawer. */
+  z-index: 12000;
+  opacity: 0;
+  transition: opacity var(--t-base);
+}
+.modal-backdrop[data-open="true"] {
+  display: flex;
+  opacity: 1;
+}
+.modal {
+  background: var(--paper);
+  border-radius: var(--radius-lg);
+  max-width: 720px;
+  width: 100%;
+  max-height: 90vh;
+  /* Flex column con body scrollabile e .modal-actions footer sempre visibile.
+     Niente overflow-y sul container: lo scroll è solo su .modal-body. */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.96);
+  transition: transform var(--t-base);
+}
+.modal-backdrop[data-open="true"] .modal { transform: scale(1); }
+.modal-head {
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--line);
+  display: flex; gap: var(--space-md);
+  align-items: flex-start;
+}
+.modal-head .close-btn {
+  background: transparent; border: none;
+  font-size: 28px; line-height: 1;
+  cursor: pointer; color: var(--muted);
+  padding: 0; margin-left: auto;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  transition: background var(--t-fast);
+}
+.modal-head .close-btn:hover { background: var(--line-soft); color: var(--navy); }
+.modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--space-lg);
+}
+.modal h3 {
+  font-size: var(--fs-md);
+  line-height: 1.3;
+  margin: 0 0 var(--space-sm);
+}
+.modal .modal-meta {
+  display: flex; gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-md);
+}
+.chip {
+  display: inline-flex; align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  background: var(--line-soft);
+  color: var(--ink);
+}
+.chip.area-chip {
+  color: #fff;
+  font-weight: 600;
+}
+.chip.live-chip {
+  background: var(--rust);
+  color: #fff;
+  animation: live-pulse 1.4s infinite ease-in-out;
+}
+.modal .authors {
+  font-size: var(--fs-sm);
+  color: var(--muted-2);
+  margin-bottom: var(--space-md);
+}
+.modal .abstract {
+  font-size: var(--fs-sm);
+  line-height: 1.65;
+  color: var(--ink);
+  margin-bottom: var(--space-md);
+}
+.modal-actions {
+  display: flex; gap: var(--space-sm);
+  flex-wrap: wrap;
+  padding: var(--space-md) var(--space-lg);
+  border-top: 1px solid var(--line);
+  background: var(--paper);
+  flex-shrink: 0;
+}
+.btn {
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+  min-height: var(--tap-min);
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px;
+}
+.btn-primary {
+  background: var(--navy);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--navy-soft); }
+.btn-secondary {
+  background: var(--paper);
+  color: var(--navy);
+  border-color: var(--line);
+}
+.btn-secondary:hover { background: var(--line-soft); }
+.btn-saved {
+  background: var(--sage);
+  color: var(--navy);
+}
+
+/* =============== FOOTER PARTNER PLACEHOLDER =============== */
+.partners-strip {
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  padding: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+.partners-strip-inner {
+  max-width: 1440px; margin: 0 auto;
+}
+.partners-label {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  margin-bottom: var(--space-md);
+  text-align: center;
+}
+.partners-row {
+  display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: center;
+  gap: var(--space-lg);
+}
+.partners-row img {
+  height: 40px;
+  max-width: 140px;
+  object-fit: contain;
+  filter: grayscale(100%) opacity(0.7);
+  transition: filter var(--t-base);
+}
+.partners-row a:hover img { filter: grayscale(0) opacity(1); }
+
+/* =============== CALENDAR MENU (popover) =============== */
+.cal-menu {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  /* Popover invocabile sia dal modale talk (z 12000) sia dal drawer agenda (z 11000):
+     deve stare sopra a entrambi. */
+  z-index: 12500;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+}
+.cal-menu-head {
+  padding: var(--space-md) var(--space-md) var(--space-sm);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.cal-menu-title {
+  font-family: "Cardo", serif;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--navy);
+  flex: 1;
+  line-height: 1.3;
+}
+.cal-menu-close {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 22px;
+  cursor: pointer;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.cal-menu-close:hover { background: var(--line-soft); color: var(--navy); }
+
+.cal-menu-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.cal-menu-item {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line-soft);
+  cursor: pointer;
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  text-align: left;
+  font-family: inherit;
+  transition: background var(--t-fast);
+  min-height: 64px;
+}
+.cal-menu-item:hover { background: var(--line-soft); }
+.cal-menu-item:last-child { border-bottom: none; }
+.cal-menu-item .cal-icon {
+  font-size: 28px;
+  width: 44px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.cal-menu-item .cal-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.cal-menu-item .cal-label {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink);
+}
+.cal-menu-item .cal-sub {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* Bottom sheet su mobile */
+.cal-menu.bottom-sheet {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  width: 100% !important;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  max-height: 85vh;
+  animation: cal-slide-up 0.22s ease-out;
+}
+@keyframes cal-slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+/* "Aggiungi al calendario" trigger button (icon-style) */
+.btn-calendar {
+  background: var(--paper);
+  color: var(--navy);
+  border: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-calendar:hover { background: var(--line-soft); }
+.btn-calendar::after {
+  content: "▾";
+  font-size: 10px;
+  margin-left: 2px;
+  color: var(--muted);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+ * Clock-skew banner — avviso non-bloccante quando l'orologio del device
+ * è fuori sync col server. Generato da showClockSkewBanner() in app.js.
+ * ───────────────────────────────────────────────────────────────────── */
+.aiucd-skew-banner {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #fff7e6;
+  border: 1px solid #f1c97a;
+  border-left: 4px solid #d68910;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(20, 30, 60, 0.18);
+  font: 14px/1.4 var(--font-sans, "Inter", system-ui, sans-serif);
+  color: #1d2640;
+  animation: aiucd-skew-in 220ms ease-out;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.aiucd-skew-icon  { font-size: 20px; flex: 0 0 auto; }
+.aiucd-skew-text  { flex: 1 1 auto; }
+.aiucd-skew-text strong { color: #8a4a00; }
+.aiucd-skew-close {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 0;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: #6b4c8a;
+  padding: 4px 8px;
+}
+.aiucd-skew-close:hover { color: #1d2640; }
+@keyframes aiucd-skew-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

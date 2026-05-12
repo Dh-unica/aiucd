@@ -1,0 +1,80 @@
+/* AIUCD 2026 Companion · Mobile bottom navigation (Sprint A4)
+   Visibile solo su mobile (<= 767px). Sostituisce la .tab-nav top, che viene
+   nascosta nello stesso media query. Su desktop la nav top resta com'era. */
+
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
+}
+.mobile-bottom-nav-inner {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.mb-tab {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 4px 6px;
+  min-height: 56px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--muted);
+  transition: color var(--t-base);
+}
+.mb-tab:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: -2px;
+  border-radius: 4px;
+}
+.mb-tab-icon {
+  font-size: 22px;
+  line-height: 1;
+  transition: transform var(--t-base);
+}
+.mb-tab-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.mb-tab[aria-selected="true"] {
+  color: var(--rust);
+}
+.mb-tab[aria-selected="true"] .mb-tab-icon {
+  transform: translateY(-1px) scale(1.08);
+}
+.mb-tab[aria-selected="true"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 3px;
+  background: var(--rust);
+  border-radius: 0 0 3px 3px;
+}
+.mb-tab { position: relative; }
+
+/* Reserve space at the bottom of the page so the bottom nav doesn't cover content */
+@media (max-width: 767px) {
+  .mobile-bottom-nav { display: block; }
+  /* Hide the top tab nav on mobile: bottom nav replaces it */
+  .tab-nav { display: none; }
+  /* Bottom padding on body so the fixed bottom-nav doesn't cover the footer/content */
+  body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
+}
