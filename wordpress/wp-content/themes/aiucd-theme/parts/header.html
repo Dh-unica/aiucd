@@ -1,0 +1,41 @@
+<!-- AIUCD child theme header
+     Differenze rispetto al parent (twentytwentyfour/parts/header.html):
+       - padding verticale 20px → 10px (compatto)
+       - logo width 60 → 48
+       - aggiunto slot #aiucd-site-widgets dopo Polylang switcher
+         (popolato dal mu-plugin aiucd-site-widgets con countdown + agenda)
+-->
+<!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"top":"10px","bottom":"10px"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignwide has-base-background-color has-background"
+	style="padding-top:10px;padding-bottom:10px">
+	<!-- wp:group {"align":"wide","layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+	<div class="wp-block-group alignwide">
+		<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20"},"layout":{"selfStretch":"fit","flexSize":null}},"layout":{"type":"flex"}} -->
+		<div class="wp-block-group">
+			<!-- wp:site-logo {"width":48} /-->
+
+			<!-- wp:group {"style":{"spacing":{"blockGap":"0px"}}} -->
+			<div class="wp-block-group">
+				<!-- wp:site-title {"level":0} /-->
+			</div>
+			<!-- /wp:group -->
+		</div>
+		<!-- /wp:group -->
+
+		<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","alignItems":"center"}} -->
+		<div class="wp-block-group">
+			<!-- wp:navigation {"layout":{"type":"flex","justifyContent":"right","orientation":"horizontal"},"style":{"spacing":{"margin":{"top":"0"},"blockGap":"var:preset|spacing|20"},"layout":{"selfStretch":"fit","flexSize":null}}} /-->
+
+			<!-- wp:shortcode -->
+[polylang_switcher]
+<!-- /wp:shortcode -->
+
+			<!-- wp:html -->
+<div id="aiucd-site-widgets" class="aiucd-site-widgets" aria-label="Stato convegno AIUCD 2026"></div>
+<!-- /wp:html -->
+		</div>
+		<!-- /wp:group -->
+	</div>
+	<!-- /wp:group -->
+</div>
+<!-- /wp:group -->

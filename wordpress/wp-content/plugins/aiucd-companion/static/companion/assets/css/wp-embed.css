@@ -12,61 +12,72 @@
  * static/) ma le regole non matchano perché manca la classe sul <body>.
  * ───────────────────────────────────────────────────────────────────── */
 
-/* ── 1. Nascondi il <h1> "Companion del convegno" e i suoi spacer ───── */
+/* ── 1. Nascondi tutto il "title block" del template FSE ───────────── */
+/*
+ * Il template page.html del tema FSE wrappa il <h1> + 2 spacer in un
+ * <div class="wp-block-group has-global-padding"> che è il PRIMO figlio
+ * di <main>. Anche con il title hidden, il container conserva il suo
+ * has-global-padding (~1.25rem) + altezza degli spacer = ~150px di vuoto.
+ * La soluzione robusta è nascondere l'intero gruppo.
+ */
+body.aiucd-companion-page main > .wp-block-group:first-child:has(.wp-block-post-title) {
+  display: none !important;
+}
+/* Fallback per browser senza :has() (es. Firefox <121, Safari <15.4) */
 body.aiucd-companion-page :where(.wp-block-post-title) {
   display: none !important;
 }
 body.aiucd-companion-page :where(.wp-block-post-title) + .wp-block-spacer,
-body.aiucd-companion-page :where(.wp-block-post-title) ~ .wp-block-spacer:last-child {
+body.aiucd-companion-page main > .wp-block-group:first-child > .wp-block-spacer {
   display: none;
 }
 
-/* ── 2. Companion full-bleed dentro entry-content ──────────────────── */
+/* ── 2. Companion full-bleed dentro entry-content + zero gap top ─── */
 /*
  * Il tema FSE wrappa il post-content in un container con max-width e
- * padding orizzontale. Per il companion vogliamo l'intera larghezza:
- * la mappa Leaflet, il programma a griglia e la sezione "Cifre" sono
- * pensati per espandersi.
+ * padding orizzontale + padding verticale (has-global-padding). Per il
+ * companion vogliamo l'intera larghezza e zero padding-top (il companion
+ * inizia subito sotto l'header WP).
  */
 body.aiucd-companion-page .wp-block-post-content,
 body.aiucd-companion-page :where(main .wp-block-group.has-global-padding) {
   max-width: none !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
+  padding-top: 0 !important;
 }
 
-/* Spacer attorno al post-content rimosso per ridurre il vuoto */
-body.aiucd-companion-page main > :is(.wp-block-spacer, .wp-block-group > .wp-block-spacer) {
-  display: none;
+/* Anche il <main> del tema può avere top spacing residuo */
+body.aiucd-companion-page main {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
-/* ── 3. Topbar interna: nascondi brand duplicato ───────────────────── */
+/* WP block layout aggiunge margin-block-start ~1.2em via "is-layout-flow" su
+ * tutti i blocchi nipoti, incluso il primo. Su mobile contribuisce ~19px di
+ * gap fra header e topbar. Lo azzeriamo SOLO sul primo blocco utile. */
+body.aiucd-companion-page main > :first-child,
+body.aiucd-companion-page main > .wp-block-post-content,
+body.aiucd-companion-page main > .wp-block-post-content > :first-child,
+body.aiucd-companion-page #aiucd-companion-root {
+  margin-top: 0 !important;
+}
+
+/* Tutti gli spacer FSE dentro main vengono nascosti */
+body.aiucd-companion-page main :is(.wp-block-spacer) {
+  display: none !important;
+}
+
+/* ── 3. Topbar interna del companion: nascosta ─────────────────────── */
 /*
- * Il logo + "AIUCD 2026 · Cagliari" + "3—5 giugno · COMPANION" duplica
- * il branding del header WP (logo + site title). Lo nascondiamo lasciando
- * visibili solo i 2 elementi funzionali della topbar:
- *   - live-indicator (badge T-22 GIORNI / In corso / Pausa / Convegno concluso)
- *   - topbar-agenda-btn ("Il mio AIUCD26" con counter)
+ * Dopo l'integrazione dei widget globali nell'header WP (countdown T-N + agenda)
+ * la topbar interna del companion diventa interamente ridondante: brand,
+ * live-indicator e agenda button vivono ora nell'header del tema su TUTTE le
+ * pagine del sito. Nasconderla guadagna ~60px di spazio verticale sopra
+ * la tab-nav, senza perdita di funzioni.
  */
-body.aiucd-companion-page #aiucd-companion-root > .topbar > .topbar-inner > .brand {
+body.aiucd-companion-page #aiucd-companion-root > .topbar {
   display: none;
-}
-
-/* Quando .brand è nascosto, riallinea: live-indicator a SINISTRA
- * (è il primo elemento utile), agenda-btn a DESTRA via margin-left:auto.
- * Senza override il live-indicator continuerebbe ad avere margin-left:auto
- * (eredità da standalone) ammucchiando entrambi i bottoni a destra. */
-body.aiucd-companion-page #aiucd-companion-root > .topbar > .topbar-inner > .live-indicator {
-  margin-left: 0;
-}
-body.aiucd-companion-page #aiucd-companion-root > .topbar > .topbar-inner > .topbar-agenda-btn {
-  margin-left: auto;
-}
-
-/* Topbar più compatta: era un'hero standalone, qui è una strip funzionale */
-body.aiucd-companion-page #aiucd-companion-root > .topbar > .topbar-inner {
-  padding-block: 10px;
-  padding-inline: clamp(12px, 3vw, 24px);
 }
 
 /* ── 4. Partner strip: nascosta, i loghi sono già nel footer WP ────── */

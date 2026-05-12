@@ -1,0 +1,91 @@
+/* AIUCD Site Widgets · chip nell'header WP per countdown + agenda
+   Stile coerente con la topbar del companion (variabili tokens.css quando
+   disponibili, fallback ai colori del tema WP). Pensato per integrarsi
+   nel flex container del header parts/header.html del tema. */
+
+#aiucd-site-widgets.aiucd-site-widgets {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+  flex-wrap: wrap;
+}
+
+.aiucd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #d8dbe6;
+  background: #ffffff;
+  color: #1d2640;
+  font: 600 13px/1 "Inter", system-ui, -apple-system, sans-serif;
+  text-decoration: none !important;
+  transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+  white-space: nowrap;
+}
+.aiucd-chip:hover {
+  background: #f2f4fa;
+  border-color: #b8c0d4;
+  transform: translateY(-1px);
+}
+.aiucd-chip:active { transform: translateY(0); }
+.aiucd-chip:focus-visible {
+  outline: 2px solid #d68910;
+  outline-offset: 2px;
+}
+
+/* ── Countdown chip ── */
+.aiucd-chip--countdown .aiucd-chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #94a3b8;
+  flex-shrink: 0;
+}
+.aiucd-chip--countdown[data-state="pre"]          .aiucd-chip-dot { background: #94a3b8; }
+.aiucd-chip--countdown[data-state="pre-soon"]     .aiucd-chip-dot { background: #2a6fa1; }
+.aiucd-chip--countdown[data-state="pre-imminent"] .aiucd-chip-dot { background: #d68910; animation: aiucd-pulse 1.4s ease-in-out infinite; }
+.aiucd-chip--countdown[data-state="live"]         .aiucd-chip-dot { background: #d8613c; animation: aiucd-pulse 1.4s ease-in-out infinite; }
+.aiucd-chip--countdown[data-state="post"]         .aiucd-chip-dot { background: #6b4c8a; }
+
+@keyframes aiucd-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.35); opacity: 0.7; }
+}
+
+/* ── Agenda chip ── */
+.aiucd-chip--agenda .aiucd-chip-star {
+  color: #d68910;
+  font-size: 14px;
+}
+.aiucd-chip--agenda .aiucd-chip-count {
+  background: #1d2640;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* ── Mobile: chip più compatte (solo dot/star + count, label nascosta sotto 640px) ── */
+@media (max-width: 640px) {
+  #aiucd-site-widgets.aiucd-site-widgets { gap: 6px; margin-left: 4px; }
+  .aiucd-chip { padding: 5px 10px; font-size: 12px; }
+  /* Su schermi piccoli sacrifichiamo "Il mio AIUCD26": resta solo ★ N */
+  .aiucd-chip--agenda .aiucd-chip-label { display: none; }
+}
+
+/* ── Hover/focus accessibili anche con underline del tema ── */
+header.wp-block-template-part .aiucd-chip,
+header.wp-block-template-part .aiucd-chip:hover,
+header.wp-block-template-part .aiucd-chip:focus {
+  text-decoration: none !important;
+  border-bottom: 1px solid transparent;
+}
+header.wp-block-template-part .aiucd-chip {
+  border: 1px solid #d8dbe6;
+}

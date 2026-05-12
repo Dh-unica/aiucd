@@ -288,7 +288,22 @@ async function init() {
     if (pill) pill.textContent = String(n);
   }
   refreshAgendaCount();
-  agenda.onChange(refreshAgendaCount);
+  agenda.onChange(() => {
+    refreshAgendaCount();
+    // Notifica il widget globale nell'header WP (mu-plugin) per aggiornare
+    // il contatore "★ Il mio AIUCD26 (N)" senza attendere lo storage event.
+    if (window.AIUCD_SITE_WIDGETS && typeof window.AIUCD_SITE_WIDGETS.refresh === "function") {
+      window.AIUCD_SITE_WIDGETS.refresh();
+    }
+  });
+
+  // Deep-link da pagine WP esterne: /companion/?action=open-agenda apre il drawer
+  // al boot (link dal widget "★ Il mio AIUCD26" nell'header).
+  if (new URLSearchParams(location.search).get("action") === "open-agenda") {
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent("companion:open-agenda-drawer"));
+    }, 100);
+  }
 
   // Custom events to open drawer/overlay from anywhere in the app
   window.addEventListener("companion:open-agenda-drawer", () => {
