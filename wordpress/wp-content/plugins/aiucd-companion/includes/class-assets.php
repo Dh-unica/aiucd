@@ -12,6 +12,20 @@ class AIUCD_Companion_Assets {
     public static function register() {
         add_action( 'wp_enqueue_scripts', array( __CLASS__, 'maybe_enqueue' ) );
         add_filter( 'script_loader_tag', array( __CLASS__, 'module_type' ), 10, 3 );
+        add_filter( 'body_class',        array( __CLASS__, 'body_class' ) );
+    }
+
+    /**
+     * Aggiunge la classe `aiucd-companion-page` al <body> sulle Page WP che
+     * contengono lo shortcode. Permette al file wp-embed.css del companion di
+     * applicare overrides scoped (hide page title H1, nasconde topbar brand,
+     * relayout, ecc.) senza toccare lo styling standalone.
+     */
+    public static function body_class( $classes ) {
+        if ( self::page_has_shortcode() ) {
+            $classes[] = 'aiucd-companion-page';
+        }
+        return $classes;
     }
 
     private static function page_has_shortcode() {
@@ -49,10 +63,14 @@ class AIUCD_Companion_Assets {
         wp_enqueue_script( 'chartjs',               'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js', array(), '4.4.0', true );
 
         // ── CSS companion (in ordine di dipendenza) ─────────────────────
+        // `wp-embed` viene per ultimo: contiene gli overrides scoped a
+        // body.aiucd-companion-page che neutralizzano il chrome WP ridondante
+        // (page title H1, brand duplicato, layout) senza impattare lo
+        // standalone (dove la classe sul body non esiste).
         $css_files = array(
             'tokens', 'base', 'program', 'path', 'mappa', 'cagliari',
             'catalog', 'poster', 'numeri', 'drawer', 'mobile-nav',
-            'glyphs', 'avatar',
+            'glyphs', 'avatar', 'wp-embed',
         );
         foreach ( $css_files as $name ) {
             $file = $css_dir . $name . '.css';

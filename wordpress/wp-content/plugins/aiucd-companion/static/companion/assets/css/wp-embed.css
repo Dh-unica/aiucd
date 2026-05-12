@@ -1,0 +1,96 @@
+/* ─────────────────────────────────────────────────────────────────────
+ * AIUCD Companion · wp-embed overrides
+ *
+ * Stili applicati SOLO quando il companion è ospitato dentro WordPress
+ * (body.aiucd-companion-page viene aggiunta dal plugin via body_class hook).
+ *
+ * Obiettivo: rimuovere il chrome WP ridondante (h1 page title, layout
+ * "wp-block-post-content" stretto) e riarrangiare la topbar interna del
+ * companion per non duplicare il branding dell'header del tema.
+ *
+ * In standalone questo file viene caricato ugualmente (è sincronizzato in
+ * static/) ma le regole non matchano perché manca la classe sul <body>.
+ * ───────────────────────────────────────────────────────────────────── */
+
+/* ── 1. Nascondi il <h1> "Companion del convegno" e i suoi spacer ───── */
+body.aiucd-companion-page :where(.wp-block-post-title) {
+  display: none !important;
+}
+body.aiucd-companion-page :where(.wp-block-post-title) + .wp-block-spacer,
+body.aiucd-companion-page :where(.wp-block-post-title) ~ .wp-block-spacer:last-child {
+  display: none;
+}
+
+/* ── 2. Companion full-bleed dentro entry-content ──────────────────── */
+/*
+ * Il tema FSE wrappa il post-content in un container con max-width e
+ * padding orizzontale. Per il companion vogliamo l'intera larghezza:
+ * la mappa Leaflet, il programma a griglia e la sezione "Cifre" sono
+ * pensati per espandersi.
+ */
+body.aiucd-companion-page .wp-block-post-content,
+body.aiucd-companion-page :where(main .wp-block-group.has-global-padding) {
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Spacer attorno al post-content rimosso per ridurre il vuoto */
+body.aiucd-companion-page main > :is(.wp-block-spacer, .wp-block-group > .wp-block-spacer) {
+  display: none;
+}
+
+/* ── 3. Topbar interna: nascondi brand duplicato ───────────────────── */
+/*
+ * Il logo + "AIUCD 2026 · Cagliari" + "3—5 giugno · COMPANION" duplica
+ * il branding del header WP (logo + site title). Lo nascondiamo lasciando
+ * visibili solo i 2 elementi funzionali della topbar:
+ *   - live-indicator (badge T-22 GIORNI / In corso / Pausa / Convegno concluso)
+ *   - topbar-agenda-btn ("Il mio AIUCD26" con counter)
+ */
+body.aiucd-companion-page #aiucd-companion-root > .topbar > .topbar-inner > .brand {
+  display: none;
+}
+
+/* Quando .brand è nascosto, riallinea: live-indicator a SINISTRA
+ * (è il primo elemento utile), agenda-btn a DESTRA via margin-left:auto.
+ * Senza override il live-indicator continuerebbe ad avere margin-left:auto
+ * (eredità da standalone) ammucchiando entrambi i bottoni a destra. */
+body.aiucd-companion-page #aiucd-companion-root > .topbar > .topbar-inner > .live-indicator {
+  margin-left: 0;
+}
+body.aiucd-companion-page #aiucd-companion-root > .topbar > .topbar-inner > .topbar-agenda-btn {
+  margin-left: auto;
+}
+
+/* Topbar più compatta: era un'hero standalone, qui è una strip funzionale */
+body.aiucd-companion-page #aiucd-companion-root > .topbar > .topbar-inner {
+  padding-block: 10px;
+  padding-inline: clamp(12px, 3vw, 24px);
+}
+
+/* ── 4. Partner strip: nascosta, i loghi sono già nel footer WP ────── */
+body.aiucd-companion-page #aiucd-companion-root > .partners-strip {
+  display: none;
+}
+
+/* ── 5. Tab nav: sticky sotto la topbar (rimane visibile durante scroll) */
+body.aiucd-companion-page #aiucd-companion-root > .tab-nav {
+  position: sticky;
+  top: var(--aiucd-wp-admin-bar-offset, 0px);
+  z-index: 40;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Quando admin bar WP è visibile, evita che la topbar finisca sotto */
+body.aiucd-companion-page.admin-bar #aiucd-companion-root > .topbar {
+  /* Il body.admin-bar è già spinto giù di 32px su desktop / 46px su mobile.
+   * La topbar sticky usa top:0 di default che funziona perché .topbar è
+   * relativa al wrapper della page, non al viewport assoluto. */
+}
+
+/* ── 6. NOA FAB: alza dal footer WP per non sovrapporsi ────────────── */
+body.aiucd-companion-page .noa-fab {
+  bottom: clamp(16px, 4vh, 32px);
+}
