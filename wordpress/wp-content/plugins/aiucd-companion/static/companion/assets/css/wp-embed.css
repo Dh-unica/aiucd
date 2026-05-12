@@ -77,7 +77,7 @@ body.aiucd-companion-page main :is(.wp-block-spacer) {
  * la tab-nav, senza perdita di funzioni.
  */
 body.aiucd-companion-page #aiucd-companion-root > .topbar {
-  display: none;
+  display: none !important;
 }
 
 /* ── 4. Partner strip: nascosta, i loghi sono già nel footer WP ────── */
