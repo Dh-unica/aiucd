@@ -1,0 +1,124 @@
+name: Backup · export (on-demand)
+
+# Backup completo del sito di produzione (DB + uploads) caricato come artifact
+# GitHub, scaricabile in locale via `gh run download <run-id>`.
+#
+# Quando lanciarlo: PRIMA di qualsiasi cambio strutturale (deploy importante,
+# upgrade WP/Polylang, migrazione DB) — così avere uno snapshot LOCALE oltre
+# a quello sul server prod. Lo script `backup-daily.sh` produce comunque un
+# backup sul server: questo workflow lo replica via artifact.
+#
+# Retention dell'artifact: 30 giorni (default GitHub). Per i backup permanenti
+# usa quelli sul server in /home/dhpasteur/aiucd-data/backups/.
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Motivo del backup (free text, finisce nei log)'
+        required: false
+        default: 'pre-deploy snapshot'
+
+concurrency:
+  group: aiucd-backup-export
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    name: Backup live + upload artifact
+    runs-on: [self-hosted, aiucd-prod]
+    env:
+      BACKUP_SCRIPT: /home/dhpasteur/aiucd-data/scripts/backup-daily.sh
+      AIUCD_BACKUPS_DIR: ${{ vars.AIUCD_BACKUPS_DIR || '/home/dhpasteur/aiucd-data/backups' }}
+    steps:
+      - name: 🔍 Pre-flight
+        run: |
+          set -e
+          echo "Reason: ${{ inputs.reason }}"
+          if ! docker compose ps 2>/dev/null | grep -q "Up"; then
+            echo "❌ ABORT: containers not running"
+            exit 1
+          fi
+          if [ ! -x "$BACKUP_SCRIPT" ]; then
+            echo "❌ ABORT: backup script missing: $BACKUP_SCRIPT"
+            exit 1
+          fi
+
+      - name: 💾 Run backup
+        id: backup
+        run: |
+          set -e
+          TS=$(date +%Y%m%d_%H%M%S)
+          LABEL="local_mirror_${TS}"
+          OUTPUT=$("$BACKUP_SCRIPT" --label "$LABEL")
+          echo "$OUTPUT"
+          DB_PATH=$(echo "$OUTPUT" | grep -oE 'BACKUP_DB_PATH=.+' | cut -d= -f2-)
+          FILES_PATH=$(echo "$OUTPUT" | grep -oE 'BACKUP_FILES_PATH=.+' | cut -d= -f2-)
+          if [ -z "$DB_PATH" ] || [ -z "$FILES_PATH" ] || [ ! -s "$DB_PATH" ] || [ ! -s "$FILES_PATH" ]; then
+            echo "❌ Backup output mancante o vuoto"
+            exit 1
+          fi
+          DB_SIZE=$(du -h "$DB_PATH"    | cut -f1)
+          FILES_SIZE=$(du -h "$FILES_PATH" | cut -f1)
+          DB_MD5=$(md5sum "$DB_PATH"    | cut -d' ' -f1)
+          FILES_MD5=$(md5sum "$FILES_PATH" | cut -d' ' -f1)
+
+          # Copia i due dump in una staging dir per upload-artifact
+          STAGING="$RUNNER_TEMP/aiucd-backup"
+          mkdir -p "$STAGING"
+          cp -v "$DB_PATH"    "$STAGING/"
+          cp -v "$FILES_PATH" "$STAGING/"
+
+          # Manifest con metadati
+          cat > "$STAGING/MANIFEST.txt" <<EOF
+          AIUCD live backup export
+          ======================================
+          Timestamp:  $TS
+          Reason:     ${{ inputs.reason }}
+          DB file:    $(basename "$DB_PATH") (size=$DB_SIZE, md5=$DB_MD5)
+          Files file: $(basename "$FILES_PATH") (size=$FILES_SIZE, md5=$FILES_MD5)
+          Source DB path:    $DB_PATH
+          Source Files path: $FILES_PATH
+          ======================================
+          Restore DB:
+            zcat $(basename "$DB_PATH") | docker compose exec -T db sh -c \
+              'mysql -uroot -p"\$MYSQL_ROOT_PASSWORD" wordpress'
+          Restore files:
+            tar -xzf $(basename "$FILES_PATH") -C <target-uploads-parent-dir>
+          ======================================
+          EOF
+
+          {
+            echo "staging=$STAGING"
+            echo "db_size=$DB_SIZE"
+            echo "files_size=$FILES_SIZE"
+            echo "db_md5=$DB_MD5"
+            echo "files_md5=$FILES_MD5"
+            echo "ts=$TS"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "✅ Backup pronto in $STAGING"
+          ls -lh "$STAGING"
+
+      - name: 📤 Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: aiucd-backup-${{ steps.backup.outputs.ts }}
+          path: ${{ steps.backup.outputs.staging }}
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: 📊 Summary
+        run: |
+          echo "================================"
+          echo "✅ Backup esportato come artifact"
+          echo "  Artifact name: aiucd-backup-${{ steps.backup.outputs.ts }}"
+          echo "  DB:    ${{ steps.backup.outputs.db_size }}  (md5=${{ steps.backup.outputs.db_md5 }})"
+          echo "  Files: ${{ steps.backup.outputs.files_size }} (md5=${{ steps.backup.outputs.files_md5 }})"
+          echo ""
+          echo "Scarica in locale con:"
+          echo "  gh run download ${{ github.run_id }} -n aiucd-backup-${{ steps.backup.outputs.ts }} -D ./backups/local-mirror/${{ steps.backup.outputs.ts }}"
+          echo "================================"

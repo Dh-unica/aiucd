@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      # Modifiche ai soli workflow non vanno in deploy: l'ambiente runtime
+      # (codice WP, plugin, theme) non ne dipende. Per testare un workflow
+      # cambiato usa il suo workflow_dispatch, non un commit dummy.
+      - '.github/workflows/**'
   workflow_dispatch:  # Permette deploy manuale
 
 jobs:
