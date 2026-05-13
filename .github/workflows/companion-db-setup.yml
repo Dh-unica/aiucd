@@ -179,17 +179,24 @@ jobs:
       - name: 🏥 Smoke test pagine
         if: inputs.dry_run == 'false'
         run: |
-          # Verifica che le 2 pagine rispondano 200 e contengano il root del companion
-          for url in "http://localhost:7000/companion/" "http://localhost:7000/language/en/conference-app/"; do
-            echo "→ Testing $url"
-            CODE=$(curl -s -o /tmp/out.html -L -w "%{http_code}" "$url" || echo "000")
+          # Bussiamo a Apache su localhost:7000 ma forziamo l'Host header al
+          # dominio pubblico: senza, WP fa 301 → SITEURL (https) e il container
+          # non sa risolvere il dominio esterno. Con l'Host header corretto WP
+          # serve la pagina direttamente.
+          HOST="www.aiucd2026.unica.it"
+          for path in "/companion/" "/language/en/conference-app/"; do
+            URL="http://localhost:7000${path}"
+            echo "→ Testing $URL (Host: $HOST)"
+            CODE=$(curl -s -o /tmp/out.html -H "Host: $HOST" -w "%{http_code}" "$URL" || echo "000")
             if [ "$CODE" != "200" ]; then
-              echo "❌ $url returned HTTP $CODE"
+              echo "❌ $URL returned HTTP $CODE"
               head -30 /tmp/out.html || true
               exit 1
             fi
             if ! grep -q 'id="aiucd-companion-root"' /tmp/out.html; then
-              echo "❌ $url manca il mount-point #aiucd-companion-root"
+              echo "❌ $URL manca il mount-point #aiucd-companion-root"
+              echo "--- head /tmp/out.html ---"
+              head -30 /tmp/out.html
               exit 1
             fi
             echo "  ✅ OK ($CODE + mount-point presente)"
