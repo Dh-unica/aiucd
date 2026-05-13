@@ -1,0 +1,82 @@
+name: Maintenance · toggle on/off (one-shot)
+
+# Workflow di emergenza per attivare/disattivare la maintenance mode di WP
+# senza dipendere dal deploy.yml. Utile se un deploy fallisce a metà e lascia
+# il file .maintenance attivo, oppure se vuoi maintenance manuale.
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Cosa fare"
+        required: true
+        default: 'deactivate'
+        type: choice
+        options:
+          - 'deactivate'
+          - 'activate'
+          - 'status'
+
+permissions:
+  contents: read
+
+jobs:
+  toggle:
+    name: ${{ inputs.action }} maintenance mode
+    runs-on: [self-hosted, aiucd-prod]
+    env:
+      WPCLI_IMAGE: wordpress:cli-2.10
+    steps:
+      - name: 🔍 Pre-flight
+        run: |
+          if ! docker compose ps 2>/dev/null | grep -q "Up"; then
+            echo "❌ ABORT: containers not running"
+            exit 1
+          fi
+          docker pull -q "$WPCLI_IMAGE" >/dev/null || true
+
+      - name: 🚦 Toggle
+        run: |
+          set -e
+          WP_ENV_FILE="$(mktemp)"
+          trap 'rm -f "$WP_ENV_FILE"' EXIT
+          docker inspect aiucd_wordpress --format '{{range .Config.Env}}{{println .}}{{end}}' \
+            | grep -E '^WORDPRESS_' > "$WP_ENV_FILE"
+          run_wp() {
+            docker run --rm \
+              --env-file "$WP_ENV_FILE" \
+              --network aiucd_aiucd_network \
+              --volumes-from aiucd_wordpress \
+              --workdir /var/www/html \
+              -u 1001:1001 \
+              "$WPCLI_IMAGE" "$@"
+          }
+
+          case "${{ inputs.action }}" in
+            activate)
+              run_wp wp maintenance-mode activate
+              ;;
+            deactivate)
+              run_wp wp maintenance-mode deactivate || true
+              # Fallback: cancella direttamente il file .maintenance se il wp-cli
+              # non l'ha rimosso (può capitare se è stato creato fuori da WP).
+              docker compose exec -T wordpress sh -c 'rm -f /var/www/html/.maintenance && echo "✅ .maintenance file rimosso (se presente)"'
+              ;;
+            status)
+              run_wp wp maintenance-mode status
+              ;;
+          esac
+
+      - name: 🧪 Smoke
+        if: inputs.action != 'status'
+        run: |
+          sleep 2
+          CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:7000 || echo "000")
+          echo "GET http://localhost:7000 → $CODE"
+          if [ "${{ inputs.action }}" = "deactivate" ]; then
+            if [ "$CODE" = "503" ]; then
+              echo "❌ Sito ancora 503 dopo deactivate!"
+              exit 1
+            fi
+            echo "✅ Sito risponde non-503"
+          fi
