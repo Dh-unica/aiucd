@@ -1,0 +1,196 @@
+name: Companion · DB setup (one-shot)
+
+# Setup post-deploy per il plugin aiucd-companion:
+#   1. attiva il plugin se non già attivo
+#   2. crea (idempotente) le 2 Page WP con shortcode [aiucd_companion]
+#        - IT: slug=companion          → /companion/
+#        - EN: slug=conference-app     → /language/en/conference-app/
+#   3. lega le 2 Page via Polylang come traduzioni l'una dell'altra
+#   4. fa flush hard delle rewrite rules
+#
+# Va eseguito MANUALMENTE (workflow_dispatch) DOPO un deploy che ha portato il
+# plugin in produzione. È sicuro rilanciarlo: non duplica pagine, non perde
+# dati, non tocca contenuti se le pagine esistono già con lo shortcode dentro.
+#
+# Esegue un dry-run automatico prima delle modifiche reali (input: dry_run=true).
+# Cambia dry_run a "false" quando vuoi applicare per davvero.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry-run (true = solo log, niente scritture)'
+        required: true
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+concurrency:
+  group: aiucd-companion-db-setup
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    name: Activate plugin + create pages + Polylang link
+    runs-on: [self-hosted, aiucd-prod]
+    env:
+      WPCLI_IMAGE: wordpress:cli-2.10
+      DRY_RUN: ${{ inputs.dry_run }}
+    steps:
+      - name: 📥 Checkout (servono gli script)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          clean: false
+
+      - name: 🔍 Pre-flight checks
+        run: |
+          set -e
+          echo "DRY_RUN=$DRY_RUN"
+          if ! docker compose ps 2>/dev/null | grep -q "Up"; then
+            echo "❌ ABORT: containers not running (deploy first)"
+            exit 1
+          fi
+
+          # Verifica che il plugin sia stato copiato dal deploy
+          if ! docker compose exec -T wordpress test -f /var/www/html/wp-content/plugins/aiucd-companion/aiucd-companion.php; then
+            echo "❌ ABORT: plugin file aiucd-companion.php non trovato — deploy del codice non avvenuto?"
+            exit 1
+          fi
+          echo "✅ Plugin file presente nel container"
+
+          # Verifica che il body partial statico sia presente (il deploy
+          # potrebbe averlo lasciato indietro se il sync companion non e' stato
+          # fatto prima del commit nel repo aiucd)
+          if ! docker compose exec -T wordpress test -f /var/www/html/wp-content/plugins/aiucd-companion/static/companion/partials/body.php; then
+            echo "⚠️  WARN: static/companion/partials/body.php mancante — la pagina mostrera' un placeholder."
+            echo "    Esegui sync-companion-to-wp.sh nel repo aiucd_stats e ridepleya."
+          else
+            echo "✅ Body partial presente"
+          fi
+
+      - name: 🔧 Run setup-companion-pages.sh
+        run: |
+          set -e
+          # Estrai le env WORDPRESS_* dal container per il container wp-cli
+          # ad-hoc (stesso pattern di check-updates.yml)
+          WP_ENV_FILE="$(mktemp)"
+          trap 'rm -f "$WP_ENV_FILE"' EXIT
+          docker inspect aiucd_wordpress --format '{{range .Config.Env}}{{println .}}{{end}}' \
+            | grep -E '^WORDPRESS_' > "$WP_ENV_FILE"
+
+          run_wp() {
+            docker run --rm \
+              --env-file "$WP_ENV_FILE" \
+              --network aiucd_aiucd_network \
+              --volumes-from aiucd_wordpress \
+              --workdir /var/www/html \
+              -u 1001:1001 \
+              "$WPCLI_IMAGE" "$@"
+          }
+
+          echo "=== 1) Stato plugin aiucd-companion ==="
+          run_wp wp plugin status aiucd-companion || true
+
+          echo ""
+          echo "=== 2) Lingue Polylang configurate ==="
+          run_wp wp eval 'echo function_exists("pll_languages_list") ? implode(",", pll_languages_list()) : "Polylang non attivo"; echo PHP_EOL;'
+
+          echo ""
+          echo "=== 3) Pagine companion esistenti ==="
+          run_wp wp post list --post_type=page --name=companion       --format=table || true
+          run_wp wp post list --post_type=page --name=conference-app  --format=table || true
+
+          if [ "$DRY_RUN" = "true" ]; then
+            echo ""
+            echo "🟡 DRY-RUN — non eseguo modifiche. Rilancia con dry_run=false per applicare."
+            exit 0
+          fi
+
+          echo ""
+          echo "=== 4) Attivazione plugin (idempotente) ==="
+          run_wp wp plugin activate aiucd-companion || echo "  (già attivo o no-op)"
+
+          echo ""
+          echo "=== 5) Creo / aggiorno Page IT (slug=companion) ==="
+          IT_ID="$(run_wp wp post list --post_type=page --name=companion --field=ID --format=ids 2>/dev/null | tr -d '[:space:]' || true)"
+          if [ -z "$IT_ID" ]; then
+            IT_ID="$(run_wp wp post create \
+              --post_type=page \
+              --post_status=publish \
+              --post_title='Companion del convegno' \
+              --post_name='companion' \
+              --post_content='[aiucd_companion]' \
+              --porcelain 2>&1 | tail -1)"
+            echo "  creata IT: $IT_ID"
+          else
+            echo "  trovata IT: $IT_ID — assicuro content + status"
+            run_wp wp post update "$IT_ID" --post_content='[aiucd_companion]' --post_status=publish | tail -1
+          fi
+
+          echo ""
+          echo "=== 6) Creo / aggiorno Page EN (slug=conference-app) ==="
+          EN_ID="$(run_wp wp post list --post_type=page --name=conference-app --field=ID --format=ids 2>/dev/null | tr -d '[:space:]' || true)"
+          if [ -z "$EN_ID" ]; then
+            EN_ID="$(run_wp wp post create \
+              --post_type=page \
+              --post_status=publish \
+              --post_title='Conference Companion App' \
+              --post_name='conference-app' \
+              --post_content='[aiucd_companion]' \
+              --porcelain 2>&1 | tail -1)"
+            echo "  creata EN: $EN_ID"
+          else
+            echo "  trovata EN: $EN_ID — assicuro content + status"
+            run_wp wp post update "$EN_ID" --post_content='[aiucd_companion]' --post_status=publish | tail -1
+          fi
+
+          echo ""
+          echo "=== 7) Polylang: assegna lingue + linka traduzioni ==="
+          run_wp wp eval "
+            if ( ! function_exists('pll_set_post_language') ) {
+              echo 'ERR: Polylang non attivo'; exit;
+            }
+            pll_set_post_language( $IT_ID, 'it' );
+            pll_set_post_language( $EN_ID, 'en' );
+            pll_save_post_translations( array( 'it' => $IT_ID, 'en' => $EN_ID ) );
+            echo 'IT: ' . pll_get_post_language( $IT_ID ) . PHP_EOL;
+            echo 'EN: ' . pll_get_post_language( $EN_ID ) . PHP_EOL;
+            \$tr = pll_get_post_translations( $IT_ID );
+            echo 'Translations: ' . json_encode( \$tr ) . PHP_EOL;
+          "
+
+          echo ""
+          echo "=== 8) Flush rewrite rules ==="
+          run_wp wp rewrite flush --hard | tail -2
+
+          echo ""
+          echo "================================"
+          echo "✅ Setup completato"
+          echo "  IT: https://www.aiucd2026.unica.it/companion/                    (post_id=$IT_ID)"
+          echo "  EN: https://www.aiucd2026.unica.it/language/en/conference-app/   (post_id=$EN_ID)"
+          echo "================================"
+
+      - name: 🏥 Smoke test pagine
+        if: inputs.dry_run == 'false'
+        run: |
+          # Verifica che le 2 pagine rispondano 200 e contengano il root del companion
+          for url in "http://localhost:7000/companion/" "http://localhost:7000/language/en/conference-app/"; do
+            echo "→ Testing $url"
+            CODE=$(curl -s -o /tmp/out.html -L -w "%{http_code}" "$url" || echo "000")
+            if [ "$CODE" != "200" ]; then
+              echo "❌ $url returned HTTP $CODE"
+              head -30 /tmp/out.html || true
+              exit 1
+            fi
+            if ! grep -q 'id="aiucd-companion-root"' /tmp/out.html; then
+              echo "❌ $url manca il mount-point #aiucd-companion-root"
+              exit 1
+            fi
+            echo "  ✅ OK ($CODE + mount-point presente)"
+          done

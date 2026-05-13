@@ -85,33 +85,69 @@ jobs:
           echo "Author: ${{ github.actor }}"
           echo "Message: ${{ github.event.head_commit.message }}"
       
-      - name: 💾 Backup Database
+      - name: 💾 Pre-deploy BACKUP (DB + uploads — mandatory)
+        id: backup
         env:
           AIUCD_BACKUPS_DIR: ${{ vars.AIUCD_BACKUPS_DIR || '/home/dhpasteur/aiucd-data/backups' }}
+          AIUCD_UPLOADS_DIR: ${{ vars.AIUCD_UPLOADS_DIR || '/home/dhpasteur/aiucd-data/uploads' }}
+          BACKUP_SCRIPT: /home/dhpasteur/aiucd-data/scripts/backup-daily.sh
         run: |
-          echo "Creating database backup OUTSIDE the workspace..."
-          mkdir -p "$AIUCD_BACKUPS_DIR"
-          BACKUP_FILE="$AIUCD_BACKUPS_DIR/db_backup_$(date +%Y%m%d_%H%M%S).sql.gz"
-
-          # Source environment variables
-          if [ -f .env ]; then
-            set -a; . ./.env; set +a
+          set -e
+          # Se i container non sono ancora su (primissimo deploy assoluto), il
+          # backup DB e' impossibile ed e' accettabile saltarlo. Altrimenti il
+          # backup e' BLOCCANTE: se fallisce, NON deployiamo.
+          if ! docker compose ps 2>/dev/null | grep -q "Up"; then
+            echo "⚠️  Containers not running — primissimo deploy? Skip backup."
+            echo "skipped=true" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
 
-          if docker compose ps | grep -q "Up"; then
-            docker compose exec -T db sh -c "exec mysqldump -uroot -p\"\$MYSQL_ROOT_PASSWORD\" --single-transaction --quick --lock-tables=false --routines --triggers --events --default-character-set=utf8mb4 wordpress" 2>/dev/null \
-              | gzip > "$BACKUP_FILE" || echo "⚠️  Database backup failed"
-
-            if [ -s "$BACKUP_FILE" ]; then
-              echo "✅ Backup saved: $BACKUP_FILE ($(du -h "$BACKUP_FILE" | cut -f1))"
-              # Mantieni solo gli ultimi 14 backup
-              ls -t "$AIUCD_BACKUPS_DIR"/db_backup_*.sql.gz 2>/dev/null | tail -n +15 | xargs -r rm
-            else
-              rm -f "$BACKUP_FILE"
-            fi
-          else
-            echo "⚠️  Skipping backup - containers not running (first deploy?)"
+          if [ ! -x "$BACKUP_SCRIPT" ]; then
+            echo "❌ ABORT: backup script missing or not executable: $BACKUP_SCRIPT"
+            echo "   Lo script vive in /home/dhpasteur/aiucd-data/scripts/ ed è"
+            echo "   richiesto sia da check-updates.yml sia da questo workflow."
+            exit 1
           fi
+
+          # Label dedicata al deploy con SHA breve per audit trail
+          SHORT_SHA="${GITHUB_SHA:0:7}"
+          LABEL="pre_deploy_${SHORT_SHA}"
+          echo "Running backup with label=$LABEL ..."
+          OUTPUT=$("$BACKUP_SCRIPT" --label "$LABEL")
+          echo "$OUTPUT"
+
+          DB_PATH=$(echo "$OUTPUT" | grep -oE 'BACKUP_DB_PATH=.+' | cut -d= -f2-)
+          FILES_PATH=$(echo "$OUTPUT" | grep -oE 'BACKUP_FILES_PATH=.+' | cut -d= -f2-)
+
+          if [ -z "$DB_PATH" ] || [ -z "$FILES_PATH" ] || [ ! -s "$DB_PATH" ] || [ ! -s "$FILES_PATH" ]; then
+            echo "❌ ABORT: pre-deploy backup missing or empty — refusing to deploy"
+            exit 1
+          fi
+
+          DB_SIZE=$(du -h "$DB_PATH"    | cut -f1)
+          FILES_SIZE=$(du -h "$FILES_PATH" | cut -f1)
+          DB_MD5=$(md5sum "$DB_PATH"    | cut -d' ' -f1)
+          FILES_MD5=$(md5sum "$FILES_PATH" | cut -d' ' -f1)
+
+          echo "✅ Backup OK"
+          echo "   DB:    $DB_PATH ($DB_SIZE md5=$DB_MD5)"
+          echo "   Files: $FILES_PATH ($FILES_SIZE md5=$FILES_MD5)"
+
+          # Retention dei pre_deploy_*: mantieni solo gli ultimi 10 per categoria
+          # (lo script ruota solo i 'daily', i 'pre_*' restano per audit; qui
+          # cappiamo per non saturare lo storage)
+          ls -t "$AIUCD_BACKUPS_DIR"/db_pre_deploy_*.sql.gz 2>/dev/null | tail -n +11 | xargs -r rm -v || true
+          ls -t "$AIUCD_BACKUPS_DIR"/uploads_pre_deploy_*.tar.gz 2>/dev/null | tail -n +11 | xargs -r rm -v || true
+
+          {
+            echo "skipped=false"
+            echo "db_path=$DB_PATH"
+            echo "files_path=$FILES_PATH"
+            echo "db_size=$DB_SIZE"
+            echo "files_size=$FILES_SIZE"
+            echo "db_md5=$DB_MD5"
+            echo "files_md5=$FILES_MD5"
+          } >> "$GITHUB_OUTPUT"
       
       - name: 🔧 Update Configuration
         env:
@@ -150,6 +186,32 @@ jobs:
           done
           echo "✅ Configuration ready (AIUCD_UPLOADS_DIR=$AIUCD_UPLOADS_DIR)"
       
+      - name: 🚧 Maintenance Mode ON
+        env:
+          WPCLI_IMAGE: wordpress:cli-2.10
+        run: |
+          # Attiva la maintenance page WP per i visitatori (file .maintenance
+          # nel docroot di WP). Vive nel bind mount wordpress/, quindi sopravvive
+          # al docker compose down/up successivo. Skippiamo silenziosamente se i
+          # container non sono su (primissimo deploy).
+          if ! docker compose ps 2>/dev/null | grep -q "Up"; then
+            echo "⚠️  Containers not running — skip maintenance ON"
+            exit 0
+          fi
+          docker pull -q "$WPCLI_IMAGE" >/dev/null || true
+          WP_ENV_FILE="$(mktemp)"
+          trap 'rm -f "$WP_ENV_FILE"' EXIT
+          docker inspect aiucd_wordpress --format '{{range .Config.Env}}{{println .}}{{end}}' \
+            | grep -E '^WORDPRESS_' > "$WP_ENV_FILE"
+          docker run --rm \
+            --env-file "$WP_ENV_FILE" \
+            --network aiucd_aiucd_network \
+            --volumes-from aiucd_wordpress \
+            --workdir /var/www/html \
+            -u 1001:1001 \
+            "$WPCLI_IMAGE" wp maintenance-mode activate || echo "⚠️  Maintenance activate failed (non-fatal)"
+          echo "✅ Maintenance mode ON"
+
       - name: 🐳 Deploy Docker Containers
         env:
           AIUCD_UPLOADS_DIR: ${{ vars.AIUCD_UPLOADS_DIR || '/home/dhpasteur/aiucd-data/uploads' }}
@@ -233,7 +295,29 @@ jobs:
           fi
           
           echo "✅ All health checks passed"
-      
+
+      - name: ✅ Maintenance Mode OFF
+        if: success()
+        env:
+          WPCLI_IMAGE: wordpress:cli-2.10
+        run: |
+          if ! docker compose ps 2>/dev/null | grep -q "Up"; then
+            echo "⚠️  Containers not running — skip maintenance OFF"
+            exit 0
+          fi
+          WP_ENV_FILE="$(mktemp)"
+          trap 'rm -f "$WP_ENV_FILE"' EXIT
+          docker inspect aiucd_wordpress --format '{{range .Config.Env}}{{println .}}{{end}}' \
+            | grep -E '^WORDPRESS_' > "$WP_ENV_FILE"
+          docker run --rm \
+            --env-file "$WP_ENV_FILE" \
+            --network aiucd_aiucd_network \
+            --volumes-from aiucd_wordpress \
+            --workdir /var/www/html \
+            -u 1001:1001 \
+            "$WPCLI_IMAGE" wp maintenance-mode deactivate || echo "⚠️  Maintenance deactivate failed"
+          echo "✅ Maintenance mode OFF"
+
       - name: 🧹 Cleanup
         if: always()
         run: |
@@ -255,21 +339,40 @@ jobs:
           echo "🗄️  phpMyAdmin: http://localhost:8080"
           echo "📅 Deployed at: $(date)"
           echo "🔖 Commit: ${{ github.sha }}"
+          echo ""
+          echo "🛟 Pre-deploy backups (sul server, fuori workspace CI):"
+          echo "   skipped:    ${{ steps.backup.outputs.skipped }}"
+          echo "   db_path:    ${{ steps.backup.outputs.db_path }}"
+          echo "   files_path: ${{ steps.backup.outputs.files_path }}"
+          echo "   db_size:    ${{ steps.backup.outputs.db_size }} (md5=${{ steps.backup.outputs.db_md5 }})"
+          echo "   files_size: ${{ steps.backup.outputs.files_size }} (md5=${{ steps.backup.outputs.files_md5 }})"
           echo "================================"
       
-      - name: 🔴 Rollback on Failure
+      - name: 🔴 Rollback hints on Failure
         if: failure()
         env:
           AIUCD_BACKUPS_DIR: ${{ vars.AIUCD_BACKUPS_DIR || '/home/dhpasteur/aiucd-data/backups' }}
         run: |
           echo "================================"
-          echo "❌ DEPLOYMENT FAILED — diagnostic only"
+          echo "❌ DEPLOYMENT FAILED — diagnostic only (no auto-rollback)"
           echo "================================"
-          # NOTE: il rollback automatico del DB è disabilitato per evitare
-          # restore inopportuni in caso di failure non legate al DB.
-          # I backup sono in $AIUCD_BACKUPS_DIR (gli ultimi 14 ruotati).
-          echo "Latest DB backups available for manual restore:"
-          ls -lh "$AIUCD_BACKUPS_DIR"/db_backup_*.sql.gz 2>/dev/null | tail -5 || echo "  (no backups found)"
+          echo ""
+          echo "🛟 Backup di questo run (per restore manuale):"
+          echo "   skipped:    ${{ steps.backup.outputs.skipped }}"
+          echo "   db_path:    ${{ steps.backup.outputs.db_path }}"
+          echo "   files_path: ${{ steps.backup.outputs.files_path }}"
+          echo ""
+          echo "Backups recenti in $AIUCD_BACKUPS_DIR :"
+          ls -lh "$AIUCD_BACKUPS_DIR"/db_*.sql.gz 2>/dev/null    | tail -5 || echo "  (no DB backups)"
+          ls -lh "$AIUCD_BACKUPS_DIR"/uploads_*.tar.gz 2>/dev/null | tail -5 || echo "  (no uploads backups)"
+          echo ""
+          echo "Restore DB:    zcat <db_pre_deploy_*.sql.gz> | docker compose exec -T db sh -c 'mysql -uroot -p\"\$MYSQL_ROOT_PASSWORD\" wordpress'"
+          echo "Restore files: tar -xzf <uploads_pre_deploy_*.tar.gz> -C $(dirname "$AIUCD_BACKUPS_DIR")"
+          echo ""
+          echo "🚧 Maintenance mode rimasto attivo. Per disattivare manualmente:"
+          echo "   docker run --rm --env-file <(docker inspect aiucd_wordpress --format '{{range .Config.Env}}{{println .}}{{end}}' | grep '^WORDPRESS_') \\"
+          echo "     --network aiucd_aiucd_network --volumes-from aiucd_wordpress --workdir /var/www/html -u 1001:1001 \\"
+          echo "     wordpress:cli-2.10 wp maintenance-mode deactivate"
           echo ""
           echo "Container status:"
           docker compose ps || true
