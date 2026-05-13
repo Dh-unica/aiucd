@@ -237,64 +237,60 @@ jobs:
 
           echo "✅ Containers deployed"
       
-      - name: 🏥 Health Check
+      - name: 🩺 Liveness check (via wp-cli, bypassa maintenance)
+        env:
+          WPCLI_IMAGE: wordpress:cli-2.10
         run: |
-          echo "Running health checks..."
-          sleep 10  # Wait for services to start
-          
-          # Check WordPress
-          MAX_ATTEMPTS=30
+          # Verifichiamo che WP carichi e parli col DB anche con .maintenance
+          # attivo: il health check HTTP successivo riceve 503 (maintenance ON)
+          # e quindi NON e' affidabile prima di disattivarla. Qui usiamo wp-cli
+          # per ottenere una liveness probe vera (DB up + filesystem WP coerente).
+          echo "Waiting 10s for WP to boot..."
+          sleep 10
+
+          WP_ENV_FILE="$(mktemp)"
+          trap 'rm -f "$WP_ENV_FILE"' EXIT
+          docker inspect aiucd_wordpress --format '{{range .Config.Env}}{{println .}}{{end}}' \
+            | grep -E '^WORDPRESS_' > "$WP_ENV_FILE"
+          run_wp() {
+            docker run --rm \
+              --env-file "$WP_ENV_FILE" \
+              --network aiucd_aiucd_network \
+              --volumes-from aiucd_wordpress \
+              --workdir /var/www/html \
+              -u 1001:1001 \
+              "$WPCLI_IMAGE" "$@"
+          }
+
+          MAX_ATTEMPTS=15
           ATTEMPT=0
           while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
-            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:7000 || echo "000")
-            
-            # Accept 200, 301, 302 (all valid responses)
-            if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "301" ] || [ "$HTTP_CODE" = "302" ]; then
-              echo "✅ WordPress is responding (HTTP $HTTP_CODE)"
-              
-              # Show actual response for debugging
-              echo ""
-              echo "WordPress response headers:"
-              curl -sI http://localhost:7000 | head -n 10
+            # `wp option get siteurl` carica WP, fa una query SELECT alla
+            # tabella wp_options. Funziona anche con .maintenance attivo
+            # (wp-cli scavalca la maintenance gate).
+            if SITEURL=$(run_wp wp option get siteurl 2>&1) && [ -n "$SITEURL" ]; then
+              echo "✅ WP+DB up — siteurl=$SITEURL"
               break
             fi
-            
             ATTEMPT=$((ATTEMPT + 1))
-            echo "⏳ Waiting for WordPress... attempt $ATTEMPT/$MAX_ATTEMPTS (HTTP: $HTTP_CODE)"
+            echo "⏳ wp-cli liveness... attempt $ATTEMPT/$MAX_ATTEMPTS"
             sleep 2
           done
-          
           if [ $ATTEMPT -eq $MAX_ATTEMPTS ]; then
-            echo "❌ WordPress health check failed!"
-            echo ""
-            echo "Container status:"
+            echo "❌ WP+DB liveness FAILED"
             docker compose ps
-            echo ""
-            echo "WordPress logs:"
-            docker compose logs --tail=50 wordpress
-            echo ""
-            echo "Database logs:"
-            docker compose logs --tail=20 db
+            docker compose logs --tail=80 wordpress
+            docker compose logs --tail=40 db
             exit 1
           fi
-          
-          # Check phpMyAdmin
-          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080 || echo "000")
-          if [ "$HTTP_CODE" = "200" ]; then
-            echo "✅ phpMyAdmin is responding"
-          else
-            echo "⚠️  phpMyAdmin not responding (non-critical)"
-          fi
-          
-          # Check container status
-          if docker compose ps | grep -q "Exit"; then
-            echo "❌ Some containers exited!"
-            docker compose ps
-            docker compose logs
-            exit 1
-          fi
-          
-          echo "✅ All health checks passed"
+
+          # Verifica plugin must-use e plugin attivi (sanity check post-deploy)
+          echo ""
+          echo "Plugins attivi:"
+          run_wp wp plugin list --status=active --fields=name,version --format=table || true
+          echo ""
+          echo "Plugin aiucd-companion status:"
+          run_wp wp plugin status aiucd-companion 2>&1 | head -5 || true
 
       - name: ✅ Maintenance Mode OFF
         if: success()
@@ -316,7 +312,44 @@ jobs:
             --workdir /var/www/html \
             -u 1001:1001 \
             "$WPCLI_IMAGE" wp maintenance-mode deactivate || echo "⚠️  Maintenance deactivate failed"
+          # Fallback: rimuovi a mano il file se wp-cli non l'ha cancellato
+          docker compose exec -T wordpress sh -c 'rm -f /var/www/html/.maintenance' || true
           echo "✅ Maintenance mode OFF"
+
+      - name: 🏥 HTTP Health Check (post-maintenance)
+        run: |
+          # Ora la maintenance è disattiva: WP deve rispondere 200/301/302.
+          echo "Running HTTP health check..."
+          MAX_ATTEMPTS=15
+          ATTEMPT=0
+          while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:7000 || echo "000")
+            if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "301" ] || [ "$HTTP_CODE" = "302" ]; then
+              echo "✅ WordPress responding (HTTP $HTTP_CODE)"
+              curl -sI http://localhost:7000 | head -n 10
+              break
+            fi
+            ATTEMPT=$((ATTEMPT + 1))
+            echo "⏳ Waiting... attempt $ATTEMPT/$MAX_ATTEMPTS (HTTP: $HTTP_CODE)"
+            sleep 2
+          done
+
+          if [ $ATTEMPT -eq $MAX_ATTEMPTS ]; then
+            echo "❌ HTTP health check failed!"
+            docker compose ps
+            docker compose logs --tail=50 wordpress
+            exit 1
+          fi
+
+          # Check container status
+          if docker compose ps | grep -q "Exit"; then
+            echo "❌ Some containers exited!"
+            docker compose ps
+            docker compose logs
+            exit 1
+          fi
+
+          echo "✅ All HTTP health checks passed"
 
       - name: 🧹 Cleanup
         if: always()
