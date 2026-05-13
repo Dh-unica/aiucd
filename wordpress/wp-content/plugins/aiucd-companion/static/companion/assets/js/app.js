@@ -13,8 +13,14 @@ import * as modal from "./talk-modal-v2.js?v=bugfix1";
 import * as agenda from "./agenda.js";
 import { createDrawer } from "./drawer-controller.js";
 import { initNoaDrawer } from "./noa-drawer.js?v=sprintD2";
+import { loadI18n, t, getLang } from "./i18n.js?v=wp-integration1";
 
 async function init() {
+  // Carica dizionario i18n (it/en). Mette `data-lang` su <html> e localizza
+  // gli elementi statici della shell (tabs, drawer titles, ecc.).
+  await loadI18n();
+  document.documentElement.setAttribute("data-lang", getLang());
+  applyStaticI18n();
   // Tab navigation: top tab-nav (desktop) + mobile bottom-nav (Sprint A4)
   const tabBtns = document.querySelectorAll(".tab-btn");
   const mbTabs = document.querySelectorAll(".mb-tab");
@@ -348,6 +354,52 @@ async function init() {
 
 }
 
+// Sostituisce in-place i `textContent` degli elementi statici della shell HTML
+// (tab-nav, topbar, mobile-bottom-nav) con le traduzioni del dizionario i18n.
+// Lasciamo intatti il markup HTML e gli ID; cambiamo solo il testo visibile.
+// Chiavi mancanti o lingua = "it" → nessuna modifica (testo già in italiano).
+function applyStaticI18n() {
+  const map = [
+    // Topbar (anche se nascosta in WP-embed, in standalone è visibile)
+    ['.topbar-agenda-label', 'topbar.my_aiucd'],
+    ['.live-indicator[data-state="pre"] .live-indicator-label', 'topbar.preconvegno'],
+    // Tab nav (desktop)
+    ['.tab-btn[data-tab="catalogo"] .tab-label, .tab-btn[data-tab="catalogo"]', 'tab.esplora'],
+    ['.tab-btn[data-tab="programma"] .tab-label', 'tab.programma'],
+    ['.tab-btn[data-tab="poster"]', 'tab.poster'],
+    ['.tab-btn[data-tab="mappa"]', 'tab.sede'],
+    ['.tab-btn[data-tab="cagliari"]', 'tab.cagliari'],
+    ['.tab-btn[data-tab="numeri"]', 'tab.numeri'],
+    // Mobile bottom-nav
+    ['.mb-tab[data-tab="catalogo"] .mb-tab-label', 'tab.esplora'],
+    ['.mb-tab[data-tab="poster"] .mb-tab-label', 'tab.poster'],
+    ['.mb-tab[data-tab="mappa"] .mb-tab-label', 'tab.sede'],
+    ['.mb-tab[data-tab="cagliari"] .mb-tab-label', 'tab.cagliari_short'],
+    ['.mb-tab[data-tab="numeri"] .mb-tab-label', 'tab.numeri_short'],
+  ];
+  for (const [sel, key] of map) {
+    document.querySelectorAll(sel).forEach(el => {
+      // I tab-btn semplici contengono solo testo; sovrascriviamo solo i nodi
+      // testuali, mantenendo eventuali figli (badge countdown, span).
+      if (el.children.length === 0) {
+        el.textContent = t(key);
+      } else {
+        // Per "Programma" il bottone contiene un <span class="tab-countdown">
+        // e un <span class="tab-label">. Target più specifico già nel selector.
+        const text = el.childNodes[el.childNodes.length - 1];
+        if (text && text.nodeType === 3) text.nodeValue = t(key);
+      }
+    });
+  }
+  // Tab "Programma" desktop: il bottone ha 2 figli (countdown + label) — già coperto da .tab-label
+  // Mobile "Programma" idem
+  document.querySelectorAll('.mb-tab[data-tab="programma"] .mb-tab-label').forEach(el => {
+    // Mantiene il <span class="mb-tab-countdown"> + cambia il testo finale
+    const last = el.childNodes[el.childNodes.length - 1];
+    if (last && last.nodeType === 3) last.nodeValue = t('tab.programma');
+  });
+}
+
 // Banner non-bloccante che avvisa l'utente se il suo orologio è impreciso.
 // Lo stato "live / pre / break / post" del companion deriva da `new Date()`
 // del browser: se il device è fuori sync l'esperienza è degradata.
@@ -355,18 +407,21 @@ function showClockSkewBanner(skew) {
   if (!skew || skew.ok === true) return;
   if (document.getElementById("aiucd-clock-skew-banner")) return;
   const min = Math.abs(skew.deltaMin);
-  const dir = skew.direction === "ahead" ? "avanti" : "indietro";
+  const direction = t(skew.direction === "ahead" ? "clock_skew.ahead" : "clock_skew.behind");
   const banner = document.createElement("div");
   banner.id = "aiucd-clock-skew-banner";
   banner.className = "aiucd-skew-banner";
   banner.setAttribute("role", "status");
+  // Costruiamo il messaggio dalla stringa i18n con {min} e {direction} interpolati.
+  // Lo splittiamo in modo da poter rendere `{min} min {direction}` in <strong>.
+  const fullMsg = t("clock_skew.message", { min: `__MIN__${min}__MIN__`, direction: `__DIR__${direction}__DIR__` });
+  const html = fullMsg
+    .replace(/__MIN__(\d+)__MIN__/, '<strong>$1')
+    .replace(/__DIR__(\w+)__DIR__/, '$1</strong>');
   banner.innerHTML = `
     <span class="aiucd-skew-icon" aria-hidden="true">⏱</span>
-    <span class="aiucd-skew-text">
-      L'orologio del tuo dispositivo è <strong>${min} min ${dir}</strong> rispetto al server.
-      Le indicazioni "in corso" / "in pausa" potrebbero essere imprecise.
-    </span>
-    <button class="aiucd-skew-close" type="button" aria-label="Chiudi avviso">×</button>
+    <span class="aiucd-skew-text">${html}</span>
+    <button class="aiucd-skew-close" type="button" aria-label="${t('clock_skew.close')}">×</button>
   `;
   banner.querySelector(".aiucd-skew-close").addEventListener("click", () => banner.remove());
   document.body.appendChild(banner);
