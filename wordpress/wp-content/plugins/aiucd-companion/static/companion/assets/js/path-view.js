@@ -8,26 +8,37 @@
 
 import * as agenda from "./agenda.js";
 import { getNow } from "./livestate.js";
-import { showAgendaMenu } from "./calendar-menu.js?v=bugfix1";
+import { showAgendaMenu } from "./calendar-menu.js?v=f4-2";
+import { t, formatDay, getLang, translateRoom, field } from "./i18n.js?v=f4-2";
 
 // Etichette user-facing dei tre criteri di costruzione dei percorsi.
-const CRITERIA_LABELS = {
-  A: "Approfondisci un tema",
-  B: "Esplora tutto il convegno",
-  C: "Connetti aree diverse",
-};
+function CRITERIA_LABELS_FN() {
+  return getLang() === "en" ? {
+    A: "Dive into a theme",
+    B: "Explore the whole conference",
+    C: "Connect different areas",
+  } : {
+    A: "Approfondisci un tema",
+    B: "Esplora tutto il convegno",
+    C: "Connetti aree diverse",
+  };
+}
 
-const CRITERIA_HINTS = {
-  A: "Relazioni strettamente legate a un singolo filo conduttore: ideale per andare in profondità su un tema.",
-  B: "Una panoramica trasversale che tocca le aree principali del convegno: ideale se non vuoi perderti nulla.",
-  C: "Relazioni lontane fra loro per area ma unite da un'idea: ideale se cerchi connessioni inattese.",
-};
+function CRITERIA_HINTS_FN() {
+  return getLang() === "en" ? {
+    A: "Talks tightly connected to a single thread: ideal to go deep on a theme.",
+    B: "A cross-cutting overview touching the main conference areas: ideal if you don't want to miss anything.",
+    C: "Talks distant from each other by area but united by an idea: ideal for unexpected connections.",
+  } : {
+    A: "Relazioni strettamente legate a un singolo filo conduttore: ideale per andare in profondità su un tema.",
+    B: "Una panoramica trasversale che tocca le aree principali del convegno: ideale se non vuoi perderti nulla.",
+    C: "Relazioni lontane fra loro per area ma unite da un'idea: ideale se cerchi connessioni inattese.",
+  };
+}
 
-const DAY_LABEL = {
-  "2026-06-03": "Mercoledì 3 giugno 2026",
-  "2026-06-04": "Giovedì 4 giugno 2026",
-  "2026-06-05": "Venerdì 5 giugno 2026",
-};
+function dayLabel(date) {
+  return formatDay(date, "long");
+}
 
 // =========================================================================
 // "I miei talk" view (drawer)
@@ -75,12 +86,14 @@ function renderMyAgenda() {
   if (!root) return;
 
   const ids = agenda.getAll();
+  const isEn = getLang() === "en";
   if (ids.length === 0) {
     root.innerHTML = `
       <div class="my-agenda-empty drawer-empty">
-        <strong>Niente in agenda.</strong>
-        <p>Tocca <span class="icon icon--star-outline" aria-hidden="true"></span> su una relazione dal Programma o da Esplora per cominciare.
-        Oppure aggiungi un percorso intero da <em>Esplora i percorsi</em> nel Programma.</p>
+        <strong>${isEn ? "Nothing in your agenda." : "Niente in agenda."}</strong>
+        <p>${isEn
+          ? "Tap <span class=\"icon icon--star-outline\" aria-hidden=\"true\"></span> on a talk from the Programme or Browse to start. Or add an entire path from <em>Explore the suggested paths</em> in the Programme."
+          : "Tocca <span class=\"icon icon--star-outline\" aria-hidden=\"true\"></span> su una relazione dal Programma o da Esplora per cominciare. Oppure aggiungi un percorso intero da <em>Esplora i percorsi</em> nel Programma."}</p>
       </div>
     `;
     return;
@@ -135,35 +148,37 @@ function renderMyAgenda() {
   const next = items.find(it => statusOf(it) === "next" || statusOf(it) === "future");
 
   let traveler = "";
+  const nowLabel = isEn ? "Now" : "Adesso";
+  const nextLabel = isEn ? "Next talk" : "Prossima relazione";
   if (live) {
     const paper = _mineState.data.papersById.get(live.id);
-    traveler = `<span class="pulse"></span>Adesso: <strong>#${live.id}</strong> in ${live.room} · ${live.start}–${live.end} · ${escapeHtml(paper?.title?.slice(0, 60) || "")}${(paper?.title?.length || 0) > 60 ? "…" : ""}`;
+    traveler = `<span class="pulse"></span>${nowLabel}: <strong>#${live.id}</strong> ${isEn ? "in" : "in"} ${translateRoom(live.room)} · ${live.start}–${live.end} · ${escapeHtml(paper?.title?.slice(0, 60) || "")}${(paper?.title?.length || 0) > 60 ? "…" : ""}`;
   } else if (next) {
     const paper = _mineState.data.papersById.get(next.id);
     const minTo = (toMin(next.start) - nowMin);
     if (next.day === todayIso && minTo > 0 && minTo <= 90) {
-      traveler = `Prossima relazione: <strong>#${next.id}</strong> in ${next.room} · ${next.start} (tra ${minTo} min) · ${escapeHtml(paper?.title?.slice(0, 60) || "")}`;
+      traveler = `${nextLabel}: <strong>#${next.id}</strong> ${isEn ? "in" : "in"} ${translateRoom(next.room)} · ${next.start} ${isEn ? `(in ${minTo} min)` : `(tra ${minTo} min)`} · ${escapeHtml(paper?.title?.slice(0, 60) || "")}`;
     } else if (next.day !== todayIso) {
-      traveler = `Prossima relazione: <strong>${next.day}</strong> alle ${next.start} in ${next.room}.`;
+      traveler = `${nextLabel}: <strong>${next.day}</strong> ${isEn ? "at" : "alle"} ${next.start} ${isEn ? "in" : "in"} ${translateRoom(next.room)}.`;
     } else {
-      traveler = `Prossima relazione: <strong>${next.start}</strong> in ${next.room}.`;
+      traveler = `${nextLabel}: <strong>${next.start}</strong> ${isEn ? "in" : "in"} ${translateRoom(next.room)}.`;
     }
   } else {
-    traveler = "Per oggi è fatta: tutte le relazioni in agenda sono già passate.";
+    traveler = isEn ? "Done for today: all the talks in your agenda are over." : "Per oggi è fatta: tutte le relazioni in agenda sono già passate.";
   }
 
   root.innerHTML = `
     <div class="my-agenda-banner">
-      <div class="stat"><span class="count">${items.length}</span> relazioni in agenda</div>
+      <div class="stat"><span class="count">${items.length}</span> ${isEn ? "talks in your agenda" : "relazioni in agenda"}</div>
       <div class="traveler">${traveler}</div>
       <div class="actions">
-        <button class="btn btn-calendar" id="export-cal"><span class="icon icon--calendar" aria-hidden="true"></span> Aggiungi al mio calendario</button>
-        <button class="btn btn-secondary" id="clear-all" title="Rimuovi tutto">Svuota</button>
+        <button class="btn btn-calendar" id="export-cal"><span class="icon icon--calendar" aria-hidden="true"></span> ${t("calendar.menu_label")}</button>
+        <button class="btn btn-secondary" id="clear-all" title="${isEn ? "Remove all" : "Rimuovi tutto"}">${isEn ? "Empty" : "Svuota"}</button>
       </div>
     </div>
     ${[...byDay.entries()].map(([day, dayItems]) => `
       <div class="my-agenda-day">
-        <h3>${DAY_LABEL[day] || day}</h3>
+        <h3>${dayLabel(day) || day}</h3>
         ${dayItems.map(it => myAgendaRow(it, statusOf(it), conflictKeys.has(`${it.day}|${it.start}`))).join("")}
       </div>
     `).join("")}
@@ -321,7 +336,7 @@ function pathCardHtml(path) {
   const conflictCount = path.conflict_paper_ids.length;
   return `
     <div class="path-card" data-path-id="${path.id}" data-criterion="${path.criterion}">
-      <div class="path-id" title="${escapeHtml(CRITERIA_HINTS[path.criterion] || "")}">${path.criterion}${path.id.slice(1)} · ${CRITERIA_LABELS[path.criterion]}</div>
+      <div class="path-id" title="${escapeHtml(CRITERIA_HINTS_FN()[path.criterion] || "")}">${path.criterion}${path.id.slice(1)} · ${CRITERIA_LABELS_FN()[path.criterion]}</div>
       <div class="path-name">${escapeHtml(path.name)}</div>
       <div class="path-intro">${escapeHtml(path.intro)}</div>
       <div class="path-meta">
@@ -363,10 +378,10 @@ function renderPathDetail() {
           <h3>${escapeHtml(path.name)}</h3>
           <div class="intro">${escapeHtml(path.intro)}</div>
           <div class="path-meta" style="margin-top:12px">
-            <span class="chip" title="${escapeHtml(CRITERIA_HINTS[path.criterion] || "")}">${path.criterion} · ${CRITERIA_LABELS[path.criterion]}</span>
-            <span class="chip">${items.length} relazioni</span>
+            <span class="chip" title="${escapeHtml(CRITERIA_HINTS_FN()[path.criterion] || "")}">${path.criterion} · ${CRITERIA_LABELS_FN()[path.criterion]}</span>
+            <span class="chip">${items.length} ${getLang() === "en" ? "talks" : "relazioni"}</span>
             ${path.conflict_paper_ids.length > 0
-              ? `<span class="chip conflict-chip"><span class="icon icon--warning" aria-hidden="true"></span> ${countConflictGroups(byTime)} ${countConflictGroups(byTime) === 1 ? "scelta" : "scelte"} da fare</span>`
+              ? `<span class="chip conflict-chip"><span class="icon icon--warning" aria-hidden="true"></span> ${countConflictGroups(byTime)} ${countConflictGroups(byTime) === 1 ? (getLang() === "en" ? "choice" : "scelta") : (getLang() === "en" ? "choices" : "scelte")} ${getLang() === "en" ? "to make" : "da fare"}</span>`
               : ""}
           </div>
           <button class="btn ${allInAgenda ? 'btn-saved' : 'btn-primary'} add-all-btn" id="add-all-btn">
@@ -422,7 +437,7 @@ function renderDayTimeline(date, byTime, path) {
 
   return `
     <div class="timeline-day">
-      <div class="timeline-day-header">${DAY_LABEL[date] || date}</div>
+      <div class="timeline-day-header">${dayLabel(date) || date}</div>
       ${entries.map(items => items.length === 1
         ? renderSingleTalk(items[0])
         : renderConflict(items, path)

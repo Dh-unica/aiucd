@@ -1,8 +1,9 @@
 // AIUCD 2026 Companion · modale talk
 
-import { AREA_BY_CODE } from "./data.js";
+import { AREA_BY_CODE, areaLabel } from "./data.js?v=f4-2";
 import * as agenda from "./agenda.js";
-import { showSingleEventMenu } from "./calendar-menu.js?v=bugfix1";
+import { showSingleEventMenu } from "./calendar-menu.js?v=f4-2";
+import { t, getLang, translateRoom } from "./i18n.js?v=f4-2";
 
 let _backdrop = null;
 
@@ -14,7 +15,7 @@ function ensureModal() {
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-head">
         <div class="modal-meta" id="modal-meta"></div>
-        <button class="close-btn" aria-label="Chiudi" id="modal-close">×</button>
+        <button class="close-btn" aria-label="${getLang() === "en" ? "Close" : "Chiudi"}" id="modal-close">×</button>
       </div>
       <div class="modal-body">
         <h3 id="modal-title"></h3>
@@ -46,10 +47,10 @@ export function open(paper, slot, track, day) {
   const time = slot?.start && slot?.end ? `${slot.start}–${slot.end}` : "";
   const dayLabel = day?.label?.split(" ").slice(0, 3).join(" ") || "";
   meta.innerHTML = `
-    <span class="chip area-chip" style="background:${area.color}"><span class="glyph glyph--${paper.area_code || 'other'} glyph--sm" aria-hidden="true"></span>${area.label}</span>
+    <span class="chip area-chip" style="background:${area.color}"><span class="glyph glyph--${paper.area_code || 'other'} glyph--sm" aria-hidden="true"></span>${areaLabel(paper.area_code || 'other')}</span>
     ${slot ? `<span class="chip">${dayLabel} · ${time}</span>` : ""}
-    ${track ? `<span class="chip">${track.code} · ${track.room}</span>` : ""}
-    <span class="chip">${paper.mode === "Poster" ? "◆ Poster" : "● Oral"}</span>
+    ${track ? `<span class="chip">${track.code} · ${translateRoom(track.room)}</span>` : ""}
+    <span class="chip">${paper.mode === "Poster" ? "◆ " + t("catalog.posters") : "● " + (getLang() === "en" ? "Oral" : "Oral")}</span>
   `;
 
   m.querySelector("#modal-title").textContent = paper.title;
@@ -60,7 +61,7 @@ export function open(paper, slot, track, day) {
   }).join("; ");
   m.querySelector("#modal-authors").textContent = authorsLine || "—";
 
-  m.querySelector("#modal-abstract").textContent = paper.abstract || "Abstract non disponibile.";
+  m.querySelector("#modal-abstract").textContent = paper.abstract || (getLang() === "en" ? "Abstract not available." : "Abstract non disponibile.");
 
   const actions = m.querySelector("#modal-actions");
   const saved = agenda.isSaved(paper.id);
@@ -68,14 +69,15 @@ export function open(paper, slot, track, day) {
   // nel caso del Programma .day è sull'oggetto `day` separato.
   const slotDay = slot?.day || day?.date;
   const hasSlot = !!(slot && slot.start && slot.end && slotDay);
-  const savedLabel   = `<span class="icon icon--star-filled" aria-hidden="true"></span> In agenda — rimuovi`;
-  const unsavedLabel = `<span class="icon icon--star-outline" aria-hidden="true"></span> Aggiungi all'agenda`;
+  const isEn = getLang() === "en";
+  const savedLabel   = `<span class="icon icon--star-filled" aria-hidden="true"></span> ${isEn ? "In agenda — remove" : "In agenda — rimuovi"}`;
+  const unsavedLabel = `<span class="icon icon--star-outline" aria-hidden="true"></span> ${t("talk.add_to_agenda")}`;
   actions.innerHTML = `
     <button class="btn ${saved ? 'btn-saved' : 'btn-primary'}" id="modal-save-btn">
       ${saved ? savedLabel : unsavedLabel}
     </button>
-    ${hasSlot ? `<button class="btn btn-calendar" id="modal-cal-btn"><span class="icon icon--calendar" aria-hidden="true"></span> Aggiungi al calendario</button>` : ""}
-    ${track ? `<button class="btn btn-secondary" id="modal-room-btn"><span class="icon icon--external" aria-hidden="true"></span> Vai alla mappa · ${track.room}</button>` : ""}
+    ${hasSlot ? `<button class="btn btn-calendar" id="modal-cal-btn"><span class="icon icon--calendar" aria-hidden="true"></span> ${isEn ? "Add to calendar" : "Aggiungi al calendario"}</button>` : ""}
+    ${track ? `<button class="btn btn-secondary" id="modal-room-btn"><span class="icon icon--external" aria-hidden="true"></span> ${t("talk.goto_map")} · ${translateRoom(track.room)}</button>` : ""}
   `;
   actions.querySelector("#modal-save-btn").addEventListener("click", () => {
     const nowSaved = agenda.toggle(paper.id);

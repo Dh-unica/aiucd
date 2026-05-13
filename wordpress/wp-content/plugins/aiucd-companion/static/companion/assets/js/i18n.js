@@ -80,3 +80,68 @@ export function t(key, vars) {
 }
 
 export function getLang() { return _lang; }
+
+/**
+ * Legge un campo localizzato da un oggetto JSON proveniente dalla pipeline
+ * (papers, posters, paths, poi, program block, ecc.).
+ *
+ * Convenzione: se il JSON ha `{title, title_en}` la funzione ritorna `title_en`
+ * quando la lingua attiva è "en" e il valore è presente e non vuoto. Altrimenti
+ * fallback al campo IT canonico `title`.
+ *
+ *   field({title: "Programma", title_en: "Programme"}, "title")  // EN → "Programme"
+ *   field({title: "Programma"}, "title")                         // EN → "Programma" (fallback IT)
+ *   field({title: "Programma", title_en: ""}, "title")           // EN → "Programma" (fallback su empty)
+ *
+ * In questo modo l'aggiornamento dell'Excel sorgente non rompe nulla anche se
+ * la traduzione EN è assente per un sottoinsieme di record.
+ */
+export function field(obj, name) {
+  if (!obj || obj[name] === undefined) return undefined;
+  if (_lang === "en") {
+    const en = obj[name + "_en"];
+    if (en !== undefined && en !== null && (typeof en !== "string" || en.trim() !== "")) {
+      return en;
+    }
+  }
+  return obj[name];
+}
+
+/**
+ * Formatta una data nei formati corti localizzati usati dal companion
+ * (es. "Mer 3 giu" / "Wed 3 Jun"). Wrapper attorno a Intl.DateTimeFormat
+ * con locale derivato dalla lingua attiva.
+ *
+ *   formatDay("2026-06-04", "short")    // it → "Gio 4 giu", en → "Thu 4 Jun"
+ *   formatDay("2026-06-04", "long")     // it → "Giovedì 4 giugno 2026", en → "Thursday 4 June 2026"
+ */
+export function formatDay(isoDate, style = "short") {
+  const locale = _lang === "en" ? "en-GB" : "it-IT";
+  const d = typeof isoDate === "string" ? new Date(isoDate + "T12:00:00") : isoDate;
+  if (style === "long") {
+    return new Intl.DateTimeFormat(locale, { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(d);
+  }
+  return new Intl.DateTimeFormat(locale, { weekday: "short", day: "numeric", month: "short" }).format(d);
+}
+
+/**
+ * Traduzione runtime di un nome aula proveniente dai dati (es. "Aula Capitini"
+ * → "Capitini Room", "Aula 5A" → "Room 5A"). Pattern fisso, non serve campo
+ * `_en` nei JSON. Lasciato esposto perché applicato lazy nelle view.
+ */
+export function translateRoom(roomName) {
+  if (!roomName || _lang !== "en") return roomName;
+  // "Aula Magna Capitini" → "Capitini Main Room"
+  if (/^Aula\s+Magna\s+/i.test(roomName)) {
+    return roomName.replace(/^Aula\s+Magna\s+(\S+)/i, '$1 Main Room');
+  }
+  // "Aula 5A" → "Room 5A"; "Aula Capitini" → "Capitini Room"
+  if (/^Aula\s+\d/i.test(roomName)) {
+    return roomName.replace(/^Aula\s+/i, 'Room ');
+  }
+  if (/^Aula\s+/i.test(roomName)) {
+    const rest = roomName.replace(/^Aula\s+/i, '');
+    return `${rest} Room`;
+  }
+  return roomName;
+}

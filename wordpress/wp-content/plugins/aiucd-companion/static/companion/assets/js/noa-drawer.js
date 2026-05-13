@@ -5,6 +5,7 @@
 
 import * as agenda from "./agenda.js";
 import { liveState, getNow } from "./livestate.js";
+import { t, getLang } from "./i18n.js?v=f4-2";
 import { getGapSuggestion, NOA_VOICE_TONE } from "./avatar.js?v=noa1";
 import { createDrawer } from "./drawer-controller.js";
 
@@ -107,10 +108,10 @@ function renderDrawerContent() {
           <span class="glyph glyph--memories glyph--lg"></span>
         </div>
         <div class="noa-drawer-headtext">
-          <h2 id="noa-drawer-title">Ciao, sono Noa</h2>
-          <p>Sono la tua guida per i tre giorni di AIUCD 2026. Posso suggerirti percorsi, riempire i tempi morti, evitarti i conflitti d'agenda.</p>
+          <h2 id="noa-drawer-title">${t("noa.greeting")}</h2>
+          <p>${getLang() === "en" ? "I'm your guide through the three days of AIUCD 2026. I can suggest paths, fill the gaps in your day, help you avoid agenda conflicts." : "Sono la tua guida per i tre giorni di AIUCD 2026. Posso suggerirti percorsi, riempire i tempi morti, evitarti i conflitti d'agenda."}</p>
         </div>
-        <button class="drawer-close" id="noa-drawer-close" type="button" aria-label="Chiudi">
+        <button class="drawer-close" id="noa-drawer-close" type="button" aria-label="${t("drawer.close")}">
           <span class="icon icon--close" aria-hidden="true"></span>
         </button>
       </header>

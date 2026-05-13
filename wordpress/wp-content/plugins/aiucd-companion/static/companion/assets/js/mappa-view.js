@@ -3,6 +3,7 @@
 // cliccabili sopra le aule. Lo stato live è calcolato come prima.
 
 import { getNow } from "./livestate.js";
+import { t, translateRoom, getLang } from "./i18n.js?v=f4-2";
 
 let _state = {
   data: null,
@@ -71,20 +72,45 @@ const ASSET_BASE = (typeof window !== "undefined" && window.AIUCD_BASE_URL)
   ? window.AIUCD_BASE_URL.replace(/\/$/, "") + "/"
   : "";
 
+// FLOORS è statico ma le label vengono risolte runtime via floorLabel() perché
+// dipendono da getLang(). Non possiamo pre-computare a module-load perché i18n
+// non è ancora caricato a quel punto.
+function floorLabel(id) {
+  if (id === "primo-piano") return t("mappa.floor.primo_piano");
+  if (id === "piano-terra") return t("mappa.floor.piano_terra");
+  return id;
+}
+
 const FLOORS = [
   {
     id: "primo-piano",
-    label: "Primo piano",
+    get label() { return floorLabel("primo-piano"); },
     img: ASSET_BASE + "assets/img/mappa/primo-piano.jpg",
-    alt: "Pianta del primo piano del Corpo aggiunto: Aula Magna Capitini, Area Poster, Aula 5A, Aula 6A, Aula 2A.",
-    caption: "Tutte le sessioni e le plenarie si tengono qui. L'Area Poster è davanti all'Aula Capitini.",
+    get alt() {
+      return getLang() === "en"
+        ? "First floor plan of the Annex Building: Capitini Main Room, Poster Area, Rooms 5A, 6A, 2A."
+        : "Pianta del primo piano del Corpo aggiunto: Aula Magna Capitini, Area Poster, Aula 5A, Aula 6A, Aula 2A.";
+    },
+    get caption() {
+      return getLang() === "en"
+        ? "All sessions and plenaries take place here. The Poster Area is in front of Capitini Main Room."
+        : "Tutte le sessioni e le plenarie si tengono qui. L'Area Poster è davanti all'Aula Capitini.";
+    },
   },
   {
     id: "piano-terra",
-    label: "Piano terra",
+    get label() { return floorLabel("piano-terra"); },
     img: ASSET_BASE + "assets/img/mappa/piano-terra.jpg",
-    alt: "Pianta del piano terra del Corpo aggiunto: ingressi, Aula Specchi, area catering.",
-    caption: "Ingressi al campus, area catering nel giardino esterno. Sali al primo piano per le aule del convegno.",
+    get alt() {
+      return getLang() === "en"
+        ? "Ground floor plan of the Annex Building: entrances, Specchi Room, catering area."
+        : "Pianta del piano terra del Corpo aggiunto: ingressi, Aula Specchi, area catering.";
+    },
+    get caption() {
+      return getLang() === "en"
+        ? "Campus entrances, catering area in the outdoor garden. Go up to the first floor for the conference rooms."
+        : "Ingressi al campus, area catering nel giardino esterno. Sali al primo piano per le aule del convegno.";
+    },
   },
 ];
 
@@ -101,22 +127,23 @@ export function renderMappa(rootEl, data, onTalkClick) {
   const VENUE_LON = 9.111890995970645;
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${VENUE_LAT}%2C${VENUE_LON}&travelmode=walking`;
 
+  const isEn = getLang() === "en";
   rootEl.innerHTML = `
     <div class="section-head">
-      <h2><span class="sub-mark"></span>Sede del convegno</h2>
-      <p class="section-sub">Campus Sa Duchessa — Corpo aggiunto. Tap su un'aula per stato in tempo reale e indicazioni.</p>
+      <h2><span class="sub-mark"></span>${t("mappa.heading")}</h2>
+      <p class="section-sub">${t("mappa.subtitle")}</p>
       <a class="venue-directions-btn"
          href="${directionsUrl}"
          target="_blank"
          rel="noopener"
-         aria-label="Apri Google Maps con le indicazioni dalla tua posizione alla sede del convegno">
+         aria-label="${isEn ? "Open Google Maps directions from your location to the conference venue" : "Apri Google Maps con le indicazioni dalla tua posizione alla sede del convegno"}">
         <span class="icon icon--compass" aria-hidden="true"></span>
-        <span>Come arrivare alla sede · indicazioni con Google Maps</span>
+        <span>${t("mappa.directions")}</span>
       </a>
     </div>
     <div class="mappa-layout">
       <div class="mappa-canvas">
-        <div class="mappa-floors-tabs" role="tablist" aria-label="Piani del Corpo aggiunto">
+        <div class="mappa-floors-tabs" role="tablist" aria-label="${isEn ? "Floors of the Annex Building" : "Piani del Corpo aggiunto"}">
           ${FLOORS.map(f => `
             <button type="button"
                     role="tab"
@@ -131,15 +158,15 @@ export function renderMappa(rootEl, data, onTalkClick) {
           ${buildFloorView(_state.selectedFloor)}
         </div>
         <div class="mappa-legend">
-          <span class="mappa-legend-item"><span class="dot live"></span>Relazione in corso</span>
-          <span class="mappa-legend-item"><span class="dot discussion"></span>Discussione</span>
-          <span class="mappa-legend-item"><span class="dot break"></span>Pausa / non in uso</span>
-          <span class="mappa-legend-item"><span class="dot upcoming"></span>In programma</span>
-          <span class="mappa-legend-item"><span class="dot finished"></span>Concluso</span>
+          <span class="mappa-legend-item"><span class="dot live"></span>${isEn ? "Talk live" : "Relazione in corso"}</span>
+          <span class="mappa-legend-item"><span class="dot discussion"></span>${isEn ? "Discussion" : "Discussione"}</span>
+          <span class="mappa-legend-item"><span class="dot break"></span>${isEn ? "Break / not in use" : "Pausa / non in uso"}</span>
+          <span class="mappa-legend-item"><span class="dot upcoming"></span>${isEn ? "Upcoming" : "In programma"}</span>
+          <span class="mappa-legend-item"><span class="dot finished"></span>${isEn ? "Finished" : "Concluso"}</span>
         </div>
       </div>
       <div class="mappa-side" id="mappa-side">
-        <div class="empty">Tap su un'aula per vedere cosa avviene adesso e come arrivarci.</div>
+        <div class="empty">${t("mappa.tap_room_hint")}</div>
       </div>
     </div>
   `;
@@ -263,7 +290,7 @@ function refreshStates() {
 function renderSidePanel() {
   const side = _state.root.querySelector("#mappa-side");
   if (!_state.selectedRoom) {
-    side.innerHTML = `<div class="empty">Tap su un'aula per vedere cosa avviene adesso e come arrivarci.</div>`;
+    side.innerHTML = `<div class="empty">${t("mappa.tap_room_hint")}</div>`;
     side.removeAttribute("data-state");
     return;
   }
@@ -276,7 +303,15 @@ function renderSidePanel() {
   const info = computeRoomState(now, day, room);
   side.dataset.state = info.state;
 
-  const stateLabel = ({
+  const isEn = getLang() === "en";
+  const stateLabel = (isEn ? {
+    live: "Talk live",
+    discussion: "Discussion",
+    break: "On break",
+    upcoming: "Upcoming",
+    finished: "Finished",
+    closed: "Not in use today",
+  } : {
     live: "Relazione in corso",
     discussion: "Discussione",
     break: "In pausa",
@@ -313,13 +348,13 @@ function renderSidePanel() {
   }
 
   side.innerHTML = `
-    <div class="room-title">${escapeHtml(room)}</div>
+    <div class="room-title">${escapeHtml(translateRoom(room))}</div>
     <span class="room-state-badge">${stateLabel}</span>
     ${desc.role ? `<div style="font-size: var(--fs-xs); color: var(--muted); margin-bottom: var(--space-sm);">${escapeHtml(desc.role)}</div>` : ""}
     ${liveBlock}
-    <h4>Posizione</h4>
+    <h4>${isEn ? "Position" : "Posizione"}</h4>
     <div style="font-size: var(--fs-sm);">${escapeHtml(desc.location || "")}</div>
-    <h4>Come arrivarci</h4>
+    <h4>${isEn ? "How to get there" : "Come arrivarci"}</h4>
     <div class="mappa-tip">${escapeHtml(desc.travel || "—")}</div>
   `;
 

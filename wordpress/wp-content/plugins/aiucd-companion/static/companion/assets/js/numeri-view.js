@@ -3,6 +3,8 @@
 // stacked bar mode-area, bar timeline, top affiliazioni, mappa Leaflet,
 // indicatori qualità.
 
+import { t, getLang } from "./i18n.js?v=f4-2";
+
 // Quando il companion è embedded in WordPress, window.AIUCD_DATA_URL punta
 // alla cartella dati del plugin. In standalone resta il path relativo storico.
 const STATS_URL = (typeof window !== "undefined" && window.AIUCD_DATA_URL)
@@ -39,6 +41,7 @@ const AREA_SHORT = {
 
 export async function renderNumeri(rootEl) {
   rootEl.classList.add("num-host");
+  const isEn = getLang() === "en";
 
   rootEl.innerHTML = `
     <header class="num-hero">
@@ -48,17 +51,17 @@ export async function renderNumeri(rootEl) {
         01001 10100 11001 01100 11010 00101 11001 00110 10101 01010 01101 11001 00110 11010 00101 11000 10110 01010 11001 01100 11010
       </div>
       <div class="hero-inner">
-        <div class="eyebrow">Aspettando AIUCD 2026 · Statistiche delle proposte</div>
-        <h1>Il convegno <em>in numeri</em></h1>
+        <div class="eyebrow">${isEn ? "Towards AIUCD 2026 · Submission statistics" : "Aspettando AIUCD 2026 · Statistiche delle proposte"}</div>
+        <h1>${isEn ? "The conference <em>in figures</em>" : "Il convegno <em>in numeri</em>"}</h1>
         <p class="lead">
-          Uno sguardo d'insieme sulle proposte pervenute alla call for papers del XV
-          convegno annuale dell'<em>Associazione per l'Informatica Umanistica e la Cultura Digitale</em>,
-          tra ritmi, geografie e linee di ricerca.
+          ${isEn
+            ? "An overview of the proposals received for the call for papers of the 15th annual conference of the <em>Italian Association for Humanities Computing and Digital Culture</em>, across rhythms, geographies and research trends."
+            : "Uno sguardo d'insieme sulle proposte pervenute alla call for papers del XV convegno annuale dell'<em>Associazione per l'Informatica Umanistica e la Cultura Digitale</em>, tra ritmi, geografie e linee di ricerca."}
         </p>
         <div class="meta">
-          <span>Dati aggiornati al 18 aprile 2026</span>
-          <span>Fonte: piattaforma CMT</span>
-          <span id="num-meta-total">— proposte · processo di review concluso</span>
+          <span>${isEn ? "Data updated 18 April 2026" : "Dati aggiornati al 18 aprile 2026"}</span>
+          <span>${isEn ? "Source: CMT platform" : "Fonte: piattaforma CMT"}</span>
+          <span id="num-meta-total">${isEn ? "— proposals · review process concluded" : "— proposte · processo di review concluso"}</span>
         </div>
       </div>
     </header>
@@ -66,40 +69,40 @@ export async function renderNumeri(rootEl) {
     <section>
       <div class="kpi-grid">
         <div class="kpi-card">
-          <div class="kpi-label">Proposte inviate</div>
+          <div class="kpi-label">${isEn ? "Submitted proposals" : "Proposte inviate"}</div>
           <div class="kpi-value" id="kpi-total">—</div>
-          <div class="kpi-hint">dal 3 gennaio al 10 febbraio 2026</div>
+          <div class="kpi-hint">${isEn ? "from 3 January to 10 February 2026" : "dal 3 gennaio al 10 febbraio 2026"}</div>
         </div>
         <div class="kpi-card green">
-          <div class="kpi-label">Contributi accettati</div>
+          <div class="kpi-label">${isEn ? "Accepted contributions" : "Contributi accettati"}</div>
           <div class="kpi-value" id="kpi-accepted">—</div>
-          <div class="kpi-hint"><b><span id="kpi-accept-rate">—</span>%</b> di acceptance rate</div>
+          <div class="kpi-hint"><b><span id="kpi-accept-rate">—</span>%</b> ${isEn ? "acceptance rate" : "di acceptance rate"}</div>
         </div>
         <div class="kpi-card sand">
-          <div class="kpi-label">Firme d'autore</div>
+          <div class="kpi-label">${isEn ? "Author signatures" : "Firme d'autore"}</div>
           <div class="kpi-value" id="kpi-authors">—</div>
-          <div class="kpi-hint">media di <b>2,46</b> autori per contributo</div>
+          <div class="kpi-hint">${isEn ? "average of <b>2.46</b> authors per contribution" : "media di <b>2,46</b> autori per contributo"}</div>
         </div>
         <div class="kpi-card accent">
-          <div class="kpi-label">Enti di ricerca</div>
+          <div class="kpi-label">${isEn ? "Research institutions" : "Enti di ricerca"}</div>
           <div class="kpi-value" id="kpi-orgs">—</div>
-          <div class="kpi-hint">atenei, istituti e centri coinvolti</div>
+          <div class="kpi-hint">${isEn ? "universities, institutes and research centres involved" : "atenei, istituti e centri coinvolti"}</div>
         </div>
       </div>
     </section>
 
     <section>
       <div class="section-head">
-        <h2><span class="sub-mark"></span>Le aree tematiche del convegno</h2>
-        <p class="section-sub">Distribuzione dei <span id="num-areas-total">—</span> contributi sulle sei macro-aree della call for papers.</p>
+        <h2><span class="sub-mark"></span>${isEn ? "Thematic areas of the conference" : "Le aree tematiche del convegno"}</h2>
+        <p class="section-sub">${isEn ? "Distribution of <span id=\"num-areas-total\">—</span> contributions across the six macro-areas of the call for papers." : "Distribuzione dei <span id=\"num-areas-total\">—</span> contributi sulle sei macro-aree della call for papers."}</p>
       </div>
       <div class="grid-2">
         <div class="panel">
           <div class="chart-wrap"><canvas id="num-chart-areas"></canvas></div>
         </div>
         <div class="panel">
-          <h3>Dettaglio per area</h3>
-          <p class="panel-sub">Ordinate per numerosità.</p>
+          <h3>${isEn ? "Breakdown by area" : "Dettaglio per area"}</h3>
+          <p class="panel-sub">${isEn ? "Sorted by size." : "Ordinate per numerosità."}</p>
           <div id="num-areas-legend" class="legend-list"></div>
         </div>
       </div>
@@ -107,8 +110,8 @@ export async function renderNumeri(rootEl) {
 
     <section>
       <div class="section-head">
-        <h2><span class="sub-mark"></span>Modalità di presentazione</h2>
-        <p class="section-sub">Come si distribuiscono comunicazioni orali e poster tra le aree tematiche.</p>
+        <h2><span class="sub-mark"></span>${isEn ? "Presentation mode" : "Modalità di presentazione"}</h2>
+        <p class="section-sub">${isEn ? "How oral communications and posters distribute across thematic areas." : "Come si distribuiscono comunicazioni orali e poster tra le aree tematiche."}</p>
       </div>
       <div class="panel">
         <div class="chart-wrap tall"><canvas id="num-chart-mode-area"></canvas></div>
@@ -117,8 +120,8 @@ export async function renderNumeri(rootEl) {
 
     <section>
       <div class="section-head">
-        <h2><span class="sub-mark"></span>Ritmo invio proposte</h2>
-        <p class="section-sub">Numero di proposte ricevute giorno per giorno nel periodo della call.</p>
+        <h2><span class="sub-mark"></span>${isEn ? "Submission rate" : "Ritmo invio proposte"}</h2>
+        <p class="section-sub">${isEn ? "Number of proposals received day-by-day during the call." : "Numero di proposte ricevute giorno per giorno nel periodo della call."}</p>
       </div>
       <div class="panel">
         <div class="chart-wrap"><canvas id="num-chart-timeline"></canvas></div>
@@ -128,8 +131,8 @@ export async function renderNumeri(rootEl) {
 
     <section>
       <div class="section-head">
-        <h2><span class="sub-mark"></span>L'ecosistema istituzionale</h2>
-        <p class="section-sub">Top 15 affiliazioni per numero di firme d'autore. Dati post-normalizzazione delle grafie.</p>
+        <h2><span class="sub-mark"></span>${isEn ? "The institutional ecosystem" : "L'ecosistema istituzionale"}</h2>
+        <p class="section-sub">${isEn ? "Top 15 affiliations by author signatures. Data post-normalised for spelling variants." : "Top 15 affiliazioni per numero di firme d'autore. Dati post-normalizzazione delle grafie."}</p>
       </div>
       <div class="panel">
         <div id="num-aff-list" class="aff-list"></div>
@@ -138,8 +141,8 @@ export async function renderNumeri(rootEl) {
 
     <section>
       <div class="section-head">
-        <h2><span class="sub-mark"></span>Distribuzione geografica</h2>
-        <p class="section-sub">Le sedi degli enti di ricerca coinvolti. Dimensione del marker proporzionale al numero di firme d'autore.</p>
+        <h2><span class="sub-mark"></span>${isEn ? "Geographic distribution" : "Distribuzione geografica"}</h2>
+        <p class="section-sub">${isEn ? "Locations of the participating research institutions. Marker size is proportional to the number of author signatures." : "Le sedi degli enti di ricerca coinvolti. Dimensione del marker proporzionale al numero di firme d'autore."}</p>
       </div>
       <div class="panel">
         <div id="num-map"></div>
@@ -148,25 +151,25 @@ export async function renderNumeri(rootEl) {
 
     <section>
       <div class="section-head">
-        <h2><span class="sub-mark"></span>Indicatori di qualità del processo</h2>
-        <p class="section-sub">Conformità agli obblighi procedurali della call e partecipazione alle iniziative opzionali.</p>
+        <h2><span class="sub-mark"></span>${isEn ? "Process quality indicators" : "Indicatori di qualità del processo"}</h2>
+        <p class="section-sub">${isEn ? "Compliance with the procedural requirements of the call and participation in the optional initiatives." : "Conformità agli obblighi procedurali della call e partecipazione alle iniziative opzionali."}</p>
       </div>
       <div class="quality-grid">
         <div class="quality-item">
           <div class="val">100%</div>
-          <div class="lbl">Contributi con PDF allegato</div>
+          <div class="lbl">${isEn ? "Contributions with PDF attached" : "Contributi con PDF allegato"}</div>
         </div>
         <div class="quality-item ai">
           <div class="val">100%</div>
-          <div class="lbl">Dichiarazione uso di AI generativa</div>
+          <div class="lbl">${isEn ? "Generative AI usage statement" : "Dichiarazione uso di AI generativa"}</div>
         </div>
         <div class="quality-item iscr">
           <div class="val">100%</div>
-          <div class="lbl">Impegno all'iscrizione se accettato</div>
+          <div class="lbl">${isEn ? "Commitment to register if accepted" : "Impegno all'iscrizione se accettato"}</div>
         </div>
         <div class="quality-item gigl">
           <div class="val" id="num-quality-gigliozzi">—</div>
-          <div class="lbl">Candidature al Premio Gigliozzi</div>
+          <div class="lbl">${isEn ? "Gigliozzi Award candidates" : "Candidature al Premio Gigliozzi"}</div>
         </div>
       </div>
     </section>

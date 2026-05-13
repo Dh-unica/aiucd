@@ -2,8 +2,9 @@
 // Porting del mockup_catalogo.html: mappa Leaflet hero + overlay, search,
 // pannello filtri (modes/areas/affiliation/gigliozzi), cards, view switch.
 
-import { AREAS, AREA_BY_CODE } from "./data.js";
+import { AREAS, AREA_BY_CODE, areaLabel } from "./data.js?v=f4-2";
 import * as agenda from "./agenda.js";
+import { t, getLang } from "./i18n.js?v=f4-2";
 
 let _state = {
   data: null,
@@ -27,22 +28,25 @@ export function renderCatalog(rootEl, data, onTalkClick) {
   _state.onTalkClick = onTalkClick;
   rootEl.classList.add("cat-host");
 
+  const isEn = getLang() === "en";
   rootEl.innerHTML = `
     <section class="map-hero">
-      <div id="cat-map" role="region" aria-label="Mappa interattiva delle istituzioni partecipanti"></div>
+      <div id="cat-map" role="region" aria-label="${t("catalog.map_aria")}"></div>
 
       <aside class="map-overlay bg-pibiones" id="cat-map-overlay" style="--pibiones-color: #fff; --pibiones-opacity: 0.10;">
         <div class="map-overlay-inner" id="cat-map-overlay-inner">
-          <div class="eyebrow">Esplora · AIUCD 2026</div>
-          <h1>Esplora i <span id="cat-hero-total">${data.papers.length}</span> contributi del XV convegno di <em>Informatica Umanistica e Cultura Digitale</em></h1>
+          <div class="eyebrow">${t("catalog.eyebrow")}</div>
+          <h1>${isEn
+            ? `Browse the <span id="cat-hero-total">${data.papers.length}</span> contributions of the 15th conference on <em>Digital Humanities and Digital Culture</em>`
+            : `Esplora i <span id="cat-hero-total">${data.papers.length}</span> contributi del XV convegno di <em>Informatica Umanistica e Cultura Digitale</em>`}</h1>
           <p class="lead">
-            Naviga le ricerche per area tematica, modalità, affiliazione o area geografica. Cerca per titolo, autore o parole chiave; visualizza la rete di istituzioni che animano le <em>Digital Humanities</em>.
+            ${t("catalog.hero_subtitle")}
           </p>
           <div class="stats">
-            <div class="stat"><div class="num" id="cat-stat-papers">${data.papers.length}</div><div class="lbl">Contributi</div></div>
-            <div class="stat"><div class="num" id="cat-stat-areas">6</div><div class="lbl">Aree</div></div>
-            <div class="stat"><div class="num" id="cat-stat-affs">${countAffiliations(data)}</div><div class="lbl">Affiliazioni</div></div>
-            <div class="stat"><div class="num" id="cat-stat-countries">${countCountries(data)}</div><div class="lbl">Paesi</div></div>
+            <div class="stat"><div class="num" id="cat-stat-papers">${data.papers.length}</div><div class="lbl">${t("catalog.kpi.contributi")}</div></div>
+            <div class="stat"><div class="num" id="cat-stat-areas">6</div><div class="lbl">${t("catalog.kpi.aree")}</div></div>
+            <div class="stat"><div class="num" id="cat-stat-affs">${countAffiliations(data)}</div><div class="lbl">${t("catalog.kpi.affiliazioni")}</div></div>
+            <div class="stat"><div class="num" id="cat-stat-countries">${countCountries(data)}</div><div class="lbl">${t("catalog.kpi.paesi")}</div></div>
           </div>
         </div>
       </aside>
@@ -55,29 +59,29 @@ export function renderCatalog(rootEl, data, onTalkClick) {
 
       <aside class="filters" id="cat-filters">
         <div class="filters-body" id="cat-filters-body">
-        <h2>Filtri</h2>
+        <h2>${t("catalog.filters")}</h2>
         <div class="filter-group">
-          <h3>Modalità</h3>
+          <h3>${t("catalog.modality")}</h3>
           <div id="cat-filter-modes"></div>
         </div>
         <div class="filter-group">
-          <h3>Area tematica</h3>
+          <h3>${t("catalog.thematic_area")}</h3>
           <div id="cat-filter-areas"></div>
         </div>
         <div class="filter-group">
-          <h3>Affiliazione</h3>
+          <h3>${isEn ? "Affiliation" : "Affiliazione"}</h3>
           <select id="cat-filter-aff" class="filter-select">
-            <option value="">Tutte le affiliazioni</option>
+            <option value="">${isEn ? "All affiliations" : "Tutte le affiliazioni"}</option>
           </select>
         </div>
         <div class="filter-group">
-          <h3>Premi</h3>
+          <h3>${isEn ? "Awards" : "Premi"}</h3>
           <label class="filter-option">
             <input type="checkbox" id="cat-filter-gigliozzi">
-            <span>★ Solo candidati Premio Gigliozzi</span>
+            <span>${isEn ? "★ Only Gigliozzi Award candidates" : "★ Solo candidati Premio Gigliozzi"}</span>
           </label>
         </div>
-        <button class="filter-reset" id="cat-filter-reset">Azzera filtri</button>
+        <button class="filter-reset" id="cat-filter-reset">${isEn ? "Reset filters" : "Azzera filtri"}</button>
         </div>
       </aside>
 
@@ -88,29 +92,29 @@ export function renderCatalog(rootEl, data, onTalkClick) {
             <line x1="12" y1="8" x2="12" y2="12"></line>
             <line x1="12" y1="16" x2="12.01" y2="16"></line>
           </svg>
-          <span class="ml-label">Legenda</span>
+          <span class="ml-label">${isEn ? "Legend" : "Legenda"}</span>
           <svg class="ml-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
         <div class="map-legend-body" id="cat-map-legend-body">
-          <h4>Aree tematiche</h4>
+          <h4>${isEn ? "Thematic areas" : "Aree tematiche"}</h4>
           <ul id="cat-map-legend-list"></ul>
           <p class="ml-hint">
-            <strong>Colore</strong>: area tematica dominante dei contributi dell'istituzione.<br>
-            <strong>Numero</strong>: totale contributi dell'istituzione.<br>
-            <strong>Dimensione</strong>: cresce con il numero di contributi.
+            <strong>${isEn ? "Colour" : "Colore"}</strong>: ${isEn ? "dominant thematic area among the institution's contributions" : "area tematica dominante dei contributi dell'istituzione"}.<br>
+            <strong>${isEn ? "Number" : "Numero"}</strong>: ${isEn ? "total contributions of the institution" : "totale contributi dell'istituzione"}.<br>
+            <strong>${isEn ? "Size" : "Dimensione"}</strong>: ${isEn ? "grows with the number of contributions" : "cresce con il numero di contributi"}.
           </p>
         </div>
       </div>
 
       <div class="map-bottom-controls">
         <div class="map-actions" id="cat-map-actions">
-          <button data-bbox="italy" class="active">Italia</button>
-          <button data-bbox="europe">Europa</button>
-          <button data-bbox="all">Tutte</button>
+          <button data-bbox="italy" class="active">${isEn ? "Italy" : "Italia"}</button>
+          <button data-bbox="europe">${isEn ? "Europe" : "Europa"}</button>
+          <button data-bbox="all">${isEn ? "All" : "Tutte"}</button>
         </div>
-        <button class="panels-control" id="cat-panels-toggle" type="button" aria-label="Comprimi entrambi i pannelli">
+        <button class="panels-control" id="cat-panels-toggle" type="button" aria-label="${isEn ? "Collapse both panels" : "Comprimi entrambi i pannelli"}">
           <svg class="pc-icon pc-icon-compress" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="4 14 10 14 10 20"></polyline>
             <polyline points="20 10 14 10 14 4"></polyline>
@@ -167,8 +171,8 @@ export function renderCatalog(rootEl, data, onTalkClick) {
 function buildModeFilters() {
   const wrap = _state.root.querySelector("#cat-filter-modes");
   const modes = [
-    { key: "Oral communication", label: "Comunicazioni orali" },
-    { key: "Poster", label: "Poster" },
+    { key: "Oral communication", label: t("catalog.oral_communications") },
+    { key: "Poster", label: t("catalog.posters") },
   ];
   for (const m of modes) {
     const lbl = document.createElement("label");
@@ -259,7 +263,11 @@ function initSearchTypewriter(input) {
   const ERASE_MS = 35;
   const HOLD_MS  = 1600;
   const PAUSE_MS = 350;
-  const DEFAULT_PLACEHOLDER = "Cerca titoli, autori, abstract, affiliazioni…";
+  const DEFAULT_PLACEHOLDER_IT = "Cerca titoli, autori, abstract, affiliazioni…";
+const DEFAULT_PLACEHOLDER_EN = "Search titles, authors, abstracts, affiliations…";
+const DEFAULT_PLACEHOLDER = (typeof window !== "undefined" && window.AIUCD_LANG === "en")
+  ? DEFAULT_PLACEHOLDER_EN
+  : DEFAULT_PLACEHOLDER_IT;
 
   // Snippets: per ogni titolo, le prime 4-7 parole. Deduplica e mescola.
   const snippets = Array.from(new Set(
@@ -627,8 +635,8 @@ function rerenderCards(list) {
   if (list.length === 0) {
     wrap.innerHTML = `
       <div class="empty-state">
-        <strong>Niente di trovato con questi filtri.</strong>
-        Prova ad allargare la ricerca o a svuotare i filtri.
+        <strong>${t("catalog.empty_state")}.</strong>
+        ${t("catalog.empty_hint")}
       </div>
     `;
     return;

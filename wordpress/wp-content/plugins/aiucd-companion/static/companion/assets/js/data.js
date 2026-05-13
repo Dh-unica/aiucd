@@ -36,12 +36,24 @@ export async function loadAllData() {
 }
 
 export const AREAS = [
-  { code: "co-construction", label: "DH e co-costruzione", color: "#000060" },
-  { code: "archives",        label: "Archivi ed edizioni", color: "#2a6fa1" },
-  { code: "memories",        label: "Memorie e patrimonio", color: "#1f8a70" },
-  { code: "data",            label: "Dati e conoscenza",   color: "#c2a990" },
-  { code: "textualities",    label: "Testualità digitali", color: "#d8613c" },
-  { code: "other",           label: "Altri contributi",    color: "#6b4c8a" },
+  { code: "co-construction", label: "DH e co-costruzione", label_en: "DH and co-construction", color: "#000060" },
+  { code: "archives",        label: "Archivi ed edizioni", label_en: "Archives and editions", color: "#2a6fa1" },
+  { code: "memories",        label: "Memorie e patrimonio", label_en: "Memories and heritage", color: "#1f8a70" },
+  { code: "data",            label: "Dati e conoscenza",   label_en: "Data and knowledge",  color: "#c2a990" },
+  { code: "textualities",    label: "Testualità digitali", label_en: "Digital textualities", color: "#d8613c" },
+  { code: "other",           label: "Altri contributi",    label_en: "Other contributions", color: "#6b4c8a" },
 ];
 
 export const AREA_BY_CODE = Object.fromEntries(AREAS.map(a => [a.code, a]));
+
+// Helper localizzato: ritorna la label nella lingua corrente. Importato dalle
+// view per evitare di ripetere ovunque la logica di fallback.
+export function areaLabel(code) {
+  const a = AREA_BY_CODE[code];
+  if (!a) return code;
+  // Lazy import per evitare cicli con i18n.js (i18n.js non importa data.js)
+  if (typeof window !== "undefined" && window.AIUCD_LANG === "en" && a.label_en) {
+    return a.label_en;
+  }
+  return a.label;
+}

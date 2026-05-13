@@ -1,16 +1,12 @@
 // AIUCD 2026 Companion · vista Programma (griglia tempo × aula)
 
-import { AREAS, AREA_BY_CODE } from "./data.js";
+import { AREAS, AREA_BY_CODE, areaLabel } from "./data.js?v=f4-2";
 import * as agenda from "./agenda.js";
 import { nowMinutesOfDay, getNow } from "./livestate.js";
 import { renderLiveSnapshot } from "./now-view.js?v=copy1";
+import { t, formatDay, translateRoom, field } from "./i18n.js?v=f4-2";
 
 const ROOMS_ORDER = ["Aula 5A", "Aula 6A", "Aula 2A"];
-const DAY_SHORT = {
-  "2026-06-03": "Mer 3 giu",
-  "2026-06-04": "Gio 4 giu",
-  "2026-06-05": "Ven 5 giu",
-};
 
 let _state = {
   selectedDay: null,
@@ -30,8 +26,8 @@ export function renderProgram(rootEl, data, onTalkClick) {
 
   rootEl.innerHTML = `
     <div class="section-head bg-pibiones">
-      <h2><span class="sub-mark"></span>Programma</h2>
-      <p class="section-sub">Tre giorni, quattro aule. Tocca una relazione per i dettagli, tocca la stella per salvarla nella tua agenda.</p>
+      <h2><span class="sub-mark"></span>${t("program.heading")}</h2>
+      <p class="section-sub">${t("program.intro")}</p>
     </div>
     <div class="program-toolbar">
       <div class="day-tabs" role="tablist" id="day-tabs"></div>
@@ -71,7 +67,7 @@ export function renderProgram(rootEl, data, onTalkClick) {
       if (agenda.isSaved(pid) && !saved) {
         const span = document.createElement("span");
         span.className = "talk-icon saved icon icon--star-filled";
-        span.setAttribute("aria-label", "In agenda");
+        span.setAttribute("aria-label", t("program.in_agenda"));
         cell.querySelector(".talk-icons")?.prepend(span);
       } else if (!agenda.isSaved(pid) && saved) {
         saved.remove();
@@ -84,7 +80,7 @@ function renderDayTabs(rootEl) {
   const tabs = rootEl.querySelector("#day-tabs");
   tabs.innerHTML = _state.data.program.days.map(d => `
     <button class="day-tab" role="tab" aria-selected="${d.date === _state.selectedDay}" data-day="${d.date}">
-      ${DAY_SHORT[d.date] || d.label}
+      ${formatDay(d.date) || d.label}
     </button>
   `).join("");
   tabs.querySelectorAll(".day-tab").forEach(btn => {
@@ -107,12 +103,12 @@ function renderAreaFilters(rootEl) {
   // popolati": all'avvio l'utente vede tutti i chip in stato attivo.
   wrap.innerHTML = `
     <button class="area-filter area-all" data-area-all="true" data-active="true">
-      <span>Tutte le aree</span>
+      <span>${t("program.all_areas")}</span>
     </button>
     ${AREAS.map(a => `
       <button class="area-filter" data-area="${a.code}" data-active="true">
         <span class="glyph glyph--${a.code} glyph--md" style="color:${a.color}" aria-hidden="true"></span>
-        <span>${a.label}</span>
+        <span>${areaLabel(a.code)}</span>
       </button>
     `).join("")}
   `;
@@ -209,7 +205,7 @@ function renderGrid(rootEl) {
   // Header row: time column + 3 rooms
   grid.append(createHeaderCell("", "room-header"));
   ROOMS_ORDER.forEach((room, i) => {
-    grid.append(createHeaderCell(room, `room-header room-${slug(room)}`));
+    grid.append(createHeaderCell(translateRoom(room), `room-header room-${slug(room)}`));
   });
 
   for (const block of day.blocks) {
@@ -252,11 +248,13 @@ function createFullBlock(type, block) {
   const time = block.start && block.end
     ? `${block.start}–${block.end}`
     : block.start || "";
-  const label = block.title || block.label || "";
+  // Etichetta blocco: legge title/label/name (fallback chain). field() applica
+  // automaticamente la versione _en quando lang=en e disponibile.
+  const label = field(block, "title") || field(block, "label") || field(block, "name") || "";
   div.innerHTML = `
     ${time ? `<span class="time">${time}</span>` : ""}
     <span class="label">${escapeHtml(label)}</span>
-    ${block.room ? `<span class="chip">${block.room}</span>` : ""}
+    ${block.room ? `<span class="chip">${translateRoom(block.room)}</span>` : ""}
   `;
   return div;
 }
@@ -316,8 +314,8 @@ function createSessionBlock(block, day) {
       // .session-track-room mostra l'aula corrente di ogni track-column ed
       // è visibile SOLO via CSS media query mobile.
       header.innerHTML = `
-        <span class="session-track-room" aria-hidden="true">${escapeHtml(room)}</span>
-        <div><span class="code">${track.code}</span><span class="title">${escapeHtml(track.title || "")}</span></div>
+        <span class="session-track-room" aria-hidden="true">${escapeHtml(translateRoom(room))}</span>
+        <div><span class="code">${track.code}</span><span class="title">${escapeHtml(field(track, "title") || "")}</span></div>
         ${track.chair ? `<div class="chair">${escapeHtml(track.chair)}</div>` : ""}
       `;
       col.append(header);

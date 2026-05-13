@@ -2,6 +2,7 @@
 // Tre opzioni esplicite: Google · Apple/iPhone · Outlook · scarica .ics
 
 import * as cal from "./calendar-export.js";
+import { getLang } from "./i18n.js?v=f4-2";
 
 let _openMenu = null;
 
@@ -10,37 +11,40 @@ let _openMenu = null;
  * Esempio: nel modale del talk.
  */
 export function showSingleEventMenu(triggerEl, paper, slot) {
+  const isEn = getLang() === "en";
   const ev = cal.eventFromPaper(paper, slot);
   if (!ev) {
-    alert("Per questa relazione non ho ancora un orario, quindi non posso aggiungerla al tuo calendario.");
+    alert(isEn
+      ? "There's no schedule yet for this talk, so I can't add it to your calendar."
+      : "Per questa relazione non ho ancora un orario, quindi non posso aggiungerla al tuo calendario.");
     return;
   }
   showMenu(triggerEl, [
     {
       icon: "📅",
       label: "Google Calendar",
-      sub: "Apre Google Calendar nel browser",
+      sub: isEn ? "Opens Google Calendar in the browser" : "Apre Google Calendar nel browser",
       action: () => window.open(cal.googleCalendarUrl(ev), "_blank", "noopener"),
     },
     {
       icon: "📱",
       label: "Apple Calendar / iPhone",
-      sub: "Scarica il file: tap su un iPhone aggiunge l'evento",
+      sub: isEn ? "Download the file: tapping on iPhone adds the event" : "Scarica il file: tap su un iPhone aggiunge l'evento",
       action: () => cal.downloadIcs([ev], `aiucd-talk-${paper.id}.ics`),
     },
     {
       icon: "💼",
       label: "Outlook Web",
-      sub: "Apre Outlook nel browser",
+      sub: isEn ? "Opens Outlook in the browser" : "Apre Outlook nel browser",
       action: () => window.open(cal.outlookCalendarUrl(ev), "_blank", "noopener"),
     },
     {
       icon: "📥",
-      label: "Scarica file calendario (.ics)",
-      sub: "Per qualsiasi altro client (Thunderbird, Fastmail, ecc.)",
+      label: isEn ? "Download calendar file (.ics)" : "Scarica file calendario (.ics)",
+      sub: isEn ? "For any other client (Thunderbird, Fastmail, etc.)" : "Per qualsiasi altro client (Thunderbird, Fastmail, ecc.)",
       action: () => cal.downloadIcs([ev], `aiucd-talk-${paper.id}.ics`),
     },
-  ], `Aggiungi “${truncate(paper.title, 50)}” al tuo calendario`);
+  ], isEn ? `Add "${truncate(paper.title, 50)}" to your calendar` : `Aggiungi "${truncate(paper.title, 50)}" al tuo calendario`);
 }
 
 /**
@@ -48,8 +52,11 @@ export function showSingleEventMenu(triggerEl, paper, slot) {
  * Esempio: nella vista "I miei talk".
  */
 export function showAgendaMenu(triggerEl, items, papersById) {
+  const isEn = getLang() === "en";
   if (!items.length) {
-    alert("Niente in agenda da esportare. Salva prima qualche relazione con la stella.");
+    alert(isEn
+      ? "Nothing in your agenda to export. Save a few talks first using the star."
+      : "Niente in agenda da esportare. Salva prima qualche relazione con la stella.");
     return;
   }
   const events = items.map(it => {
@@ -58,7 +65,9 @@ export function showAgendaMenu(triggerEl, items, papersById) {
   }).filter(Boolean);
 
   if (!events.length) {
-    alert("Per le relazioni in agenda non ho ancora orari da esportare.");
+    alert(isEn
+      ? "The talks in your agenda don't have schedules yet for export."
+      : "Per le relazioni in agenda non ho ancora orari da esportare.");
     return;
   }
 
@@ -66,17 +75,23 @@ export function showAgendaMenu(triggerEl, items, papersById) {
     {
       icon: "📱",
       label: "Apple Calendar / iPhone",
-      sub: `Scarica il file: tap apre l'app calendario e aggiunge ${events.length} eventi`,
+      sub: isEn
+        ? `Download the file: tap on iPhone opens the Calendar app and adds ${events.length} events`
+        : `Scarica il file: tap apre l'app calendario e aggiunge ${events.length} eventi`,
       action: () => cal.downloadIcs(events, "aiucd-2026-agenda.ics"),
     },
     {
       icon: "📅",
       label: "Google Calendar",
-      sub: `Scarica il file e importa con "Importa" da Impostazioni`,
+      sub: isEn
+        ? `Download the file and import via "Import" from Settings`
+        : `Scarica il file e importa con "Importa" da Impostazioni`,
       action: () => {
         cal.downloadIcs(events, "aiucd-2026-agenda.ics");
         setTimeout(() => {
-          if (confirm("File scaricato. Apro Google Calendar per l'importazione?\n\nClicca OK, poi: ⚙ Impostazioni → Importa ed esporta → Seleziona file.")) {
+          if (confirm(isEn
+            ? "File downloaded. Open Google Calendar for the import?\n\nClick OK, then: ⚙ Settings → Import & export → Select file."
+            : "File scaricato. Apro Google Calendar per l'importazione?\n\nClicca OK, poi: ⚙ Impostazioni → Importa ed esporta → Seleziona file.")) {
             window.open("https://calendar.google.com/calendar/u/0/r/settings/export", "_blank", "noopener");
           }
         }, 600);
@@ -84,11 +99,13 @@ export function showAgendaMenu(triggerEl, items, papersById) {
     },
     {
       icon: "💼",
-      label: "Outlook / qualsiasi altro",
-      sub: `Scarica il file .ics standard, importalo in qualsiasi client`,
+      label: isEn ? "Outlook / any other" : "Outlook / qualsiasi altro",
+      sub: isEn
+        ? `Download the standard .ics file, import it in any client`
+        : `Scarica il file .ics standard, importalo in qualsiasi client`,
       action: () => cal.downloadIcs(events, "aiucd-2026-agenda.ics"),
     },
-  ], `Esporta la tua agenda · ${events.length} relazioni`);
+  ], isEn ? `Export your agenda · ${events.length} talks` : `Esporta la tua agenda · ${events.length} relazioni`);
 }
 
 // ===== popover engine ===============================================

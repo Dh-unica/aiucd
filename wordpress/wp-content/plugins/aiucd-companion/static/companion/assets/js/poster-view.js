@@ -1,7 +1,8 @@
 // AIUCD 2026 Companion · vista Poster (galleria a grafo D3)
 
-import { AREAS, AREA_BY_CODE } from "./data.js";
+import { AREAS, AREA_BY_CODE, areaLabel } from "./data.js?v=f4-2";
 import * as agenda from "./agenda.js";
+import { t, getLang } from "./i18n.js?v=f4-2";
 
 const ROOT_FONT_SIZE_DESKTOP = 14;
 const NODE_RADIUS_DESKTOP = 32;
@@ -26,19 +27,20 @@ export function renderPoster(rootEl, data, onTalkClick) {
   _state.onTalkClick = onTalkClick;
   rootEl.classList.add("poster-host");
 
+  const isEn = getLang() === "en";
   rootEl.innerHTML = `
     <div class="section-head">
-      <h2><span class="sub-mark"></span>Poster Gallery</h2>
-      <p class="section-sub">${data.posters.length} poster del convegno collegati per area tematica. Tap su un nodo per dettagli</p>
+      <h2><span class="sub-mark"></span>${isEn ? "Poster Gallery" : "Poster Gallery"}</h2>
+      <p class="section-sub">${data.posters.length} ${isEn ? "conference posters connected by thematic area. Tap a node for details" : "poster del convegno collegati per area tematica. Tap su un nodo per dettagli"}</p>
     </div>
     <div class="poster-toolbar">
       <div class="area-filters" id="poster-area-filters"></div>
       <div class="poster-search-row">
-        <input type="search" id="poster-search" placeholder="Cerca titolo, autore…" autocomplete="off">
+        <input type="search" id="poster-search" placeholder="${isEn ? "Search title, author…" : "Cerca titolo, autore…"}" autocomplete="off">
       </div>
       <div class="poster-view-switch" id="poster-view-switch">
-        <button data-view="graph" class="active">Grafo</button>
-        <button data-view="grid">Griglia</button>
+        <button data-view="graph" class="active">${t("poster.view.graph")}</button>
+        <button data-view="grid">${t("poster.view.grid")}</button>
       </div>
     </div>
     <div id="poster-area"></div>

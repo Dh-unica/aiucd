@@ -17,14 +17,21 @@ function resolveAsset(src) {
   return src;
 }
 
-const TYPE_LABELS = {
-  culturale:    "Culturale",
-  belvedere:    "Belvedere / aperitivi",
-  passeggiata:  "Passeggiata / lungomare",
-  naturalistico: "Naturalistico",
-  mezzi:        "Mezzi pubblici",
-  altro:        "Altro",
-};
+// Importato qui (non in cima al file per evitare collisione col commento di
+// resolveAsset definito sopra). t() ritorna stringhe localizzate IT/EN.
+import { t, field, getLang } from "./i18n.js?v=f4-2";
+
+function typeLabel(code) {
+  const map = {
+    culturale:    "cagliari.type.cultural",
+    belvedere:    "cagliari.type.belvedere",
+    passeggiata:  "cagliari.type.walk",
+    naturalistico: "cagliari.type.naturalistic",
+    mezzi:        "cagliari.type.public_transport",
+    altro:        "cagliari.type.other",
+  };
+  return map[code] ? t(map[code]) : code;
+}
 
 const TYPE_COLORS = {
   culturale:     "#000060",  // navy (DH heritage)
@@ -35,14 +42,16 @@ const TYPE_COLORS = {
   altro:         "#8a8a8a",  // neutral
 };
 
-const TIME_OPTIONS = [
-  { value: 0,  label: "Senza limite" },
-  { value: 30, label: "30 min" },
-  { value: 45, label: "45 min" },
-  { value: 60, label: "60 min" },
-  { value: 90, label: "90 min" },
-  { value: 120, label: "2 ore" },
-];
+function timeOptions() {
+  return [
+    { value: 0,  label: t("cagliari.time.any") },
+    { value: 30, label: getLang() === "en" ? "30 min" : "30 min" },
+    { value: 45, label: getLang() === "en" ? "45 min" : "45 min" },
+    { value: 60, label: getLang() === "en" ? "60 min" : "60 min" },
+    { value: 90, label: getLang() === "en" ? "90 min" : "90 min" },
+    { value: 120, label: getLang() === "en" ? "2 hours" : "2 ore" },
+  ];
+}
 
 // Buffer: lasciamo ≥10 min sul posto, sennò non vale la pena partire.
 const ON_SITE_MIN = 10;
@@ -71,28 +80,28 @@ export function renderCagliari(rootEl, data) {
   rootEl.classList.add("cagliari-host");
   rootEl.innerHTML = `
     <div class="section-head">
-      <h2><span class="sub-mark"></span>Esplora Cagliari</h2>
-      <p class="section-sub">${data.pois?.length || 0} luoghi a portata di passeggiata dalla sede del convegno. Filtra per tipologia o per il tempo che hai a disposizione fra una relazione e l'altra.</p>
+      <h2><span class="sub-mark"></span>${t("cagliari.heading")}</h2>
+      <p class="section-sub">${data.pois?.length || 0} ${getLang() === "en" ? "places within walking distance from the conference venue. Filter by type or by time available between talks." : "luoghi a portata di passeggiata dalla sede del convegno. Filtra per tipologia o per il tempo che hai a disposizione fra una relazione e l'altra."}</p>
     </div>
 
     <div class="cag-controls">
-      <div class="cag-types" role="group" aria-label="Filtri tipologia">
+      <div class="cag-types" role="group" aria-label="${t("cagliari.type_filter_aria")}">
         ${renderTypeChips()}
       </div>
       <div class="cag-time-filter">
-        <label for="cag-time">Ho a disposizione</label>
+        <label for="cag-time">${getLang() === "en" ? "Time available" : "Ho a disposizione"}</label>
         <select id="cag-time">
-          ${TIME_OPTIONS.map(o => `<option value="${o.value}">${o.label}</option>`).join("")}
+          ${timeOptions().map(o => `<option value="${o.value}">${o.label}</option>`).join("")}
         </select>
-        <select id="cag-mode" aria-label="Modalità di spostamento">
-          <option value="walking" selected>a piedi</option>
-          <option value="driving">in auto</option>
+        <select id="cag-mode" aria-label="${getLang() === "en" ? "Travel mode" : "Modalità di spostamento"}">
+          <option value="walking" selected>${t("cagliari.mode.walking")}</option>
+          <option value="driving">${t("cagliari.mode.driving")}</option>
         </select>
       </div>
     </div>
 
     <div class="cag-layout">
-      <div class="cag-map-wrap"><div id="cag-map" role="region" aria-label="Mappa dei luoghi di Cagliari"></div></div>
+      <div class="cag-map-wrap"><div id="cag-map" role="region" aria-label="${t("cagliari.map_aria")}"></div></div>
       <div class="cag-list" id="cag-list"></div>
     </div>
   `;
@@ -136,9 +145,11 @@ function renderTypeChips() {
   const counts = countByType();
   const total = _state.pois.length;
   const out = [
-    `<button type="button" class="cag-type-chip" data-type="__all" aria-pressed="${_state.selectedTypes.size === 0}">Tutte (${total})</button>`,
+    `<button type="button" class="cag-type-chip" data-type="__all" aria-pressed="${_state.selectedTypes.size === 0}">${t("cagliari.type.all")} (${total})</button>`,
   ];
-  for (const [code, label] of Object.entries(TYPE_LABELS)) {
+  const TYPE_CODES = ["culturale", "belvedere", "passeggiata", "naturalistico", "mezzi", "altro"];
+  for (const code of TYPE_CODES) {
+    const label = typeLabel(code);
     const n = counts[code] || 0;
     if (n === 0) continue;
     out.push(`
@@ -233,18 +244,22 @@ function renderList() {
 function cardHtml(p) {
   const thumbSrc = resolveAsset(p.thumb || p.image || p.image_url || "");
   const dist = p.distance_m ? formatDistance(p.distance_m) : "";
+  const localName = field(p, "name") || p.name;
+  const localType = typeLabel(p.type);
+  const walkSuffix = getLang() === "en" ? "walking" : "a piedi";
+  const driveSuffix = getLang() === "en" ? "by car" : "in auto";
   return `
     <article class="cag-card" tabindex="0" role="button" data-poi-id="${p.id}"
-             aria-label="${escapeAttr(p.name)}, ${escapeAttr(TYPE_LABELS[p.type] || p.type)}, ${p.walking_min ?? "?"} minuti a piedi">
+             aria-label="${escapeAttr(localName)}, ${escapeAttr(localType)}, ${p.walking_min ?? "?"} ${walkSuffix}">
       ${thumbSrc ? `<img class="cag-card-thumb" src="${escapeAttr(thumbSrc)}" alt="" loading="lazy">` : `<div class="cag-card-thumb" aria-hidden="true"></div>`}
       <div class="cag-card-body">
-        <div class="cag-card-name">${escapeHtml(p.name)}</div>
+        <div class="cag-card-name">${escapeHtml(localName)}</div>
         <div class="cag-card-meta">
-          <span class="chip" style="background:${TYPE_COLORS[p.type] || "#eee"}33; color:${TYPE_COLORS[p.type] || "#444"}">${escapeHtml(TYPE_LABELS[p.type] || p.type)}</span>
+          <span class="chip" style="background:${TYPE_COLORS[p.type] || "#eee"}33; color:${TYPE_COLORS[p.type] || "#444"}">${escapeHtml(localType)}</span>
           ${dist ? `<span>· ${dist}</span>` : ""}
         </div>
         <div class="cag-card-times">
-          <strong>🚶 ${p.walking_min ?? "?"} min</strong> a piedi · 🚗 ${p.driving_min ?? "?"} min
+          <strong>🚶 ${p.walking_min ?? "?"} min</strong> ${walkSuffix} · 🚗 ${p.driving_min ?? "?"} min
         </div>
       </div>
     </article>
@@ -365,22 +380,26 @@ function openPoi(id) {
   const { backdrop, modal } = ensureModal();
   const heroSrc = resolveAsset(poi.image || poi.image_url || "");
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${poi.lat}%2C${poi.lon}&travelmode=walking`;
+  const isEn = getLang() === "en";
+  const localName = field(poi, "name") || poi.name;
+  const localDesc = field(poi, "description") || poi.description;
+  const localType = typeLabel(poi.type);
   modal.innerHTML = `
     <div class="cag-modal-hero">
       ${heroSrc ? `<img src="${escapeAttr(heroSrc)}" alt="" loading="lazy">` : ""}
-      <button class="cag-modal-close" type="button" aria-label="Chiudi">×</button>
+      <button class="cag-modal-close" type="button" aria-label="${t("cagliari.modal.close")}">×</button>
     </div>
     <div class="cag-modal-body">
-      <h3 class="cag-modal-name">${escapeHtml(poi.name)}</h3>
-      <span class="cag-modal-type">${escapeHtml(TYPE_LABELS[poi.type] || poi.type)}</span>
+      <h3 class="cag-modal-name">${escapeHtml(localName)}</h3>
+      <span class="cag-modal-type">${escapeHtml(localType)}</span>
       <div class="cag-modal-times">
-        <div class="cag-modal-time"><span class="val">🚶 ${poi.walking_min ?? "?"}</span><span class="lbl">min a piedi</span></div>
-        <div class="cag-modal-time"><span class="val">🚗 ${poi.driving_min ?? "?"}</span><span class="lbl">min in auto</span></div>
-        <div class="cag-modal-time"><span class="val">${poi.distance_m ? formatDistance(poi.distance_m) : "—"}</span><span class="lbl">dalla sede</span></div>
+        <div class="cag-modal-time"><span class="val">🚶 ${poi.walking_min ?? "?"}</span><span class="lbl">${isEn ? "min walk" : "min a piedi"}</span></div>
+        <div class="cag-modal-time"><span class="val">🚗 ${poi.driving_min ?? "?"}</span><span class="lbl">${isEn ? "min by car" : "min in auto"}</span></div>
+        <div class="cag-modal-time"><span class="val">${poi.distance_m ? formatDistance(poi.distance_m) : "—"}</span><span class="lbl">${isEn ? "from venue" : "dalla sede"}</span></div>
       </div>
-      ${poi.description ? `<p class="cag-modal-desc">${escapeHtml(poi.description)}</p>` : ""}
+      ${localDesc ? `<p class="cag-modal-desc">${escapeHtml(localDesc)}</p>` : ""}
       <a class="cag-modal-cta" href="${directionsUrl}" target="_blank" rel="noopener">
-        <span aria-hidden="true">↗</span> Indicazioni con Google Maps
+        <span aria-hidden="true">↗</span> ${t("cagliari.modal.directions")}
       </a>
     </div>
   `;
