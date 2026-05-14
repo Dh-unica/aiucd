@@ -72,42 +72,11 @@
   const slot = ensureSlot();
   if (!slot) return;
 
-  // Se siamo in modalità inline (absolute right nell'header), allineiamo
-  // verticalmente con il Polylang switcher leggendo la sua coordinata Y
-  // (il CSS centra di default rispetto all'header — che è troppo alto e
-  // metterebbe i chip nella riga del brand). Reapply al resize.
-  function alignToFlags() {
-    if (!slot.classList.contains("aiucd-site-widgets--inline")) return;
-    const pll = document.querySelector(".polylang-switcher");
-    const header = slot.closest("header");
-    if (!pll || !header) return;
-    const headerRect = header.getBoundingClientRect();
-    const pllRect = pll.getBoundingClientRect();
-    // Y: centra verticalmente alla riga del polylang
-    const centerY = pllRect.top - headerRect.top + pllRect.height / 2;
-    slot.style.top = centerY + "px";
-    slot.style.transform = "translateY(-50%)";
-    // X: posiziona i chip a SINISTRA dei flag con un piccolo gap (12px),
-    //    così non si sovrappongono mai al Polylang switcher.
-    const gap = 12;
-    const rightOffset = Math.max(8, headerRect.right - pllRect.left + gap);
-    slot.style.right = rightOffset + "px";
-    slot.style.left = "auto";
-  }
-  alignToFlags();
-  // Re-align quando il layout cambia (resize, font ready, dom mutations
-  // del Polylang switcher in tarda fase di boot).
-  let raf = 0;
-  const queueAlign = () => {
-    if (raf) cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(() => { alignToFlags(); raf = 0; });
-  };
-  window.addEventListener("resize", queueAlign);
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(queueAlign);
-  }
-  setTimeout(queueAlign, 200);
-  setTimeout(queueAlign, 800);
+  // I chip in modalità inline sono posizionati top-right dell'header via
+  // CSS (vedi site-widgets.css → .aiucd-site-widgets--inline). Sono
+  // ancorati alla riga 1 (livello brand/logo), dove c'è spazio libero a
+  // destra anche con nav lunghe (Call for Papers / Verso il Convegno / …).
+  // Niente calcoli runtime → niente layout shift.
 
   const STORAGE_KEY  = cfg.agendaStorageKey || "aiucd2026-agenda";
   const OPENING_MS   = new Date(cfg.openingISO || "2026-06-03T12:00:00+02:00").getTime();

@@ -23,13 +23,14 @@
   flex-wrap: nowrap;       /* no-wrap: i 2 chip restano in linea */
 }
 
-/* Modalità "inline": slot iniettato dentro il container del Polylang
-   switcher. In alcuni temi il flex container parent ha `flex-wrap: wrap`
-   (e una nav molto larga in EN: "Towards the conference / Conference
-   program / …"), così i 2 chip andrebbero a capo sotto la riga della nav.
-   Posizioniamo lo slot in absolute, ancorato al lato destro dell'HEADER
-   del tema, alla stessa altezza verticale dei flag. Cap dimensionale per
-   non sovrapporre la nav su viewport medi. */
+/* Modalità "inline": slot iniettato nell'header del tema.
+   Il flex container del Polylang switcher ha `flex-wrap: wrap` + in EN/IT
+   la nav è larga ("Call for Papers / Verso il Convegno / Programma / …"),
+   per cui inserire i chip nella riga della nav li sovrapporrebbe alle voci
+   del menu o li manderebbe a capo sotto.
+   Soluzione: ancoriamo lo slot in absolute al *TOP-right* dell'header,
+   alla stessa altezza verticale del logo/brand (riga 1), non a quella
+   del menu (riga 2). Lì c'è spazio libero anche con nav lunga. */
 header.wp-block-template-part,
 header.site-header,
 header[role="banner"],
@@ -40,19 +41,18 @@ body > header,
 
 #aiucd-site-widgets.aiucd-site-widgets--inline {
   position: absolute;
+  top: clamp(10px, 1.5vh, 18px);
   right: clamp(16px, 3vw, 40px);
-  top: 50%;
-  transform: translateY(-50%);
   z-index: 5;
   margin-left: 0;
   flex-wrap: nowrap;
 }
 
-/* Su viewport stretti (≤980px) la nav è tipicamente collassata in
-   hamburger: i chip stanno comodi affianco. Su viewport ≥1024 manteniamo
-   absolute right per non incrociare la nav (sufficiente spazio). */
+/* Su mobile (≤720px) la nav è collassata in hamburger e l'header è
+   compatto: avvicina i chip al bordo destro. */
 @media (max-width: 720px) {
   #aiucd-site-widgets.aiucd-site-widgets--inline {
+    top: 8px;
     right: 12px;
   }
 }
