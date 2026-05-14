@@ -3,7 +3,7 @@
 // cliccabili sopra le aule. Lo stato live è calcolato come prima.
 
 import { getNow } from "./livestate.js";
-import { t, translateRoom, getLang } from "./i18n.js?v=f4-5";
+import { t, translateRoom, getLang } from "./i18n.js?v=f4-6";
 
 let _state = {
   data: null,

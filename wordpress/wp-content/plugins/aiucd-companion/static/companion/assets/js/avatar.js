@@ -13,6 +13,10 @@
 
 import * as agenda from "./agenda.js";
 import { getNow } from "./livestate.js";
+import { getLang } from "./i18n.js?v=f4-6";
+
+// Helper i18n locale (bilingue): coerente col pattern di noa-drawer.js.
+const tr = (en, it) => (getLang() === "en" ? en : it);
 
 // =====================================================================
 // VOICE & TONE — documento operativo per il copy in voce di Noa
@@ -67,7 +71,7 @@ export function renderAvatarBubble(rootEl, opts = {}) {
   const {
     context = "empty-state",
     text = "",
-    heading = "Noa dice",
+    heading = tr("Noa says", "Noa dice"),
     dismissId = null,
     onDismiss = null,
   } = opts;
@@ -76,13 +80,13 @@ export function renderAvatarBubble(rootEl, opts = {}) {
   const dismissible = !!(dismissId || onDismiss);
 
   rootEl.innerHTML = `
-    <aside class="noa-bubble ${variantClass}" role="note" aria-label="Messaggio di Noa">
+    <aside class="noa-bubble ${variantClass}" role="note" aria-label="${tr("Message from Noa", "Messaggio di Noa")}">
       <span class="noa-bubble-glyph glyph glyph--memories" aria-hidden="true"></span>
       <div class="noa-bubble-content">
         <div class="noa-bubble-heading">${escapeHtml(heading)}</div>
         <div class="noa-bubble-text">${text}</div>
       </div>
-      ${dismissible ? `<button class="noa-bubble-action" type="button" aria-label="Chiudi messaggio di Noa"><span aria-hidden="true">×</span></button>` : ""}
+      ${dismissible ? `<button class="noa-bubble-action" type="button" aria-label="${tr("Dismiss Noa's message", "Chiudi messaggio di Noa")}"><span aria-hidden="true">×</span></button>` : ""}
     </aside>
   `;
 
@@ -180,12 +184,21 @@ function buildGapSentence(minutes, fromEnd, toStart, room) {
   // tono. Tutte preservano la stessa struttura: durata + azione possibile.
   const where = room ? ` in ${escapeHtml(room)}` : "";
   if (minutes >= 90) {
-    return `Hai <strong>${minutes} minuti</strong> tra la relazione delle ${fromEnd} e quella delle ${toStart}${where}. Tempo abbastanza per un poster, un caffè e tornare con calma.`;
+    return tr(
+      `You've got <strong>${minutes} minutes</strong> between the talk at ${fromEnd} and the next at ${toStart}${where}. Enough for a poster, a coffee, and back without rushing.`,
+      `Hai <strong>${minutes} minuti</strong> tra la relazione delle ${fromEnd} e quella delle ${toStart}${where}. Tempo abbastanza per un poster, un caffè e tornare con calma.`
+    );
   }
   if (minutes >= 60) {
-    return `Hai <strong>${minutes} minuti</strong> tra la relazione delle ${fromEnd} e quella delle ${toStart}${where}. Posso consigliarti un poster da vedere o un caffè in zona.`;
+    return tr(
+      `You've got <strong>${minutes} minutes</strong> between the talk at ${fromEnd} and the next at ${toStart}${where}. I can suggest a poster to see or a coffee nearby.`,
+      `Hai <strong>${minutes} minuti</strong> tra la relazione delle ${fromEnd} e quella delle ${toStart}${where}. Posso consigliarti un poster da vedere o un caffè in zona.`
+    );
   }
-  return `Hai <strong>${minutes} minuti</strong> tra la relazione delle ${fromEnd} e quella delle ${toStart}${where}. Un caffè veloce o un giro tra i poster ci stanno.`;
+  return tr(
+    `You've got <strong>${minutes} minutes</strong> between the talk at ${fromEnd} and the next at ${toStart}${where}. A quick coffee or a stroll through the posters fits well.`,
+    `Hai <strong>${minutes} minuti</strong> tra la relazione delle ${fromEnd} e quella delle ${toStart}${where}. Un caffè veloce o un giro tra i poster ci stanno.`
+  );
 }
 
 // =====================================================================

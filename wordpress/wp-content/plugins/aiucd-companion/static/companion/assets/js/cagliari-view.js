@@ -19,7 +19,7 @@ function resolveAsset(src) {
 
 // Importato qui (non in cima al file per evitare collisione col commento di
 // resolveAsset definito sopra). t() ritorna stringhe localizzate IT/EN.
-import { t, field, getLang } from "./i18n.js?v=f4-5";
+import { t, field, getLang } from "./i18n.js?v=f4-6";
 
 function typeLabel(code) {
   const map = {

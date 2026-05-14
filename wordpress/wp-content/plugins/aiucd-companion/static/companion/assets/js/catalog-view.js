@@ -2,9 +2,9 @@
 // Porting del mockup_catalogo.html: mappa Leaflet hero + overlay, search,
 // pannello filtri (modes/areas/affiliation/gigliozzi), cards, view switch.
 
-import { AREAS, AREA_BY_CODE, areaLabel } from "./data.js?v=f4-5";
+import { AREAS, AREA_BY_CODE, areaLabel } from "./data.js?v=f4-6";
 import * as agenda from "./agenda.js";
-import { t, getLang } from "./i18n.js?v=f4-5";
+import { t, getLang } from "./i18n.js?v=f4-6";
 
 let _state = {
   data: null,

@@ -5,8 +5,8 @@
 
 import * as agenda from "./agenda.js";
 import { liveState, getNow } from "./livestate.js";
-import { t, getLang } from "./i18n.js?v=f4-5";
-import { getGapSuggestion, NOA_VOICE_TONE } from "./avatar.js?v=noa1";
+import { t, getLang } from "./i18n.js?v=f4-6";
+import { getGapSuggestion, NOA_VOICE_TONE } from "./avatar.js?v=noa2";
 import { createDrawer } from "./drawer-controller.js";
 
 let _state = {
