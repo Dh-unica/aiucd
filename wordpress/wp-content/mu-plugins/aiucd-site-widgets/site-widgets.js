@@ -30,12 +30,23 @@
   // attivo; in fallback estremo, mostriamo il widget come banner flottante
   // top-right (mai bloccante, sempre dismissibile con un click esterno).
   function ensureSlot() {
+    // Punto di ancoraggio preferito: il flex container del BRAND (riga 1
+    // dell'header), che contiene logo + site-title. Appendendovi i chip
+    // come ultimo figlio e portando il container a width:100% via CSS, il
+    // sub-gruppo "nav + polylang" finisce automaticamente sulla riga sotto.
+    // Risultato: chip a destra, sulla stessa riga del brand, sopra il menu
+    // e le bandierine — senza absolute, senza padding-reserve.
+    const brand = document.querySelector(".wp-block-site-logo, .wp-block-site-title");
+    const brandRow = brand && brand.closest(".wp-block-group");
+
     let s = document.getElementById("aiucd-site-widgets");
     if (s) {
-      // Slot pre-esistente: il tema (es. aiucd-theme) lo include via FSE.
-      // Aggiungiamo comunque la classe `--inline` se vive dentro un header
-      // del tema FSE, così il CSS lo ancora top-right anziché lasciarlo nel
-      // flow normale (che lo posizionerebbe nella riga del menu).
+      // Slot pre-esistente nel tema (es. aiucd-theme via header.html FSE).
+      // Lo spostiamo nel brand row se non è già lì, così il layout è
+      // coerente tra temi che hanno lo slot pre-inserito e temi che no.
+      if (brandRow && s.parentElement !== brandRow) {
+        brandRow.appendChild(s);
+      }
       if (s.closest("header")) {
         s.classList.add("aiucd-site-widgets--inline");
       }
@@ -46,11 +57,14 @@
     s.className = "aiucd-site-widgets";
     s.setAttribute("aria-label", "Stato convegno AIUCD 2026");
 
-    // Strategia di posizionamento (in ordine di preferenza):
-    //   1. Subito dopo il Polylang switcher (= header del tema FSE),
-    //      ancorato top-right via classe --inline.
-    //   2. Dentro un wp-block-group "space-between" dell'header FSE.
-    //   3. Floating top-right come ultimo fallback (no header).
+    // 1. Brand row: posizionamento ideale (riga 1, accanto a logo+title)
+    if (brandRow) {
+      brandRow.appendChild(s);
+      s.classList.add("aiucd-site-widgets--inline");
+      return s;
+    }
+
+    // 2. Fallback: container del Polylang switcher (riga nav)
     const pll = document.querySelector(".polylang-switcher");
     if (pll && pll.parentElement) {
       pll.parentElement.appendChild(s);
@@ -58,6 +72,7 @@
       return s;
     }
 
+    // 3. Fallback: header generico
     const headerCandidate =
       document.querySelector("header.wp-block-template-part") ||
       document.querySelector("header.site-header") ||
@@ -73,6 +88,7 @@
       (flexRow || headerCandidate).appendChild(s);
       s.classList.add("aiucd-site-widgets--inline");
     } else {
+      // 4. Floating top-right (no header trovato)
       s.classList.add("aiucd-site-widgets--floating");
       document.body.appendChild(s);
     }
@@ -82,36 +98,11 @@
   const slot = ensureSlot();
   if (!slot) return;
 
-  // I chip in modalità inline sono posizionati top-right dell'header via
-  // CSS (.aiucd-site-widgets--inline). Per evitare che si sovrappongano
-  // alla nav quando questa è lunga (e quando l'header del tema mette tutto
-  // su una sola riga, es. aiucd-theme), riserviamo dinamicamente
-  // padding-right sul header pari alla larghezza occupata dai chip. Il
-  // flex container del menu si restringe e va a capo prima dei chip,
-  // evitando overlap.
-  function reserveSpaceForChips() {
-    if (!slot.classList.contains("aiucd-site-widgets--inline")) return;
-    const header = slot.closest("header");
-    if (!header) return;
-    // offsetWidth è 0 fino a layout completo; ritenta dopo i font ready
-    const w = slot.offsetWidth;
-    if (!w) return;
-    const right = parseFloat(getComputedStyle(slot).right) || 0;
-    // Reserve gap = larghezza chip + offset destro + buffer 16px
-    header.style.setProperty("--aiucd-widgets-reserve", (w + right + 16) + "px");
-  }
-  reserveSpaceForChips();
-  let _raf = 0;
-  const queueReserve = () => {
-    if (_raf) cancelAnimationFrame(_raf);
-    _raf = requestAnimationFrame(() => { reserveSpaceForChips(); _raf = 0; });
-  };
-  window.addEventListener("resize", queueReserve);
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(queueReserve);
-  }
-  setTimeout(queueReserve, 200);
-  setTimeout(queueReserve, 800);
+  // I chip in modalità inline stanno in flow statico su una propria riga
+  // allineati a destra (vedi site-widgets.css → .aiucd-site-widgets--inline).
+  // Niente position: absolute, niente padding-right reserve sull'header:
+  // così non c'è layout shift sul container WP constrained e l'header
+  // resta centrato come prima dell'integrazione del widget.
 
   const STORAGE_KEY  = cfg.agendaStorageKey || "aiucd2026-agenda";
   const OPENING_MS   = new Date(cfg.openingISO || "2026-06-03T12:00:00+02:00").getTime();

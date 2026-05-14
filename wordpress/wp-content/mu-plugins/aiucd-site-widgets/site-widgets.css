@@ -23,66 +23,41 @@
   flex-wrap: nowrap;       /* no-wrap: i 2 chip restano in linea */
 }
 
-/* Modalità "inline": slot iniettato nell'header del tema.
-   Il flex container del Polylang switcher ha `flex-wrap: wrap` + in EN/IT
-   la nav è larga ("Call for Papers / Verso il Convegno / Programma / …"),
-   per cui inserire i chip nella riga della nav li sovrapporrebbe alle voci
-   del menu o li manderebbe a capo sotto.
-   Soluzione: ancoriamo lo slot in absolute al *TOP-right* dell'header,
-   alla stessa altezza verticale del logo/brand (riga 1), non a quella
-   del menu (riga 2). Lì c'è spazio libero anche con nav lunga. */
-header.wp-block-template-part,
-header.site-header,
-header[role="banner"],
-body > header,
-.wp-site-blocks > header {
-  position: relative;          /* ancoraggio per i chip in absolute */
+/* Modalità "inline": slot iniettato nel BRAND row dell'header (riga 1,
+   container del logo + site-title). Espandiamo quel container a width:100%
+   via `:has()`, così il sub-gruppo "nav + polylang" finisce sulla riga
+   sotto. I chip vanno a destra del brand con `margin-left: auto`, sulla
+   STESSA riga del brand, SOPRA il menu e le bandierine.
+   Nessuna sovrapposizione: brand a sx, chip a dx, niente absolute. */
+.wp-block-group:has(> .wp-block-site-logo):has(> #aiucd-site-widgets.aiucd-site-widgets--inline),
+.wp-block-group:has(> .wp-block-site-title):has(> #aiucd-site-widgets.aiucd-site-widgets--inline) {
+  flex: 1 1 100% !important;
+  width: 100%;
+  align-items: center;
 }
 
 #aiucd-site-widgets.aiucd-site-widgets--inline {
-  position: absolute;
-  top: clamp(10px, 1.5vh, 18px);
-  right: clamp(16px, 3vw, 40px);
-  z-index: 5;
-  margin-left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 0 auto;       /* push a destra */
+  padding: 0;
   flex-wrap: nowrap;
+  box-sizing: border-box;
 }
 
-/* Riserva spazio orizzontale per i chip absolute: il padding-right sull'header
-   restringe il flex container del menu, evitando che le ultime voci della
-   nav (Aggiornamenti, AIUCD, flag…) finiscano sotto i chip absolute.
-   La var è settata da site-widgets.js::reserveSpaceForChips() dopo il render. */
-header.wp-block-template-part:has(#aiucd-site-widgets.aiucd-site-widgets--inline),
-header.site-header:has(#aiucd-site-widgets.aiucd-site-widgets--inline),
-header[role="banner"]:has(#aiucd-site-widgets.aiucd-site-widgets--inline) {
-  padding-right: var(--aiucd-widgets-reserve, 0) !important;
-}
-
-/* Su mobile e tablet (≤980px) l'header è troppo stretto per ancorare i
-   chip in absolute top-right senza sovrapporre il brand+logo (anche con
-   reserve padding-right il logo a sinistra resta visibile e i chip in
-   absolute lo coprono). Passiamo a flow statico: i chip occupano una
-   propria riga, allineati a destra. Azzera la reserve perché i chip non
-   sono più absolute. */
-@media (max-width: 980px) {
+/* Mobile/tablet stretti: chip compatti (no detail, min-height ridotta).
+   Quando lo slot va a capo (flex-wrap del brand row), forziamolo a 100%
+   width + justify-end per mantenere l'allineamento a destra anche sotto
+   il brand. */
+@media (max-width: 720px) {
   #aiucd-site-widgets.aiucd-site-widgets--inline {
-    position: static;
-    top: auto;
-    right: auto;
-    width: 100%;
+    flex: 0 0 100%;          /* riga propria */
     justify-content: flex-end;
-    padding: 6px 10px;
-    margin: 0;
-    flex-wrap: wrap;
+    padding: 4px 0;
     gap: 6px;
+    margin-left: 0;
   }
-  header.wp-block-template-part:has(#aiucd-site-widgets.aiucd-site-widgets--inline),
-  header.site-header:has(#aiucd-site-widgets.aiucd-site-widgets--inline),
-  header[role="banner"]:has(#aiucd-site-widgets.aiucd-site-widgets--inline) {
-    padding-right: 0 !important;
-  }
-  /* Riduci la verbosità dei chip su schermi stretti: nascondi il detail
-     line del countdown (resta solo la label compatta). */
   #aiucd-site-widgets.aiucd-site-widgets--inline .aiucd-chip-detail { display: none; }
   #aiucd-site-widgets.aiucd-site-widgets--inline .aiucd-chip {
     min-height: 30px;
