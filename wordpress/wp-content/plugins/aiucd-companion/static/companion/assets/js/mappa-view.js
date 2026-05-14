@@ -20,25 +20,28 @@ const ROOMS = ["Aula Capitini", "Aula 5A", "Aula 6A", "Aula 8A"];
 // Coordinate misurate pixel-per-pixel sull'immagine 1600×1131 del PDF
 // e convertite in % (centro + dimensioni della bbox). Il rettangolo coincide
 // con il perimetro reale di muratura della stanza.
+// NOTA: `top` e `left` sono le coordinate del CENTRO del marker (in mappa.css
+// il .room-marker applica `transform: translate(-50%, -50%)`), non dell'angolo
+// top-left. width/height sono % rispetto al container .mappa-floor-canvas.
 const ROOM_LAYOUT = {
   "Aula Capitini": {
     floor: "primo-piano",
-    top: 2.65, left: 36.25,
+    top: 20.12, left: 51.88,
     width: 31.25, height: 34.93,
   },
   "Aula 5A": {
     floor: "primo-piano",
-    top: 53.93, left: 26.25,
+    top: 61.01, left: 35.94,
     width: 19.38, height: 14.15,
   },
   "Aula 6A": {
     floor: "primo-piano",
-    top: 53.93, left: 55.00,
+    top: 61.01, left: 64.69,
     width: 19.38, height: 14.15,
   },
   "Aula 8A": {
     floor: "primo-piano",
-    top: 76.04, left: 67.19,
+    top: 82.67, left: 80.00,
     width: 25.63, height: 13.26,
   },
 };
