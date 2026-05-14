@@ -1,7 +1,19 @@
-/* AIUCD Site Widgets · chip nell'header WP per countdown + agenda
-   Stile coerente con la topbar del companion (variabili tokens.css quando
-   disponibili, fallback ai colori del tema WP). Pensato per integrarsi
-   nel flex container del header parts/header.html del tema. */
+/* AIUCD Site Widgets · chip estesi nell'header WP
+ * Vivono in <div id="aiucd-site-widgets"> renderizzato dal tema FSE.
+ * Coordinati stilisticamente con il companion (.live-indicator,
+ * .topbar-agenda-btn) ma standalone: zero dipendenze da tokens.css.
+ *
+ * Struttura HTML attesa (vedi site-widgets.js → render()):
+ *   .aiucd-chip.aiucd-chip--countdown
+ *     .aiucd-chip-icon      // ● ▮ ▸ ◉ ✓
+ *     .aiucd-chip-text
+ *       .aiucd-chip-label   // "In corso" / "T-22 giorni" / …
+ *       .aiucd-chip-detail  // (opzionale) "cambio fra 12 min"
+ *     .aiucd-chip-progress  // barra di avanzamento
+ *       .aiucd-chip-progress-fill
+ *   .aiucd-chip.aiucd-chip--agenda
+ *     .aiucd-chip-star · .aiucd-chip-label · .aiucd-chip-count
+ */
 
 #aiucd-site-widgets.aiucd-site-widgets {
   display: inline-flex;
@@ -11,19 +23,23 @@
   flex-wrap: wrap;
 }
 
+/* ── chip base ─────────────────────────────────────────────────────── */
 .aiucd-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 8px;
+  padding: 6px 12px 6px 10px;
   border-radius: 999px;
   border: 1px solid #d8dbe6;
   background: #ffffff;
   color: #1d2640;
   font: 600 13px/1 "Inter", system-ui, -apple-system, sans-serif;
   text-decoration: none !important;
-  transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+  transition: background 120ms ease, border-color 120ms ease,
+              transform 120ms ease, box-shadow 200ms ease;
   white-space: nowrap;
+  position: relative;
+  overflow: hidden;
 }
 .aiucd-chip:hover {
   background: #f2f4fa;
@@ -36,56 +52,191 @@
   outline-offset: 2px;
 }
 
-/* ── Countdown chip ── */
-.aiucd-chip--countdown .aiucd-chip-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #94a3b8;
+/* ── icona stato ───────────────────────────────────────────────────── */
+.aiucd-chip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  font-size: 11px;
+  line-height: 1;
   flex-shrink: 0;
-}
-.aiucd-chip--countdown[data-state="pre"]          .aiucd-chip-dot { background: #94a3b8; }
-.aiucd-chip--countdown[data-state="pre-soon"]     .aiucd-chip-dot { background: #2a6fa1; }
-.aiucd-chip--countdown[data-state="pre-imminent"] .aiucd-chip-dot { background: #d68910; animation: aiucd-pulse 1.4s ease-in-out infinite; }
-.aiucd-chip--countdown[data-state="live"]         .aiucd-chip-dot { background: #d8613c; animation: aiucd-pulse 1.4s ease-in-out infinite; }
-.aiucd-chip--countdown[data-state="post"]         .aiucd-chip-dot { background: #6b4c8a; }
-
-@keyframes aiucd-pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50%      { transform: scale(1.35); opacity: 0.7; }
+  color: #94a3b8;
 }
 
-/* ── Agenda chip ── */
+/* ── testo (label + detail su 2 righe) ────────────────────────────── */
+.aiucd-chip-text {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1;
+}
+.aiucd-chip-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.aiucd-chip-detail {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #6c7591;
+  text-transform: none;
+}
+
+/* ── progress bar (in basso, sopra il bordo) ───────────────────────── */
+.aiucd-chip-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: rgba(29, 38, 64, 0.06);
+  pointer-events: none;
+}
+.aiucd-chip-progress-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(to right, #94a3b8, #6c7591);
+  transition: width 600ms ease;
+  border-radius: 0 999px 999px 0;
+}
+
+/* ── COUNTDOWN per stato ──────────────────────────────────────────── */
+
+/* pre: tono neutro */
+.aiucd-chip--countdown[data-state="pre"] .aiucd-chip-icon         { color: #94a3b8; }
+.aiucd-chip--countdown[data-state="pre"] .aiucd-chip-progress-fill { background: linear-gradient(to right, #cbd5e1, #94a3b8); }
+
+/* pre-soon (T-1 giorno): azzurro */
+.aiucd-chip--countdown[data-state="pre-soon"] .aiucd-chip-icon         { color: #2a6fa1; }
+.aiucd-chip--countdown[data-state="pre-soon"] .aiucd-chip-progress-fill { background: linear-gradient(to right, #6ea7d5, #2a6fa1); }
+
+/* pre-imminent (<60min): ambra, icona pulsa */
+.aiucd-chip--countdown[data-state="pre-imminent"] {
+  border-color: #f3c97a;
+  background: linear-gradient(180deg, #fff7e6, #ffffff);
+}
+.aiucd-chip--countdown[data-state="pre-imminent"] .aiucd-chip-icon {
+  color: #d68910;
+  animation: aiucd-icon-pulse 1.4s ease-in-out infinite;
+}
+.aiucd-chip--countdown[data-state="pre-imminent"] .aiucd-chip-progress-fill {
+  background: linear-gradient(to right, #f3c97a, #d68910);
+}
+
+/* live: rosso/arancio acceso, chip lampeggia (border + box-shadow glow),
+   icona pulsa, progress fill animato */
+.aiucd-chip--countdown[data-state="live"] {
+  border-color: #d8613c;
+  background: linear-gradient(180deg, #ffeee6, #ffffff);
+  animation: aiucd-chip-glow 2.4s ease-in-out infinite;
+}
+.aiucd-chip--countdown[data-state="live"] .aiucd-chip-icon {
+  color: #d8613c;
+  animation: aiucd-icon-pulse 1.4s ease-in-out infinite;
+}
+.aiucd-chip--countdown[data-state="live"] .aiucd-chip-label {
+  color: #b04a2a;
+}
+.aiucd-chip--countdown[data-state="live"] .aiucd-chip-progress-fill {
+  background: linear-gradient(to right, #f0a17c, #d8613c);
+}
+
+/* break (durante il convegno ma in pausa): sabbia tenue */
+.aiucd-chip--countdown[data-state="break"] .aiucd-chip-icon         { color: #a48b6f; }
+.aiucd-chip--countdown[data-state="break"] .aiucd-chip-progress-fill { background: linear-gradient(to right, #d4c0a3, #a48b6f); }
+
+/* post (convegno concluso): viola scuro */
+.aiucd-chip--countdown[data-state="post"]                          { opacity: 0.85; }
+.aiucd-chip--countdown[data-state="post"] .aiucd-chip-icon         { color: #6b4c8a; }
+.aiucd-chip--countdown[data-state="post"] .aiucd-chip-progress-fill { background: linear-gradient(to right, #a78bcf, #6b4c8a); }
+
+/* ── AGENDA chip ──────────────────────────────────────────────────── */
 .aiucd-chip--agenda .aiucd-chip-star {
   color: #d68910;
   font-size: 14px;
+  flex-shrink: 0;
+}
+.aiucd-chip--agenda .aiucd-chip-label {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1d2640;
 }
 .aiucd-chip--agenda .aiucd-chip-count {
   background: #1d2640;
   color: #ffffff;
   border-radius: 999px;
-  padding: 2px 7px;
+  padding: 2px 8px;
   font-size: 11px;
   font-weight: 700;
-  min-width: 16px;
+  min-width: 18px;
   text-align: center;
+  line-height: 1.2;
+}
+/* empty state: counter visibile ma muted (vedi feedback utente: "counter
+   sempre visibile anche se 0") */
+.aiucd-chip--agenda[data-empty="true"] {
+  opacity: 0.72;
+}
+.aiucd-chip--agenda[data-empty="true"] .aiucd-chip-star {
+  color: #b8b1a0;
+}
+.aiucd-chip--agenda[data-empty="true"] .aiucd-chip-count {
+  background: #cbd5e1;
+  color: #475569;
 }
 
-/* ── Mobile: chip più compatte (solo dot/star + count, label nascosta sotto 640px) ── */
+/* ── animazioni ───────────────────────────────────────────────────── */
+@keyframes aiucd-icon-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.4);  opacity: 0.65; }
+}
+@keyframes aiucd-chip-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(216, 97, 60, 0.0); }
+  50%      { box-shadow: 0 0 0 5px rgba(216, 97, 60, 0.20); }
+}
+
+/* Rispetta la preferenza di reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .aiucd-chip--countdown[data-state="live"],
+  .aiucd-chip--countdown[data-state="pre-imminent"] .aiucd-chip-icon,
+  .aiucd-chip--countdown[data-state="live"] .aiucd-chip-icon {
+    animation: none !important;
+  }
+  .aiucd-chip-progress-fill { transition: none !important; }
+}
+
+/* ── Mobile (≤640px): chip compatte ───────────────────────────────── */
 @media (max-width: 640px) {
   #aiucd-site-widgets.aiucd-site-widgets { gap: 6px; margin-left: 4px; }
-  .aiucd-chip { padding: 5px 10px; font-size: 12px; }
-  /* Su schermi piccoli sacrifichiamo "Il mio AIUCD26": resta solo ★ N */
+  .aiucd-chip { padding: 4px 10px; gap: 6px; }
+  .aiucd-chip-label  { font-size: 11px; }
+  .aiucd-chip-detail { font-size: 9.5px; }
+  /* Su mobile manteniamo la label dell'agenda solo se non è "empty";
+     se count=0 mostriamo solo ★ 0 per non sprecare spazio. */
+  .aiucd-chip--agenda[data-empty="true"] .aiucd-chip-label { display: none; }
+}
+@media (max-width: 420px) {
+  /* Su schermi molto piccoli: solo dot/icona + numero, label nascoste */
   .aiucd-chip--agenda .aiucd-chip-label { display: none; }
+  .aiucd-chip--countdown .aiucd-chip-detail { display: none; }
 }
 
-/* ── Hover/focus accessibili anche con underline del tema ── */
+/* ── Override per header del tema (evita underline globale dei link) ── */
 header.wp-block-template-part .aiucd-chip,
 header.wp-block-template-part .aiucd-chip:hover,
 header.wp-block-template-part .aiucd-chip:focus {
   text-decoration: none !important;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid #d8dbe6;
 }
-header.wp-block-template-part .aiucd-chip {
-  border: 1px solid #d8dbe6;
+header.wp-block-template-part .aiucd-chip--countdown[data-state="pre-imminent"] {
+  border-bottom-color: #f3c97a;
+}
+header.wp-block-template-part .aiucd-chip--countdown[data-state="live"] {
+  border-bottom-color: #d8613c;
 }
