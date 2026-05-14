@@ -72,6 +72,36 @@
   const slot = ensureSlot();
   if (!slot) return;
 
+  // Se siamo in modalità inline (absolute right nell'header), allineiamo
+  // verticalmente con il Polylang switcher leggendo la sua coordinata Y
+  // (il CSS centra di default rispetto all'header — che è troppo alto e
+  // metterebbe i chip nella riga del brand). Reapply al resize.
+  function alignToFlags() {
+    if (!slot.classList.contains("aiucd-site-widgets--inline")) return;
+    const pll = document.querySelector(".polylang-switcher");
+    const header = slot.closest("header");
+    if (!pll || !header) return;
+    const headerRect = header.getBoundingClientRect();
+    const pllRect = pll.getBoundingClientRect();
+    const centerY = pllRect.top - headerRect.top + pllRect.height / 2;
+    slot.style.top = centerY + "px";
+    slot.style.transform = "translateY(-50%)";
+  }
+  alignToFlags();
+  // Re-align quando il layout cambia (resize, font ready, dom mutations
+  // del Polylang switcher in tarda fase di boot).
+  let raf = 0;
+  const queueAlign = () => {
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => { alignToFlags(); raf = 0; });
+  };
+  window.addEventListener("resize", queueAlign);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(queueAlign);
+  }
+  setTimeout(queueAlign, 200);
+  setTimeout(queueAlign, 800);
+
   const STORAGE_KEY  = cfg.agendaStorageKey || "aiucd2026-agenda";
   const OPENING_MS   = new Date(cfg.openingISO || "2026-06-03T12:00:00+02:00").getTime();
   const CLOSING_MS   = new Date(cfg.closingISO || "2026-06-05T18:00:00+02:00").getTime();
