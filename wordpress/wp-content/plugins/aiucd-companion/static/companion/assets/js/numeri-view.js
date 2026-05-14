@@ -3,7 +3,7 @@
 // stacked bar mode-area, bar timeline, top affiliazioni, mappa Leaflet,
 // indicatori qualità.
 
-import { t, getLang } from "./i18n.js?v=f4-4";
+import { t, getLang } from "./i18n.js?v=f4-5";
 
 // Quando il companion è embedded in WordPress, window.AIUCD_DATA_URL punta
 // alla cartella dati del plugin. In standalone resta il path relativo storico.

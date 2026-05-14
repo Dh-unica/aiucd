@@ -5,7 +5,7 @@
 
 import * as agenda from "./agenda.js";
 import { liveState, getNow } from "./livestate.js";
-import { t, getLang } from "./i18n.js?v=f4-4";
+import { t, getLang } from "./i18n.js?v=f4-5";
 import { getGapSuggestion, NOA_VOICE_TONE } from "./avatar.js?v=noa1";
 import { createDrawer } from "./drawer-controller.js";
 
@@ -17,11 +17,35 @@ let _state = {
 
 const NOA_SEEN_KEY = "aiucd2026-noa-seen";
 
-const CRITERIA_LABELS = {
+// Helper i18n locale: tutte le stringhe del drawer Noa sono in coppie
+// (EN, IT). I titoli dei paper restano IT per coerenza con catalogo.json,
+// ma TUTTO il chrome del drawer è bilingue.
+const tr = (en, it) => (getLang() === "en" ? en : it);
+
+const CRITERIA_LABELS_IT = {
   A: "Approfondisci un tema",
   B: "Esplora tutto il convegno",
   C: "Connetti aree diverse",
 };
+const CRITERIA_LABELS_EN = {
+  A: "Dive deeper into a theme",
+  B: "Explore the whole conference",
+  C: "Connect different areas",
+};
+function criteriaLabel(c) {
+  return (getLang() === "en" ? CRITERIA_LABELS_EN : CRITERIA_LABELS_IT)[c] || c;
+}
+
+// Quantità contributi accettati al convegno — costante derivata, non i18n.
+const N_CONTRIBUTIONS = 134;
+
+// Formatta una data ISO (YYYY-MM-DD) nel formato locale del lang corrente.
+function formatDate(iso) {
+  const [Y, M, D] = iso.split("-").map(Number);
+  const d = new Date(Y, M - 1, D);
+  return d.toLocaleDateString(getLang() === "en" ? "en-GB" : "it-IT",
+    { day: "2-digit", month: "long", year: "numeric" });
+}
 
 export function initNoaDrawer(data) {
   _state.data = data;
@@ -101,6 +125,12 @@ function renderDrawerContent() {
   const pathsBlock = renderPathsBlock(data);
   const suggBlock = renderSuggestionsBlock(data);
 
+  const introText = tr(
+    "I'm your guide through the three days of AIUCD 2026. I can suggest paths, fill the gaps in your day, help you avoid agenda conflicts.",
+    "Sono la tua guida per i tre giorni di AIUCD 2026. Posso suggerirti percorsi, riempire i tempi morti, evitarti i conflitti d'agenda."
+  );
+  const resetLabel = tr("Reset welcome message", "Reimposta benvenuto");
+
   _state.root.innerHTML = `
     <div class="noa-drawer-inner">
       <header class="noa-drawer-head">
@@ -109,7 +139,7 @@ function renderDrawerContent() {
         </div>
         <div class="noa-drawer-headtext">
           <h2 id="noa-drawer-title">${t("noa.greeting")}</h2>
-          <p>${getLang() === "en" ? "I'm your guide through the three days of AIUCD 2026. I can suggest paths, fill the gaps in your day, help you avoid agenda conflicts." : "Sono la tua guida per i tre giorni di AIUCD 2026. Posso suggerirti percorsi, riempire i tempi morti, evitarti i conflitti d'agenda."}</p>
+          <p>${introText}</p>
         </div>
         <button class="drawer-close" id="noa-drawer-close" type="button" aria-label="${t("drawer.close")}">
           <span class="icon icon--close" aria-hidden="true"></span>
@@ -123,7 +153,7 @@ function renderDrawerContent() {
       </div>
 
       <footer class="noa-drawer-foot">
-        <button class="noa-link" id="noa-reset-onboarding" type="button">Reimposta benvenuto</button>
+        <button class="noa-link" id="noa-reset-onboarding" type="button">${resetLabel}</button>
       </footer>
     </div>
   `;
@@ -198,35 +228,55 @@ function renderContextBlock(ls) {
   if (ls.state === "pre") {
     const opening = days[0].blocks?.find(b => b.start);
     if (opening) {
-      const t = `${days[0].date} ${opening.start}`;
       const dt = new Date(`${days[0].date}T${opening.start}:00`);
       const diffMs = dt - getNow();
       const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-      title = `Manca ancora qualche giorno`;
+      const dateStr = formatDate(days[0].date);
+      title = tr("A few days to go", "Manca ancora qualche giorno");
       body = diffDays > 1
-        ? `<p>Apriamo il ${days[0].date.split("-").reverse().join("/")} alle ${opening.start}. Sono ${diffDays} giorni: in attesa puoi sfogliare i 134 contributi e costruire la tua agenda.</p>`
-        : `<p>Apriamo domani alle ${opening.start}. Se hai un momento, dai un'occhiata ai 134 contributi e segna le stelle.</p>`;
-      cta = `<button class="noa-cta-btn" id="noa-open-agenda-btn"><span class="icon icon--star-filled" aria-hidden="true"></span> Apri la tua agenda</button>`;
+        ? `<p>${tr(
+            `We open on ${dateStr} at ${opening.start}. That's ${diffDays} days: while you wait you can browse the ${N_CONTRIBUTIONS} contributions and build your agenda.`,
+            `Apriamo il ${days[0].date.split("-").reverse().join("/")} alle ${opening.start}. Sono ${diffDays} giorni: in attesa puoi sfogliare i ${N_CONTRIBUTIONS} contributi e costruire la tua agenda.`
+          )}</p>`
+        : `<p>${tr(
+            `We open tomorrow at ${opening.start}. If you have a moment, take a look at the ${N_CONTRIBUTIONS} contributions and tap the stars.`,
+            `Apriamo domani alle ${opening.start}. Se hai un momento, dai un'occhiata ai ${N_CONTRIBUTIONS} contributi e segna le stelle.`
+          )}</p>`;
+      cta = `<button class="noa-cta-btn" id="noa-open-agenda-btn"><span class="icon icon--star-filled" aria-hidden="true"></span> ${tr("Open your agenda", "Apri la tua agenda")}</button>`;
     }
   } else if (ls.state === "live" || ls.state === "break") {
     const gap = getGapSuggestion(data.program);
     if (gap) {
-      title = isLastDay ? "Ultimo giorno · ti suggerisco" : "In questo momento";
+      title = isLastDay
+        ? tr("Last day · my suggestion", "Ultimo giorno · ti suggerisco")
+        : tr("Right now", "In questo momento");
       body = `<p>${gap.text}</p>`;
       // Sprint D8: se l'utente ha tempo, suggerisco di esplorare i POI della
       // città filtrati sulla finestra di tempo disponibile.
       if (gap.minutes >= 30) {
-        cta = `<button class="noa-cta-btn" id="noa-explore-cagliari-btn" data-minutes="${gap.minutes}"><span class="icon icon--compass" aria-hidden="true"></span> Cosa fare nei dintorni? (${gap.minutes} min)</button>`;
+        cta = `<button class="noa-cta-btn" id="noa-explore-cagliari-btn" data-minutes="${gap.minutes}"><span class="icon icon--compass" aria-hidden="true"></span> ${tr(
+          `What to do nearby? (${gap.minutes} min)`,
+          `Cosa fare nei dintorni? (${gap.minutes} min)`
+        )}</button>`;
       }
     } else {
-      title = isLastDay ? "Ultimo giorno" : "In corso";
+      title = isLastDay ? tr("Last day", "Ultimo giorno") : tr("In progress", "In corso");
       body = ls.state === "live"
-        ? `<p>Il convegno è in corso. Apri il Programma per vedere cosa c'è in tutte le aule.</p>`
-        : `<p>Stiamo in pausa. Tornano alle ${nextResumeTime(data.program)}.</p>`;
+        ? `<p>${tr(
+            "The conference is live. Open the Program to see what's happening in all the rooms.",
+            "Il convegno è in corso. Apri il Programma per vedere cosa c'è in tutte le aule."
+          )}</p>`
+        : `<p>${tr(
+            `We're on a break. Back at ${nextResumeTime(data.program)}.`,
+            `Stiamo in pausa. Tornano alle ${nextResumeTime(data.program)}.`
+          )}</p>`;
     }
   } else if (ls.state === "post") {
-    title = "Convegno concluso";
-    body = `<p>Per ora è fatta. Riguarda le relazioni che hai salvato; tra qualche tempo escono atti e registrazioni sul sito AIUCD.</p>`;
+    title = tr("Conference concluded", "Convegno concluso");
+    body = `<p>${tr(
+      "That's a wrap. Review the talks you saved; proceedings and recordings will be published on the AIUCD website soon.",
+      "Per ora è fatta. Riguarda le relazioni che hai salvato; tra qualche tempo escono atti e registrazioni sul sito AIUCD."
+    )}</p>`;
     cta = `<button class="noa-cta-btn" id="noa-open-agenda-btn"><span class="icon icon--star-filled" aria-hidden="true"></span> ${t("topbar.my_aiucd")}</button>`;
   }
 
@@ -251,18 +301,22 @@ function renderPathsBlock(data) {
     if (byCriterion[p.criterion]) byCriterion[p.criterion].push(p);
   }
 
+  const totalPaths = paths.length;
+  const pathsCount = (n) => tr(n === 1 ? "1 talk" : `${n} talks`,
+                              n === 1 ? "1 relazione" : `${n} relazioni`);
+
   const groupHTML = ["A", "B", "C"].map(c => {
     const items = byCriterion[c];
     if (!items.length) return "";
     return `
       <div class="noa-paths-group">
-        <h4>${c} · ${CRITERIA_LABELS[c]} <span class="noa-paths-count">(${items.length})</span></h4>
+        <h4>${c} · ${criteriaLabel(c)} <span class="noa-paths-count">(${items.length})</span></h4>
         <div class="noa-paths-tiles">
           ${items.map(p => `
             <button class="noa-path-tile" data-path-id="${p.id}" type="button" title="${escapeHtml(p.intro || "")}">
               <span class="noa-path-tile-id">${p.id.toUpperCase()}</span>
               <span class="noa-path-tile-name">${escapeHtml(p.name)}</span>
-              <span class="noa-path-tile-meta">${p.paper_ids.length} relazioni</span>
+              <span class="noa-path-tile-meta">${pathsCount(p.paper_ids.length)}</span>
             </button>
           `).join("")}
         </div>
@@ -272,21 +326,34 @@ function renderPathsBlock(data) {
 
   return `
     <section class="noa-section noa-section--paths">
-      <h3>14 percorsi tra le 134 relazioni</h3>
-      <p>Ho cucito i contributi in itinerari tematici. Sceglilo da qui o tocca la tile.</p>
+      <h3>${tr(
+        `${totalPaths} paths through the ${N_CONTRIBUTIONS} talks`,
+        `${totalPaths} percorsi tra le ${N_CONTRIBUTIONS} relazioni`
+      )}</h3>
+      <p>${tr(
+        "I've woven the contributions into thematic journeys. Pick one here or tap a tile.",
+        "Ho cucito i contributi in itinerari tematici. Scegline uno da qui o tocca la tile."
+      )}</p>
       ${groupHTML}
-      <button class="noa-cta-btn noa-cta-btn--ghost" id="noa-all-paths-btn"><span class="icon icon--compass" aria-hidden="true"></span> Vedi tutti i percorsi a schermo intero</button>
+      <button class="noa-cta-btn noa-cta-btn--ghost" id="noa-all-paths-btn"><span class="icon icon--compass" aria-hidden="true"></span> ${tr(
+        "See all paths in full screen",
+        "Vedi tutti i percorsi a schermo intero"
+      )}</button>
     </section>
   `;
 }
 
 function renderSuggestionsBlock(data) {
+  const sectionTitle = tr("Suggestions for you", "Suggerimenti per te");
   const myTalks = agenda.getAll();
   if (!myTalks.length) {
     return `
       <section class="noa-section noa-section--suggestions">
-        <h3>Suggerimenti per te</h3>
-        <p>L'agenda è vuota. Tocca <span class="icon icon--star-outline" aria-hidden="true"></span> su una relazione per cominciare a costruirla; ti dirò se ci sono conflitti o tempi morti.</p>
+        <h3>${sectionTitle}</h3>
+        <p>${tr(
+          "Your agenda is empty. Tap the star icon on any talk to start building it; I'll warn you about clashes or downtime.",
+          "L'agenda è vuota. Tocca la stella su una relazione per cominciare a costruirla; ti dirò se ci sono conflitti o tempi morti."
+        )}</p>
       </section>
     `;
   }
@@ -299,21 +366,34 @@ function renderSuggestionsBlock(data) {
     if (!talksOfDay.length) continue;
     const conflicts = countConflicts(talksOfDay);
     const dayLabel = day.label || day.date;
+    const n = talksOfDay.length;
+    const inAgenda = tr(
+      n === 1 ? "1 talk on your agenda" : `${n} talks on your agenda`,
+      n === 1 ? "1 relazione in agenda" : `${n} relazioni in agenda`
+    );
     if (conflicts > 0) {
-      lines.push(`<li><strong>${dayLabel}</strong>: ${talksOfDay.length} relazioni in agenda · ${conflicts} ${conflicts === 1 ? "conflitto" : "conflitti"} <span class="icon icon--warning" aria-hidden="true"></span></li>`);
+      const cText = tr(
+        conflicts === 1 ? "1 clash" : `${conflicts} clashes`,
+        conflicts === 1 ? "1 conflitto" : `${conflicts} conflitti`
+      );
+      lines.push(`<li><strong>${dayLabel}</strong>: ${inAgenda} · ${cText} <span class="icon icon--warning" aria-hidden="true"></span></li>`);
     } else {
-      lines.push(`<li><strong>${dayLabel}</strong>: ${talksOfDay.length} relazioni in agenda</li>`);
+      lines.push(`<li><strong>${dayLabel}</strong>: ${inAgenda}</li>`);
     }
   }
 
+  const noClash = tr("Your agenda looks good: no clashes.", "L'agenda è valida: nessun conflitto.");
+  const openMine = tr(`Open "${t("topbar.my_aiucd")}"`, `Apri "${t("topbar.my_aiucd")}"`);
+  const exploreNearby = tr("Explore Cagliari nearby", "Esplora Cagliari nei dintorni");
+
   return `
     <section class="noa-section noa-section--suggestions">
-      <h3>Suggerimenti per te</h3>
+      <h3>${sectionTitle}</h3>
       <ul class="noa-suggestions-list">
-        ${lines.join("") || "<li>L'agenda è valida: nessun conflitto.</li>"}
+        ${lines.join("") || `<li>${noClash}</li>`}
       </ul>
-      <button class="noa-cta-btn noa-cta-btn--ghost" id="noa-open-agenda-btn"><span class="icon icon--star-filled" aria-hidden="true"></span> ${getLang() === "en" ? `Open "${t("topbar.my_aiucd")}"` : `Apri "${t("topbar.my_aiucd")}"`}</button>
-      <button class="noa-cta-btn noa-cta-btn--ghost" id="noa-cagliari-general-btn" data-minutes="0"><span class="icon icon--compass" aria-hidden="true"></span> Esplora Cagliari nei dintorni</button>
+      <button class="noa-cta-btn noa-cta-btn--ghost" id="noa-open-agenda-btn"><span class="icon icon--star-filled" aria-hidden="true"></span> ${openMine}</button>
+      <button class="noa-cta-btn noa-cta-btn--ghost" id="noa-cagliari-general-btn" data-minutes="0"><span class="icon icon--compass" aria-hidden="true"></span> ${exploreNearby}</button>
     </section>
   `;
 }

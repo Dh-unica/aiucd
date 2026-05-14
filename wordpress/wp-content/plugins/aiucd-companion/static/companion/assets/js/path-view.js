@@ -8,8 +8,8 @@
 
 import * as agenda from "./agenda.js";
 import { getNow } from "./livestate.js";
-import { showAgendaMenu } from "./calendar-menu.js?v=f4-4";
-import { t, formatDay, getLang, translateRoom, field } from "./i18n.js?v=f4-4";
+import { showAgendaMenu } from "./calendar-menu.js?v=f4-5";
+import { t, formatDay, getLang, translateRoom, field } from "./i18n.js?v=f4-5";
 
 // Etichette user-facing dei tre criteri di costruzione dei percorsi.
 function CRITERIA_LABELS_FN() {
