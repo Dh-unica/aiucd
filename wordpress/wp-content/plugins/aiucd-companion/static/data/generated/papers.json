@@ -2805,7 +2805,7 @@
     "authors": [
       {
         "name": "Silvio Peroni",
-        "aff": "University of Bologna, Department of Computer Science and Engineering"
+        "aff": "Department of Classical Philology and Italian Studies, University of Bologna"
       }
     ],
     "gigliozzi": false,
@@ -2961,6 +2961,10 @@
       },
       {
         "name": "Daria Spampinato",
+        "aff": "CNR-ISTC"
+      },
+      {
+        "name": "Salvatore Cristofaro",
         "aff": "CNR-ISTC"
       },
       {
