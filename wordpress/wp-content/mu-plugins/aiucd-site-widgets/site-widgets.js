@@ -83,9 +83,16 @@
     if (!pll || !header) return;
     const headerRect = header.getBoundingClientRect();
     const pllRect = pll.getBoundingClientRect();
+    // Y: centra verticalmente alla riga del polylang
     const centerY = pllRect.top - headerRect.top + pllRect.height / 2;
     slot.style.top = centerY + "px";
     slot.style.transform = "translateY(-50%)";
+    // X: posiziona i chip a SINISTRA dei flag con un piccolo gap (12px),
+    //    così non si sovrappongono mai al Polylang switcher.
+    const gap = 12;
+    const rightOffset = Math.max(8, headerRect.right - pllRect.left + gap);
+    slot.style.right = rightOffset + "px";
+    slot.style.left = "auto";
   }
   alignToFlags();
   // Re-align quando il layout cambia (resize, font ready, dom mutations
