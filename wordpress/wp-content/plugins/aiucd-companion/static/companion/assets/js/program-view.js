@@ -1,10 +1,10 @@
 // AIUCD 2026 Companion · vista Programma (griglia tempo × aula)
 
-import { AREAS, AREA_BY_CODE, areaLabel } from "./data.js?v=f4-3";
+import { AREAS, AREA_BY_CODE, areaLabel } from "./data.js?v=f4-4";
 import * as agenda from "./agenda.js";
 import { nowMinutesOfDay, getNow } from "./livestate.js";
 import { renderLiveSnapshot } from "./now-view.js?v=copy1";
-import { t, formatDay, translateRoom, field } from "./i18n.js?v=f4-3";
+import { t, formatDay, translateRoom, field } from "./i18n.js?v=f4-4";
 
 const ROOMS_ORDER = ["Aula 5A", "Aula 6A", "Aula 8A"];
 

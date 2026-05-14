@@ -5,7 +5,7 @@
 
 import * as agenda from "./agenda.js";
 import { liveState, getNow } from "./livestate.js";
-import { t, getLang } from "./i18n.js?v=f4-3";
+import { t, getLang } from "./i18n.js?v=f4-4";
 import { getGapSuggestion, NOA_VOICE_TONE } from "./avatar.js?v=noa1";
 import { createDrawer } from "./drawer-controller.js";
 
@@ -227,7 +227,7 @@ function renderContextBlock(ls) {
   } else if (ls.state === "post") {
     title = "Convegno concluso";
     body = `<p>Per ora è fatta. Riguarda le relazioni che hai salvato; tra qualche tempo escono atti e registrazioni sul sito AIUCD.</p>`;
-    cta = `<button class="noa-cta-btn" id="noa-open-agenda-btn"><span class="icon icon--star-filled" aria-hidden="true"></span> Il mio AIUCD26</button>`;
+    cta = `<button class="noa-cta-btn" id="noa-open-agenda-btn"><span class="icon icon--star-filled" aria-hidden="true"></span> ${t("topbar.my_aiucd")}</button>`;
   }
 
   if (!title) return "";
@@ -312,7 +312,7 @@ function renderSuggestionsBlock(data) {
       <ul class="noa-suggestions-list">
         ${lines.join("") || "<li>L'agenda è valida: nessun conflitto.</li>"}
       </ul>
-      <button class="noa-cta-btn noa-cta-btn--ghost" id="noa-open-agenda-btn"><span class="icon icon--star-filled" aria-hidden="true"></span> Apri "Il mio AIUCD26"</button>
+      <button class="noa-cta-btn noa-cta-btn--ghost" id="noa-open-agenda-btn"><span class="icon icon--star-filled" aria-hidden="true"></span> ${getLang() === "en" ? `Open "${t("topbar.my_aiucd")}"` : `Apri "${t("topbar.my_aiucd")}"`}</button>
       <button class="noa-cta-btn noa-cta-btn--ghost" id="noa-cagliari-general-btn" data-minutes="0"><span class="icon icon--compass" aria-hidden="true"></span> Esplora Cagliari nei dintorni</button>
     </section>
   `;
