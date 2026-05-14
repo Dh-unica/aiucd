@@ -42,7 +42,7 @@
   {
     "id": 19,
     "title": "Archivi letterari nativi digitali: modelli descrittivi ed edizioni sperimentali",
-    "authors_raw": "Elena Barchielli (Universität Bern); Simon Willemin (Universität Bern); Elena Spadini (Universität Bern)",
+    "authors_raw": "Elena Barchielli, Simon Willemin e Elena Spadini (Universität Bern)",
     "authors": [
       {
         "name": "Elena Barchielli",
@@ -70,7 +70,7 @@
   {
     "id": 20,
     "title": "From Violin Lessons to Linked Open Data. Reconstructing Tartini’s Scuola delle Nazioni through Digital Prosopography and Digital Editions",
-    "authors_raw": "Selina Galka (University of Graz); Cristina Scuderi (Università Statale di Milano); Marcella Tambuscio (University of Graz); Rolf Wissman (Schola Cantorum Basiliensis ); Georg Vogeler (University of Graz)",
+    "authors_raw": "Selina Galka, Marcella Tambuscio e Georg Vogeler (University of Graz); Cristina Scuderi (Università Statale di Milano); Rolf Wissman (Schola Cantorum Basiliensis )",
     "authors": [
       {
         "name": "Selina Galka",
@@ -106,7 +106,7 @@
   {
     "id": 22,
     "title": "Verso una classificazione funzionale dei prompt basata sulle intenzioni cognitive esplicitate dagli studenti nell'interazione con l'IA",
-    "authors_raw": "Daniele Scala (Università degli Studi di Genova); Salvatore Varriale (Università degli Studi di Genova)",
+    "authors_raw": "Daniele Scala e Salvatore Varriale (Università degli Studi di Genova)",
     "authors": [
       {
         "name": "Daniele Scala",
@@ -498,7 +498,7 @@
   {
     "id": 81,
     "title": "L’Archivio del Centro Conservazione e Restauro “La Venaria  Reale”: un caso studio per la diffusione dei dati tecnico scientifici",
-    "authors_raw": "Stefania De Blasi (Centro Conservazione Restauro \"La Venaria Reale\"); Lorena Palmieri (Museo San Giacomo di Lu); Chiara Pipino (Centro Conservazione Restauro \"La Venaria Reale\")",
+    "authors_raw": "Stefania De Blasi e Chiara Pipino (Centro Conservazione Restauro \"La Venaria Reale\"); Lorena Palmieri (Museo San Giacomo di Lu);",
     "authors": [
       {
         "name": "Stefania De Blasi",
@@ -526,7 +526,7 @@
   {
     "id": 82,
     "title": "Strumenti digitali per i percorsi di visita della Palazzina di Caccia di Stupinigi: Residenza Sabauda e Museo dell'Ammobiliamento",
-    "authors_raw": "Stefania De Blasi (Fondazione Centro Conservazione e Restauro La Venaria Reale)",
+    "authors_raw": "Stefania De Blasi (Centro Conservazione Restauro \"La Venaria Reale\")",
     "authors": [
       {
         "name": "Stefania De Blasi",
@@ -610,7 +610,7 @@
   {
     "id": 91,
     "title": "Tra fotografia e segno: la trascrizione informatizzata dei registri storici Alinari",
-    "authors_raw": "Pamela Krzemien (Università di Pisa)",
+    "authors_raw": "Francesco Pinna (CNR-OVI); Emiliano Degl'Innocenti (CNR-OVI)",
     "authors": [
       {
         "name": "Pamela Krzemien",
@@ -650,7 +650,7 @@
   {
     "id": 110,
     "title": "Dai workflow descrittivi ai workflow applicativi tramite AEON e l'IA",
-    "authors_raw": "Francesco Pinna (CNR-OVI); Emiliano Degl'Innocenti (CNR-OVI)",
+    "authors_raw": "",
     "authors": [
       {
         "name": "Francesco Pinna",
@@ -920,7 +920,7 @@
     "abstract": "Fin dalle origini l’Istituto ha dedicato particolare attenzione alle attività di divulgazione delle ricerche in ambito storico, già prima che la cosiddetta Terza missione fosse istituzionalizzata. Al principio furono mostre e pubblicazioni destinate a larghe fasce di popolazione; dopo il primo decennio del Duemila gli storici dell’Istituto, in collaborazione con altri specialisti, si sono dedicato anche ad attività di divulgazione e comunicazione scientifica attraverso allestimenti multimediali e musealizzazioni. La filosofia che ha animato queste esperienze è stata quella del coinvolgimento sensoriale e immersivo del fruitore attraverso installazioni multimediali interattive nelle quali sono personaggi, monumenti e testimonianze materiali a raccontarsi in prima persona. Nella realizzazione dei prodotti multimediali e degli allestimenti sono state coinvolte comunità e compagnie di rievocazione storica locali. Tali esperienze hanno permesso la valorizzazione dei beni storico-culturali di alcune realtà locali (un castello medievale; un’epigrafe cinquecentesca sull’incursione del corsaro Barbarossa a Gonnostramatza; una torre costiera) e sono diventate modello di approccio alla valorizzazione del patrimonio culturale materiale e immateriale. Ci sono state anche criticità dovute a difficoltà di aggiornamento dei prodotti e mancanza di continuità progettuale e amministrativa. Facendo tesoro di ciò, i ricercatori dell’Istituto sono ora impegnati in altri due progetti di valorizz…",
     "area_code": "memories",
     "area_label": "Memorie, Storia, patrimonio",
-    "iscritto": false,
+    "iscritto": true,
     "photo": null,
     "poster_pdf": null,
     "consent_photo": false,

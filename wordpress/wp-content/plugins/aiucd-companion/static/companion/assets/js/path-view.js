@@ -293,11 +293,12 @@ function renderPathsView() {
 function renderCriterionTabs() {
   const tabs = _pathsState.root.querySelector("#criterion-tabs");
   const counts = countByCriterion();
+  const hints = CRITERIA_HINTS_FN();
   const buttons = [
     { code: "all", label: `Tutti (${_pathsState.data.paths.length})`, hint: "Tutti i percorsi suggeriti." },
-    { code: "A",   label: `Approfondisci (${counts.A})`,         hint: CRITERIA_HINTS.A },
-    { code: "B",   label: `Esplora (${counts.B})`,                hint: CRITERIA_HINTS.B },
-    { code: "C",   label: `Connetti (${counts.C})`,               hint: CRITERIA_HINTS.C },
+    { code: "A",   label: `Approfondisci (${counts.A})`,         hint: hints.A },
+    { code: "B",   label: `Esplora (${counts.B})`,                hint: hints.B },
+    { code: "C",   label: `Connetti (${counts.C})`,               hint: hints.C },
   ];
   tabs.innerHTML = buttons.map(b => `
     <button class="criterion-tab" role="tab"
