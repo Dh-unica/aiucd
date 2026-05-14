@@ -1,19 +1,19 @@
 // AIUCD 2026 Companion · entry point
 
-import { loadAllData } from "./data.js?v=f4-2";
-import { liveState, getCountdownInfo, getOpeningTime, getNow, checkClockSkew } from "./livestate.js?v=f4-2";
-import { renderProgram } from "./program-view.js?v=f4-2";
-import { renderMineList, renderPathsOverlay } from "./path-view.js?v=f4-2";
-import { renderMappa } from "./mappa-view.js?v=f4-2";
-import { renderCagliari, onCagliariVisible } from "./cagliari-view.js?v=f4-2";
-import { renderCatalog, onCatalogVisible } from "./catalog-view.js?v=f4-2";
-import { renderPoster } from "./poster-view.js?v=f4-2";
-import { renderNumeri, onNumeriVisible } from "./numeri-view.js?v=f4-2";
-import * as modal from "./talk-modal-v2.js?v=f4-2";
+import { loadAllData } from "./data.js?v=f4-3";
+import { liveState, getCountdownInfo, getOpeningTime, getNow, checkClockSkew } from "./livestate.js?v=f4-3";
+import { renderProgram } from "./program-view.js?v=f4-3";
+import { renderMineList, renderPathsOverlay } from "./path-view.js?v=f4-3";
+import { renderMappa } from "./mappa-view.js?v=f4-3";
+import { renderCagliari, onCagliariVisible } from "./cagliari-view.js?v=f4-3";
+import { renderCatalog, onCatalogVisible } from "./catalog-view.js?v=f4-3";
+import { renderPoster } from "./poster-view.js?v=f4-3";
+import { renderNumeri, onNumeriVisible } from "./numeri-view.js?v=f4-3";
+import * as modal from "./talk-modal-v2.js?v=f4-3";
 import * as agenda from "./agenda.js";
 import { createDrawer } from "./drawer-controller.js";
-import { initNoaDrawer } from "./noa-drawer.js?v=f4-2";
-import { loadI18n, t, getLang } from "./i18n.js?v=f4-2";
+import { initNoaDrawer } from "./noa-drawer.js?v=f4-3";
+import { loadI18n, t, getLang } from "./i18n.js?v=f4-3";
 
 async function init() {
   // Carica dizionario i18n (it/en). Mette `data-lang` su <html> e localizza

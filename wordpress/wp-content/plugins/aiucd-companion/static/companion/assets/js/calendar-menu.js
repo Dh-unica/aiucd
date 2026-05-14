@@ -2,7 +2,7 @@
 // Tre opzioni esplicite: Google · Apple/iPhone · Outlook · scarica .ics
 
 import * as cal from "./calendar-export.js";
-import { getLang } from "./i18n.js?v=f4-2";
+import { getLang } from "./i18n.js?v=f4-3";
 
 let _openMenu = null;
 
