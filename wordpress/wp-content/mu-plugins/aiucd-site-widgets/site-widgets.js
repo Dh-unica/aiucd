@@ -31,17 +31,26 @@
   // top-right (mai bloccante, sempre dismissibile con un click esterno).
   function ensureSlot() {
     let s = document.getElementById("aiucd-site-widgets");
-    if (s) return s;
+    if (s) {
+      // Slot pre-esistente: il tema (es. aiucd-theme) lo include via FSE.
+      // Aggiungiamo comunque la classe `--inline` se vive dentro un header
+      // del tema FSE, così il CSS lo ancora top-right anziché lasciarlo nel
+      // flow normale (che lo posizionerebbe nella riga del menu).
+      if (s.closest("header")) {
+        s.classList.add("aiucd-site-widgets--inline");
+      }
+      return s;
+    }
     s = document.createElement("div");
     s.id = "aiucd-site-widgets";
     s.className = "aiucd-site-widgets";
     s.setAttribute("aria-label", "Stato convegno AIUCD 2026");
 
     // Strategia di posizionamento (in ordine di preferenza):
-    //   1. Subito dopo il Polylang switcher (= riga della nav + flag),
-    //      stessa altezza, allineato a destra.
+    //   1. Subito dopo il Polylang switcher (= header del tema FSE),
+    //      ancorato top-right via classe --inline.
     //   2. Dentro un wp-block-group "space-between" dell'header FSE.
-    //   3. Floating top-right come ultimo fallback.
+    //   3. Floating top-right come ultimo fallback (no header).
     const pll = document.querySelector(".polylang-switcher");
     if (pll && pll.parentElement) {
       pll.parentElement.appendChild(s);
@@ -62,6 +71,7 @@
         headerCandidate.querySelector(".wp-block-group.is-layout-flex") ||
         headerCandidate.querySelector(".wp-block-group");
       (flexRow || headerCandidate).appendChild(s);
+      s.classList.add("aiucd-site-widgets--inline");
     } else {
       s.classList.add("aiucd-site-widgets--floating");
       document.body.appendChild(s);
@@ -73,10 +83,35 @@
   if (!slot) return;
 
   // I chip in modalità inline sono posizionati top-right dell'header via
-  // CSS (vedi site-widgets.css → .aiucd-site-widgets--inline). Sono
-  // ancorati alla riga 1 (livello brand/logo), dove c'è spazio libero a
-  // destra anche con nav lunghe (Call for Papers / Verso il Convegno / …).
-  // Niente calcoli runtime → niente layout shift.
+  // CSS (.aiucd-site-widgets--inline). Per evitare che si sovrappongano
+  // alla nav quando questa è lunga (e quando l'header del tema mette tutto
+  // su una sola riga, es. aiucd-theme), riserviamo dinamicamente
+  // padding-right sul header pari alla larghezza occupata dai chip. Il
+  // flex container del menu si restringe e va a capo prima dei chip,
+  // evitando overlap.
+  function reserveSpaceForChips() {
+    if (!slot.classList.contains("aiucd-site-widgets--inline")) return;
+    const header = slot.closest("header");
+    if (!header) return;
+    // offsetWidth è 0 fino a layout completo; ritenta dopo i font ready
+    const w = slot.offsetWidth;
+    if (!w) return;
+    const right = parseFloat(getComputedStyle(slot).right) || 0;
+    // Reserve gap = larghezza chip + offset destro + buffer 16px
+    header.style.setProperty("--aiucd-widgets-reserve", (w + right + 16) + "px");
+  }
+  reserveSpaceForChips();
+  let _raf = 0;
+  const queueReserve = () => {
+    if (_raf) cancelAnimationFrame(_raf);
+    _raf = requestAnimationFrame(() => { reserveSpaceForChips(); _raf = 0; });
+  };
+  window.addEventListener("resize", queueReserve);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(queueReserve);
+  }
+  setTimeout(queueReserve, 200);
+  setTimeout(queueReserve, 800);
 
   const STORAGE_KEY  = cfg.agendaStorageKey || "aiucd2026-agenda";
   const OPENING_MS   = new Date(cfg.openingISO || "2026-06-03T12:00:00+02:00").getTime();

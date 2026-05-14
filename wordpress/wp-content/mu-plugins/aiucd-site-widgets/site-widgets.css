@@ -48,12 +48,55 @@ body > header,
   flex-wrap: nowrap;
 }
 
-/* Su mobile (≤720px) la nav è collassata in hamburger e l'header è
-   compatto: avvicina i chip al bordo destro. */
-@media (max-width: 720px) {
+/* Riserva spazio orizzontale per i chip absolute: il padding-right sull'header
+   restringe il flex container del menu, evitando che le ultime voci della
+   nav (Aggiornamenti, AIUCD, flag…) finiscano sotto i chip absolute.
+   La var è settata da site-widgets.js::reserveSpaceForChips() dopo il render. */
+header.wp-block-template-part:has(#aiucd-site-widgets.aiucd-site-widgets--inline),
+header.site-header:has(#aiucd-site-widgets.aiucd-site-widgets--inline),
+header[role="banner"]:has(#aiucd-site-widgets.aiucd-site-widgets--inline) {
+  padding-right: var(--aiucd-widgets-reserve, 0) !important;
+}
+
+/* Su mobile e tablet (≤980px) l'header è troppo stretto per ancorare i
+   chip in absolute top-right senza sovrapporre il brand+logo (anche con
+   reserve padding-right il logo a sinistra resta visibile e i chip in
+   absolute lo coprono). Passiamo a flow statico: i chip occupano una
+   propria riga, allineati a destra. Azzera la reserve perché i chip non
+   sono più absolute. */
+@media (max-width: 980px) {
   #aiucd-site-widgets.aiucd-site-widgets--inline {
-    top: 8px;
-    right: 12px;
+    position: static;
+    top: auto;
+    right: auto;
+    width: 100%;
+    justify-content: flex-end;
+    padding: 6px 10px;
+    margin: 0;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  header.wp-block-template-part:has(#aiucd-site-widgets.aiucd-site-widgets--inline),
+  header.site-header:has(#aiucd-site-widgets.aiucd-site-widgets--inline),
+  header[role="banner"]:has(#aiucd-site-widgets.aiucd-site-widgets--inline) {
+    padding-right: 0 !important;
+  }
+  /* Riduci la verbosità dei chip su schermi stretti: nascondi il detail
+     line del countdown (resta solo la label compatta). */
+  #aiucd-site-widgets.aiucd-site-widgets--inline .aiucd-chip-detail { display: none; }
+  #aiucd-site-widgets.aiucd-site-widgets--inline .aiucd-chip {
+    min-height: 30px;
+    padding: 0 10px;
+  }
+  #aiucd-site-widgets.aiucd-site-widgets--inline .aiucd-chip-label { font-size: 11px; }
+}
+
+/* Schermi molto stretti (≤380px): chip ancora più compatti */
+@media (max-width: 380px) {
+  #aiucd-site-widgets.aiucd-site-widgets--inline .aiucd-chip-text { line-height: 1; }
+  #aiucd-site-widgets.aiucd-site-widgets--inline .aiucd-chip-label {
+    font-size: 10.5px;
+    letter-spacing: 0.01em;
   }
 }
 
