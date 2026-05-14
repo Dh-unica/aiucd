@@ -23,6 +23,31 @@
   flex-wrap: wrap;
 }
 
+/* Modalità floating: usata quando il tema attivo non ha lo slot canonico
+   in header.html (es. twentytwentyfour vanilla). Lo slot viene iniettato
+   in alto a destra del viewport come banner sticky. */
+#aiucd-site-widgets.aiucd-site-widgets--floating {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 9990;          /* sotto wp-admin-bar (99999) ma sopra contenuti */
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(29, 38, 64, 0.10);
+  backdrop-filter: blur(6px);
+  margin: 0;
+}
+/* Quando wp-admin-bar è visibile (utente loggato), spostalo sotto. */
+body.admin-bar #aiucd-site-widgets.aiucd-site-widgets--floating {
+  top: 44px;
+}
+@media (max-width: 782px) {
+  body.admin-bar #aiucd-site-widgets.aiucd-site-widgets--floating {
+    top: 58px;
+  }
+}
+
 /* ── chip base ─────────────────────────────────────────────────────── */
 .aiucd-chip {
   display: inline-flex;

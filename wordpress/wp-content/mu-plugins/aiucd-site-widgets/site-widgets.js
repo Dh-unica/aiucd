@@ -23,7 +23,45 @@
  */
 (function () {
   const cfg = window.AIUCD_SITE_CONFIG || {};
-  const slot = document.getElementById("aiucd-site-widgets");
+
+  // Lo slot canonico vive in themes/aiucd-theme/parts/header.html. Se il tema
+  // attivo non è aiucd-theme (es. twentytwentyfour vanilla in produzione),
+  // creiamo dinamicamente lo slot e lo inseriamo nel header del tema FSE
+  // attivo; in fallback estremo, mostriamo il widget come banner flottante
+  // top-right (mai bloccante, sempre dismissibile con un click esterno).
+  function ensureSlot() {
+    let s = document.getElementById("aiucd-site-widgets");
+    if (s) return s;
+    s = document.createElement("div");
+    s.id = "aiucd-site-widgets";
+    s.className = "aiucd-site-widgets";
+    s.setAttribute("aria-label", "Stato convegno AIUCD 2026");
+
+    // Cerca un header del tema FSE in ordine di preferenza
+    const headerCandidate =
+      document.querySelector("header.wp-block-template-part") ||
+      document.querySelector("header.site-header") ||
+      document.querySelector("header[role='banner']") ||
+      document.querySelector("body > header") ||
+      document.querySelector(".wp-site-blocks > header");
+
+    if (headerCandidate) {
+      // Prova ad appendere a un wp-block-group "space-between" (riga top del
+      // tema FSE) per affiancarsi al brand+nav.
+      const flexRow =
+        headerCandidate.querySelector(".wp-block-group.is-content-justification-space-between") ||
+        headerCandidate.querySelector(".wp-block-group.is-layout-flex") ||
+        headerCandidate.querySelector(".wp-block-group");
+      (flexRow || headerCandidate).appendChild(s);
+    } else {
+      // Nessun header: floating in alto a destra (visibile, non bloccante)
+      s.classList.add("aiucd-site-widgets--floating");
+      document.body.appendChild(s);
+    }
+    return s;
+  }
+
+  const slot = ensureSlot();
   if (!slot) return;
 
   const STORAGE_KEY  = cfg.agendaStorageKey || "aiucd2026-agenda";
