@@ -23,12 +23,38 @@
   flex-wrap: nowrap;       /* no-wrap: i 2 chip restano in linea */
 }
 
-/* Modalità "inline": slot iniettato accanto al Polylang switcher.
-   Lo allineiamo verticalmente al centro della riga (flag) e gli diamo
-   un po' di gap orizzontale. */
+/* Modalità "inline": slot iniettato dentro il container del Polylang
+   switcher. In alcuni temi il flex container parent ha `flex-wrap: wrap`
+   (e una nav molto larga in EN: "Towards the conference / Conference
+   program / …"), così i 2 chip andrebbero a capo sotto la riga della nav.
+   Posizioniamo lo slot in absolute, ancorato al lato destro dell'HEADER
+   del tema, alla stessa altezza verticale dei flag. Cap dimensionale per
+   non sovrapporre la nav su viewport medi. */
+header.wp-block-template-part,
+header.site-header,
+header[role="banner"],
+body > header,
+.wp-site-blocks > header {
+  position: relative;          /* ancoraggio per i chip in absolute */
+}
+
 #aiucd-site-widgets.aiucd-site-widgets--inline {
-  align-self: center;
-  margin-left: 16px;
+  position: absolute;
+  right: clamp(16px, 3vw, 40px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  margin-left: 0;
+  flex-wrap: nowrap;
+}
+
+/* Su viewport stretti (≤980px) la nav è tipicamente collassata in
+   hamburger: i chip stanno comodi affianco. Su viewport ≥1024 manteniamo
+   absolute right per non incrociare la nav (sufficiente spazio). */
+@media (max-width: 720px) {
+  #aiucd-site-widgets.aiucd-site-widgets--inline {
+    right: 12px;
+  }
 }
 
 /* Modalità floating: usata quando il tema attivo non ha lo slot canonico
