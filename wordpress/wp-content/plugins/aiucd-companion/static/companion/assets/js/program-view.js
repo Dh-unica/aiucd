@@ -6,7 +6,7 @@ import { nowMinutesOfDay, getNow } from "./livestate.js";
 import { renderLiveSnapshot } from "./now-view.js?v=copy1";
 import { t, formatDay, translateRoom, field } from "./i18n.js?v=f4-2";
 
-const ROOMS_ORDER = ["Aula 5A", "Aula 6A", "Aula 2A"];
+const ROOMS_ORDER = ["Aula 5A", "Aula 6A", "Aula 8A"];
 
 let _state = {
   selectedDay: null,

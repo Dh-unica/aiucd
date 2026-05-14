@@ -4,7 +4,7 @@
 
 import { getNow } from "./livestate.js";
 
-const ROOMS = ["Aula 5A", "Aula 6A", "Aula 2A"];
+const ROOMS = ["Aula 5A", "Aula 6A", "Aula 8A"];
 
 // =====================================================================
 // LIVE SNAPSHOT — versione compatta per integrazione nel tab Programma

@@ -14,7 +14,7 @@ let _state = {
   timer: null,
 };
 
-const ROOMS = ["Aula Capitini", "Aula 5A", "Aula 6A", "Aula 2A"];
+const ROOMS = ["Aula Capitini", "Aula 5A", "Aula 6A", "Aula 8A"];
 
 // Posizione percentuale del marker sulla relativa immagine di piano.
 // Coordinate misurate pixel-per-pixel sull'immagine 1600×1131 del PDF
@@ -36,7 +36,7 @@ const ROOM_LAYOUT = {
     top: 59.02, left: 65.78,
     width: 17.81, height: 11.94,
   },
-  "Aula 2A": {
+  "Aula 8A": {
     floor: "primo-piano",
     top: 84.44, left: 33.75,
     width: 18.12, height: 15.03,
@@ -59,10 +59,10 @@ const ROOM_DESCRIPTIONS = {
     role: "Sessioni parallele track B",
     travel: "Al primo piano, attraversa l'Area Poster verso sud: Aula 6A è la prima sala sulla destra, di fronte ad Aula 5A.",
   },
-  "Aula 2A": {
+  "Aula 8A": {
     location: "Corpo aggiunto · primo piano · estremità sud",
     role: "Sessioni parallele track C",
-    travel: "Al primo piano, scendi lungo il corridoio centrale oltre Aula 5A e Aula 6A: Aula 2A è la sala in fondo, sul lato sud-ovest.",
+    travel: "Al primo piano, scendi lungo il corridoio centrale oltre Aula 5A e Aula 6A: Aula 8A è la sala in fondo, sul lato sud-ovest.",
   },
 };
 
@@ -88,8 +88,8 @@ const FLOORS = [
     img: ASSET_BASE + "assets/img/mappa/primo-piano.jpg",
     get alt() {
       return getLang() === "en"
-        ? "First floor plan of the Annex Building: Capitini Main Room, Poster Area, Rooms 5A, 6A, 2A."
-        : "Pianta del primo piano del Corpo aggiunto: Aula Magna Capitini, Area Poster, Aula 5A, Aula 6A, Aula 2A.";
+        ? "First floor plan of the Annex Building: Capitini Main Room, Poster Area, Rooms 5A, 6A, 8A."
+        : "Pianta del primo piano del Corpo aggiunto: Aula Magna Capitini, Area Poster, Aula 5A, Aula 6A, Aula 8A.";
     },
     get caption() {
       return getLang() === "en"
@@ -197,7 +197,7 @@ function buildFloorView(floorId) {
         "Aula Capitini": "PLENARIE",
         "Aula 5A": "TRACK A",
         "Aula 6A": "TRACK B",
-        "Aula 2A": "TRACK C",
+        "Aula 8A": "TRACK C",
       })[name] || "";
       return `
         <button type="button"
