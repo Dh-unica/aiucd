@@ -37,7 +37,18 @@
     s.className = "aiucd-site-widgets";
     s.setAttribute("aria-label", "Stato convegno AIUCD 2026");
 
-    // Cerca un header del tema FSE in ordine di preferenza
+    // Strategia di posizionamento (in ordine di preferenza):
+    //   1. Subito dopo il Polylang switcher (= riga della nav + flag),
+    //      stessa altezza, allineato a destra.
+    //   2. Dentro un wp-block-group "space-between" dell'header FSE.
+    //   3. Floating top-right come ultimo fallback.
+    const pll = document.querySelector(".polylang-switcher");
+    if (pll && pll.parentElement) {
+      pll.parentElement.appendChild(s);
+      s.classList.add("aiucd-site-widgets--inline");
+      return s;
+    }
+
     const headerCandidate =
       document.querySelector("header.wp-block-template-part") ||
       document.querySelector("header.site-header") ||
@@ -46,15 +57,12 @@
       document.querySelector(".wp-site-blocks > header");
 
     if (headerCandidate) {
-      // Prova ad appendere a un wp-block-group "space-between" (riga top del
-      // tema FSE) per affiancarsi al brand+nav.
       const flexRow =
         headerCandidate.querySelector(".wp-block-group.is-content-justification-space-between") ||
         headerCandidate.querySelector(".wp-block-group.is-layout-flex") ||
         headerCandidate.querySelector(".wp-block-group");
       (flexRow || headerCandidate).appendChild(s);
     } else {
-      // Nessun header: floating in alto a destra (visibile, non bloccante)
       s.classList.add("aiucd-site-widgets--floating");
       document.body.appendChild(s);
     }
@@ -124,26 +132,35 @@
   // ─────────────────────────────────────────────────────────────────────
   // 2. Computazione countdown info
   // ─────────────────────────────────────────────────────────────────────
+  // Mini-dizionario per il fallback (quando program.json non è disponibile
+  // o livestate.js fallisce); coerente con I18N di livestate.js.
+  const FALLBACK_I18N = {
+    it: { post: "Convegno concluso", live: "In corso", pre_days: (d) => `T-${d} giorni`, tomorrow: "Domani", opens_in: (m) => `Apre tra ${m} min` },
+    en: { post: "Conference concluded", live: "Live now", pre_days: (d) => `T-${d} days`, tomorrow: "Tomorrow", opens_in: (m) => `Opens in ${m}m` },
+  };
+
   function computeInfo() {
+    const lang = cfg.lang === "en" ? "en" : "it";
     if (program && window.AIUCD_LIVESTATE) {
       try {
-        return window.AIUCD_LIVESTATE.getCountdownInfo(program);
+        return window.AIUCD_LIVESTATE.getCountdownInfo(program, lang);
       } catch (e) {
         // Difensivo: se livestate solleva, cadi nel fallback grossolano
         console && console.warn && console.warn("[site-widgets] livestate fail", e);
       }
     }
     // Fallback: stato a granulo grosso senza programma
+    const T = FALLBACK_I18N[lang];
     const now = Date.now();
-    if (now >= CLOSING_MS) return { state: "post", label: "Convegno concluso", detail: "", progress: 1 };
-    if (now >= OPENING_MS) return { state: "live", label: "In corso", detail: "", progress: 0 };
+    if (now >= CLOSING_MS) return { state: "post", label: T.post, detail: "", progress: 1 };
+    if (now >= OPENING_MS) return { state: "live", label: T.live, detail: "", progress: 0 };
     const diffMs = OPENING_MS - now;
     const diffMin = Math.round(diffMs / 60000);
     const diffDays = Math.ceil(diffMs / 86400000);
-    if (diffDays > 1) return { state: "pre", label: `T-${diffDays} giorni`, detail: "", progress: 0 };
-    if (diffMin > 60) return { state: "pre-soon", label: "Domani", detail: "", progress: 0 };
-    if (diffMin > 0)  return { state: "pre-imminent", label: `Apre tra ${diffMin} min`, detail: "", progress: 0 };
-    return { state: "live", label: "In corso", detail: "", progress: 0 };
+    if (diffDays > 1) return { state: "pre", label: T.pre_days(diffDays), detail: "", progress: 0 };
+    if (diffMin > 60) return { state: "pre-soon", label: T.tomorrow, detail: "", progress: 0 };
+    if (diffMin > 0)  return { state: "pre-imminent", label: T.opens_in(diffMin), detail: "", progress: 0 };
+    return { state: "live", label: T.live, detail: "", progress: 0 };
   }
 
   // ─────────────────────────────────────────────────────────────────────

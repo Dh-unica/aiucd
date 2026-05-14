@@ -9,15 +9,15 @@
  *     getNow,            // Date corrente, rispetta ?simulate=YYYY-MM-DDTHH:MM
  *     getOpeningTime,    // Date di apertura (primo blocco del primo giorno)
  *     liveState,         // { state: pre|live|break|post, day, block, track, talk }
- *     getCountdownInfo,  // { state, label, detail, progress, liveCount, nextChangeMin, lastDay }
+ *     getCountdownInfo,  // (program, lang) → { state, label, detail, progress, … }
  *   };
  *
  * Lo stato è derivato dal `program.json` quando disponibile; senza, le funzioni
  * degradano a {state:"pre", label:"Pre-convegno"} (vedi fallback in
  * `getCountdownInfo`).
  *
- * Single source of truth della logica live; manteniamo IT-only (etichette in
- * italiano) — la versione EN è gestita dallo strato di rendering, non qui.
+ * Bilingue: tutte le label/detail sono in italiano per default; passare
+ * `lang === "en"` a `getCountdownInfo` produce le stringhe inglesi corrispondenti.
  */
 (function () {
   function getNow() {
@@ -177,7 +177,43 @@
     return today === days[days.length - 1].date;
   }
 
-  function getCountdownInfo(program) {
+  // Mini-dizionario di stringhe: tutto ciò che il widget mostra nei chip
+  // countdown è qui. Aggiungere nuove lingue = aggiungere una chiave qui.
+  const I18N = {
+    it: {
+      live_single:    "In corso",
+      live_multi:     (n) => `${n} in corso`,
+      live_change_in: (m) => `cambio fra ${m} min`,
+      post:           "Convegno concluso",
+      break_lastday:  "Pausa · ultimo giorno",
+      break:          "Pausa",
+      break_resume:   (m) => `riprende fra ${m} min`,
+      pre_static:     "Pre-convegno",
+      pre_days:       (d) => `T-${d} giorni`,
+      tomorrow:       "Domani",
+      opens_at:       (t) => `apre ${t}`,
+      opens_in:       (m) => `Apre tra ${m} min`,
+      locale:         "it-IT",
+    },
+    en: {
+      live_single:    "Live now",
+      live_multi:     (n) => `${n} live`,
+      live_change_in: (m) => `next change in ${m}m`,
+      post:           "Conference concluded",
+      break_lastday:  "Break · last day",
+      break:          "Break",
+      break_resume:   (m) => `resumes in ${m}m`,
+      pre_static:     "Pre-conference",
+      pre_days:       (d) => `T-${d} days`,
+      tomorrow:       "Tomorrow",
+      opens_at:       (t) => `opens at ${t}`,
+      opens_in:       (m) => `Opens in ${m}m`,
+      locale:         "en-GB",
+    },
+  };
+
+  function getCountdownInfo(program, lang) {
+    const T = I18N[lang === "en" ? "en" : "it"];
     const now = getNow();
     const ls = liveState(program);
     const opening = getOpeningTime(program);
@@ -195,15 +231,15 @@
         const e = parseTime(ls.day.date, ls.block.end);
         if (e > s) progress = Math.min(1, Math.max(0, (now - s) / (e - s)));
       }
-      const label = snap.liveCount > 1 ? `${snap.liveCount} in corso` : "In corso";
-      const detail = snap.nextChangeMin != null ? `cambio fra ${snap.nextChangeMin} min` : "";
+      const label = snap.liveCount > 1 ? T.live_multi(snap.liveCount) : T.live_single;
+      const detail = snap.nextChangeMin != null ? T.live_change_in(snap.nextChangeMin) : "";
       return { state: "live", label, detail, progress,
                liveCount: snap.liveCount, nextChangeMin: snap.nextChangeMin,
                lastDay, talk: ls.talk || null, room: ls.track && ls.track.room || null };
     }
 
     if (ls.state === "post") {
-      return { state: "post", label: "Convegno concluso", detail: "", progress: 1, lastDay };
+      return { state: "post", label: T.post, detail: "", progress: 1, lastDay };
     }
 
     if (ls.state === "break") {
@@ -214,13 +250,13 @@
         const e = parseTime(ls.day.date, ls.block.end);
         if (e > s) progress = Math.min(1, Math.max(0, (now - s) / (e - s)));
       }
-      const detail = snap.nextChangeMin != null ? `riprende fra ${snap.nextChangeMin} min` : "";
-      return { state: "break", label: lastDay ? "Pausa · ultimo giorno" : "Pausa",
+      const detail = snap.nextChangeMin != null ? T.break_resume(snap.nextChangeMin) : "";
+      return { state: "break", label: lastDay ? T.break_lastday : T.break,
                detail, progress, nextChangeMin: snap.nextChangeMin, lastDay };
     }
 
     if (!opening) {
-      return { state: "pre", label: "Pre-convegno", detail: "", progress: 0, lastDay: false };
+      return { state: "pre", label: T.pre_static, detail: "", progress: 0, lastDay: false };
     }
 
     const diffMs = opening - now;
@@ -228,23 +264,23 @@
     const diffHr  = Math.round(diffMs / 3600000);
     const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
 
-    const dayShort  = opening.toLocaleDateString("it-IT", { weekday: "short", day: "numeric", month: "short" });
-    const timeShort = opening.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
+    const dayShort  = opening.toLocaleDateString(T.locale, { weekday: "short", day: "numeric", month: "short" });
+    const timeShort = opening.toLocaleTimeString(T.locale, { hour: "2-digit", minute: "2-digit" });
 
     const preWindowMs = 30 * 24 * 60 * 60 * 1000;
     const progressPre = Math.min(1, Math.max(0, 1 - (diffMs / preWindowMs)));
 
     if (diffDays > 1) {
-      return { state: "pre", label: `T-${diffDays} giorni`, detail: `${dayShort} ${timeShort}`, progress: progressPre, lastDay: false };
+      return { state: "pre", label: T.pre_days(diffDays), detail: `${dayShort} ${timeShort}`, progress: progressPre, lastDay: false };
     }
     if (diffHr > 1) {
-      return { state: "pre-soon", label: "Domani", detail: `apre ${timeShort}`, progress: progressPre, lastDay: false };
+      return { state: "pre-soon", label: T.tomorrow, detail: T.opens_at(timeShort), progress: progressPre, lastDay: false };
     }
     if (diffMin > 0) {
       const progressImm = Math.min(0.99, 1 - (diffMin / 60));
-      return { state: "pre-imminent", label: `Apre tra ${diffMin} min`, detail: "", progress: progressImm, lastDay: false };
+      return { state: "pre-imminent", label: T.opens_in(diffMin), detail: "", progress: progressImm, lastDay: false };
     }
-    return { state: "live", label: "In corso", detail: "", progress: 0, lastDay };
+    return { state: "live", label: T.live_single, detail: "", progress: 0, lastDay };
   }
 
   window.AIUCD_LIVESTATE = { getNow, getOpeningTime, liveState, getCountdownInfo };
