@@ -273,7 +273,11 @@ function createSessionBlock(block, day) {
       if (tk.start && tk.end) slotKeys.add(`${tk.start}-${tk.end}`);
     }
   }
-  const sortedSlots = Array.from(slotKeys).sort();
+  const slotMinutes = (slot) => {
+    const [h, m] = slot.split("-")[0].split(":").map(Number);
+    return h * 60 + m;
+  };
+  const sortedSlots = Array.from(slotKeys).sort((a, b) => slotMinutes(a) - slotMinutes(b));
   // row 1 = session-track-header, rows 2..(N+1) = uno per slot orario
   const slotRow = new Map(sortedSlots.map((s, i) => [s, i + 2]));
 
