@@ -1,0 +1,245 @@
+/* ============================================================
+   Noa FAB · global (sprint B2, 2026-05-15)
+   Caricato su TUTTE le pagine WP — non solo quelle col companion.
+   Self-contained: nessuna dipendenza da tokens.css né da altri CSS
+   del companion (che su /chi-siamo & co. non sono caricati).
+
+   Visibilità: extended FAB (icona + label "Chiedi a Noa"), bordo
+   bianco di contrasto, alone statico, bubble one-shot di benvenuto.
+   Nessuna animazione "squillo": un solo slide-in al primo paint.
+   ============================================================ */
+
+#noa-fab-global {
+  /* Token interni — non dipendono dal companion */
+  --noa-rust: #d8613c;
+  --noa-rust-dark: #b04825;
+  --noa-navy: #000060;
+  --noa-paper: #ffffff;
+
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 999990; /* alto: deve stare sopra cookie banner, chrome WP */
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 18px 12px 14px;
+  border: 0;
+  border-radius: 999px;
+  /* !important obbligato: TT4 setta `body > * { background-color: #fff !important }`
+   * a livello tema e sovrascriverebbe qualunque specificità non-important. */
+  background: var(--noa-rust) !important;
+  color: var(--noa-paper) !important;
+
+  font: 600 14px/1.2 "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: 0.01em;
+  text-decoration: none !important;
+  cursor: pointer;
+
+  /* Stacco visivo: anello bianco statico + alone soft (NO pulse) */
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.9),
+    0 0 0 6px rgba(216, 97, 60, 0.18),
+    0 10px 24px rgba(216, 97, 60, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.12);
+
+  /* Slide-in once al primo paint: 600ms da destra, poi fermo */
+  opacity: 0;
+  transform: translateX(20px);
+  animation: noa-fab-enter 0.6s 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  transition:
+    transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.18s,
+    background 0.18s;
+}
+
+@keyframes noa-fab-enter {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+#noa-fab-global:hover {
+  background: var(--noa-rust-dark) !important;
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.95),
+    0 0 0 6px rgba(216, 97, 60, 0.22),
+    0 14px 30px rgba(216, 97, 60, 0.45),
+    0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#noa-fab-global:focus-visible {
+  outline: 3px solid var(--noa-navy);
+  outline-offset: 4px;
+}
+
+#noa-fab-global .noa-fab-global-icon {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Glifo SVG bianco — inline per non dipendere da glyphs.css */
+#noa-fab-global .noa-fab-global-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+#noa-fab-global .noa-fab-global-label {
+  white-space: nowrap;
+}
+
+/* Mobile: collassa a solo icona per non occupare spazio.
+   Resta cliccabile per il bridge. */
+@media (max-width: 640px) {
+  #noa-fab-global {
+    padding: 14px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    right: 16px;
+  }
+  #noa-fab-global .noa-fab-global-label {
+    display: none;
+  }
+  #noa-fab-global .noa-fab-global-icon {
+    width: 26px;
+    height: 26px;
+    background: transparent;
+  }
+}
+
+/* Riduce-motion: niente slide-in iniziale, solo fade. */
+@media (prefers-reduced-motion: reduce) {
+  #noa-fab-global {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  #noa-fab-global:hover {
+    transform: none;
+  }
+}
+
+/* ── Bubble one-shot di benvenuto ──────────────────────────── */
+#noa-fab-bubble {
+  --noa-rust: #d8613c;
+  --noa-navy: #000060;
+  --noa-paper: #ffffff;
+
+  position: fixed;
+  right: 20px;
+  /* sopra al FAB: il FAB sta a bottom 20px e high ~48px → bubble parte da
+   * bottom ~86px desktop. Su mobile il FAB sale per safe-area: usiamo calc. */
+  bottom: calc(86px + env(safe-area-inset-bottom, 0px));
+  z-index: 999991;
+
+  max-width: 280px;
+  padding: 14px 36px 14px 16px;
+  background: var(--noa-paper);
+  color: var(--noa-navy);
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 96, 0.08);
+
+  font: 400 13.5px/1.45 "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  box-shadow:
+    0 10px 24px rgba(0, 0, 96, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.08);
+
+  /* Slide-in una volta sola, dopo 1.2s dall'arrivo del FAB */
+  opacity: 0;
+  transform: translateY(8px);
+  animation: noa-bubble-enter 0.5s 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+@keyframes noa-bubble-enter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#noa-fab-bubble strong {
+  display: block;
+  font-weight: 700;
+  font-family: "Cardo", Georgia, serif;
+  font-size: 15px;
+  color: var(--noa-rust);
+  margin-bottom: 4px;
+}
+
+#noa-fab-bubble .noa-fab-bubble-close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--noa-navy);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.55;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+#noa-fab-bubble .noa-fab-bubble-close:hover {
+  opacity: 1;
+  background: rgba(0, 0, 96, 0.06);
+}
+#noa-fab-bubble .noa-fab-bubble-close:focus-visible {
+  outline: 2px solid var(--noa-navy);
+  outline-offset: 1px;
+  opacity: 1;
+}
+
+/* Triangolino verso il FAB */
+#noa-fab-bubble::after {
+  content: "";
+  position: absolute;
+  right: 28px;
+  bottom: -7px;
+  width: 14px;
+  height: 14px;
+  background: var(--noa-paper);
+  border-right: 1px solid rgba(0, 0, 96, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 96, 0.08);
+  transform: rotate(45deg);
+}
+
+@media (max-width: 640px) {
+  #noa-fab-bubble {
+    right: 16px;
+    max-width: calc(100vw - 32px);
+  }
+  #noa-fab-bubble::after {
+    right: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #noa-fab-bubble {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Quando il FAB globale convive con la pagina companion lo nascondiamo:
+   sulla page del companion il FAB pieno (.noa-fab) è già nel DOM via partial. */
+body.aiucd-companion-page #noa-fab-global,
+body.aiucd-companion-page #noa-fab-bubble {
+  display: none !important;
+}

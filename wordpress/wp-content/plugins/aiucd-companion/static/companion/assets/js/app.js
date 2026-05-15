@@ -38,14 +38,24 @@ async function init() {
   tabBtns.forEach(btn => btn.addEventListener("click", () => selectTab(btn.dataset.tab)));
   mbTabs.forEach(btn => btn.addEventListener("click", () => selectTab(btn.dataset.tab)));
 
-  // Initial tab from hash
-  const initialTab = (window.location.hash || "#programma").slice(1);
-  // Legacy hash #path → dispatch open-agenda-drawer (then default to programma)
-  if (initialTab === "path") {
-    selectTab("programma", true);
+  // Initial tab from hash. Whitelist le tab valide: hash usati per gesture
+  // diverse (es. `#noa` dal FAB globale per aprire il drawer di Noa) non sono
+  // tab e cadrebbero in selectTab() lasciando tutte le sezioni nascoste.
+  const validTabs = new Set(Array.from(tabSections).map(s => s.dataset.tab));
+  const rawHash = (window.location.hash || "").slice(1);
+  let initialTab;
+  if (rawHash === "path") {
+    // Legacy hash #path
+    initialTab = "programma";
+  } else if (validTabs.has(rawHash)) {
+    initialTab = rawHash;
   } else {
-    selectTab(initialTab, false);
+    // Hash sconosciuto o vuoto (incluso `#noa`): default Programma. Non
+    // pushiamo nulla in history per non sovrascrivere `#noa` (lo legge
+    // noa-drawer.js per auto-aprire il drawer).
+    initialTab = "programma";
   }
+  selectTab(initialTab, false);
 
   // Modalità kiosk
   const params = new URLSearchParams(window.location.search);

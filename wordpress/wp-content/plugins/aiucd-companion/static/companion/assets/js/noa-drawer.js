@@ -89,6 +89,23 @@ export function initNoaDrawer(data) {
     renderDrawerContent();
     _state.drawer.open(fab);
   });
+
+  // Auto-apertura quando si arriva dal FAB globale (Sprint B2):
+  // il bridge da pagine non-companion ci atterra qui con `?noa=1` e/o `#noa`.
+  // Apriamo il drawer dopo un microtask così l'app ha tempo di renderizzare
+  // il resto dell'UI (catalogo, programma, ecc.) e l'utente vede subito Noa.
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const wantsNoa = params.get("noa") === "1" || window.location.hash === "#noa";
+    if (wantsNoa) {
+      setTimeout(() => {
+        renderDrawerContent();
+        _state.drawer.open(fab);
+        try { localStorage.setItem(NOA_SEEN_KEY, "true"); } catch (e) { /* no-op */ }
+        updateFabBadge();
+      }, 60);
+    }
+  } catch (e) { /* no-op: URL parsing non-critical */ }
 }
 
 function updateFabBadge() {

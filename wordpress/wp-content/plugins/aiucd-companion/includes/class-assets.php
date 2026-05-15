@@ -11,6 +11,8 @@ class AIUCD_Companion_Assets {
 
     public static function register() {
         add_action( 'wp_enqueue_scripts', array( __CLASS__, 'maybe_enqueue' ) );
+        add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_global_fab' ) );
+        add_action( 'wp_footer',          array( __CLASS__, 'render_global_fab' ), 99 );
         add_filter( 'script_loader_tag', array( __CLASS__, 'module_type' ), 10, 3 );
         add_filter( 'body_class',        array( __CLASS__, 'body_class' ) );
     }
@@ -87,6 +89,160 @@ class AIUCD_Companion_Assets {
             $ver,
             true
         );
+    }
+
+    /**
+     * Carica CSS/JS del FAB globale di Noa su TUTTE le pagine del sito,
+     * tranne quelle che contengono già lo shortcode (lì il FAB pieno è
+     * già renderizzato dal partial e gestito da app.js).
+     *
+     * Self-contained: file leggeri, nessuna dipendenza dal bundle companion.
+     */
+    public static function enqueue_global_fab() {
+        if ( is_admin() ) return;
+        if ( self::page_has_shortcode() ) return;
+
+        $base = AIUCD_COMPANION_URL . 'static/companion/';
+        $ver  = self::version();
+
+        wp_enqueue_style(
+            'aiucd-noa-fab-global',
+            $base . 'assets/css/noa-fab-global.css',
+            array(),
+            $ver
+        );
+        wp_enqueue_script(
+            'aiucd-noa-fab-global',
+            $base . 'assets/js/noa-fab-global.js',
+            array(),
+            $ver,
+            true
+        );
+    }
+
+    /**
+     * Renderizza il markup del FAB globale + bubble di benvenuto nel <footer>.
+     * Funziona come bridge: il FAB è un <a> che porta alla pagina del companion
+     * con `?noa=1#noa`, parametri letti da noa-drawer.js per aprire il drawer
+     * automaticamente all'arrivo.
+     *
+     * Non emette nulla:
+     *   - in admin
+     *   - sulla pagina del companion (FAB già nel partial)
+     *   - se non è stata identificata una pagina target (companion mancante)
+     */
+    public static function render_global_fab() {
+        if ( is_admin() ) return;
+        if ( self::page_has_shortcode() ) return;
+
+        $bridge_url = self::bridge_url();
+        if ( ! $bridge_url ) return;
+
+        $lang = AIUCD_Companion_Polylang::current_lang();
+        $is_en = ( $lang === 'en' );
+
+        $label   = $is_en ? 'Ask Noa' : 'Chiedi a Noa';
+        $aria    = $is_en ? 'Ask Noa, your conference companion guide' : 'Chiedi a Noa, la tua guida del convegno';
+        $bub_h   = $is_en ? "Hi, I'm Noa" : 'Ciao, sono Noa';
+        $bub_b   = $is_en
+            ? 'I can guide you through the AIUCD 2026 conference: paths, agenda, things to do in Cagliari.'
+            : 'Posso guidarti tra le tre giornate di AIUCD 2026: percorsi, agenda, cose da fare a Cagliari.';
+        $bub_x   = $is_en ? 'Close' : 'Chiudi';
+
+        // Glifo SVG inline — minimale, evita dipendenze da glyphs.css.
+        $icon = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+              . '<path d="M12 2a7 7 0 0 0-7 7v3.27c0 .55-.22 1.08-.61 1.46L3 15.12V17h18v-1.88l-1.39-1.39A2.07 2.07 0 0 1 19 12.27V9a7 7 0 0 0-7-7Zm-2 18a2 2 0 1 0 4 0h-4Z" fill="currentColor"/>'
+              . '</svg>';
+        ?>
+        <a id="noa-fab-global"
+           href="<?php echo esc_url( $bridge_url ); ?>"
+           aria-label="<?php echo esc_attr( $aria ); ?>"
+           data-lang="<?php echo esc_attr( $lang ); ?>">
+          <span class="noa-fab-global-icon" aria-hidden="true"><?php echo $icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — SVG statico ?></span>
+          <span class="noa-fab-global-label"><?php echo esc_html( $label ); ?></span>
+        </a>
+        <aside id="noa-fab-bubble" role="complementary" aria-labelledby="noa-fab-bubble-title">
+          <strong id="noa-fab-bubble-title"><?php echo esc_html( $bub_h ); ?></strong>
+          <span><?php echo esc_html( $bub_b ); ?></span>
+          <button type="button" class="noa-fab-bubble-close" aria-label="<?php echo esc_attr( $bub_x ); ?>">×</button>
+        </aside>
+        <?php
+    }
+
+    /**
+     * Risolve l'URL della pagina che contiene lo shortcode [aiucd_companion]
+     * nella lingua corrente. Cache statica per turn (più chiamate nello stesso
+     * request non ripetono la query). Aggiunge ?noa=1#noa come gancio per
+     * l'autoapertura del drawer.
+     */
+    private static function bridge_url() {
+        static $cached_url = null;
+        static $cached_lang = null;
+
+        $lang = AIUCD_Companion_Polylang::current_lang();
+        if ( $cached_url !== null && $cached_lang === $lang ) {
+            return $cached_url;
+        }
+
+        $page_id = self::find_companion_page_id( $lang );
+        $cached_lang = $lang;
+        if ( ! $page_id ) {
+            $cached_url = false;
+            return false;
+        }
+
+        $url = get_permalink( $page_id );
+        if ( ! $url ) {
+            $cached_url = false;
+            return false;
+        }
+
+        $cached_url = add_query_arg( 'noa', '1', $url ) . '#noa';
+        return $cached_url;
+    }
+
+    /**
+     * Trova l'ID della pagina (lingua corrente) che contiene lo shortcode
+     * [aiucd_companion]. Polylang-aware: cerca prima la pagina nella lingua
+     * corrente; fallback su qualunque lingua se la traduzione manca.
+     */
+    private static function find_companion_page_id( $lang ) {
+        $args = array(
+            'post_type'      => 'page',
+            'post_status'    => 'publish',
+            'posts_per_page' => 1,
+            's'              => '[' . AIUCD_Companion_Shortcode::TAG, // grezzo ma sufficiente
+            'fields'         => 'ids',
+            'no_found_rows'  => true,
+        );
+        if ( function_exists( 'pll_get_post' ) ) {
+            $args['lang'] = $lang;
+        }
+
+        $q = get_posts( $args );
+        if ( ! empty( $q ) ) {
+            $candidate = $q[0];
+            // Conferma che lo shortcode ci sia davvero (s='[aiucd_companion' è
+            // un match testuale: filtriamo per certezza).
+            $post = get_post( $candidate );
+            if ( $post && has_shortcode( $post->post_content, AIUCD_Companion_Shortcode::TAG ) ) {
+                return $candidate;
+            }
+        }
+
+        // Fallback: cerca senza vincolo di lingua.
+        if ( isset( $args['lang'] ) ) {
+            unset( $args['lang'] );
+            $q = get_posts( $args );
+            if ( ! empty( $q ) ) {
+                $post = get_post( $q[0] );
+                if ( $post && has_shortcode( $post->post_content, AIUCD_Companion_Shortcode::TAG ) ) {
+                    return $q[0];
+                }
+            }
+        }
+
+        return 0;
     }
 
     /**
