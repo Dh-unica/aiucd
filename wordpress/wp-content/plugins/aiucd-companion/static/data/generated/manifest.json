@@ -1,9 +1,9 @@
 {
-  "version": "20260515-1502",
-  "generated_at": "2026-05-15T13:02:23+00:00",
+  "version": "20260515-1530",
+  "generated_at": "2026-05-15T13:30:59+00:00",
   "files": {
-    "papers.json": "64e623850b48145d86cc3e61de487e5d446d3ded6d1e3e7dab60da2c0fc08f66",
-    "program.json": "0babff5510eb75d95da05ed17ea64ee38bfd7afe26692023b8b0b4996c6cde06",
+    "papers.json": "7714e430996c2456dd39ed86cff8db862753a412bc34f9c4016584902303fee1",
+    "program.json": "f4c29fd6bbba1caea6f15b146b5b82c221d02657532851050e4d3552b7a411dd",
     "posters.json": "c7403b04fc7dbff6fdeb946994ad18070a9d5ebdae774217d083d7456b035015",
     "paths.json": "def3d9b2ce57b789c0079258740af7d92be74af507aab1ec0251a78cbec38088",
     "poi.json": "7a4046e6b90311f36ef4d84666b8f94504223cb574c287be170ae77a4f59f260"
@@ -12,7 +12,7 @@
     "talks_total": 134,
     "talks_oral": 96,
     "talks_poster": 38,
-    "scheduled_in_program": 91,
+    "scheduled_in_program": 92,
     "posters_in_session": 38,
     "paths": 14,
     "paths_with_conflict": 5,
