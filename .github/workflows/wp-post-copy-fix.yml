@@ -87,10 +87,9 @@ jobs:
           run_wp wp post get "$POST_ID" --field=post_title
 
           echo ""
-          echo "=== 1b) Estratto del post_content che contiene 'Poster' ==="
-          run_wp wp post get "$POST_ID" --field=post_content \
-            | grep -ioE '.{40}[Pp]oster.{120}' \
-            | head -5 || echo "(no matches)"
+          echo "=== 1b) Dump completo del post_content (per ispezione) ==="
+          run_wp wp post get "$POST_ID" --field=post_content
+          echo "=== /end dump ==="
 
           echo ""
           echo "=== 2) Generazione script PHP locale ==="
