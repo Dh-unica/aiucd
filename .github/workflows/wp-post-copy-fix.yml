@@ -1,0 +1,149 @@
+name: WP · post copy fix (one-shot)
+
+# Applica una serie di sostituzioni di copy al contenuto di un singolo post WP
+# in produzione, via WP-CLI. Le coppie (old, new) sono hard-coded nel job
+# perche' contengono caratteri unicode (accenti, virgolette curly) che non si
+# passano bene da workflow input. Per altri post: aggiorna lo slug nei default
+# e riscrivi le coppie nel json inline.
+#
+# Esegue dry-run di default; setta dry_run=false per applicare davvero.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry-run (true = mostra solo le differenze, niente scritture)'
+        required: true
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+      slug:
+        description: 'Post slug (post_name) da modificare'
+        required: true
+        default: 'tutto-il-convegno-in-tasca-nuova-sezione-programma-aiucd-2026'
+        type: string
+
+concurrency:
+  group: aiucd-wp-post-copy-fix
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  apply:
+    name: Apply copy fixes via WP-CLI
+    runs-on: [self-hosted, aiucd-prod]
+    env:
+      WPCLI_IMAGE: wordpress:cli-2.10
+      DRY_RUN: ${{ inputs.dry_run }}
+      SLUG: ${{ inputs.slug }}
+    steps:
+      - name: Pre-flight
+        run: |
+          set -e
+          cd /home/dhpasteur/actions-runner/_work/aiucd/aiucd || cd "$GITHUB_WORKSPACE"
+          if ! docker compose ps 2>/dev/null | grep -q "Up"; then
+            echo "::error::containers not running"
+            exit 1
+          fi
+          echo "Slug: $SLUG | Dry-run: $DRY_RUN"
+
+      - name: Apply replacements
+        run: |
+          set -e
+          cd /home/dhpasteur/actions-runner/_work/aiucd/aiucd || cd "$GITHUB_WORKSPACE"
+
+          WP_ENV_FILE="$(mktemp)"
+          PHP_SCRIPT_FILE="$(mktemp --suffix=.php)"
+          trap 'rm -f "$WP_ENV_FILE" "$PHP_SCRIPT_FILE"' EXIT
+
+          docker inspect aiucd_wordpress --format '{{range .Config.Env}}{{println .}}{{end}}' \
+            | grep -E '^WORDPRESS_' > "$WP_ENV_FILE"
+
+          run_wp() {
+            docker run --rm \
+              --env-file "$WP_ENV_FILE" \
+              --network aiucd_aiucd_network \
+              --volumes-from aiucd_wordpress \
+              --workdir /var/www/html \
+              -u 1001:1001 \
+              "$WPCLI_IMAGE" "$@"
+          }
+
+          echo "=== 1) Lookup post by slug ==="
+          POST_ID="$(run_wp wp post list --post_type=post --name="$SLUG" --field=ID --format=ids 2>/dev/null | tr -d '[:space:]' || true)"
+          if [ -z "$POST_ID" ]; then
+            echo "non trovato come post_type=post, provo post_type=page"
+            POST_ID="$(run_wp wp post list --post_type=page --name="$SLUG" --field=ID --format=ids 2>/dev/null | tr -d '[:space:]' || true)"
+          fi
+          if [ -z "$POST_ID" ]; then
+            echo "::error::Post con slug '$SLUG' non trovato"
+            exit 1
+          fi
+          echo "POST_ID=$POST_ID"
+          run_wp wp post get "$POST_ID" --field=post_title
+
+          echo ""
+          echo "=== 2) Generazione script PHP locale ==="
+          cat > "$PHP_SCRIPT_FILE" <<'PHPEOF'
+          <?php
+          $post_id  = (int) getenv('AIUCD_POST_ID');
+          $dry_run  = getenv('AIUCD_DRY_RUN') === 'true';
+          $pairs    = json_decode(getenv('AIUCD_REPL_JSON'), true) ?: [];
+
+          $post = get_post($post_id);
+          if (!$post) { fwrite(STDERR, "Post $post_id non trovato\n"); exit(1); }
+
+          $content = $post->post_content;
+          $orig    = $content;
+          $applied = 0; $missing = 0;
+          foreach ($pairs as [$old, $new]) {
+              $count = 0;
+              $content = str_replace($old, $new, $content, $count);
+              if ($count > 0) {
+                  echo "  OK  ($count) :: " . mb_substr($old, 0, 70) . "...\n";
+                  $applied += $count;
+              } else {
+                  echo "  MISS       :: " . mb_substr($old, 0, 70) . "...\n";
+                  $missing++;
+              }
+          }
+          echo "\nSummary: applied=$applied, missing=$missing\n";
+
+          if ($dry_run) { echo "[DRY-RUN] nessuna scrittura\n"; exit(0); }
+          if ($content === $orig) { echo "[NO-OP] contenuto immutato\n"; exit(0); }
+
+          $res = wp_update_post([
+              'ID'           => $post_id,
+              'post_content' => $content,
+          ], true);
+          if (is_wp_error($res)) {
+              fwrite(STDERR, 'wp_update_post error: ' . $res->get_error_message() . "\n");
+              exit(1);
+          }
+          echo "OK post $post_id aggiornato\n";
+          PHPEOF
+
+          echo "=== 3) Coppie (old, new) ==="
+          REPLACEMENTS_JSON='[
+            ["Aule 5A, 6A, 8A per i track paralleli", "Aule 5A, 6A, 8A per le sessioni parallele"],
+            ["I 40 Poster della sessione dedicata hanno la loro vista", "I 40 Poster hanno una sessione e una mappa dedicata che si può esplorare come un grafo"],
+            ["le schede dei talk", "le schede delle presentazioni"]
+          ]'
+
+          echo ""
+          echo "=== 4) Esecuzione PHP eval-file ==="
+          docker run --rm \
+            --env-file "$WP_ENV_FILE" \
+            -e AIUCD_POST_ID="$POST_ID" \
+            -e AIUCD_DRY_RUN="$DRY_RUN" \
+            -e AIUCD_REPL_JSON="$REPLACEMENTS_JSON" \
+            --network aiucd_aiucd_network \
+            --volumes-from aiucd_wordpress \
+            -v "$PHP_SCRIPT_FILE:/tmp/wp-post-copy-fix.php:ro" \
+            --workdir /var/www/html \
+            -u 1001:1001 \
+            "$WPCLI_IMAGE" wp eval-file /tmp/wp-post-copy-fix.php
