@@ -32,7 +32,7 @@
     "abstract": "Il contributo prende in esame il progetto Àndalas de Cultura per riflettere sul ruolo che le infrastrutture digitali pubbliche possono assumere nei processi di mediazione del patrimonio e nella costruzione condivisa della conoscenza. Inserito nel più ampio contesto di rinnovamento delle politiche digitali a livello nazionale ed europeo, il caso viene letto come parte di un progressivo superamento di approcci emergenziali e tecnocentrici. Àndalas è assunto come un laboratorio osservativo attraverso cui indagare come pratiche di aggregazione, interoperabilità e riuso dei contenuti digitali, insieme a metodologie partecipative — dalla co-creation alla formazione degli operatori — incidano concretamente sulle modalità di accesso al patrimonio, sulla produzione di sapere e sulle relazioni tra istituzioni culturali e comunità in un contesto insulare policentrico. In questa prospettiva, l’infrastruttura si configura come uno spazio in cui il patrimonio prende forma attraverso pratiche d’uso, interpretazione e partecipazione.",
     "area_code": "co-construction",
     "area_label": "DH e co-costruzione di conoscenza",
-    "iscritto": false,
+    "iscritto": true,
     "photo": null,
     "poster_pdf": null,
     "consent_photo": false,
@@ -724,26 +724,6 @@
     "area_label_en": "Memories and heritage"
   },
   {
-    "id": 121,
-    "title": "La Digital Library e l’Ecosistema digitale per la cultura come  opportunità di public engagement",
-    "authors_raw": "Biancamaria Hermanin (Ministero della Cultura)",
-    "authors": [
-      {
-        "name": "Biancamaria Hermanin",
-        "aff": "Ministero della Cultura"
-      }
-    ],
-    "abstract": "The concept of the digital library, although common for thirty years, remains difficult to define due to its \nintrinsic complexity. This complexity stems from the multidimensional nature of the system, combining \ntechnological, cultural, and social factors typical of memory institutions. Digital libraries are not mere IT \narchitectures but complex systems where components interact dynamically and non-linearly, following the \nlogic that “everything depends on everything else” (Rickles et al., 2007). Their development requires \ncritical choices that affect both processes and final products, highlighting essential (domain modeling) and \naccidental (technological) complexity.\nThe evolution of the World Wide Web has transformed digital libraries into increasingly accessible public \ninfrastructures, redefining the role of humanistic research and promoting public engagement. In this \ncontext, Ecomic, the digital ecosystem for culture promoted by the Central Institute for the Digitization of \nCultural Heritage of Italian Ministry of Culture, is a dynamic network of subjects, data, and technologies, \nbased on the Data as a Service and Knowledge as a Service paradigms. A key element of Ecomic is its \nknowledge graphs, which transform digital resources from isolated elements into nodes of a relational \nsystem. The integration of graphs from different domains overcomes the fragmentation between archives, \nlibraries, and museums, creating a heritage explorable from multiple perspective…",
-    "area_code": "data",
-    "area_label": "Dati e rappresentazione conoscenza",
-    "iscritto": false,
-    "photo": null,
-    "poster_pdf": null,
-    "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Data and knowledge"
-  },
-  {
     "id": 122,
     "title": "Grafoteca e la costruzione digitale della memoria manoscritta: curatela, metadatazione e reti di risorse",
     "authors_raw": "Amalia Carrano (Ricercatrice Indipendente)",
@@ -874,26 +854,6 @@
     "consent_photo": false,
     "session": "2026-06-04T14:30",
     "area_label_en": "Memories and heritage"
-  },
-  {
-    "id": 146,
-    "title": "Digital Humanities e Liceo Classico: un laboratorio di Learning Design",
-    "authors_raw": "Paolo Sartori (IISCA 'Tacito-Metelli' Terni)",
-    "authors": [
-      {
-        "name": "Paolo Sartori (IISCA 'Tacito-Metelli' (Terni))",
-        "aff": ""
-      }
-    ],
-    "abstract": "L’informatica umanistica, nelle sue varie declinazioni, si sta gradualmente facendo strada anche nei percorsi formativi della scuola secondaria di secondo grado, in particolare al Liceo Classico. La sua introduzione nelle attività didattiche è di grande importanza per dare forma alle competenze digitali previste nei piani formativi della scuola secondaria e per orientare i discenti alle professioni digitali del futuro, e in particolare a quelle nel settore culturale. Il Liceo Classico rappresenta il tipo di scuola che più di altre può trarre beneficio dall’inserimento di percorsi formativi nelle Digital Humanities per quanto concerne il rinnovamento del piano di studi, la diversificazione delle metodologie didattiche e la formazione di profili in uscita capaci tanto nelle competenze umanistiche quanto in quelle digitali, e per orientare gli studi classici verso le professioni digitali in ambito culturale, ampliando il tradizionale pubblico di riferimento per il Liceo Classico.\nLe sperimentazioni didattiche in corso di sviluppo mostrano la necessità di una progettazione sistematica di un curriculum formativo tanto per alunni quanto per docenti, che coinvolga scuole, ministeri, università ed enti certificatori, per evitare la dispersione e l’indebolimento di iniziative e risultati attesi, e per mettere a punto un sistema formativo che congiunga verticalmente e in modo organico scuola ed università.\nIl presente contributo intende dare conto degli ultimi sviluppi della didatti…",
-    "area_code": "co-construction",
-    "area_label": "DH e co-costruzione di conoscenza",
-    "iscritto": false,
-    "photo": null,
-    "poster_pdf": null,
-    "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "DH and co-construction"
   },
   {
     "id": 149,

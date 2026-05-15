@@ -1,14 +1,14 @@
-# Build report · 20260512-1844
+# Build report · 20260515-1502
 
-Generated: 2026-05-12T16:44:15+00:00
+Generated: 2026-05-15T13:02:23+00:00
 
 ## Stats
 
 - **talks_total**: 134
-- **talks_oral**: 94
-- **talks_poster**: 40
-- **scheduled_in_program**: 92
-- **posters_in_session**: 40
+- **talks_oral**: 96
+- **talks_poster**: 38
+- **scheduled_in_program**: 91
+- **posters_in_session**: 38
 - **paths**: 14
 - **paths_with_conflict**: 5
 - **pois**: 32
@@ -16,4 +16,4 @@ Generated: 2026-05-12T16:44:15+00:00
 
 ## Warnings
 
-- 2 oral talk(s) accepted but not scheduled in program: [144, 150]
+- 5 oral talk(s) accepted but not scheduled in program: [43, 121, 144, 146, 150]
