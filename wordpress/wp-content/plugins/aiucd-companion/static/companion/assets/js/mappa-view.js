@@ -3,7 +3,7 @@
 // cliccabili sopra le aule. Lo stato live è calcolato come prima.
 
 import { getNow } from "./livestate.js";
-import { t, translateRoom, getLang } from "./i18n.js?v=f4-2";
+import { t, translateRoom, getLang } from "./i18n.js?v=f4-6";
 
 let _state = {
   data: null,
@@ -14,32 +14,35 @@ let _state = {
   timer: null,
 };
 
-const ROOMS = ["Aula Capitini", "Aula 5A", "Aula 6A", "Aula 2A"];
+const ROOMS = ["Aula Capitini", "Aula 5A", "Aula 6A", "Aula 8A"];
 
 // Posizione percentuale del marker sulla relativa immagine di piano.
 // Coordinate misurate pixel-per-pixel sull'immagine 1600×1131 del PDF
 // e convertite in % (centro + dimensioni della bbox). Il rettangolo coincide
 // con il perimetro reale di muratura della stanza.
+// NOTA: `top` e `left` sono le coordinate del CENTRO del marker (in mappa.css
+// il .room-marker applica `transform: translate(-50%, -50%)`), non dell'angolo
+// top-left. width/height sono % rispetto al container .mappa-floor-canvas.
 const ROOM_LAYOUT = {
   "Aula Capitini": {
     floor: "primo-piano",
-    top: 23.78, left: 46.56,
-    width: 19.38, height: 33.78,
+    top: 20.12, left: 51.88,
+    width: 31.25, height: 34.93,
   },
   "Aula 5A": {
     floor: "primo-piano",
-    top: 59.02, left: 33.75,
-    width: 18.12, height: 11.94,
+    top: 61.01, left: 35.94,
+    width: 19.38, height: 14.15,
   },
   "Aula 6A": {
     floor: "primo-piano",
-    top: 59.02, left: 65.78,
-    width: 17.81, height: 11.94,
+    top: 61.01, left: 64.69,
+    width: 19.38, height: 14.15,
   },
-  "Aula 2A": {
+  "Aula 8A": {
     floor: "primo-piano",
-    top: 84.44, left: 33.75,
-    width: 18.12, height: 15.03,
+    top: 82.67, left: 80.00,
+    width: 25.63, height: 13.26,
   },
 };
 
@@ -59,10 +62,10 @@ const ROOM_DESCRIPTIONS = {
     role: "Sessioni parallele track B",
     travel: "Al primo piano, attraversa l'Area Poster verso sud: Aula 6A è la prima sala sulla destra, di fronte ad Aula 5A.",
   },
-  "Aula 2A": {
-    location: "Corpo aggiunto · primo piano · estremità sud",
+  "Aula 8A": {
+    location: "Corpo aggiunto · primo piano · estremità sud-est",
     role: "Sessioni parallele track C",
-    travel: "Al primo piano, scendi lungo il corridoio centrale oltre Aula 5A e Aula 6A: Aula 2A è la sala in fondo, sul lato sud-ovest.",
+    travel: "Al primo piano, scendi lungo il corridoio centrale oltre Aula 6A: Aula 8A è la sala in fondo, sul lato sud-est dell'edificio.",
   },
 };
 
@@ -81,15 +84,19 @@ function floorLabel(id) {
   return id;
 }
 
+// Bump del query-string quando si ri-rasterizza la pianta dal PDF: forza
+// il browser a scaricare il nuovo JPG anche se il path file è invariato.
+const MAPPA_IMG_VERSION = "aule-2026-v2";
+
 const FLOORS = [
   {
     id: "primo-piano",
     get label() { return floorLabel("primo-piano"); },
-    img: ASSET_BASE + "assets/img/mappa/primo-piano.jpg",
+    img: ASSET_BASE + "assets/img/mappa/primo-piano.jpg?v=" + MAPPA_IMG_VERSION,
     get alt() {
       return getLang() === "en"
-        ? "First floor plan of the Annex Building: Capitini Main Room, Poster Area, Rooms 5A, 6A, 2A."
-        : "Pianta del primo piano del Corpo aggiunto: Aula Magna Capitini, Area Poster, Aula 5A, Aula 6A, Aula 2A.";
+        ? "First floor plan of the Annex Building: Capitini Main Room, Poster Area, Rooms 5A, 6A, 8A."
+        : "Pianta del primo piano del Corpo aggiunto: Aula Magna Capitini, Area Poster, Aula 5A, Aula 6A, Aula 8A.";
     },
     get caption() {
       return getLang() === "en"
@@ -100,7 +107,7 @@ const FLOORS = [
   {
     id: "piano-terra",
     get label() { return floorLabel("piano-terra"); },
-    img: ASSET_BASE + "assets/img/mappa/piano-terra.jpg",
+    img: ASSET_BASE + "assets/img/mappa/piano-terra.jpg?v=" + MAPPA_IMG_VERSION,
     get alt() {
       return getLang() === "en"
         ? "Ground floor plan of the Annex Building: entrances, Specchi Room, catering area."
@@ -197,7 +204,7 @@ function buildFloorView(floorId) {
         "Aula Capitini": "PLENARIE",
         "Aula 5A": "TRACK A",
         "Aula 6A": "TRACK B",
-        "Aula 2A": "TRACK C",
+        "Aula 8A": "TRACK C",
       })[name] || "";
       return `
         <button type="button"

@@ -1,9 +1,9 @@
 // AIUCD 2026 Companion · modale talk
 
-import { AREA_BY_CODE, areaLabel } from "./data.js?v=f4-2";
+import { AREA_BY_CODE, areaLabel } from "./data.js?v=f4-6";
 import * as agenda from "./agenda.js";
-import { showSingleEventMenu } from "./calendar-menu.js?v=f4-2";
-import { t, getLang, translateRoom } from "./i18n.js?v=f4-2";
+import { showSingleEventMenu } from "./calendar-menu.js?v=f4-6";
+import { t, getLang, translateRoom } from "./i18n.js?v=f4-6";
 
 let _backdrop = null;
 

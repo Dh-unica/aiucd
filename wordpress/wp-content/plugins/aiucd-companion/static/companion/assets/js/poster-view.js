@@ -1,8 +1,8 @@
 // AIUCD 2026 Companion · vista Poster (galleria a grafo D3)
 
-import { AREAS, AREA_BY_CODE, areaLabel } from "./data.js?v=f4-2";
+import { AREAS, AREA_BY_CODE, areaLabel } from "./data.js?v=f4-6";
 import * as agenda from "./agenda.js";
-import { t, getLang } from "./i18n.js?v=f4-2";
+import { t, getLang } from "./i18n.js?v=f4-6";
 
 const ROOT_FONT_SIZE_DESKTOP = 14;
 const NODE_RADIUS_DESKTOP = 32;

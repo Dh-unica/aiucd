@@ -253,10 +253,13 @@
 .noa-drawer-head {
   position: relative;
   display: flex;
-  align-items: flex-start;
   flex-wrap: nowrap;
+  align-items: flex-start;
   gap: 12px;
-  padding: 20px 44px 14px 18px; /* riserva spazio a destra per la X assoluta */
+  /* Lasciamo spazio in alto-destra alla X (assoluta) per evitare che il
+   * titolo "Ciao, sono Noa" la inviti a finire su una nuova riga su mobile
+   * quando lo spazio orizzontale si stringe (regressione segnalata in WP). */
+  padding: 20px 50px 14px 18px;
   border-bottom: 1px solid var(--line);
   background: linear-gradient(180deg, rgba(216, 97, 60, 0.05), transparent);
 }
@@ -288,6 +291,9 @@
   color: var(--muted);
 }
 .noa-drawer .drawer-close {
+  /* Posizionata in assoluto rispetto a .noa-drawer-head: garantisce che la X
+   * resti sempre in alto-destra in linea col titolo, anche se eventuali
+   * stili WP esterni dovessero forzare un wrap del flex container. */
   position: absolute;
   top: 14px;
   right: 12px;
