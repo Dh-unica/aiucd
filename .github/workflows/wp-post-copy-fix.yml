@@ -87,11 +87,6 @@ jobs:
           run_wp wp post get "$POST_ID" --field=post_title
 
           echo ""
-          echo "=== 1b) Dump completo del post_content (per ispezione) ==="
-          run_wp wp post get "$POST_ID" --field=post_content
-          echo "=== /end dump ==="
-
-          echo ""
           echo "=== 2) Generazione script PHP locale ==="
           cat > "$PHP_SCRIPT_FILE" <<'PHPEOF'
           <?php
@@ -135,7 +130,7 @@ jobs:
           echo "=== 3) Coppie (old, new) ==="
           REPLACEMENTS_JSON='[
             ["Aule 5A, 6A, 8A per i track paralleli", "Aule 5A, 6A, 8A per le sessioni parallele"],
-            ["I 40 Poster della sessione dedicata hanno la loro vista", "I 40 Poster hanno una sessione e una mappa dedicata che si può esplorare come un grafo"],
+            ["I 40 <strong>Poster</strong> della sessione dedicata hanno la loro vista, sfogliabile come un grafo.", "I 40 <strong>Poster</strong> hanno una sessione e una mappa dedicata che si può esplorare come un grafo."],
             ["le schede dei talk", "le schede delle presentazioni"]
           ]'
 
