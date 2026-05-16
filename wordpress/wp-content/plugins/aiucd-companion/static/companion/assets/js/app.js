@@ -2,7 +2,7 @@
 
 import { loadAllData } from "./data.js?v=f4-6";
 import { liveState, getCountdownInfo, getOpeningTime, getNow, checkClockSkew } from "./livestate.js?v=f4-6";
-import { renderProgram } from "./program-view.js?v=f4-6";
+import { renderProgram } from "./program-view.js?v=f4-7";
 import { renderMineList, renderPathsOverlay } from "./path-view.js?v=f4-6";
 import { renderMappa } from "./mappa-view.js?v=f4-6";
 import { renderCagliari, onCagliariVisible } from "./cagliari-view.js?v=f4-6";

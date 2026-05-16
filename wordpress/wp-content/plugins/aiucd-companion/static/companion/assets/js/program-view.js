@@ -368,7 +368,7 @@ function createTalkCell(talk, track, day) {
     ${time ? `<div class="talk-time">${time}</div>` : ""}
     <div>
       <span class="talk-id">#${paper.id}</span>
-      <span class="talk-title">${escapeHtml(paper.title)}</span>
+      <span class="talk-title">${escapeHtml(talk.title || paper.title)}</span>
     </div>
     <div class="talk-author">${escapeHtml(authors || "")}</div>
   `;
