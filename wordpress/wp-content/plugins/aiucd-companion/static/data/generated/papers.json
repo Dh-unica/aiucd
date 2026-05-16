@@ -18,7 +18,7 @@
   },
   {
     "id": 4,
-    "title": "L’Archivio Digitale di Vigne Nuove.  Costruire un archivio di comunità, tra teoria e pratica.",
+    "title": "L'Archivio Digitale di Vigne Nuove. Costruire un archivio di comunità, tra teoria e pratica.",
     "abstract": "Il contributo propone una riflessione sul ruolo epistemico dei metadati nella costruzione degli archivi digitali, con particolare riferimento ad archivi sviluppati in contesti partecipativi e di comunità. A partire dal caso di studio dell’archivio digitale sulla storia e la memoria di Vigne Nuove, realizzato nell’ambito del progetto We-Z, il paper analizza come pratiche archivistiche ispirate al modello di riferimento OAIS possano essere adattate per gestire fonti eterogenee, native digitali, raccolte attraverso processi di crowdsourcing o importate in copia digitale da altri archivi.\nL’attenzione è rivolta ai metadati come strumenti di mediazione digitale, capaci di sostenere la coerenza dell’archivio e di attivare relazioni significative tra le fonti. In questo quadro, la metadatazione viene interpretata non solo come pratica descrittiva, ma come processo in grado di orientare l’accesso, la contestualizzazione e l’interpretazione delle risorse.\nIl contributo propone infine di considerare i metadati semantici e concettuali come dispositivi epistemici, attraverso i quali l’archivio digitale può configurarsi come uno spazio attivo di produzione di conoscenza storica nell’ambito della Public Digital History. In questa prospettiva, il paper intende stimolare una riflessione sulla costruzione di modelli di metadatazione flessibili e replicabili, potenzialmente adottabili anche in contesti non specialistici.",
     "mode": "Oral communication",
     "area_code": "co-construction",
@@ -109,7 +109,7 @@
   },
   {
     "id": 8,
-    "title": "Musei senza confini: il digitale come infrastruttura di memoria partecipata nei musei delle aree interne Il Geomuseo Monte Arci Stefano Incani di Masullas e il Museo Paleontologico PARC di Genoni",
+    "title": "Musei senza confini: il digitale come infrastruttura di memoria partecipata nei musei delle aree interne",
     "abstract": "I musei delle aree interne svolgono una funzione strategica nella conservazione e trasmissione del patrimonio culturale materiale e immateriale, ma sono spesso esposti a processi di marginalizzazione legati a barriere geografiche, infrastrutturali e di accessibilità. Nel quadro delle Digital Humanities, il digitale può essere interpretato non solo come insieme di strumenti, ma come infrastruttura epistemica capace di ridefinire il ruolo di queste istituzioni e i loro rapporti con le comunità di riferimento. Il contributo analizza due casi studio situati nella Sardegna centrale — il Geomuseo Monte Arci “Stefano Incani” di Masullas e il Museo Paleontologico PARC di Genoni — con l’obiettivo di valutare in che misura pratiche digitali orientate alla partecipazione, anche a bassa soglia tecnologica, possano favorire accessibilità, co-generazione della memoria e sostenibilità culturale nei contesti periferici. L’analisi adotta un approccio qualitativo basato su casi studio, osservazione dei dispositivi museali e valutazione critica delle potenzialità di digitalizzazione e archiviazione in relazione ai principi FAIR e dell’Open Science. Il contributo propone una riflessione sul ruolo dei musei delle aree interne come laboratori privilegiati per le Digital Humanities applicate, evidenziando implicazioni teoriche e operative in termini di equità culturale, giustizia territoriale e public engagement, e superando una concezione meramente strumentale della digitalizzazione.\nParole chiave: Digital Humanities; public engagement; public history; citizen humanities; memoria digitale",
     "mode": "Oral communication",
     "area_code": "memories",
@@ -126,7 +126,7 @@
   },
   {
     "id": 10,
-    "title": "Una pausa e tre domande.  La crisi della memoria nell'era dell'accesso.",
+    "title": "Una pausa e tre domande. La crisi della memoria nell'era dell'accesso",
     "abstract": "Il contributo propone una riflessione critica sulla crisi della memoria nell’era digitale, caratterizzata dal paradosso tra una produzione informativa senza precedenti e la crescente fragilità dei processi di conservazione e trasmissione. Gli autori mettono in discussione l’idea della digitalizzazione come risposta automatica ai problemi della tutela e dell’accesso alla memoria, evidenziandone invece la natura selettiva, interpretativa e profondamente politica. Attraverso tre domande chiave – perché digitalizziamo, chi decide cosa digitalizzare e conservare, come utilizziamo le fonti digitalizzate e digitali – il saggio analizza le trasformazioni in atto nelle pratiche archivistiche, storiche e di Public History. Particolare attenzione è dedicata alla tensione tra archivi istituzionali e archivi distribuiti e partecipativi, nonché agli effetti dell’intelligenza artificiale sull’uso, sulla mediazione e sull’interpretazione delle fonti storiche. Il contributo auspica una “pausa” di riflessione condivisa e interdisciplinare, capace di coinvolgere storici, archivisti, informatici e comunità, per orientare scelte più consapevoli, sostenibili e responsabili nella costruzione della memoria digitale contemporanea.",
     "mode": "Oral communication",
     "area_code": "co-construction",
@@ -160,7 +160,7 @@
   },
   {
     "id": 12,
-    "title": "Dalla materialità delle fonti al dato condiviso:  metodi ibridi per un archivio digitale partecipativo",
+    "title": "Dalla materialità delle fonti al dato condiviso: metodi ibridi per un archivio digitale partecipativo",
     "abstract": "Il contributo propone una riflessione metodologica sulle pratiche delle Digital Humanities applicate a contesti storici e culturali caratterizzati da forte eterogeneità delle fonti e da una crescente esigenza di impatto pubblico. Partendo dal progetto REDMIX, volto alla creazione di un archivio digitale su persone e gruppi con ascendenza mista del Mar Rosso dall’Ottocento ad oggi, il contributo analizza come la scelta consapevole degli strumenti digitali debba essere guidata dalla materialità e dalla natura delle fonti, anziché dalla mera disponibilità tecnologica. Attraverso due casi studio - tratti dall’Archivio privato di Daniela Aleggiani, costituito da diari ibridi dattiloscritti, fotografie e disegni relativi ai campi di prigionia in Africa orientale appartenuti al Maggiore Umberto Aleggiani, e dall’Archivio privato della Famiglia Vento Chiaffredo, comprendenti poesie e canzoni del giovane soldato Chiaffredo Vento in Libia - il contributo mostra come fonti diverse richiedano workflow differenziati. L’analisi illustra l’uso combinato di tecnologie quali OCR, HTR, analisi computazionale del testo, codifica semantica in XML-TEI e visualizzazioni spazio-temporali, evidenziandone limiti, potenzialità e implicazioni metodologiche. I casi studio fungono da laboratorio per la progettazione dell’infrastruttura del progetto REDMIX, concepita come archivio digitale partecipativo e piattaforma di Digital Public History. Il contributo sostiene che l’adozione di workflow ibridi, aperti e trasparenti, consenta non solo una valorizzazione scientificamente rigorosa delle fonti, ma anche la loro trasformazione in strumenti di public engagement e co-costruzione della memoria. In questa prospettiva, la riflessione metodologica diventa il presupposto tecnico ed etico per la creazione di archivi digitali inclusivi, sostenibili e capaci di dialogare con pubblici non specialistici.",
     "mode": "Oral communication",
     "area_code": "co-construction",
@@ -194,7 +194,7 @@
   },
   {
     "id": 16,
-    "title": "Digital Humanities and Neo-Greek Studies: The Digital Library Project of the “Mario Vitti” Observatory",
+    "title": "Digital Humanities and Neo-Greek Studies: The Digital Library Project of the \"Mario Vitti\" Observatory",
     "abstract": "The Digital Library of the “Mario Vitti” Neo-Greek Observatory is presented as a case study for reflecting on research infrastructures in the field of Digital Humanities. Rather than being considered merely as a bibliographic repository, the project is analysed as an epistemic device capable of modelling the Italian scholarly production on Modern and Contemporary Greek studies. The project aligns with current international research in digital philology, focusing on the digital preservation of materials gathered during field research and their scholarly dissemination through an online platform. These efforts support the development of online cataloging methods and enable comparative studies of the collected materials.The paper outlines the intervention strategies and motivations behind the project, the objectives and outcomes of the bibliographic research, and the main activities of the Observatory, as well as infrastructure challenges and long-term sustainability considerations. It further highlights how, around the core of the Italian Neo-Hellenic Digital Library, a rich collection of books, articles, translations, and reviews published in academic journals, popular periodicals, and newspapers has been assembled, showcasing Italy’s longstanding interest in Modern Greek literary production.\n\nKeywords: Digital Humanities; digital libraries; research infrastructures; interoperability; Neo-Greek studies",
     "mode": "Oral communication",
     "area_code": "other",
@@ -570,7 +570,7 @@
   },
   {
     "id": 33,
-    "title": "Peirce Interprets Peirce: Digitization, Automation, and Interpretation in Charles Peirce’s Manuscripts",
+    "title": "Peirce Interprets Peirce: Digitization, Automation, and Interpretation in Charles Peirce's Manuscripts",
     "abstract": "This paper presents a workflow-oriented approach to interpreting Charles S. Peirce’s manuscripts through computational methods. Building on recent high-resolution digitization of the Peirce archive, it combines probabilistic transcription, text analysis, semantic modeling, and data visualization to examine how automation reshapes archival access and interpretive practice. Rather than treating computation as a means of producing static objects, the workflow frames digital archives as mediating research infrastructures that expand the interpretive space while preserving scholarly judgment. By approaching Peirce’s manuscripts as multimodal objects—integrating text, diagrams, and revisions—the paper reflects on philosophical patterns, continuities, and tensions that become visible only at corpus scale. The contribution situates itself within current Digital Humanities debates on openness, mediation, and interpretive accountability, and argues that digitization and automation function as enabling conditions for shared, reflexive interpretation.",
     "mode": "Oral communication",
     "area_code": "archives",
@@ -607,7 +607,7 @@
   },
   {
     "id": 34,
-    "title": "Participatory Digital Archives as a Method for Co constructing Cultural Memory: The Bunjevke Women's  Platform",
+    "title": "Participatory Digital Archives as a Method for Co-constructing Cultural Memory: The Bunjevke Women's Platform",
     "abstract": "Participatory digital practices serve not simply as dissemination tools but as genuine research methodologies for collaboratively building cultural heritage knowledge alongside marginalized communities. This study analyzes the Bunjevke digital platform—an open multimedia archive featuring community-submitted photographs, audio recordings, and narratives—to explore how such initiatives engage diverse publics, contest established cultural narratives, and cultivate inclusive digital scholarship. Grounded in memory studies, co-creation frameworks, and critical digital humanities, the analysis confronts ethical dilemmas, data stewardship challenges, and the integration of public contributions within Open Science and FAIR principles. Ultimately, the paper advances a practical model for conceptualizing participatory digital archives as dynamic research instruments rather than static repositories.\nKeywords: participatory digital archives; digital humanities; co-construction of knowledge; cultural memory; Open Science",
     "mode": "Oral communication",
     "area_code": "archives",
@@ -624,7 +624,7 @@
   },
   {
     "id": 35,
-    "title": "Tracing Intertextuality at Scale A Network Study of Poetic Influence",
+    "title": "Tracing Intertextuality at Scale: A Network Study of Poetic Influence",
     "abstract": "In this paper, I argue that intertextuality constitutes a particularly promising domain for distant reading research. The use of Text Reuse Detection (TRD) algorithms, in fact, makes it possible to map intertextual relations at scale and to identify regularities that can shed new light on the dynamics underlying literary influence. To test this approach on a broad and heterogeneous sample of literary production, I draw on the PoeTree collection and construct corpora of poetry in seven languages: Italian, English, Russian, French, Czech, German, and Hungarian. Applying TRD, I extract intertextual networks and compare selected structural features, with particular attention to the temporal reach of intertextual links and their distribution across authors. The results reveal significant corpus-specific differences in the temporal dimension of intertextuality. By contrast, the distribution of intertextual references among authors appears stable across corpora, converging on a heavy-tailed shape that is consistent with self-reinforcing, prestige-driven dynamics.",
     "mode": "Oral communication",
     "area_code": "other",
@@ -933,7 +933,7 @@
   },
   {
     "id": 49,
-    "title": "It’s Buildin’ Time: A Project-based Approach for Teaching Data Management to Cultural Heritage Graduate Students",
+    "title": "It's Buildin' Time: A Project-based Approach for Teaching Data Management to Cultural Heritage Graduate Students",
     "abstract": "This paper presents the results of the course Digital Humanities and Data Management for Cultural Heritage, integrated into the Library and Archive Science master’s at the University of Bologna. While traditional information science curricula provide a robust foundation in bibliographic theory, a pedagogical gap exists regarding the practical management of digital assets according to FAIR principles. To address this, the course adopted a project-based approach, structured around one possible conceptualisation of the Data Management lifecycle, for encouraging students to “build” new knowledge with the data provided. Through a 30-hour module, students from traditional humanities backgrounds alternated theoretical foundations on Digital Humanities, Data Management and Open Science with hands-on sessions using tools such as GitHub, OpenRefine, and Voyant Tools. Evaluation focused on original projects using textual 20th-century historical sources as data. Five students’ projects are then discussed as case studies. Qualitative feedback from the students highlights satisfaction with the theory-practice alternation, while revealing a need for a more unified computational ecosystem. Future developments include the curriculum's evolution toward a Python-based framework.",
     "mode": "Oral communication",
     "area_code": "co-construction",
@@ -978,7 +978,7 @@
   },
   {
     "id": 50,
-    "title": "Comunicare la ricerca archeologica nell’ecosistema digitale: pratiche, metodi e sperimentazioni su Instagram",
+    "title": "Comunicare la ricerca archeologica nell'ecosistema digitale: pratiche, metodi e sperimentazioni su Instagram",
     "abstract": "Il contributo presenta una ricerca, tuttora in corso, sulla condivisione delle indagini archeologiche sui social media e, nello specifico, sulla piattaforma Instagram, che mira a indagare il rapporto tra archeologia e comunicazione digitale, con particolare attenzione al ruolo dei social network nella valorizzazione delle attività di scavo e nella diffusione dei risultati scientifici.\nA partire da un caso studio specifico, il progetto prende forma dalla creazione e gestione del profilo Instagram @archeosantelia con l’idea di superare la narrazione del diario di scavo, facendo dell’account non una semplice pagina di aggiornamento sull’avanzamento delle indagini archeologiche sul Capo Sant’Elia, ma uno spazio per condividere la ricerca in modo aperto e partecipato, fondato sul dialogo e sul confronto tra i diversi soggetti che hanno un legame con il sito. Per dare concretezza a questo approccio, gli stakeholder sono coinvolti attivamente attraverso la compilazione di un breve form di domande, appositamente strutturato, che raccoglie temi e punti di vista. Queste informazioni costituiscono la base per i contenuti da condividere, trasformando la pagina Instagram in una bibliografia condivisa del sito, capace di restituire la pluralità delle voci e dei significati che animano il patrimonio archeologico di Capo Sant’Elia.\nLo scopo del progetto è quello di sperimentare e valutare la definizione di un prototipo di comunicazione social della ricerca archeologica concepito come modello metodologico ripetibile e adattabile a contesti differenti, capace di coniugare rigore scientifico, accessibilità dei contenuti e coinvolgimento attivo dei pubblici al fine di conseguire una più efficace disseminazione delle ricerche archeologiche, intesa non come semplice diffusione dei risultati, ma come processo continuo di condivisione e dialogo e in grado di ottimizzare l’uso consapevole dei principali strumenti di comunicazione digitale.",
     "mode": "Oral communication",
     "area_code": "co-construction",
@@ -1045,7 +1045,7 @@
   },
   {
     "id": 53,
-    "title": "Una Agenda sull’AI generativa per Digital Humanities",
+    "title": "Una Agenda sull'AI generativa per Digital Humanities",
     "abstract": "L'impatto trasformativo dell'Intelligenza Artificiale generativa ci impone, come comunità italiana delle Digital Humanities, di predisporre un'agenda strategica di riflessione collettiva. In questo intervento propongo un contributo in tale direzione, individuando tre direttrici di analisi interconnesse: (1) la teoria\ndell'IA generativa, che richiede approcci esplicativi non riducibili alle sole spiegazioni matematicoinformatiche, incorporando descrizioni funzionali e nozioni intenzionali per comprendere le proprietà linguistiche e cognitive emergenti dei Large Language Models; (2) l'IA come metodo nella ricerca umanistica, che riorganizza profondamente i workflow epistemici permettendo l'operazionalizzazione di quasi ogni aspetto della ricerca, dalla costruzione dei corpora alla produzione di interpretazioni ermeneutiche; (3) l'IA come tecnologia socio-culturale, considerando i LLM come modelli della memoria culturale che a loro volta retroagiscono sui sistemi culturali stessi. I sistemi di IA generativa rappresentano una rivoluzione epistemologica che impone di riconcettualizzare assunzioni fondamentali su significato, cultura, conoscenza e interpretazione. La tradizione metodologica delle Digital Humanities italiane può svolgere un ruolo critico essenziale nello sviluppo di protocolli d'uso controllato e pratiche di cooperazione tra IA e agency umana, orientandoci anche come studiosi che hanno una responsabilità sociale.",
     "mode": "Oral communication",
     "area_code": "co-construction",
@@ -1117,7 +1117,7 @@
   },
   {
     "id": 57,
-    "title": "‘Spazializzare’ la narrativa ecocritica italiana: la piattaforma dell'Atlante digitale della letteratura ecologica italiana",
+    "title": "Spazializzare' la narrativa ecocritica italiana: la piattaforma dell'Atlante digitale della letteratura ecologica italiana",
     "abstract": "‘Spazializzare’ la narrativa ecocritica italiana: la piattaforma dell'Atlante digitale della letteratura ecologica italiana",
     "mode": "Oral communication",
     "area_code": "archives",
@@ -1188,7 +1188,7 @@
   },
   {
     "id": 60,
-    "title": "Dal problema storico alle IA: Il Database on the Slave Trade between the Mediterranean and the Atlantic (15th -16th Centuries).",
+    "title": "Dal problema storico alle IA: Il Database on the Slave Trade between the Mediterranean and the Atlantic (15th-16th Centuries)",
     "abstract": "Il contributo presenta il Database on the Slave Trade between the Mediterranean and the Atlantic (15th-16th centuries), progetto PNRR sviluppato dalle Università di Teramo e Catania con l’Istituto Storico Germanico di Roma. L’infrastruttura digitale mira a raccogliere e modellare dati archivistici per ricostruire reti, attori e spazi della tratta schiavistica tra tardo Medioevo e prima Età Moderna, restituendo centralità al ruolo del Mediterraneo nella formazione dei circuiti atlantici. Basato sulla piattaforma open-source Arches e progettato secondo i principi FAIR, il database integra fonti eterogenee e sperimenta l’uso dei Large Language Models per l’estrazione automatica delle informazioni. Il paper riflette criticamente sulle potenzialità e sui limiti dell’IA —dal rischio di allucinazioni alla difficoltà nel riconoscimento semantico sottolineando la necessità di procedure human-in-the-loop. Il progetto si configura così come un laboratorio metodologico per la Digital History, volto a rendere la conoscenza storica machine-readable e computabile.",
     "mode": "Oral communication",
     "area_code": "memories",
@@ -1263,7 +1263,7 @@
   },
   {
     "id": 63,
-    "title": "Monitorare la transizione: l’Osservatorio sulle pratiche di Open Science nelle SSH come strumento di Public Engagement",
+    "title": "Monitorare la transizione: l'Osservatorio sulle pratiche di Open Science nelle SSH come strumento di Public Engagement",
     "abstract": "Il contributo presenta il quadro teorico e metodologico dell’Osservatorio SSH, un’iniziativa volta allo sviluppo di strumenti analitici e digitali per lo studio delle pratiche editoriali scientifiche nelle scienze sociali e umane (SSH) alla luce dei principi della scienza aperta. A partire da un’analisi delle principali criticità del settore — tra cui l’aumento dei costi di pubblicazione (APC), la frammentazione delle infrastrutture editoriali e le disuguaglianze di accesso — il lavoro propone l’adozione di strumenti di monitoraggio del Diamond Open Access (DOA) e dell’applicazione dei principi FAIR, finalizzati a rendere osservabili, comparabili e riusabili i dati relativi alla comunicazione scientifica nelle SSH. Tali strumenti non rispondono unicamente a esigenze tecniche o valutative, ma costituiscono vere e proprie infrastrutture di public engagement, capaci di favorire trasparenza, inclusione e partecipazione nei processi di produzione e disseminazione della conoscenza. In questa prospettiva, i dati della ricerca vengono interpretati come beni comuni digitali, accessibili e significativi anche per comunità non specialistiche. Il contributo si inserisce nel dibattito delle Digital Humanities proponendo una riflessione critica sul ruolo degli strumenti digitali e metodologici come mediatori tra ricerca accademica, pratiche editoriali e società.",
     "mode": "Oral communication",
     "area_code": "co-construction",
@@ -1296,7 +1296,7 @@
   },
   {
     "id": 64,
-    "title": "RATIO: una suite per la creazione e la gestione di risorse e collezioni FAIR nell’ambito delle scienze umane",
+    "title": "RATIO: una suite per la creazione e la gestione di risorse e collezioni FAIR nell'ambito delle scienze umane",
     "abstract": "Il paper presenta la suite RATIO sviluppata dall’unità operativa CNR-ILIESI all’interno del progetto infrastrutturale H2IOSC per conto di OPERAS-IT. La suite è costituita da tre servizi principali che mettono a disposizione altrettanti strumenti: FAST (Fairness ASsesment Tool), CONNECT (CollectiONs maiNtanencE and produCTion) e CONNECT-TED (Transcription and Edition Dashboard). I tre strumenti possono essere utilizzati singolarmente o all’interno di un flusso di lavoro che ha nell’adesione ai principi dell’Open Science e del paradigma FAIR uno dei suoi punti di forza. Oltre a descriverne i principi di funzionamento e le principali caratteristiche, il paper presenta anche il modello dei dati implementato in RATIO che è alla base dell’integrazione tra i servizi.",
     "mode": "Oral communication",
     "area_code": "archives",
@@ -1400,7 +1400,7 @@
   },
   {
     "id": 68,
-    "title": "Un LLM per le Scienze Umane e Sociali?  ReSearch_SSH come esperimento europeo",
+    "title": "Un LLM per le Scienze Umane e Sociali? ReSearch_SSH come esperimento europeo",
     "abstract": "L’adozione dei Large Language Models (LLM) nel contesto della ricerca scientifica, in particolare per attività di ricerca e scoperta bibliografica, solleva questioni rilevanti per le Scienze Umane e Sociali (SSH), soprattutto in relazione alla diversità delle pratiche disciplinari e alla valutazione dei risultati. Questo contributo presenta ReSearch_SSH, un caso d’uso sviluppato nel contesto del progetto europeo LLMs4EU e dell’infrastruttura ALT-EDIC, come esperimento di adattamento e valutazione di modelli linguistici orientato alle pratiche di ricerca nelle SSH e, più specificamente, nelle Digital Humanities. Il lavoro descrive l’architettura metodologica del caso d’uso, basata su strategie di domain alignment, task-oriented fine-tuning e su un approccio GraphRAG integrato con infrastrutture di scienza aperta come ISIDORE e ISTEX. Particolare attenzione è dedicata alle risorse dati multilingui, ai requisiti di fattualità e tracciabilità delle fonti e a un modello di valutazione qualitativa fondato sul coinvolgimento di un panel di esperti delle Digital Humanities. Il contributo si colloca nel dibattito delle Digital Humanities sugli LLM come componenti infrastrutturali per la ricerca, proponendo un approccio orientato alle pratiche disciplinari e alla partecipazione delle comunità scientifiche per guidare in modo critico lo sviluppo e la valutazione di sistemi di ricerca e scoperta basati su LLM in ambito SSH.",
     "mode": "Oral communication",
     "area_code": "other",
@@ -1421,7 +1421,7 @@
   },
   {
     "id": 69,
-    "title": "L’errore dell’IA come euristica per una deliberazione assistita",
+    "title": "L'errore dell'IA come euristica per una deliberazione assistita",
     "abstract": "L'impiego di Large Vision Language Models (LVLM) per generare automaticamente metadati coerenti con le architetture formali dei protocolli archivistici promette di accelerare le tempistiche descrittive. Ma cosa accade quando questi sistemi si confrontano con materiali intrinsecamente legati a un contesto storico e culturale specifico? Abbiamo applicato un sistema agentico basato su più LVLM all'archivio \"Satira e Sogni\" del fumettista Sergio Staino, valutando la capacità del sistema di estrarre informazioni e produrre metadati da 300 immagini digitalizzate. Il sistema riconosce i personaggi ricorrenti dell'autore e riproduce i dati strutturati espliciti; tuttavia, fallisce quasi completamente nell'identificare figure politiche italiane, nel cogliere riferimenti satirici indiretti e nel modellare le relazioni tra entità e contesto documentale. Proponiamo di interpretare questi errori come sonde epistemiche, ovvero fallimenti sistematici che rivelano, per contrasto, le competenze tacite mobilitate dalla professione archivistica. Da questa analisi emerge la \"deliberazione assistita\", un approccio all'interazione tra uomo e macchina in cui l'IA non sostituisce l'archivista ma diventa interlocutore critico, aprendo spazi di riflessione condivisa sui criteri descrittivi.",
     "mode": "Oral communication",
     "area_code": "archives",
@@ -1463,7 +1463,7 @@
   },
   {
     "id": 71,
-    "title": "Dentro l’Officina del Testo: Modellare Strutture Letterarie Complesse",
+    "title": "Dentro l'Officina del Testo: Modellare Strutture Letterarie Complesse",
     "abstract": "Il contributo presenta DeSMòS (Descriptive Semantic Model for Structured Texts), un’ontologia OWL\nbasata su tecnologie del Web Semantico per la rappresentazione formale delle costrizioni letterarie intese\ncome dispositivi generativi del testo. Superando la tradizionale descrizione bibliografica, il modello si\nfocalizza sui meccanismi compositivi e strutturali dell’opera, interpretando ogni forma testuale come il\nrisultato di procedure combinatorie regolate che operano su unità formali e semantiche.\nAllineato agli standard dei beni culturali, DeSMòS permette di documentare l’origine delle costrizioni e di\ncollegarle alle evidenze testuali e paratestuali che ne attestano l’utilizzo. Il modello è stato validato su un\ncaso di studio della letteratura potenziale, l’Oplepo (Opificio di Letteratura Potenziale), e propone un\nframework interoperabile per descrivere e analizzare strutture letterarie complesse, incluse quelle fondate\nsu giochi linguistici, strutture combinatorie e forme ibride testo-immagine.",
     "mode": "Oral communication",
     "area_code": "data",
@@ -1501,7 +1501,7 @@
   },
   {
     "id": 73,
-    "title": "From perception to memory:  Public Engagement and neurohumanistic approaches to the collective reconstruction of archaeological heritage",
+    "title": "From perception to memory: Public Engagement and neurohumanistic approaches to the collective reconstruction of archaeological heritage",
     "abstract": "This paper aims to document a process that, starting from experimental research, led to the definition and application of Digital Humanities and Public Engagement practices through the integration of an interdisciplinary methodology that includes neurohumanistic approaches and public archaeology tools.\nThe study focuses on research activities conducted and directed by Ca’ Foscari University of Venice at the archaeological site of the monastery of Santi Ilario e Benedetto in Mira (Venice, Italy), conducted between 2023 and 2024. The archaeological context, characterised by a strong connection with the local community, makes the reconstruction of collective memory a determining factor in enhancing cultural heritage. The project focused on the cognitive and perceptual aspects of heritage experience and applied eye-tracking and Visual Thinking Strategies (VTS) methodologies to analyse perception, attention, and comprehension of archaeological heritage.\nBased on the collected data, an operational protocol for participatory enhancement was developed and applied to dissemination activities and to a series of public engagement events held during the 2024 excavation campaign. For the latter, the initiative focused on the movement of archaeological artefacts associated with the monastery, which are considered artefacts of collective memory. Being currently conserved in the National Archaeological Museum of Venice (MAV), it was possible to investigate the change in meaning produced by this shift. In conclusion, the study demonstrates how the development of more constructive, shared, and inclusive archaeological and historical knowledge can be generated through the systemic integration of digital technology, experimental methodologies, and participatory research frameworks.",
     "mode": "Oral communication",
     "area_code": "other",
@@ -1699,7 +1699,7 @@
   },
   {
     "id": 85,
-    "title": "MeMo: Digital Maps, Literary Memory, and Public Engagement in Southern Italy",
+    "title": "MeMo: mappe digitali, memoria letteraria e public engagement nel Mezzogiorno",
     "abstract": "The MeMo project – Memory and Mezzogiorno. A Literary Map from 1945 to the Present – aims to rethink the study and valorization of literary memory in Southern Italy through the lens of Digital Humanities, adopting a geocentric and ecocritical approach. The Mezzogiorno emerges as both a foundational and marginal space in the construction of Italian identity, whose social, environmental, and cultural transformations are narrated through postwar literature. MeMo integrates textual analysis with spatial data, creating an interactive literary map that connects real, symbolic, and imagined places with prose, poetry, and non-fiction texts in Italian and regional dialects. The developed digital infrastructure includes geospatial visualization tools, advanced filters, queryable corpora, and accessible interfaces, in line with the FAIR principles of open science and data reusability.\nThe project’s methodology combines geohistory, literature, and Digital Humanities, considering space, place, environment, territory, and landscape as interpretive tools for reading the interactions between historical events, traumas, migration, industrialization, and cultural transformations. MeMo promotes active, hands-on learning through modular teaching units that link past and present while fostering critical, digital, and civic competencies. The advanced phase of the project focuses on the reuse of data for interpretive, educational, and participatory purposes, giving visibility to minority voices and marginal texts often excluded from traditional canons. The digital infrastructure thus becomes a space for public engagement, where research, education, and audiences interact dynamically, strengthening the relationship between territory, cultural memory, and literary heritage.",
     "mode": "Oral communication",
     "area_code": "memories",
@@ -1745,7 +1745,7 @@
   },
   {
     "id": 88,
-    "title": "Il ritorno dei partigiani sardi. Una collezione digitale co-prodotta.",
+    "title": "l ritorno dei partigiani sardi. Una collezione digitale co-prodotta",
     "abstract": "La proposta intende illustrare gli esiti attesi di un progetto di ricerca in corso inerente all’analisi e alla comparazione delle biografie di alcuni antifascisti sardi, partigiani, oppositori politici, militari, che presentano caratteri di interesse sotto il profilo della vicenda personale e della relazione con i contesti geografici, sociali e politici nei quali si sono trovati a interagire soprattutto nel post-Resistenza. L’obiettivo finale prevede la valorizzazione e la pubblicazione in formati Open Access delle letture e delle fonti, prevalentemente audiovisive e documentarie, attinenti all’indagine storica. In coerenza con l’idea di “digitale” come spazio di restituzione pubblica e di partecipazione, gli esiti della ricerca confluiranno in una collezione costruita in collaborazione con un ente conservatore (Cineteca Sarda, Archivio di Stato, Issasco, Anppia) e sviluppata con strumenti consolidati e sostenibili anche con risorse economiche contenute. Il public engagement si articolerà in pratiche formative e partecipative con classi della scuola secondaria di secondo grado, concepite come dispositivo di co-produzione controllata.",
     "mode": "Oral communication",
     "area_code": "memories",
@@ -1975,7 +1975,7 @@
   },
   {
     "id": 100,
-    "title": "Integrating Romanian Toponymy in a GIS Background:  dictionary forest names vs. OpenStreetMap forest data",
+    "title": "Integrating Romanian Toponymy in a GIS Background: dictionary forest names vs. OpenStreetMap forest data",
     "abstract": "In this paper, we use a sequence of toponymical data that has been extracted for a larger Balkan criminality project, namely, the geo-referenced 5225 dendronyms (forest names) drawing from various Romanian thesauri. By overlapping this dendronym sub-set with contrasting OSM data we will be able to answer the following research questions: 1. How are points, clusters and buffers (applied to various hot spots) positioned in comparison with the polygons vectorialized in OSM (outside area vs. inside area)? What dendronyms are outside the vectorialized areas? Which of the two reasons - deforestation or lack of forest coverage in the current OSM database – is more plausible for inside/ outside positionings? Forests have always been a (hajduk) criminality area, which justifies a research interest in the way dendronyms correspond to the currently geo-referentiated areas. For several reasons, Romania’s geographical territory provides a complex staging for this confrontation between linguistically-bound, static forest-data and spatially-bound, dynamic forest-data. One of them is that natural areas have not been vectorialized completely, which, with the growing of contributions in OSM, lays seeds for a long-term inspection on phenomena such as deforestation or, even if more unlikely, forestation in various areas of Romania. Methodology-wise, we use QGIS functions (buffer, clip, raster, select location/ feature etc.) to carry out a spatial analysis whose hotspots have been determined by giving primacy to literary studies. However, the present paper offers a valuable quantitative insight into the phenomenon of deforestation along modernity and provides an analysis that will serve as a preparatory argument for enlarging the toponymical database on Balkan criminality.",
     "mode": "Oral communication",
     "area_code": "data",
@@ -2025,7 +2025,7 @@
   },
   {
     "id": 102,
-    "title": "Public engagement nell’era dei synthetic media: per una co-interpretazione critica tra Digital Humanities e Media Education",
+    "title": "Public engagement nell'era dei synthetic media: per una co-interpretazione critica tra Digital Humanities e Media Education",
     "abstract": "L’articolo propone un contributo metodologico relativo a un progetto FIS (Fondo Italiano per la Scienza) in corso di avviamento, che mira ad analizzare processi informali di consumo e produzione audiovisiva su piattaforme come TikTok, Instagram e YouTube, a sviluppare metodologie interdisciplinari per la media education e a integrare strumenti di Intelligenza Artificiale (IA), in particolare sistemi per la Retrieval-Augmented Generation (RAG) e chatbot educativi, in percorsi trasparenti, inclusivi e controllabili.\nL’obiettivo è delineare una cornice operativa di co-interpretazione assistita che connetta public engagement, curatela delle evidenze e interazione conversazionale, e descrivere un protocollo adattabile di laboratori con scuole e comunità. Il contributo intende fornire alla comunità DH un modello trasferibile per progettare approcci di public engagement capaci di affrontare i synthetic media senza puntare all’infallibilità degli strumenti ma rafforzando pratiche argomentative e trasparenza epistemica.",
     "mode": "Oral communication",
     "area_code": "co-construction",
@@ -2067,7 +2067,7 @@
   },
   {
     "id": 104,
-    "title": "Nel 25° anniversario di Wikipedia:  l’ecosistema Wikimedia e le Digital Humanities tra pratiche collaborative e sostenibilità della conoscenza",
+    "title": "Nel 25° anniversario di Wikipedia: l'ecosistema Wikimedia e le Digital Humanities tra pratiche collaborative e sostenibilità della conoscenza",
     "abstract": "Nel 2026 Wikipedia compie venticinque anni in un contesto segnato dall’adozione pervasiva dell’intelligenza artificiale nella produzione e circolazione dei contenuti e, parallelamente, da processi di concentrazione e controllo dei dati. A partire da questo scenario, il contributo interpreta l’ecosistema Wikimedia come infrastruttura socio-tecnica di knowledge commons e come laboratorio privilegiato per le Digital Humanities orientate al public engagement. Dopo un breve inquadramento storico (dalla revisione esperta di Nupedia alla partecipazione distribuita resa possibile dal software wiki), vengono discusse le affinità tra Wikimedia e prospettive critiche delle DH, in cui la conoscenza è intesa come processo pubblico, negoziato e trasparente. La relazione è letta in chiave bidirezionale: i progetti Wikimedia forniscono piattaforme, comunità e dati aperti per ricerca e didattica; le DH offrono cornici teorico-metodologiche per rafforzare qualità, sostenibilità ed equità delle pratiche collaborative. Attraverso quattro ambiti esemplificativi—didattica e citizen science, collaborazioni GLAM (Galleries, Libraries, Archives and Museums) e patrimonio culturale, diversità linguistica e inclusione, dati aperti e principi FAIR in Wikidata—si mostra come la co-costruzione del sapere si traduca in pratiche di cura, validazione, mappature partecipate e riuso. In conclusione, Wikimedia è proposto come spazio di citizen humanities capace di sostenere la Terza Missione accademica, rendendo la ricerca più accessibile, verificabile e socialmente rilevante anche nell’era dell’automazione.",
     "mode": "Oral communication",
     "area_code": "co-construction",
@@ -2197,7 +2197,7 @@
   },
   {
     "id": 112,
-    "title": "Tra testo e architettura digitali per lo studio delle trasformazioni storico artistiche dei monasteri benedettini",
+    "title": "Tra testo e architettura digitali per lo studio delle trasformazioni storico-artistiche dei monasteri benedettini",
     "abstract": "Il contributo presenta gli esiti di una ricerca focalizzata sull’analisi della cultura architettonica e artistica della Congregazione Benedettina Cassinese tra il XV e il XVIII secolo. L’obiettivo centrale è la verifica dell’ipotesi storiografica di una cultura progettuale e artistica condivisa, favorita dalla riforma della Regola di San Benedetto e dalle normative imposte dai Capitoli Generali. La metodologia proposta si fonda su un approccio interdisciplinare che integra il Building Information Modeling (BIM) con la codifica semantica dei testi (TEI) attraverso un’infrastruttura digitale coordinata.\nIl sistema si articola su tre pilastri: un database relazionale (RDB), modelli informativi BIM derivati da rilievi laser scanner e fotogrammetrici, e trascrizioni TEI di fonti documentarie. L'integrazione avviene tramite l'implementazione di dizionari controllati e standard IFC per la semantizzazione degli elementi architettonici storici, mentre un modello ispirato al CIDOC-CRM permette di strutturare i dati archivistici come reti di relazioni tra persone, luoghi e processi costruttivi.\nL’interoperabilità, garantita da API REST e GraphQL, consente di interrogare il sistema per rispondere a quesiti complessi, come l’analisi della densità dei cantieri o il ruolo dei committenti nelle trasformazioni abbaziali. I risultati dimostrano come la creazione di una Single Source of Information (SSoI) favorisca nuove prospettive di indagine comparativa, rendendo i dati navigabili e processabili per la storia dell'arte e dell'architettura.",
     "mode": "Oral communication",
     "area_code": "memories",
@@ -2230,7 +2230,7 @@
   },
   {
     "id": 113,
-    "title": "Verba volant, emails manent: una proposta di metodologia per l’acquisizione e la preservazione degli archivi di posta elettronica di personaggi illustri",
+    "title": "Verba volant, emails manent: una proposta di metodologia per l'acquisizione e la preservazione degli archivi di posta elettronica di personaggi illustri",
     "abstract": "Il contributo affronta il tema della preservazione degli archivi di posta elettronica come componente centrale degli archivi digitali di persona, con particolare riferimento ai fondi di personalità di rilievo pubblico. A partire dal caso dell’archivio di posta elettronica dell’onorevole Guido Bodrato, il contributo propone una procedura operativa per l’acquisizione, la messa in sicurezza e la gestione di grandi corpora di email, fondata sulla separazione tra oggetti informativi primari, rappresentazioni derivate e metadati strutturati di gestione. Viene illustrata la metodologia EMaG (Email Metadata-based Governance), che consente di garantire integrità, tracciabilità e analizzabilità del corpus senza interventi diretti sui messaggi originali. Il contributo presenta inoltre Epistula, un tool applicativo per l’analisi relazionale e contenutistica delle email basata su metadati e tecniche di NLP. Nella conclusione, il lavoro discute il ruolo della procedura come fase di pre-preservazione strutturata e il suo possibile inquadramento evolutivo nel modello EA-PDF.",
     "mode": "Oral communication",
     "area_code": "memories",
@@ -2276,7 +2276,7 @@
   },
   {
     "id": 118,
-    "title": "Per la storia del mercato dell’arte tra Otto e Novecento: raccolta, modellazione e valorizzazione dei dati sugli antiquari italiani",
+    "title": "Per la storia del mercato dell'arte tra Otto e Novecento: raccolta, modellazione e valorizzazione dei dati sugli antiquari italiani",
     "abstract": "Il mercato antiquario italiano tra Otto e Novecento è un settore della storia economica e culturale divenuto di grande interesse nell’ultimo decennio, seppur ancora poco studiato. Questo contributo affronta le sfide metodologiche della ricostruzione prosopografica (resa complessa da alcune caratteristiche intrinseche di questo ambito: dispersione ed eterogeneità delle fonti, natura informale delle pratiche commerciali, complessità delle reti professionali e familiari), e quelle di progettazione di un flusso di gestione e pubblicazione dei dati sostenibile nel tempo. La metodologia implementata si articola in quattro fasi: 1. raccolta e normalizzazione delle fonti narrative in linguaggio naturale; 2. modellazione dei dati; 3. sviluppo di un'architettura tecnologica sostenibile; 4. progettazione di una piattaforma informativa multi-vista che implementa i principi della \"rich-prospect browsing\", bilanciando panoramica e dettaglio attraverso sei interfacce navigabili.",
     "mode": "Oral communication",
     "area_code": "memories",
@@ -2309,7 +2309,7 @@
   },
   {
     "id": 119,
-    "title": "L’Edicola della Storia di Trieste: NLP e distant reading per il confronto tra periodici storici italiani e sloveni nella Trieste del 1902.",
+    "title": "L'Edicola della Storia di Trieste: NLP e distant reading per il confronto tra periodici storici italiani e sloveni nella Trieste del 1902",
     "abstract": "Il progetto applica tecniche di NLP allo studio comparato di due periodici storici triestini: \"Il Piccolo\" (in lingua italiana) ed \"Edinost\" (in lingua slovena). Attraverso un approccio di distant reading, il lavoro analizza un subset delle due testate, 50 fascicoli pubblicati nel febbraio e nel settembre 1902, periodo segnato, in particolare, dallo sciopero generale dei fuochisti del Lloyd Austriaco e dai conseguenti scontri di piazza. La pipeline metodologica prevede correzione OCR assistita da LLM, traduzione automatica in inglese come medium linguistico comparativo, Topic Analysis (BERTopic) e Sentiment Analysis con modelli specifici per italiano, sloveno e inglese. L’analisi intra-corpus rivela strategie discorsive strutturalmente divergenti: \"Il Piccolo\" adotta un registro cronachistico-neutro (87-88% Sentiment neutro), mentre \"Edinost\" privilegia un orientamento valutativo e identitario (Sentiment negativo 40-49%). L’analisi inter-corpora condotta sulle versioni in inglese quantifica le divergenze: il gap di Sentiment negativo raggiunge 7,5 punti percentuali in febbraio, con agende tematiche largamente autonome e assenza di convergenza sistematica sui Topic. I risultati confermano che i due quotidiani operano come attori discorsivi distinti, portatori di funzioni politico-identitarie diverse nello spazio pubblico triestino. Il progetto si colloca nella prospettiva della digital public history, proponendo il distant reading come strumento di mediazione per rendere accessibili narrazioni storiche parallele in una città plurilingue.",
     "mode": "Oral communication",
     "area_code": "textualities",
@@ -2452,7 +2452,7 @@
   },
   {
     "id": 126,
-    "title": "L’AI a servizio della Musicologia: costruzione di thesauri musicologici con il supporto dei Large Language Models",
+    "title": "L'AI a servizio della Musicologia: costruzione di thesauri musicologici con il supporto dei Large Language Models",
     "abstract": "La necessità di utilizzare linguaggi controllati e strumenti di indicizzazione semantica per il recupero dell’informazione specialistica, sia nei database della ricerca di settore che nei cataloghi degli istituti di conservazione delle risorse di specifici ambiti disciplinari, rende necessario riflettere sulle modalità e sulla sostenibilità di costruzione di linguaggi controllati specialistici. \nIl contributo si occupa in particolare dell’ambito musicologico, proponendo una riflessione su una proof of concept di costruzione di thesaurus attraverso l'uso dell'AI, alla luce dell’esperienza di redazione di un thesaurus per le arti performative nell’ambito del Progetto ERC PerformArt e del convegno internazionale Controlled Languages for Musical Heritage. State of the Art, Tools, Perspectives (Roma, 3-4 giugno 2024). Si è condotto un tentativo di categorizzazione di termini di thesaurus di ambito musicologico attraverso l’utilizzo di sistemi Large Language Models (LLMs). Si indaga la loro efficacia nel classificare i termini proposti come casi di studio in base ad una serie di macrocategorie di riferimento nel rispetto degli standard internazionali sulla costruzione di thesauri.",
     "mode": "Oral communication",
     "area_code": "data",
@@ -2523,7 +2523,7 @@
   },
   {
     "id": 129,
-    "title": "Integrare strumenti digitali e conoscenze della comunità per una progettazione urbana resiliente al clima: l’iniziativa Dundrum by Design",
+    "title": "Integrare strumenti digitali e conoscenze della comunità per una progettazione urbana resiliente al clima: l'iniziativa Dundrum by Design",
     "abstract": "Le città sono chiamate a sviluppare approcci di pianificazione urbana fondati su dati e conoscenze locali, improntati all’inclusività e orientati ai principi della giustizia climatica. Tuttavia, la pianificazione urbana ha storicamente faticato a integrare in modo efficace la partecipazione dei cittadini nelle prime fasi del processo progettuale. Dundrum by Design (DbD), un’iniziativa collaborativa in corso a Dundrum (Dublino, Irlanda), sperimenta un approccio partecipativo integrato che combina piattaforme digitali, mappature partecipate, strumenti di geodesign e apprendimento esperienziale per supportare processi di progettazione urbana orientati alla resilienza climatica sin dalle fasi iniziali. Sviluppato nell’ambito del progetto europeo PROBONO e del Dublin Living Lab, DbD coinvolge università, autorità locali e comunità attraverso un workflow sequenziale che integra raccolta di conoscenze locali, attività di co-creazione, simulazioni climatiche e valutazione partecipata di scenari progettuali. La metodologia si avvale di piattaforme digitali, attività ludico-didattiche e metodi computazionali di valutazione climatica degli scenari proposti. I risultati preliminari evidenziano la capacità dell’approccio di organizzare in modo coerente contributi eterogenei, rafforzare la continuità tra le fasi partecipative e generare un crescente livello di partecipazione comunitaria. Le simulazioni climatiche e gli scenari sviluppati forniscono alle autorità locali strumenti integrati per supportare decisioni informate e politiche climatiche contestualizzate. DbD dimostra come un approccio tecnologico multifattoriale e pedagogico possa migliorare la qualità e la legittimità dei processi di progettazione urbana e offrire spunti trasferibili ad altri contesti impegnati nella transizione climatica.",
     "mode": "Oral communication",
     "area_code": "co-construction",
@@ -2556,7 +2556,7 @@
   },
   {
     "id": 130,
-    "title": "L’intelligenza artificiale per il potenziamento dell’information retrieval nei discovery tool delle biblioteche",
+    "title": "L'intelligenza artificiale per il potenziamento dell'information retrieval nei discovery tool delle biblioteche",
     "abstract": "I discovery tool si sono affermati come strumenti di accesso unificato alle risorse analogiche e digitali delle biblioteche, sostituendo o inglobando progressivamente gli OPAC tradizionali. Studi recenti ne hanno tuttavia messo in evidenza alcune criticità, in particolare in relazione alla quantità dei risultati restituiti, ai criteri di ordinamento e alla difficoltà di supportare processi di ricerca esplorativa. Il contributo analizza tali limiti alla luce dei bias strutturali, tecnologici e culturali dei sistemi di discovery. Vengono, quindi, esaminate le potenzialità dell’intelligenza artificiale per il miglioramento dell’information retrieval, in particolare dei Large Language Models e dell’approccio Retrieval Augmented Generation, presentando alcuni casi di applicazione, tra i quali Alphy, il chatbot del portale Alphabetica dell’Istituto centrale per il catalogo unico delle biblioteche italiane. Si ricordano, infine, i limiti dei modelli di IA riguardanti l’attendibilità delle fonti, la tutela della privacy dei fruitori, la presenza di bias algoritmici e la scarsa trasparenza.",
     "mode": "Oral communication",
     "area_code": "data",
@@ -2682,7 +2682,7 @@
   },
   {
     "id": 137,
-    "title": "Le nazioni genovesi nell’Atlante digitale di Storia Marittima del Regno di Sardegna (ASMSA). Lavori in corso",
+    "title": "Digital Humanities per narrare i territori: un WebGIS sui porti minori della Sardegna dal medioevo alla contemporaneità",
     "abstract": "Il presente contributo mostra l’utilizzo degli strumenti offerti dall’Atlante digitale di Storia Marittima del Regno di Sardegna (ASMSA) per l’organizzazione e la visualizzazione nello spazio di una ricerca dottorale ancora in corso che mira a ricostruire il sistema delle nazioni genovesi sarde nel Mediterraneo d’età moderna attraverso lo spoglio della corrispondenza consolare.\nDalla fine del Quattrocento, precisi accordi con i Sovrani cattolici consentivano a Genova di nominare un console a difesa degli interessi dei forestieri genovesi residenti o di passaggio nei territori della monarchia spagnola. Fra Cinque e Seicento il fenomeno si stabilizzava anche in Sardegna, dove un console genovese era presente in ognuna delle sette città regie nonché maggiori scali marittimi del Regno. Queste entità nazionali son state sinora studiate singolarmente e mai all’interno di un sistema organico che tenesse in considerazione il ruolo dei consolati in un disegno di controllo operato dalla Repubblica sui cittadini genovesi residenti in terra straniera. Tuttavia, l’esame delle corrispondenze consolari con il Senato di Genova ci permette di confermare la natura di rappresentanza dei consoli e il loro inserimento in una rete organizzata sotto le direttive della Repubblica.",
     "mode": "Oral communication",
     "area_code": "memories",
@@ -2728,7 +2728,7 @@
   },
   {
     "id": 139,
-    "title": "Naples Dante Project.  Un ambiente integrato per l’analisi bibliografica, filologica e iconografica",
+    "title": "Naples Dante Project. Un ambiente integrato per l’analisi bibliografica, filologica e iconografica",
     "abstract": "The paper presents the ecosystem of the Naples Dante Project (NDP), developed in PRIN 2022 and enhanced in collaboration with Changes, within Spoke 3, illustrating its digital pipeline. The focus is on: image acquisition and normalisation (IIIF, multimodal imaging); modular structuring of more abstract metadata; semantic classification of data using a dedicated ontology and exposure as Linked Open Data; automatic processing (HTR, Handwriting Identification) for palaeographic and textual analysis; the alignment of texts from the ancient manuscript tradition and modern philological editorial practice. Granular models and advanced tools enable queries on textual, linguistic and iconographic content, as well as on the material witnesses of the Comedy, integrating interoperable standards (TEI, IIIF, RDF) and imaging, transcription and collation technologies (eScriptorium/Kraken). The paper reflects on how the computational revolution is redefining philological, palaeographic and art-historical practices through verifiable pipelines that connect images, texts, metadata and automatic knowledge, with a view to long-term editorial sustainability.",
     "mode": "Oral communication",
     "area_code": "archives",
@@ -2877,7 +2877,7 @@
   },
   {
     "id": 144,
-    "title": "Scenari avanzati e applicazioni: fruizione e necessità delle comunità di ricerca",
+    "title": "Orchestrazione di servizi e scenari avanzati: fruizione e necessità delle comunità di ricerca nel marketplace di H2IOSC",
     "abstract": "Engagement e accessibilità sono ormai due principi, approcci e, soprattutto, metodi, fondamentali per una cittadinanza digitale partecipata e responsabile. Democratizzazione dell’accesso ai contenuti e al patrimonio culturale, alfabetizzazione digitale, ricerca collaborativa e aperta devono essere fondati e sostenuti dal design e dalla sviluppo delle tecnologie. Molta attenzione viene giustamente data all’inclusività e accessibilità delle interfacce, ai frontend, e alla fairificazione dei dati, mentre meno frequente è la riflessione su backoffice/backend dei sistemi, i protocolli e le API che garantiscono robustezza e sostenibilità, strutturano l’accessibilità per la dimensione collaborativa favorendo così la fiducia degli utenti. La proposta si concentra sul MarketPlace di H2IOSC, progettato per consentire di integrare un ampio numero di risorse eterogenee, favorendo la cooperazione e la condivisione tra ecosistemi digitali, la collaborazione e il coinvolgimento attivo degli utenti.\nDescriviamo, in particolare, la soluzione API-driven della piattaforma, con un’architettura a tre livelli dove i workflow applicativi e descrittivi diventano elementi qualificanti del modello, rappresentando non solo strumenti tecnici, ma servizi orchestrati, capaci di estendere le funzionalità del Marketplace e di abilitare scenari avanzati di elaborazione e integrazione dei dati e funzionalità collaborative preservando la responsabilità dei fornitori e la sostenibilità del sistema. Viene discusso e dimostrato come, grazie ai protocolli e i flussi di harvesting, alla visualizzazione delle risorse alle modalità di ricerca, alla creazione di workflow applicativi, agli strumenti di analisi di utilizzo, il Marketplace risponde alle necessità di progetto e ai bisogni degli utenti.",
     "mode": "Oral communication",
     "area_code": "data",
@@ -2918,7 +2918,7 @@
   },
   {
     "id": 145,
-    "title": "Are Digital Humanities really committed to open? An  exploratory study on the availability of methodological workflows and open peer review practices",
+    "title": "Are Digital Humanities really committed to open? An exploratory study on the availability of methodological workflows and open peer review practices",
     "abstract": "Open Science has become a central framework for promoting transparency, accessibility, and inclusiveness in scholarly research. While the Digital Humanities (DH) community has long embraced openness in terms of research outputs, less attention seems to have been paid to the openness of the methodological and evaluative processes underlying knowledge production. This paper presents an exploratory study that investigates the current state of openness in DH research practices, focusing specifically on research data management documentation and peer review processes. In particular, this study addresses two research questions: (1) to what extent DH publications that describe data explicitly reference external documentation detailing data creation and management processes,; and (2) how widely open peer review practices are adopted across DH conferences and journals. The results revealed a limited adoption of open methodological practices. Only a small fraction of the analysed articles provided explicit and reusable documentation of data creation workflows, while no references to data management plans or formal research data management documentation were found. An even more critical picture emerges from the analysis of peer review practices: the vast majority of DH venues continue to rely on traditional single- or double-blind review models, with open peer review practices being adopted only in a few isolated cases.",
     "mode": "Oral communication",
     "area_code": "co-construction",
@@ -2952,7 +2952,7 @@
   },
   {
     "id": 147,
-    "title": "Dal fuoco alla mappa dei motivi: un framework di visualizzazione dell’intensità tematica nella Commedia",
+    "title": "Commedia: un caso di studio sulla pertinenza lessicale e sulla visualizzazione",
     "abstract": "Questo contributo presenta un framework configurabile di visualizzazione per motivi tematici in testi poetici di lunga estensione, sviluppato sul caso di studio del fuoco nella Commedia dantesca. Il lavoro nasce nel contesto di ricerche sull’“antica fiamma” e sui rimandi fra Virgilio e Dante, ma sposta l’attenzione dalle relazioni tra autori alla dinamica interna dei motivi nel poema.\nIl modello assegna a ogni verso un punteggio di intensità del fuoco combinando una lessicografia gerarchica e sentence embeddings con una finestra contestuale di tre versi. La sequenza di valori viene trasformata in una heatmap che mostra la distribuzione del fuoco nelle tre cantiche attraverso blocchi di canti e valori normalizzati. La figura conferma il passaggio dal fuoco punitivo alla luce paradisiaca, ma mette in evidenza anche micro-pattern meno intuitivi, come zone localmente “fredde” o rialzi inattesi, che suggeriscono nuove domande esegetiche.\nIl framework è progettato come piattaforma riusabile: sostituendo il lessico del fuoco con quello di acqua, luce o memoria si ottengono mappe per motivi meno evidenti. Tramite un’interfaccia configurabile, utenti diversi possono modificare liste di lemmi, pesi e ampiezza della finestra, generando versioni alternative delle mappe. Lettori e studenti diventano così co-interpreti e il caso del fuoco funziona da banco di prova per una infrastruttura più ampia di esplorazione visuale della Commedia.",
     "mode": "Oral communication",
     "area_code": "textualities",
@@ -2969,7 +2969,7 @@
   },
   {
     "id": 148,
-    "title": "Verso una rappresentazione del macrotesto: filologia d’autore e analisi quantitativa nei racconti di Fausta Cialente",
+    "title": "Verso una rappresentazione del macrotesto: filologia d'autore e analisi quantitativa nei racconti di Fausta Cialente",
     "abstract": "Si propone una riflessione sulle modalità di analisi delle raccolte di racconti intese come oggetti filologicamente complessi, in particolare quando risultano costruite attraverso processi di selezione, rimaneggiamento e riuso dei testi nel tempo: è il caso della narrativa breve di Fausta Cialente, in gran parte pubblicata su rivista negli anni Trenta e successivamente confluita nelle sillogi Pamela o la bella estate (1962) e Interno con figure (1976). Il contributo avvia un’integrazione tra analisi filologiche e quantitative attraverso pratiche di modellazione e rappresentazione delle micro- e macrostrutture testuali, con l’obiettivo di interrogare geneticamente il corpus senza orientarlo alla produzione di un’edizione digitale. A partire da un modello di metadati che distingue tra unità testuali astratte e pubblicazioni, e dalla costituzione di un corpus di testi, si presentano alcuni esperimenti esplorativi per osservare i percorsi editoriali dei racconti e le logiche di costruzione delle due raccolte. L’obiettivo è verificare se e in che misura sia possibile rappresentare la dinamicità del macrotesto e formulare ipotesi di lavoro per indagini filologico-critiche integrate, applicabili soprattutto a testi della tradizione novecentesca ancora soggetti a vincoli di diritto d’autore. In prospettiva, il modello è pensato per includere l’analisi variantistica di materiali preparatori cartacei, ibridi e born-digital.",
     "mode": "Oral communication",
     "area_code": "archives",
@@ -3032,7 +3032,7 @@
   },
   {
     "id": 151,
-    "title": "Digital Humanities per narrare i territori: un WebGIS sui porti minori della Sardegna dal medioevo alla contemporaneità.  Una proposta di implementazione collaborativa",
+    "title": "Le nazioni genovesi nell'Atlante digitale di Storia Marittima del Regno di Sardegna (ASMSA). Lavori in corso",
     "abstract": "Il contributo analizza metodi e strumenti per ricostruire e rappresentare con cartografia digitale la rete dei porti minori della Sardegna dal Medioevo all’età contemporanea. Considerati in relazione al paesaggio costiero, alle dinamiche insediative e alle reti di mobilità marittima e terrestre, i porti minori offrono un osservatorio privilegiato per leggere trasformazioni delle coste sarde in una prospettiva di lungo periodo.\nLa ricerca integra fonti testuali, iconografiche e materiali, indispensabili per una mappatura diacronica della rete e per la ricostruzione geo-storica dei siti e dei legami tra porti, insediamenti e aree limitrofe. I dati su porti storici e attuali sono stati schedati e organizzati in banche dati pseudo relazionali, quindi georeferenziati e restituiti in ambiente GIS.\nL’uso del GIS consente di descrivere la rete portuale non come un elenco statico di punti, ma come una configurazione dinamica, sensibile a cambiamenti politici, economici e ambientali. Esempi applicativi mostrano come l’Historical GIS integri scale diverse (locale, regionale, mediterranea) e renda visibili relazioni, gerarchie e percorsi difficilmente ricostruibili con approcci tradizionali.\nIn questa prospettiva, il GIS funge sia da infrastruttura aggiornabile di raccolta dati, sia da strumento di valorizzazione dei porti minori, supportando narrazioni identitarie e proposte per la promozione del patrimonio culturale e paesaggistico, la sostenibilità e la tutela delle aree costiere, anche in chiave partecipativa e turistica. In quest’ottica il presente contributo propone una possibile declinazione dinamica del GIS che potrebbe trarre giovamento da un popolamento partecipato ovvero nella coniugazione tra citizen science ed heritage sharing per un reale public engagement.",
     "mode": "Oral communication",
     "area_code": "memories",
