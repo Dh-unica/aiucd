@@ -1,6 +1,6 @@
-# Build report · 20260516-2314
+# Build report · 20260516-2325
 
-Generated: 2026-05-16T21:14:59+00:00
+Generated: 2026-05-16T21:25:17+00:00
 
 ## Stats
 
@@ -17,7 +17,6 @@ Generated: 2026-05-16T21:14:59+00:00
 ## Warnings
 
 - paper #10: CONDIVISO Esiti Call has 1 author(s) but submissions.xls has 2 — check for truncated cell
-- SWAP DETECTED: talk codes #137 and #151 are swapped in 'Programma Dettaglio'. The slot labelled #137 carries #151's title (and vice-versa). Fix: in the schedule sheet, exchange the two paper codes between the two cells.
 - paper #85: title in Programma Dettaglio diverges from Esiti Call (likely editorial rewrite, no matching swap found). prog='MeMo: mappe digitali, memoria letteraria e public engagement nel Mezzo' | esiti='MeMo: Digital Maps, Literary Memory, and Public Engagement in Southern'
 - paper #147: title in Programma Dettaglio diverges from Esiti Call (likely editorial rewrite, no matching swap found). prog='Commedia: un caso di studio sulla pertinenza lessicale e sulla visuali' | esiti='Dal fuoco alla mappa dei motivi: un framework di visualizzazione dell’'
 - 2 oral talk(s) accepted but not scheduled in program: [43, 150]
