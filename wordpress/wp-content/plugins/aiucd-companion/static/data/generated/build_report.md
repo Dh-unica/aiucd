@@ -1,13 +1,13 @@
-# Build report · 20260515-1530
+# Build report · 20260516-0854
 
-Generated: 2026-05-15T13:30:59+00:00
+Generated: 2026-05-16T06:54:17+00:00
 
 ## Stats
 
 - **talks_total**: 134
-- **talks_oral**: 96
-- **talks_poster**: 38
-- **scheduled_in_program**: 92
+- **talks_oral**: 94
+- **talks_poster**: 40
+- **scheduled_in_program**: 91
 - **posters_in_session**: 38
 - **paths**: 14
 - **paths_with_conflict**: 5
@@ -16,4 +16,6 @@ Generated: 2026-05-15T13:30:59+00:00
 
 ## Warnings
 
-- 4 oral talk(s) accepted but not scheduled in program: [43, 121, 146, 150]
+- paper #10: CONDIVISO Esiti Call has 1 author(s) but submissions.xls has 2 — check for truncated cell
+- 3 oral talk(s) accepted but not scheduled in program: [43, 144, 150]
+- 2 catalog Poster(s) not in Sessione Poster sheet: [121, 146]
