@@ -7,6 +7,14 @@ import { t, getLang } from "./i18n.js?v=f4-6";
 const ROOT_FONT_SIZE_DESKTOP = 14;
 const NODE_RADIUS_DESKTOP = 32;
 
+// Quando il companion gira dentro WP gli asset sotto companion/assets/ stanno
+// in /wp-content/plugins/aiucd-companion/static/companion/, esposti via
+// window.AIUCD_BASE_URL. In standalone (python -m http.server) il path è
+// relativo a companion/index.html.
+const ASSET_BASE = (typeof window !== "undefined" && window.AIUCD_BASE_URL)
+  ? window.AIUCD_BASE_URL.replace(/\/$/, "") + "/"
+  : "";
+
 let _state = {
   data: null,
   root: null,
@@ -155,7 +163,7 @@ function makeGridCard(poster) {
   card.style.setProperty("--photo-color", a.color);
   card.innerHTML = `
     <div class="pc-photo">${poster.photo
-      ? `<img src="${poster.photo}" alt="${escapeHtml(author)}">`
+      ? `<img src="${ASSET_BASE}${poster.photo}" alt="${escapeHtml(author)}">`
       : initials}</div>
     <div class="pc-id">#${poster.id}</div>
     <div class="pc-title">${escapeHtml(poster.title)}</div>
@@ -436,7 +444,7 @@ function openPoster(poster) {
     <div class="ps-head" style="--photo-color:${a.color}">
       <button class="ps-close" id="ps-close" aria-label="Chiudi">×</button>
       <div class="ps-photo">${poster.photo
-        ? `<img src="${poster.photo}" alt="${escapeHtml(author)}">`
+        ? `<img src="${ASSET_BASE}${poster.photo}" alt="${escapeHtml(author)}">`
         : initials}</div>
       <div class="ps-area" style="background:${a.color}">${a.label}</div>
       <h3 class="ps-title">${escapeHtml(poster.title)}</h3>
