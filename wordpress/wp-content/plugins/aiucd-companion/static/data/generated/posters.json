@@ -258,7 +258,7 @@
   {
     "id": 40,
     "title": "Ontologycore: A Formal Knowledge Graph of Internet Aesthetics",
-    "authors_raw": "Shiho Nakamura (Alma Mater Studiorum Università di Bologna); Anouk Flinkert (Alma Mater Studiorum Università di Bologna); Ekaterina Krasnova (Alma Mater Studiorum Università di Bologna)",
+    "authors_raw": "Anouk Flinkert, Shiho Nakamura e Ekaterina Krasnova (Alma Mater Studiorum Università di Bologna)",
     "authors": [
       {
         "name": "Shiho Nakamura",
@@ -286,7 +286,7 @@
   {
     "id": 51,
     "title": "[hidden]: A Workflow for the Preservation and Collaborative Reuse of Analog Oral History Collections",
-    "authors_raw": "Laurent Antoine Fintoni (Alma Mater Studiorum Università di Bologna); Nike del Quercio (Alma Mater Studiorum Università di Bologna); Costanza Paollilo (Alma Mater Studiorum Università di Bologna)",
+    "authors_raw": "Nike del Quercio, Laurent Antoine Fintoni e Costanza Paollilo (Alma Mater Studiorum Università di Bologna)",
     "authors": [
       {
         "name": "Laurent Antoine Fintoni",
@@ -314,7 +314,7 @@
   {
     "id": 52,
     "title": "A Workflow-Centred Approach to Managing Semantic Artifacts as Linked Open Data",
-    "authors_raw": "Michele Mallia (CNR-ILC); Fahad Khan (CNR-ILC); Valeria Quochi (CNR-ILC)",
+    "authors_raw": "Fahad Khan, Michele Mallia e Valeria Quochi (CNR-ILC)",
     "authors": [
       {
         "name": "Michele Mallia",
@@ -362,7 +362,7 @@
   {
     "id": 61,
     "title": "Il restauro testuale dei papiri nel progetto <PROGETTO>: <PIATTAFORMA> e l’integrazione di modelli linguistici",
-    "authors_raw": "Simone Zenzaro (CNR-ILC); Federico Boschetti (CNR-ILC); Angelo Mario Del Grosso (CNR-ILC); Graziano Ranocchia (Università di Pisa)",
+    "authors_raw": "Federico Boschetti, Angelo Mario Del Grosso e Simone Zenzaro (CNR-ILC); Graziano Ranocchia (Università di Pisa)",
     "authors": [
       {
         "name": "Simone Zenzaro",
@@ -394,7 +394,7 @@
   {
     "id": 62,
     "title": "MAGIC–MeMo: Shared Digitization Practices for the Written Memory of Montecassino",
-    "authors_raw": "Elvira Zambardi (Università degli Studi di Napoli \"Federico II\"); Ylenia Nardone (Università degli Studi di Napoli \"Federico II\"); Giuseppina Civitillo (Università degli Studi di Napoli \"Federico II\")",
+    "authors_raw": "Giuseppina Civitillo, Ylenia Nardone e Elvira Zambardi (Università degli Studi di Napoli \"Federico II\")",
     "authors": [
       {
         "name": "Elvira Zambardi",
@@ -422,7 +422,7 @@
   {
     "id": 67,
     "title": "Verso un grande corpus diacronico dell’italiano: il contributo degli esempi del GDLI",
-    "authors_raw": "Eva Sassolini (CNR-ILC); Marco Biffi (Università di Firenze); Sebastiana Cucurullo (CNR-ILC); Simonetta Montemagni (CNR-ILC)",
+    "authors_raw": "Marco Biffi (Università di Firenze); Sebastiana Cucurullo, Simonetta Montemagni e Eva Sassolini  (CNR-ILC)",
     "authors": [
       {
         "name": "Eva Sassolini",
@@ -586,7 +586,7 @@
   {
     "id": 89,
     "title": "Addestramento di un modello di HTR in Transkribus per testi plurilingui di età moderna: il caso del Ripulimento della lingua sarda (Madau)",
-    "authors_raw": "Giulia Murgia (Università degli Studi di Cagliari); Michela Incollu (Università degli Studi di Cagliari)",
+    "authors_raw": "Michela Incollu e Giulia Murgia (Università degli Studi di Cagliari)",
     "authors": [
       {
         "name": "Giulia Murgia",
@@ -610,7 +610,7 @@
   {
     "id": 91,
     "title": "Tra fotografia e segno: la trascrizione informatizzata dei registri storici Alinari",
-    "authors_raw": "Francesco Pinna (CNR-OVI); Emiliano Degl'Innocenti (CNR-OVI)",
+    "authors_raw": "Pamela Krzemien (Università di Pisa)",
     "authors": [
       {
         "name": "Pamela Krzemien",
@@ -650,7 +650,7 @@
   {
     "id": 110,
     "title": "Dai workflow descrittivi ai workflow applicativi tramite AEON e l'IA",
-    "authors_raw": "",
+    "authors_raw": "Emiliano Degl'Innocenti e Francesco Pinna (CNR-OVI)",
     "authors": [
       {
         "name": "Francesco Pinna",
@@ -674,7 +674,7 @@
   {
     "id": 111,
     "title": "Strategie di protezione, governance e sostenibilità degli archivi orali",
-    "authors_raw": "Rosaria Deluca (CNR-IIT); Elvira Mercatanti (CNR-ILC); Monica Monachini (CNR-ILC)",
+    "authors_raw": "Rosaria Deluca (CNR-IIT); Elvira Mercatanti e Monica Monachini (CNR-ILC)",
     "authors": [
       {
         "name": "Rosaria Deluca",
@@ -702,7 +702,7 @@
   {
     "id": 117,
     "title": "Biblioteche filosofiche private e memoria culturale: http://picus.unica.it/",
-    "authors_raw": "Andrea Lamberti (Università degli Studi di Cagliari); Giovanna Granata (Università degli Studi di Cagliari)",
+    "authors_raw": "Andrea Lamberti e Giovanna Granata (Università degli Studi di Cagliari)",
     "authors": [
       {
         "name": "Andrea Lamberti",
@@ -814,7 +814,7 @@
   {
     "id": 136,
     "title": "Intelligenza artificiale, reference digitale e accessibilità: l’esperienza di Alphabetica",
-    "authors_raw": "Flavia Bruni (ICCU); Elisabetta Castro (ICCU)",
+    "authors_raw": "Flavia Bruni e Elisabetta Castro (ICCU)",
     "authors": [
       {
         "name": "Flavia Bruni",
@@ -858,7 +858,7 @@
   {
     "id": 149,
     "title": "Raccontando e valorizzando il patrimonio culturale. Dalle prime esperienze ai progetti futuri",
-    "authors_raw": "Giovanni Serreli (CNR-ISEM); Maria Grazia Rosaria Mele (CNR-ISEM); Luigi Serra (CNR-ISEM); Samuel Aldo Iacolina (CRS4)",
+    "authors_raw": "Giovanni Serreli, Maria Grazia Rosaria Mele e Luigi Serra (CNR-ISEM); Samuel Aldo Iacolina (CRS4)",
     "authors": [
       {
         "name": "Giovanni Serreli",
@@ -889,7 +889,7 @@
   },
   {
     "id": 120,
-    "title": "Edizione digitale commentata di Le libere donne di Magliano di Mario Tobino: primi passi, metodi e prospettive |",
+    "title": "Edizione digitale commentata di Le libere donne di Magliano di Mario Tobino: primi passi, metodi e prospettive",
     "authors_raw": "Fabio Zarroli (Università degli Studi di Parma)",
     "authors": [
       {

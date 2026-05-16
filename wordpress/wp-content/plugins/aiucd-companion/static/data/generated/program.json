@@ -215,7 +215,7 @@
               "code": "3A",
               "room": "Aula 5A",
               "title": "AI e NLP per testi e recupero dell'informazione",
-              "chair": "Andrea Bolioli (ricercatore indipendedete/osservatorio AIUCD DH-AI)",
+              "chair": "Andrea Bolioli (Ricercatore indipendente/ Osservatorio AIUCD DH-AI)",
               "talks": [
                 {
                   "paper_id": 72,
@@ -425,7 +425,7 @@
                   "end": "16:00"
                 },
                 {
-                  "paper_id": 44,
+                  "paper_id": 144,
                   "start": "16:00",
                   "end": "16:20"
                 }
