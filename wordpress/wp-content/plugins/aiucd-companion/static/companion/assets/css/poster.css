@@ -278,6 +278,7 @@
   font-size: 32px;
   border: 4px solid #fff;
   box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  position: relative;
 }
 .poster-side .ps-photo img {
   width: 100%; height: 100%;
@@ -405,6 +406,7 @@
   font-family: "Cardo", serif;
   font-weight: 700;
   font-size: 20px;
+  position: relative;
 }
 .poster-card .pc-photo img {
   width: 100%; height: 100%;
@@ -412,6 +414,25 @@
   border-radius: 50%;
   display: block;
 }
+/* Slideshow: multi co-author photos cross-fade ogni SLIDESHOW_INTERVAL_MS. */
+.poster-card .pc-photo .slot,
+.poster-side .ps-photo .slot {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 600ms ease-in-out;
+}
+.poster-card .pc-photo .slot.active,
+.poster-side .ps-photo .slot.active { opacity: 1; }
+
+.poster-graph-wrap .node image.slot {
+  opacity: 0;
+  transition: opacity 600ms ease-in-out;
+}
+.poster-graph-wrap .node image.slot.active { opacity: 1; }
 .poster-card .pc-id {
   font-family: "Cardo", serif;
   font-size: 11px;

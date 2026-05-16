@@ -15,6 +15,50 @@ const ASSET_BASE = (typeof window !== "undefined" && window.AIUCD_BASE_URL)
   ? window.AIUCD_BASE_URL.replace(/\/$/, "") + "/"
   : "";
 
+// Slideshow centralizzato per i poster con più co-autori (es. #132): un solo
+// timer ruota la classe `.active` tra gli elementi `.slot` di ogni gruppo
+// registrato. Resettiamo prima di ogni renderPoster() per evitare leak quando
+// si lascia la tab.
+const SLIDESHOW_INTERVAL_MS = 3500;
+const _slideshows = new Set();
+let _slideshowTimer = null;
+function _slideshowTick() {
+  for (const slots of _slideshows) {
+    if (!slots.length) continue;
+    const active = slots.findIndex(s => s.classList.contains("active"));
+    const cur = active >= 0 ? active : 0;
+    if (active >= 0) slots[active].classList.remove("active");
+    slots[(cur + 1) % slots.length].classList.add("active");
+  }
+}
+function registerSlideshow(slots) {
+  if (!slots || slots.length < 2) return;
+  slots[0].classList.add("active");
+  _slideshows.add(slots);
+  if (!_slideshowTimer) {
+    _slideshowTimer = setInterval(_slideshowTick, SLIDESHOW_INTERVAL_MS);
+  }
+}
+function resetSlideshows() {
+  _slideshows.clear();
+  // Lasciamo gli intervals running se la tab non è la attuale; verrà
+  // ripopolato dal prossimo render.
+}
+
+function buildPhotoMarkup(photos, alt) {
+  // Returns the inner HTML for a `.pc-photo`/`.ps-photo` container.
+  // - 0 photos: '' (caller falls back to initials)
+  // - 1 photo: single <img>
+  // - 2+ photos: stacked <img class="slot"> for slideshow
+  if (!photos || photos.length === 0) return null;
+  if (photos.length === 1) {
+    return `<img src="${ASSET_BASE}${photos[0]}" alt="${escapeHtml(alt)}">`;
+  }
+  return photos
+    .map(p => `<img class="slot" src="${ASSET_BASE}${p}" alt="${escapeHtml(alt)}">`)
+    .join("");
+}
+
 let _state = {
   data: null,
   root: null,
@@ -30,6 +74,7 @@ let _state = {
 };
 
 export function renderPoster(rootEl, data, onTalkClick) {
+  resetSlideshows();
   _state.data = data;
   _state.root = rootEl;
   _state.onTalkClick = onTalkClick;
@@ -155,6 +200,10 @@ function makeGridCard(poster) {
   const a = AREA_BY_CODE[poster.area_code] || AREA_BY_CODE.other;
   const author = (poster.authors && poster.authors[0]?.name) || extractFirstAuthor(poster.authors_raw);
   const initials = makeInitials(author);
+  const photos = poster.photos && poster.photos.length
+    ? poster.photos
+    : (poster.photo ? [poster.photo] : []);
+  const photoMarkup = buildPhotoMarkup(photos, author);
   const card = document.createElement("div");
   card.className = "poster-card";
   card.dataset.posterId = poster.id;
@@ -162,14 +211,16 @@ function makeGridCard(poster) {
   card.style.setProperty("--card-color", a.color);
   card.style.setProperty("--photo-color", a.color);
   card.innerHTML = `
-    <div class="pc-photo">${poster.photo
-      ? `<img src="${ASSET_BASE}${poster.photo}" alt="${escapeHtml(author)}">`
-      : initials}</div>
+    <div class="pc-photo" data-photos="${photos.length}">${photoMarkup || initials}</div>
     <div class="pc-id">#${poster.id}</div>
     <div class="pc-title">${escapeHtml(poster.title)}</div>
     <div class="pc-author">${escapeHtml(author || "—")}</div>
     <span class="pc-area">${a.label}</span>
   `;
+  if (photos.length > 1) {
+    const slots = Array.from(card.querySelectorAll(".pc-photo .slot"));
+    registerSlideshow(slots);
+  }
   card.addEventListener("click", () => openPoster(poster));
   return card;
 }
@@ -287,8 +338,11 @@ function renderGraph(area) {
     const node = d3.select(this);
     const author = (d.poster.authors && d.poster.authors[0]?.name)
       || extractFirstAuthor(d.poster.authors_raw);
+    const photos = d.poster.photos && d.poster.photos.length
+      ? d.poster.photos
+      : (d.poster.photo ? [d.poster.photo] : []);
 
-    if (d.poster.photo) {
+    if (photos.length > 0) {
       // SVG <image> clippato a cerchio: stesso radius del nodo, ancorato al
       // centro del gruppo. preserveAspectRatio "slice" = object-fit:cover.
       const clipId = `poster-clip-${d.poster.id}`;
@@ -296,15 +350,21 @@ function renderGraph(area) {
         .attr("id", clipId)
         .append("circle")
         .attr("r", NODE_RADIUS_DESKTOP);
-      node.append("image")
-        .attr("class", "photo")
-        .attr("href", `${ASSET_BASE}${d.poster.photo}`)
-        .attr("x", -NODE_RADIUS_DESKTOP)
-        .attr("y", -NODE_RADIUS_DESKTOP)
-        .attr("width", 2 * NODE_RADIUS_DESKTOP)
-        .attr("height", 2 * NODE_RADIUS_DESKTOP)
-        .attr("clip-path", `url(#${clipId})`)
-        .attr("preserveAspectRatio", "xMidYMid slice");
+      photos.forEach((p, i) => {
+        node.append("image")
+          .attr("class", photos.length > 1 ? `photo slot${i === 0 ? " active" : ""}` : "photo")
+          .attr("href", `${ASSET_BASE}${p}`)
+          .attr("x", -NODE_RADIUS_DESKTOP)
+          .attr("y", -NODE_RADIUS_DESKTOP)
+          .attr("width", 2 * NODE_RADIUS_DESKTOP)
+          .attr("height", 2 * NODE_RADIUS_DESKTOP)
+          .attr("clip-path", `url(#${clipId})`)
+          .attr("preserveAspectRatio", "xMidYMid slice");
+      });
+      if (photos.length > 1) {
+        const slots = Array.from(this.querySelectorAll("image.slot"));
+        registerSlideshow(slots);
+      }
     } else {
       const initials = makeInitials(author);
       node.append("text")
@@ -449,6 +509,10 @@ function openPoster(poster) {
   const author = (poster.authors && poster.authors[0]?.name) || extractFirstAuthor(poster.authors_raw);
   const aff = (poster.authors && poster.authors[0]?.aff) || "";
   const initials = makeInitials(author);
+  const photos = poster.photos && poster.photos.length
+    ? poster.photos
+    : (poster.photo ? [poster.photo] : []);
+  const photoMarkup = buildPhotoMarkup(photos, author);
   const saved = agenda.isSaved(poster.id);
 
   // Related posters: stessa area, max 6
@@ -459,9 +523,7 @@ function openPoster(poster) {
   side.innerHTML = `
     <div class="ps-head" style="--photo-color:${a.color}">
       <button class="ps-close" id="ps-close" aria-label="Chiudi">×</button>
-      <div class="ps-photo">${poster.photo
-        ? `<img src="${ASSET_BASE}${poster.photo}" alt="${escapeHtml(author)}">`
-        : initials}</div>
+      <div class="ps-photo" data-photos="${photos.length}">${photoMarkup || initials}</div>
       <div class="ps-area" style="background:${a.color}">${a.label}</div>
       <h3 class="ps-title">${escapeHtml(poster.title)}</h3>
     </div>
@@ -507,6 +569,11 @@ function openPoster(poster) {
     </div>
   `;
   side.dataset.open = "true";
+
+  if (photos.length > 1) {
+    const slots = Array.from(side.querySelectorAll(".ps-photo .slot"));
+    registerSlideshow(slots);
+  }
 
   side.querySelector("#ps-close").addEventListener("click", closeSidesheet);
   side.querySelectorAll(".related-thumb[data-poster-id]").forEach(el => {
