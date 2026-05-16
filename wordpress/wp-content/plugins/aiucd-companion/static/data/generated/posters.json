@@ -13,9 +13,9 @@
     "area_code": "archives",
     "area_label": "Archivi ed edizioni",
     "iscritto": true,
-    "photo": null,
+    "photo": "assets/img/poster-authors/14.jpg",
     "poster_pdf": null,
-    "consent_photo": false,
+    "consent_photo": true,
     "session": "2026-06-04T14:30",
     "area_label_en": "Archives and editions"
   },
@@ -121,9 +121,9 @@
     "area_code": "co-construction",
     "area_label": "DH e co-costruzione di conoscenza",
     "iscritto": true,
-    "photo": null,
+    "photo": "assets/img/poster-authors/22.jpg",
     "poster_pdf": null,
-    "consent_photo": false,
+    "consent_photo": true,
     "session": "2026-06-04T14:30",
     "area_label_en": "DH and co-construction"
   },
@@ -209,9 +209,9 @@
     "area_code": "archives",
     "area_label": "Archivi ed edizioni",
     "iscritto": true,
-    "photo": null,
+    "photo": "assets/img/poster-authors/28.jpeg",
     "poster_pdf": null,
-    "consent_photo": false,
+    "consent_photo": true,
     "session": "2026-06-04T14:30",
     "area_label_en": "Archives and editions"
   },
@@ -469,9 +469,9 @@
     "area_code": "archives",
     "area_label": "Archivi ed edizioni",
     "iscritto": true,
-    "photo": null,
+    "photo": "assets/img/poster-authors/70.jpg",
     "poster_pdf": null,
-    "consent_photo": false,
+    "consent_photo": true,
     "session": "2026-06-04T14:30",
     "area_label_en": "Archives and editions"
   },
@@ -621,9 +621,9 @@
     "area_code": "archives",
     "area_label": "Archivi ed edizioni",
     "iscritto": true,
-    "photo": null,
+    "photo": "assets/img/poster-authors/91.jpeg",
     "poster_pdf": null,
-    "consent_photo": false,
+    "consent_photo": true,
     "session": "2026-06-04T14:30",
     "area_label_en": "Archives and editions"
   },
@@ -766,7 +766,7 @@
   {
     "id": 132,
     "title": "Lexicon Philosophicum: una rivista digitale per la condivisione della conoscenza umanistica",
-    "authors_raw": "Pietro  Restaneo (CNR-ILIESI); Maria Cristina Dalfino (CNR-ILIESI); Pamela Barletta (CNR-ILIESI)",
+    "authors_raw": "Pamela Barletta, Maria Cristina Dalfino e Pietro  Restaneo (CNR-ILIESI)",
     "authors": [
       {
         "name": "Pietro  Restaneo",
@@ -785,9 +785,9 @@
     "area_code": "co-construction",
     "area_label": "DH e co-costruzione di conoscenza",
     "iscritto": true,
-    "photo": null,
+    "photo": "assets/img/poster-authors/132.jpeg",
     "poster_pdf": null,
-    "consent_photo": false,
+    "consent_photo": true,
     "session": "2026-06-04T14:30",
     "area_label_en": "DH and co-construction"
   },

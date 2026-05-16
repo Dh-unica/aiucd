@@ -155,7 +155,7 @@ function makeGridCard(poster) {
   card.style.setProperty("--photo-color", a.color);
   card.innerHTML = `
     <div class="pc-photo">${poster.photo
-      ? `<img src="../${poster.photo}" alt="${escapeHtml(author)}">`
+      ? `<img src="${poster.photo}" alt="${escapeHtml(author)}">`
       : initials}</div>
     <div class="pc-id">#${poster.id}</div>
     <div class="pc-title">${escapeHtml(poster.title)}</div>
@@ -436,7 +436,7 @@ function openPoster(poster) {
     <div class="ps-head" style="--photo-color:${a.color}">
       <button class="ps-close" id="ps-close" aria-label="Chiudi">×</button>
       <div class="ps-photo">${poster.photo
-        ? `<img src="../${poster.photo}" alt="${escapeHtml(author)}">`
+        ? `<img src="${poster.photo}" alt="${escapeHtml(author)}">`
         : initials}</div>
       <div class="ps-area" style="background:${a.color}">${a.label}</div>
       <h3 class="ps-title">${escapeHtml(poster.title)}</h3>

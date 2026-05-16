@@ -1,6 +1,6 @@
-# Build report · 20260516-0854
+# Build report · 20260516-1538
 
-Generated: 2026-05-16T06:54:17+00:00
+Generated: 2026-05-16T13:38:31+00:00
 
 ## Stats
 
@@ -17,5 +17,6 @@ Generated: 2026-05-16T06:54:17+00:00
 ## Warnings
 
 - paper #10: CONDIVISO Esiti Call has 1 author(s) but submissions.xls has 2 — check for truncated cell
+- poster #132 already has a photo assigned; skipping 'Pamela Barletta-ILIESI.jpeg' (keeps the alphabetically first match)
 - 3 oral talk(s) accepted but not scheduled in program: [43, 144, 150]
 - 2 catalog Poster(s) not in Sessione Poster sheet: [121, 146]

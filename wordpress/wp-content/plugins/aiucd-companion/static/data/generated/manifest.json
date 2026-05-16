@@ -1,10 +1,10 @@
 {
-  "version": "20260516-0854",
-  "generated_at": "2026-05-16T06:54:17+00:00",
+  "version": "20260516-1538",
+  "generated_at": "2026-05-16T13:38:31+00:00",
   "files": {
     "papers.json": "6a053cb3dc449a14598469d5c4cdc612612b819df6ef7ba2b720f4ce7d1e78bc",
     "program.json": "0babff5510eb75d95da05ed17ea64ee38bfd7afe26692023b8b0b4996c6cde06",
-    "posters.json": "5db982fae7ea37e3e986dfefd318cc7e0f668a1ee17721848fce83be229e9251",
+    "posters.json": "1e61ad67a64bfb4147eb2df175706271aadae1132c0b69b6464137b52a6f3d5d",
     "paths.json": "def3d9b2ce57b789c0079258740af7d92be74af507aab1ec0251a78cbec38088",
     "catalogo.json": "682f6344019dcea5d017be46f50c1b62be18167a6bc81625a121c018c5b15700",
     "poi.json": "7a4046e6b90311f36ef4d84666b8f94504223cb574c287be170ae77a4f59f260"
