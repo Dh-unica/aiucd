@@ -282,20 +282,36 @@ function renderGraph(area) {
     .attr("class", "bg")
     .attr("r", NODE_RADIUS_DESKTOP);
 
-  // Photo or initials
+  // Photo (clipped to circle) or initials
   nodeSel.each(function(d) {
     const node = d3.select(this);
-    if (d.poster.photo) {
-      // Clipped image fallback rendering — for v1, useremo solo iniziali
-      // (le foto reali arriveranno con Q23). Si lascia il path ma fallback.
-    }
     const author = (d.poster.authors && d.poster.authors[0]?.name)
       || extractFirstAuthor(d.poster.authors_raw);
-    const initials = makeInitials(author);
-    node.append("text")
-      .attr("class", "initials")
-      .attr("font-size", initials.length === 1 ? 26 : 18)
-      .text(initials);
+
+    if (d.poster.photo) {
+      // SVG <image> clippato a cerchio: stesso radius del nodo, ancorato al
+      // centro del gruppo. preserveAspectRatio "slice" = object-fit:cover.
+      const clipId = `poster-clip-${d.poster.id}`;
+      node.append("clipPath")
+        .attr("id", clipId)
+        .append("circle")
+        .attr("r", NODE_RADIUS_DESKTOP);
+      node.append("image")
+        .attr("class", "photo")
+        .attr("href", `${ASSET_BASE}${d.poster.photo}`)
+        .attr("x", -NODE_RADIUS_DESKTOP)
+        .attr("y", -NODE_RADIUS_DESKTOP)
+        .attr("width", 2 * NODE_RADIUS_DESKTOP)
+        .attr("height", 2 * NODE_RADIUS_DESKTOP)
+        .attr("clip-path", `url(#${clipId})`)
+        .attr("preserveAspectRatio", "xMidYMid slice");
+    } else {
+      const initials = makeInitials(author);
+      node.append("text")
+        .attr("class", "initials")
+        .attr("font-size", initials.length === 1 ? 26 : 18)
+        .text(initials);
+    }
     // Label sotto al nodo (visibile su hover/select)
     node.append("text")
       .attr("class", "node-label")

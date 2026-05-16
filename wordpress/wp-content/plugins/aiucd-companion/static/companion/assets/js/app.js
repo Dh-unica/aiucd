@@ -7,7 +7,7 @@ import { renderMineList, renderPathsOverlay } from "./path-view.js?v=f4-6";
 import { renderMappa } from "./mappa-view.js?v=f4-6";
 import { renderCagliari, onCagliariVisible } from "./cagliari-view.js?v=f4-6";
 import { renderCatalog, onCatalogVisible } from "./catalog-view.js?v=f4-6";
-import { renderPoster } from "./poster-view.js?v=f4-7";
+import { renderPoster } from "./poster-view.js?v=f4-8";
 import { renderNumeri, onNumeriVisible } from "./numeri-view.js?v=f4-6";
 import * as modal from "./talk-modal-v2.js?v=f4-6";
 import * as agenda from "./agenda.js";
