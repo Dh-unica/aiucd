@@ -13,6 +13,7 @@
 #   AIUCD_BACKUPS_DIR   destinazione dump
 #   AIUCD_UPLOADS_DIR   sorgente uploads da archiviare
 #   RETENTION_DAYS      giorni di retention (NON applicato a label != "daily")
+#   DB_CONTAINER        nome del container DB (default: aiucd_database)
 #
 # Exit code != 0 se uno dei due backup fallisce.
 
@@ -30,6 +31,12 @@ COMPOSE_DIR="${COMPOSE_DIR:-/home/dhpasteur/actions-runner/_work/aiucd/aiucd}"
 AIUCD_BACKUPS_DIR="${AIUCD_BACKUPS_DIR:-/home/dhpasteur/aiucd-data/backups}"
 AIUCD_UPLOADS_DIR="${AIUCD_UPLOADS_DIR:-/home/dhpasteur/aiucd-data/uploads}"
 RETENTION_DAYS="${RETENTION_DAYS:-30}"
+# Nome del container DB. Usato direttamente con `docker exec` invece di
+# `docker compose exec` perché la guard `docker compose ps | grep Up`
+# dipende da cwd e dal compose project file (entrambi instabili sul runner
+# GHA durante `actions/checkout`), e già ci ha fatto saltare silenziosamente
+# il DB dump (workflow run 25970733456 e cron daily 2026-05-16 00:00).
+DB_CONTAINER="${DB_CONTAINER:-aiucd_database}"
 
 TS="$(date +%Y%m%d_%H%M%S)"
 DB_DUMP="$AIUCD_BACKUPS_DIR/db_${LABEL}_${TS}.sql.gz"
@@ -43,28 +50,39 @@ log "=== AIUCD backup START label=$LABEL ==="
 log "compose_dir=$COMPOSE_DIR backups_dir=$AIUCD_BACKUPS_DIR uploads_dir=$AIUCD_UPLOADS_DIR retention=${RETENTION_DAYS}d"
 
 # --- DB ---
+# Probe: il container DB risponde via `docker exec`? È più affidabile di
+# `docker compose ps | grep Up` perché non dipende da cwd/project-file e
+# verifica direttamente quello che ci interessa (il processo mysqld è
+# raggiungibile). Se il probe fallisce loggiamo lo stato visto da Docker
+# così la prossima volta non c'è bisogno di sospettare.
 DB_OK=1
-if [ ! -d "$COMPOSE_DIR" ]; then
-  log "ERROR: compose dir not found: $COMPOSE_DIR"
+if ! docker exec -i "$DB_CONTAINER" true >/dev/null 2>&1; then
+  log "ERROR: DB container '$DB_CONTAINER' not responding to 'docker exec'"
+  log "  docker ps --filter name=$DB_CONTAINER (status snapshot):"
+  docker ps -a --filter "name=$DB_CONTAINER" \
+      --format '    {{.Names}}\t{{.Status}}\t{{.Image}}' 2>&1 \
+      | head -n 5 | while IFS= read -r line; do log "$line"; done
+  if [ -d "$COMPOSE_DIR" ]; then
+    log "  docker compose ps (from $COMPOSE_DIR):"
+    ( cd "$COMPOSE_DIR" && docker compose ps 2>&1 ) \
+      | head -n 10 | while IFS= read -r line; do log "    $line"; done
+  fi
   DB_OK=0
 else
-  cd "$COMPOSE_DIR"
-  if ! docker compose ps 2>/dev/null | grep -q "Up"; then
-    log "ERROR: containers not running, skipping DB dump"
-    DB_OK=0
+  log "Dumping wordpress DB to $DB_DUMP (via docker exec $DB_CONTAINER)"
+  DUMP_ERR="$(mktemp)"
+  if docker exec -i "$DB_CONTAINER" sh -c \
+      'exec mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" --single-transaction --quick --lock-tables=false --routines --triggers --events --default-character-set=utf8mb4 wordpress' \
+      2>"$DUMP_ERR" | gzip > "$DB_DUMP" \
+     && [ -s "$DB_DUMP" ]; then
+    log "OK DB backup: $(du -h "$DB_DUMP" | cut -f1)"
   else
-    log "Dumping wordpress DB to $DB_DUMP"
-    if docker compose exec -T db sh -c \
-        'exec mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" --single-transaction --quick --lock-tables=false --routines --triggers --events --default-character-set=utf8mb4 wordpress' \
-        2>/dev/null | gzip > "$DB_DUMP" \
-       && [ -s "$DB_DUMP" ]; then
-      log "OK DB backup: $(du -h "$DB_DUMP" | cut -f1)"
-    else
-      rm -f "$DB_DUMP"
-      log "ERROR: DB dump failed"
-      DB_OK=0
-    fi
+    rm -f "$DB_DUMP"
+    log "ERROR: DB dump failed (mysqldump stderr below)"
+    head -n 20 "$DUMP_ERR" | while IFS= read -r line; do log "    $line"; done
+    DB_OK=0
   fi
+  rm -f "$DUMP_ERR"
 fi
 
 # --- Uploads ---
