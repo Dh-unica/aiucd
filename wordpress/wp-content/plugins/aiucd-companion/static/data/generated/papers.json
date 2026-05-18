@@ -356,7 +356,7 @@
   },
   {
     "id": 22,
-    "title": "Verso una classificazione dei prompt basata sulle intenzioni cognitive esplicitate dagli studenti nell’interazione con l’IA",
+    "title": "Verso una classificazione funzionale dei prompt basata sulle intenzioni cognitive esplicitate dagli studenti nell'interazione con l'IA",
     "abstract": "Il contributo propone una cornice teorico-metodologica per interpretare il prompt come azione cognitiva esplicitata linguisticamente nell’interazione con sistemi di intelligenza artificiale generativa. Superando l’attuale lettura prettamente tecnica del prompt engineering, lo studio adotta la tassonomia di Bloom nella sua versione rivista come framework di riferimento per una classificazione delle operazioni cognitive richieste nei prompt. Tale classificazione consente di analizzare le interazioni studente–IA in termini di intenzioni cognitive. L’obiettivo è offrire uno strumento di analisi che permetta di osservare e comprendere come l’IA generativa venga utilizzata nei processi di apprendimento in ambito educativo.",
     "mode": "Poster",
     "area_code": "co-construction",
@@ -1209,7 +1209,7 @@
   },
   {
     "id": 61,
-    "title": "Il restauro testuale dei papiri nel progetto <PROGETTO>: <PIATTAFORMA> e l’integrazione di modelli linguistici",
+    "title": "Il restauro testuale dei papiri nel progetto GreekSchools: CoPhiEditor e l’integrazione di modelli linguistici",
     "abstract": "Il contributo presenta un approccio automatizzato per il restauro testuale dei papiri di Ercolano basata su modelli linguistici di tipo Transformer. L’integrazione dell’intelligenza artificiale nella piattaforma <PIATTAFORMA> tramite API RESTful abilita un workflow collaborativo in cui i suggerimenti automatici di supplementi testuali che supportano, senza sostituirla, la discussione filologica. L’approccio propone una filologia assistita da tecnologie di AI generativa che bilancia analisi computazionale e controllo editoriale umano, ponendo attenzione alla sostenibilità tecnologica dell’edizione scientifica digitale.",
     "mode": "Poster",
     "area_code": "co-construction",
@@ -1623,7 +1623,7 @@
   },
   {
     "id": 81,
-    "title": "L’Archivio del Centro Conservazione e Restauro “La Venaria  Reale”: un caso studio per la diffusione dei dati tecnico scientifici",
+    "title": "L’Archivio del Centro Conservazione e Restauro “La Venaria Reale”: un caso studio per la diffusione dei dati tecnico scientifici",
     "abstract": "Il contributo presenta il quadro metodologico e i primi risultati di un tirocinio di ricerca condotto sull’Archivio del Centro Conservazione e Restauro “La Venaria Reale” con un focus particolare sugli interventi di diagnostica eseguiti durante il restauro di dipinti su tela.  \nIl progetto formativo si inserisce nel contesto del Master di II livello Esperti nelle attività di valutazione e di tutela del patrimonio culturale (2023-2025) dell’Università di Roma Tre e prende le mosse dalla recente attività di catalogazione e pubblicazione online degli archivi del Centro, avviata nell’ambito del bando PNRR 2023.  \nIl contributo intende mostrare come la documentazione diagnostica, spesso utilizzata esclusivamente in \nambito tecnico-scientifico, possa costituire una risorsa significativa per la costruzione di forme di accesso e \ndivulgazione del sapere. In questo senso, l’Archivio Restauri viene analizzato come caso di studio per esplorare le potenzialità di riuso e disseminazione dei dati scientifici in un’ottica di apertura, inclusività e condivisione della conoscenza.",
     "mode": "Poster",
     "area_code": "other",
@@ -2577,7 +2577,7 @@
   },
   {
     "id": 131,
-    "title": "Il ruolo del Test Plan per la validazione:  Il caso d'uso del Marketplace H2IOSC",
+    "title": "Il ruolo del Test Plan per la validazione: Il caso d'uso del Marketplace H2IOSC",
     "abstract": "L'implementazione di un progetto di discipline umanistiche, come una piattaforma digitale, comporta un processo in più fasi che nella maggioranza dei casi implicano il design delle interfacce e conseguentemente l’architettura e la configurazione di backend e di frontend. \nAll’interno di questo processo di sviluppo, il Test Plan è il documento che assicura l'affidabilità della piattaforma. Esso si inserisce in un flusso documentale volto a sostenere l'intero ciclo di vita del progetto: dal design (modellazione dei dati) al monitoraggio dello sviluppo tecnologico, fino alla validazione e alla conservazione a lungo termine dei risultati. \n\nQuesto lavoro nasce dal caso d’uso sviluppato per la progettazione del Marketplace di H2IOSC¹ (Humanities and Cultural Heritage Italian Open Science Cloud), una piattaforma a servizio delle DH, dedicata a raccogliere e disseminare i prodotti della ricerca umanistica.",
     "mode": "Poster",
     "area_code": "other",

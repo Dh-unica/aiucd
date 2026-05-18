@@ -531,10 +531,15 @@ function openPoster(poster) {
       <div class="ps-section">
         <h4>Autori</h4>
         <div class="ps-authors">
-          <strong>${escapeHtml(author || "—")}</strong>
-          ${aff ? `<div class="aff">${escapeHtml(aff)}</div>` : ""}
-          ${poster.authors_raw && (!poster.authors || poster.authors.length === 0)
-            ? `<div>${escapeHtml(poster.authors_raw)}</div>` : ""}
+          ${poster.authors && poster.authors.length > 0
+            ? poster.authors.map((au, idx) => `
+              <div class="ps-author-row">
+                <strong>${escapeHtml(au.name)}</strong>
+                ${au.aff ? `<div class="aff">${escapeHtml(au.aff)}</div>` : ""}
+              </div>
+            `).join("")
+            : `<strong>${escapeHtml(author || "—")}</strong>
+               ${poster.authors_raw ? `<div>${escapeHtml(poster.authors_raw)}</div>` : ""}`}
         </div>
       </div>
       ${poster.abstract ? `

@@ -327,6 +327,12 @@
   color: var(--muted);
   font-style: italic;
 }
+.poster-side .ps-authors .ps-author-row {
+  margin-bottom: 8px;
+}
+.poster-side .ps-authors .ps-author-row:last-child {
+  margin-bottom: 0;
+}
 .poster-side .ps-abstract {
   font-size: var(--fs-sm);
   line-height: 1.6;
