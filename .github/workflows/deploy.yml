@@ -83,12 +83,17 @@ jobs:
           echo "=== END DIAGNOSTIC ==="
       
       - name: 📋 Display deployment info
+        env:
+          # Passiamo il commit message via env per non far espandere apostrofi,
+          # backtick o $... dentro lo script shell (un commit con "l'integrazione"
+          # nel corpo ha rotto il run 26040673650 con "unexpected EOF").
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
           echo "🚀 Deploying to Production"
           echo "Branch: ${{ github.ref_name }}"
           echo "Commit: ${{ github.sha }}"
           echo "Author: ${{ github.actor }}"
-          echo "Message: ${{ github.event.head_commit.message }}"
+          printf 'Message: %s\n' "$COMMIT_MSG"
       
       - name: 💾 Pre-deploy BACKUP (DB + uploads — mandatory)
         id: backup
