@@ -19,8 +19,7 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Archives and editions"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 18,
@@ -36,12 +35,13 @@
     "area_code": "co-construction",
     "area_label": "DH e co-costruzione di conoscenza",
     "iscritto": true,
-    "photo": null,
-    "photos": [],
+    "photo": "assets/img/poster-authors/18.png",
+    "photos": [
+      "assets/img/poster-authors/18.png"
+    ],
     "poster_pdf": null,
-    "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "DH and co-construction"
+    "consent_photo": true,
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 19,
@@ -69,8 +69,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Archives and editions"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 20,
@@ -106,8 +105,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Data and knowledge"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 22,
@@ -133,8 +131,7 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "DH and co-construction"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 24,
@@ -154,12 +151,13 @@
     "area_code": "archives",
     "area_label": "Archivi ed edizioni",
     "iscritto": true,
-    "photo": null,
-    "photos": [],
+    "photo": "assets/img/poster-authors/24.jpg",
+    "photos": [
+      "assets/img/poster-authors/24.jpg"
+    ],
     "poster_pdf": null,
-    "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Archives and editions"
+    "consent_photo": true,
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 26,
@@ -179,8 +177,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "DH and co-construction"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 27,
@@ -204,8 +201,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Archives and editions"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 28,
@@ -227,8 +223,7 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Archives and editions"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 30,
@@ -248,8 +243,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "DH and co-construction"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 31,
@@ -269,8 +263,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "DH and co-construction"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 40,
@@ -298,8 +291,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Data and knowledge"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 51,
@@ -327,8 +319,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Memories and heritage"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 52,
@@ -356,8 +347,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Data and knowledge"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 58,
@@ -377,8 +367,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "DH and co-construction"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 61,
@@ -410,8 +399,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "DH and co-construction"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 62,
@@ -439,8 +427,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Memories and heritage"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 67,
@@ -472,8 +459,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Memories and heritage"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 70,
@@ -499,8 +485,7 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Archives and editions"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 77,
@@ -520,8 +505,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Data and knowledge"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 81,
@@ -549,8 +533,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Other contributions"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 82,
@@ -570,8 +553,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Memories and heritage"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 83,
@@ -591,8 +573,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Memories and heritage"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 84,
@@ -612,8 +593,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "DH and co-construction"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 89,
@@ -633,12 +613,13 @@
     "area_code": "textualities",
     "area_label": "Testualità digitali",
     "iscritto": true,
-    "photo": null,
-    "photos": [],
+    "photo": "assets/img/poster-authors/89.jpg",
+    "photos": [
+      "assets/img/poster-authors/89.jpg"
+    ],
     "poster_pdf": null,
-    "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Digital textualities"
+    "consent_photo": true,
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 91,
@@ -660,8 +641,7 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Archives and editions"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 108,
@@ -681,8 +661,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Data and knowledge"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 110,
@@ -706,8 +685,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "DH and co-construction"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 111,
@@ -735,8 +713,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Archives and editions"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 117,
@@ -760,8 +737,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Memories and heritage"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 122,
@@ -777,12 +753,13 @@
     "area_code": "archives",
     "area_label": "Archivi ed edizioni",
     "iscritto": true,
-    "photo": null,
-    "photos": [],
+    "photo": "assets/img/poster-authors/122.jpg",
+    "photos": [
+      "assets/img/poster-authors/122.jpg"
+    ],
     "poster_pdf": null,
-    "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Archives and editions"
+    "consent_photo": true,
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 131,
@@ -802,8 +779,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Other contributions"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 132,
@@ -834,8 +810,7 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "DH and co-construction"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 134,
@@ -855,8 +830,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Archives and editions"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 136,
@@ -880,8 +854,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Archives and editions"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 143,
@@ -901,8 +874,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Memories and heritage"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 149,
@@ -934,8 +906,7 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Memories and heritage"
+    "session": "2026-06-04T14:30"
   },
   {
     "id": 120,
@@ -955,7 +926,6 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30",
-    "area_label_en": "Archives and editions"
+    "session": "2026-06-04T14:30"
   }
 ]

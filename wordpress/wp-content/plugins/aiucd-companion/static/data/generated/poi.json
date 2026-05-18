@@ -7,8 +7,7 @@
     "lat": 39.2288167208065,
     "lon": 9.111890995970645,
     "image_url": "https://web.unica.it/static/resources/cms/images/Screenshot_20230524_092252_d0.png",
-    "description": "Facoltà di Studi Umanistici è nata con l’obiettivo di coniugare la formazione in tutte le discipline che esprimono la conoscenza dell’uomo, del suo pensiero, della sua attività spirituale e del suo comportamento attraverso i tempi, con la realtà del Territorio, utilizzando strumenti analitici, critici, tecnologici e informatici.",
-    "type_label_en": "Conference venue"
+    "description": "Facoltà di Studi Umanistici è nata con l’obiettivo di coniugare la formazione in tutte le discipline che esprimono la conoscenza dell’uomo, del suo pensiero, della sua attività spirituale e del suo comportamento attraverso i tempi, con la realtà del Territorio, utilizzando strumenti analitici, critici, tecnologici e informatici."
   },
   "pois": [
     {
@@ -26,10 +25,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/anfiteatro-romano.jpg",
       "thumb": "assets/img/poi/anfiteatro-romano.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Roman Amphitheatre",
-      "description_en": "A unique work of subtractive engineering: not built but literally carved into the limestone of Buoncammino hill in the 2nd century AD. It bears witness to Karalis' central role in the Roman Mediterranean.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "bastione-s-remy",
@@ -46,10 +42,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/bastione-s-remy.jpg",
       "thumb": "assets/img/poi/bastione-s-remy.thumb.jpg",
-      "image_remote": false,
-      "name_en": "S. Remy Bastion",
-      "description_en": "A monumental late 19th-century hinge between the noble city and the merchant town. Its neoclassical white-limestone architecture serves as a spectacular panoramic terrace over the city and the sea.",
-      "type_label_en": "Belvedere / aperitif"
+      "image_remote": false
     },
     {
       "id": "bastione-santa-croce",
@@ -66,10 +59,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/bastione-santa-croce.jpg",
       "thumb": "assets/img/poi/bastione-santa-croce.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Santa Croce Bastion",
-      "description_en": "An ancient stronghold in the Castello district, rising on the area that reportedly hosted the medieval Jewish quarter. It is the prime spot to watch the sunset, where the view sweeps from the rooftops of Marina to the Sulcis mountains.",
-      "type_label_en": "Belvedere / aperitif"
+      "image_remote": false
     },
     {
       "id": "buoncammino",
@@ -86,10 +76,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/buoncammino.jpg",
       "thumb": "assets/img/poi/buoncammino.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Buoncammino",
-      "description_en": "A cultural centre hosting exhibitions, performances and conferences. It rises on the Santa Croce bastions, between Via Santa Croce and Cammino Nuovo, in the western sector of the Castello fortifications.",
-      "type_label_en": "Belvedere / aperitif"
+      "image_remote": false
     },
     {
       "id": "cattedrale-s-maria",
@@ -106,10 +93,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/cattedrale-s-maria.jpg",
       "thumb": "assets/img/poi/cattedrale-s-maria.thumb.jpg",
-      "image_remote": false,
-      "name_en": "St. Mary's Cathedral",
-      "description_en": "A palimpsest of styles ranging from Pisan Romanesque to Baroque. Not to be missed: William's Pulpit and the crypt (Sanctuary of the Martyrs), a triumph of marble decoration.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "centro-comunale-d-arte-il-ghetto",
@@ -126,9 +110,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/centro-comunale-d-arte-il-ghetto.jpg",
       "thumb": "assets/img/poi/centro-comunale-d-arte-il-ghetto.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Il Ghetto Municipal Art Centre",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "convento-di-san-domenico",
@@ -145,10 +127,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/convento-di-san-domenico.jpg",
       "thumb": "assets/img/poi/convento-di-san-domenico.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Convent of San Domenico",
-      "description_en": "An oasis of silence and meditation just steps away from the lively streets of the historic centre of Sardinia's capital city.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "galleria-comunale-d-arte",
@@ -165,10 +144,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/galleria-comunale-d-arte.jpg",
       "thumb": "assets/img/poi/galleria-comunale-d-arte.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Municipal Art Gallery",
-      "description_en": "The 18th-century building, once the royal powder magazine, hosts the Ingrao Collection: a permanent exhibition of works by Italy's leading 20th-century masters, from Umberto Boccioni to Giorgio Morandi, from Filippo De Pisis to Mario Mafai, alongside sculptures by Francesco Ciusa.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "giardini-pubblici",
@@ -185,10 +161,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/giardini-pubblici.jpg",
       "thumb": "assets/img/poi/giardini-pubblici.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Public Gardens",
-      "description_en": "Spanning nearly two hectares, the Public Gardens are an important green lung of the city, with more than a century of history behind them.",
-      "type_label_en": "Naturalistic"
+      "image_remote": false
     },
     {
       "id": "giardino-sotto-le-mura",
@@ -205,10 +178,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/giardino-sotto-le-mura.jpg",
       "thumb": "assets/img/poi/giardino-sotto-le-mura.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Garden under the Walls",
-      "description_en": "Located along Viale Regina Elena. Sculptor Pinuccio Sciola also took part in its creation, contributing seven freely accessible outdoor works.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "lungomare-su-siccu",
@@ -225,10 +195,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/lungomare-su-siccu.jpg",
       "thumb": "assets/img/poi/lungomare-su-siccu.thumb.jpg",
-      "image_remote": false,
-      "name_en": "\"Su Siccu\" Seafront",
-      "description_en": "An urban regeneration trail connecting the port to the Nervi pavilion, an example of industrial and Rationalist architecture, offering a new perspective on the relationship between humanity and the sea.",
-      "type_label_en": "Walk / aperitif"
+      "image_remote": false
     },
     {
       "id": "lungomare-via-roma",
@@ -245,10 +212,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/lungomare-via-roma.jpg",
       "thumb": "assets/img/poi/lungomare-via-roma.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Via Roma Seafront",
-      "description_en": "The city's elegant \"living room\", characterised by porticoes in eclectic and Liberty style. The pier represents the historic landing point and the ongoing dialogue between city and harbour.",
-      "type_label_en": "Walk / aperitif"
+      "image_remote": false
     },
     {
       "id": "molo-dogana",
@@ -265,10 +229,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/molo-dogana.jpg",
       "thumb": "assets/img/poi/molo-dogana.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Customs Pier",
-      "description_en": "A new promenade along the seafront of Cagliari's port. One of the oldest areas of the harbour, already used as one of the first ship-landing points in medieval times.",
-      "type_label_en": "Walk / aperitif"
+      "image_remote": false
     },
     {
       "id": "museo-archeologico-nazionale",
@@ -285,10 +246,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/museo-archeologico-nazionale.jpg",
       "thumb": "assets/img/poi/museo-archeologico-nazionale.thumb.jpg",
-      "image_remote": false,
-      "name_en": "National Archaeological Museum",
-      "description_en": "Guardian of the mystery of the Nuragic civilisation. Home to the \"Giants of Mont'e Prama\", the oldest monumental statuary in the western Mediterranean basin.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "museo-delle-cere-anatomiche-clemente-susini",
@@ -305,10 +263,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/museo-delle-cere-anatomiche-clemente-susini.jpg",
       "thumb": "assets/img/poi/museo-delle-cere-anatomiche-clemente-susini.thumb.jpg",
-      "image_remote": false,
-      "name_en": "\"Clemente Susini\" Anatomical Wax Museum",
-      "description_en": "One of the finest wax collections in the world. 18th-century works of art and science combining neoclassical aesthetics with the rigour of medical research.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "necropoli-punica-di-tuvixeddu",
@@ -325,10 +280,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/necropoli-punica-di-tuvixeddu.jpg",
       "thumb": "assets/img/poi/necropoli-punica-di-tuvixeddu.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Tuvixeddu Punic Necropolis",
-      "description_en": "The largest Phoenician-Punic necropolis of the Mediterranean basin.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "orto-botanico",
@@ -345,10 +297,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/orto-botanico.jpg",
       "thumb": "assets/img/poi/orto-botanico.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Botanical Garden",
-      "description_en": "Founded in the mid-19th century, it is an oasis of biodiversity that integrates exotic and Mediterranean species among Roman archaeological remains (cisterns and wells).",
-      "type_label_en": "Naturalistic"
+      "image_remote": false
     },
     {
       "id": "palazzo-di-citta",
@@ -365,10 +314,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/palazzo-di-citta.jpg",
       "thumb": "assets/img/poi/palazzo-di-citta.thumb.jpg",
-      "image_remote": false,
-      "name_en": "City Hall (Palazzo di Città)",
-      "description_en": "The city's ancient town hall from the Middle Ages until the 20th century. Today it hosts the permanent exhibition of the Manconi Passino Ethnographic Collection, the Ceramic Collection from the Ingrao Fund, and the Ingrao Sacred Art Collection.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "palazzo-regio",
@@ -385,10 +331,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/palazzo-regio.jpg",
       "thumb": "assets/img/poi/palazzo-regio.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Royal Palace",
-      "description_en": "Former residence of the viceroys and of the Savoy royal family during the Napoleonic wars. Its frescoes and furnishings tell the story of Cagliari as capital of the Kingdom of Sardinia.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "parco-della-musica",
@@ -405,10 +348,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/parco-della-musica.jpg",
       "thumb": "assets/img/poi/parco-della-musica.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Music Park",
-      "description_en": "Parco della Musica is a green area of about 5 hectares, containing a café, benches, playgrounds and a small artificial watercourse populated by various bird species. The park is open from 6 a.m. until midnight.",
-      "type_label_en": "Naturalistic"
+      "image_remote": false
     },
     {
       "id": "parco-di-monteclaro",
@@ -425,9 +365,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/parco-di-monteclaro.jpg",
       "thumb": "assets/img/poi/parco-di-monteclaro.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Monteclaro Park",
-      "type_label_en": "Naturalistic"
+      "image_remote": false
     },
     {
       "id": "parco-molentargius",
@@ -444,10 +382,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/parco-molentargius.jpg",
       "thumb": "assets/img/poi/parco-molentargius.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Molentargius Park",
-      "description_en": "A wetland ecosystem of international value, an extraordinary example of coexistence between the salt-mining industry and wildlife, famous for the nesting of pink flamingos.",
-      "type_label_en": "Naturalistic"
+      "image_remote": false
     },
     {
       "id": "parco-nervi",
@@ -464,10 +399,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/parco-nervi.jpg",
       "thumb": "assets/img/poi/parco-nervi.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Nervi Park",
-      "description_en": "An equipped green area on the seafront, with pedestrian, cycling and naturalistic paths, including a remarkable example of industrial archaeology from Cagliari's port area.",
-      "type_label_en": "Walk / aperitif"
+      "image_remote": false
     },
     {
       "id": "pinacoteca-nazionale",
@@ -484,10 +416,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/pinacoteca-nazionale.jpg",
       "thumb": "assets/img/poi/pinacoteca-nazionale.thumb.jpg",
-      "image_remote": false,
-      "name_en": "National Picture Gallery",
-      "description_en": "A treasure trove preserving retables – grand altarpieces of Sardinian-Iberian school (15th–16th century) – testifying to the cultural ties between Sardinia and the Crown of Aragon.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "porto",
@@ -504,9 +433,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/porto.jpg",
       "thumb": "assets/img/poi/porto.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Port",
-      "type_label_en": "Public transport"
+      "image_remote": false
     },
     {
       "id": "quartiere-villanova",
@@ -521,10 +448,7 @@
       "walking_min": 34,
       "driving_min": 10,
       "distance_source": "osrm-driving+haversine-walking",
-      "image_remote": true,
-      "name_en": "Villanova District",
-      "description_en": "The Villanova district is one of the four historic neighbourhoods of Cagliari. Worth a visit are the San Domenico cloister and a stop in the small square facing it, the church of San Giacomo, and the tiny church of San Cesello. The initial stretch of Via San Saturnino (accessed from Viale Regina Elena just past the San Remy Bastion) is interesting, known for its street art; the flowered Via Piccioni is equally evocative.",
-      "type_label_en": "Cultural"
+      "image_remote": true
     },
     {
       "id": "spiaggia-del-poetto",
@@ -541,10 +465,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/spiaggia-del-poetto.jpg",
       "thumb": "assets/img/poi/spiaggia-del-poetto.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Poetto Beach",
-      "description_en": "12 km of coastline that preserve the charm of early-20th-century seaside resorts, nestled between the Devil's Saddle and the salt flats.",
-      "type_label_en": "Walk / aperitif"
+      "image_remote": false
     },
     {
       "id": "stazione-treni",
@@ -561,10 +482,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/stazione-treni.jpg",
       "thumb": "assets/img/poi/stazione-treni.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Train Station",
-      "description_en": "A historic 19th-century building serving as a hinge between transport modernity and the historic centre, overlooking the monumental Piazza Matteotti.",
-      "type_label_en": "Public transport"
+      "image_remote": false
     },
     {
       "id": "torre-dell-elefante",
@@ -581,10 +499,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/torre-dell-elefante.jpg",
       "thumb": "assets/img/poi/torre-dell-elefante.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Elephant Tower",
-      "description_en": "One of the city's most important monuments. Designed by the architect Giovanni Capula in the early 14th century, it is among the finest European examples of Pisan military architecture. The tower was built in 1307 by order of the Pisan consuls Giovanni De Vecchi and Giovanni Cinquini.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "torre-di-san-pancrazio",
@@ -601,10 +516,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/torre-di-san-pancrazio.jpg",
       "thumb": "assets/img/poi/torre-di-san-pancrazio.thumb.jpg",
-      "image_remote": false,
-      "name_en": "San Pancrazio Tower",
-      "description_en": "It is the tallest tower in Cagliari. Built in 1305 by the Sardinian architect Giovanni Capula, who also designed the Elephant Tower, completed two years later.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "basilica-di-nostra-signora-di-madonna-di-bonaria",
@@ -621,10 +533,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/basilica-di-nostra-signora-di-madonna-di-bonaria.jpg",
       "thumb": "assets/img/poi/basilica-di-nostra-signora-di-madonna-di-bonaria.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Basilica of Our Lady of Bonaria",
-      "description_en": "The Basilica of Bonaria is today the largest Christian temple in Sardinia, and its construction lasted several centuries.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     },
     {
       "id": "cimitero-monumentale-di-bonaria",
@@ -641,10 +550,7 @@
       "distance_source": "osrm-driving+haversine-walking",
       "image": "assets/img/poi/cimitero-monumentale-di-bonaria.jpg",
       "thumb": "assets/img/poi/cimitero-monumentale-di-bonaria.thumb.jpg",
-      "image_remote": false,
-      "name_en": "Monumental Cemetery of Bonaria",
-      "description_en": "Adjacent to the hill of the same name, on the former Punic-Roman and early Christian necropolis, the Bonaria Cemetery was inaugurated in 1828 and has become over time a great open-air art gallery gathering sculptures by Sardinian and mainland artists active between the second half of the 19th century and the first decades of the 20th.",
-      "type_label_en": "Cultural"
+      "image_remote": false
     }
   ]
 }

@@ -8,16 +8,14 @@
           "type": "break",
           "label": "Colazione di benvenuto",
           "start": "12:00",
-          "end": "13:00",
-          "label_en": "Welcome breakfast"
+          "end": "13:00"
         },
         {
           "type": "plenary",
           "start": "13:30",
           "end": "14:45",
           "room": "Aula Capitini",
-          "title": "Apertura dei lavori",
-          "title_en": "Conference opening"
+          "title": "Apertura dei lavori"
         },
         {
           "type": "session",
@@ -108,8 +106,7 @@
           "type": "break",
           "label": "Network caffè",
           "start": "16:45",
-          "end": "17:30",
-          "label_en": "Coffee break"
+          "end": "17:30"
         },
         {
           "type": "session",
@@ -301,8 +298,7 @@
           "type": "break",
           "label": "Network caffè",
           "start": "10:45",
-          "end": "11:30",
-          "label_en": "Coffee break"
+          "end": "11:30"
         },
         {
           "type": "session",
@@ -388,16 +384,14 @@
           "type": "break",
           "label": "PRANZO",
           "start": "13:00",
-          "end": "14:30",
-          "label_en": "LUNCH"
+          "end": "14:30"
         },
         {
           "type": "plenary",
           "start": "14:30",
           "end": "15:00",
           "room": "Aula Capitini",
-          "title": "POSTER SESSION",
-          "title_en": "POSTER SESSION"
+          "title": "POSTER SESSION"
         },
         {
           "type": "session",
@@ -493,16 +487,14 @@
           "type": "break",
           "label": "Network caffè",
           "start": "16:45",
-          "end": "17:25",
-          "label_en": "Coffee break"
+          "end": "17:25"
         },
         {
           "type": "plenary",
           "start": "17:30",
           "end": "19:30",
           "room": "Aula Capitini",
-          "title": "ASSEMBLEA DEI SOCI AIUCD",
-          "title_en": "AIUCD MEMBERS' ASSEMBLY"
+          "title": "ASSEMBLEA DEI SOCI AIUCD"
         }
       ]
     },
@@ -599,8 +591,7 @@
           "type": "break",
           "label": "Network caffè",
           "start": "10:45",
-          "end": "11:30",
-          "label_en": "Coffee break"
+          "end": "11:30"
         },
         {
           "type": "session",
@@ -696,16 +687,14 @@
           "type": "break",
           "label": "PRANZO",
           "start": "13:00",
-          "end": "14:30",
-          "label_en": "LUNCH"
+          "end": "14:30"
         },
         {
           "type": "plenary",
           "start": "14:30",
           "end": "15:00",
           "room": "Aula Capitini",
-          "title": "POSTER SESSION",
-          "title_en": "POSTER SESSION"
+          "title": "POSTER SESSION"
         },
         {
           "type": "session",
@@ -802,24 +791,21 @@
           "start": "17:00",
           "end": "18:00",
           "room": "Aula Capitini",
-          "title": "KEYNOTE » Philp Crowe (University College Dublin -TtbD- dialoga con Arianna Ciula (King's College London) e Francesca Tomasi (Alma Mater Studiorum Università di Bologna)",
-          "title_en": "KEYNOTE » Philp Crowe (University College Dublin -TtbD-) in conversation with Arianna Ciula (King's College London) and Francesca Tomasi (Alma Mater Studiorum Università di Bologna)"
+          "title": "KEYNOTE » Philp Crowe (University College Dublin -TtbD- dialoga con Arianna Ciula (King's College London) e Francesca Tomasi (Alma Mater Studiorum Università di Bologna)"
         },
         {
           "type": "plenary",
           "start": "18:00",
           "end": "18:15",
           "room": "Aula Capitini",
-          "title": "PREMIO GIGLIOZZI",
-          "title_en": "GIGLIOZZI AWARD"
+          "title": "PREMIO GIGLIOZZI"
         },
         {
           "type": "plenary",
           "start": "18:15",
           "end": "18:45",
           "room": "Aula Capitini",
-          "title": "CONCLUSIONI",
-          "title_en": "CLOSING REMARKS"
+          "title": "CONCLUSIONI"
         }
       ]
     }
