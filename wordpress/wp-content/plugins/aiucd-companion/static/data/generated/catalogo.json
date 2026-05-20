@@ -170,7 +170,7 @@
       "authors": [
         {
           "name": "Giulia D'Arcangelo",
-          "aff": "Dottorato in Editoria e Innovazione"
+          "aff": "Università di Tor Vergata"
         }
       ],
       "gigliozzi": false
@@ -256,20 +256,20 @@
           "aff": "University of Graz"
         },
         {
-          "name": "Cristina Scuderi",
-          "aff": "Università Statale di Milano"
-        },
-        {
           "name": "Marcella Tambuscio",
           "aff": "University of Graz"
         },
         {
-          "name": "Rolf Wissman",
-          "aff": "Schola Cantorum Basiliensis"
-        },
-        {
           "name": "Georg Vogeler",
           "aff": "University of Graz"
+        },
+        {
+          "name": "Cristina Scuderi",
+          "aff": "Università Statale di Milano"
+        },
+        {
+          "name": "Rolf Wissman",
+          "aff": "Schola Cantorum Basiliensis"
         }
       ],
       "gigliozzi": true
@@ -400,7 +400,7 @@
       "authors": [
         {
           "name": "Sara Obbiso",
-          "aff": "Università di Bologna"
+          "aff": "Alma Mater Studiorum Università di Bologna"
         }
       ],
       "gigliozzi": false
@@ -434,7 +434,7 @@
       "authors": [
         {
           "name": "Giulia Lembo",
-          "aff": "University of Naples \"L'Orientale\""
+          "aff": "Università di Napoli \"L'Orientale\""
         }
       ],
       "gigliozzi": true
@@ -468,7 +468,7 @@
       "authors": [
         {
           "name": "Marcello Ranieri",
-          "aff": "University of Bologna"
+          "aff": "Alma Mater Studiorum Università di Bologna"
         }
       ],
       "gigliozzi": false
@@ -658,16 +658,16 @@
       "area_it": "Dati e rappresentazione conoscenza",
       "authors": [
         {
-          "name": "Shiho Nakamura",
-          "aff": "University of Bologna"
+          "name": "Anouk Flinkert",
+          "aff": "Alma Mater Studiorum Università di Bologna"
         },
         {
-          "name": "Anouk Flinkert",
-          "aff": "University of Bologna"
+          "name": "Shiho Nakamura",
+          "aff": "Alma Mater Studiorum Università di Bologna"
         },
         {
           "name": "Ekaterina Krasnova",
-          "aff": "University of Bologna"
+          "aff": "Alma Mater Studiorum Università di Bologna"
         }
       ],
       "gigliozzi": true
@@ -919,16 +919,16 @@
       "area_it": "Memorie, Storia, patrimonio",
       "authors": [
         {
-          "name": "Laurent Antoine Fintoni",
-          "aff": "University of Bologna"
+          "name": "Nike del Quercio",
+          "aff": "Alma Mater Studiorum Università di Bologna"
         },
         {
-          "name": "Nike del Quercio",
-          "aff": "University of Bologna"
+          "name": "Laurent Antoine Fintoni",
+          "aff": "Alma Mater Studiorum Università di Bologna"
         },
         {
           "name": "Costanza Paollilo",
-          "aff": "University of Bologna"
+          "aff": "Alma Mater Studiorum Università di Bologna"
         }
       ],
       "gigliozzi": false
@@ -942,11 +942,11 @@
       "area_it": "Dati e rappresentazione conoscenza",
       "authors": [
         {
-          "name": "Michele Mallia",
+          "name": "Fahad Khan",
           "aff": "CNR-ILC"
         },
         {
-          "name": "Fahad Khan",
+          "name": "Michele Mallia",
           "aff": "CNR-ILC"
         },
         {
@@ -1045,7 +1045,7 @@
       "authors": [
         {
           "name": "Lisa Reggiani",
-          "aff": "Consiglio Nazionale delle Ricerche"
+          "aff": "CNR-ILIESI"
         }
       ],
       "gigliozzi": false
@@ -1113,10 +1113,6 @@
       "area_it": "DH e co-costruzione di conoscenza",
       "authors": [
         {
-          "name": "Simone Zenzaro",
-          "aff": "CNR-ILC"
-        },
-        {
           "name": "Federico Boschetti",
           "aff": "CNR-ILC"
         },
@@ -1125,8 +1121,12 @@
           "aff": "CNR-ILC"
         },
         {
+          "name": "Simone Zenzaro",
+          "aff": "CNR-ILC"
+        },
+        {
           "name": "Graziano Ranocchia",
-          "aff": "Dipartimento di Filologia, Letteratura e Linguistica, Università di Pisa"
+          "aff": "Università di Pisa"
         }
       ],
       "gigliozzi": false
@@ -1140,16 +1140,16 @@
       "area_it": "Memorie, Storia, patrimonio",
       "authors": [
         {
-          "name": "Elvira Zambardi",
-          "aff": "Università degli studi di Napoli \"Federico II\""
+          "name": "Giuseppina Civitillo",
+          "aff": "Università degli Studi di Napoli \"Federico II\""
         },
         {
           "name": "Ylenia Nardone",
-          "aff": "Università degli studi di Napoli \"Federico II\""
+          "aff": "Università degli Studi di Napoli \"Federico II\""
         },
         {
-          "name": "Giuseppina Civitillo",
-          "aff": "Università degli studi di Napoli \"Federico II\""
+          "name": "Elvira Zambardi",
+          "aff": "Università degli Studi di Napoli \"Federico II\""
         }
       ],
       "gigliozzi": true
@@ -1263,10 +1263,6 @@
       "area_it": "Memorie, Storia, patrimonio",
       "authors": [
         {
-          "name": "Eva Sassolini",
-          "aff": "CNR-ILC"
-        },
-        {
           "name": "Marco Biffi",
           "aff": "Università di Firenze"
         },
@@ -1276,6 +1272,10 @@
         },
         {
           "name": "Simonetta Montemagni",
+          "aff": "CNR-ILC"
+        },
+        {
+          "name": "Eva Sassolini",
           "aff": "CNR-ILC"
         }
       ],
@@ -1447,7 +1447,7 @@
       "authors": [
         {
           "name": "Chiara De Bastiani",
-          "aff": "Università Ca Foscari Venezia"
+          "aff": "Università Ca' Foscari Venezia"
         }
       ],
       "gigliozzi": false
@@ -1492,15 +1492,15 @@
       "authors": [
         {
           "name": "Stefania De Blasi",
-          "aff": "Responsabile area Documentazione e Comunicazione Centro Conservazione Restauro \"La Venaria Reale\""
-        },
-        {
-          "name": "Lorena Palmieri",
-          "aff": "storica dell'arte specialista,conservatore Museo San Giacomo di Lu"
+          "aff": "Centro Conservazione Restauro \"La Venaria Reale\""
         },
         {
           "name": "Chiara Pipino",
-          "aff": "Centro Conservazione Restauro La Venaria Reale"
+          "aff": "Centro Conservazione Restauro \"La Venaria Reale\""
+        },
+        {
+          "name": "Lorena Palmieri",
+          "aff": "Museo San Giacomo di Lu"
         }
       ],
       "gigliozzi": false
@@ -1515,7 +1515,7 @@
       "authors": [
         {
           "name": "Stefania De Blasi",
-          "aff": "Fondazione Centro Conservazione e Restauro La Venaria Reale"
+          "aff": "Centro Conservazione Restauro \"La Venaria Reale\""
         }
       ],
       "gigliozzi": false
@@ -1530,7 +1530,7 @@
       "authors": [
         {
           "name": "Giulia Pilosu",
-          "aff": "Università degli studi di Genova"
+          "aff": "Università degli Studi di Genova"
         }
       ],
       "gigliozzi": false
@@ -1620,11 +1620,11 @@
       "area_it": "Testualità digitali",
       "authors": [
         {
-          "name": "Giulia Murgia",
+          "name": "Michela Incollu",
           "aff": "Università degli Studi di Cagliari"
         },
         {
-          "name": "Michela Incollu",
+          "name": "Giulia Murgia",
           "aff": "Università degli Studi di Cagliari"
         }
       ],
@@ -1938,7 +1938,7 @@
       "authors": [
         {
           "name": "Lorenzo Sabatino",
-          "aff": "Alma Mater Studiorum - University of Bologna"
+          "aff": "Alma Mater Studiorum Università di Bologna"
         }
       ],
       "gigliozzi": true
@@ -1971,12 +1971,12 @@
       "area_it": "DH e co-costruzione di conoscenza",
       "authors": [
         {
-          "name": "Francesco Pinna",
-          "aff": "CNR"
+          "name": "Emiliano Degl'Innocenti",
+          "aff": "CNR-OVI"
         },
         {
-          "name": "Emiliano Degl'Innocenti",
-          "aff": "CNR"
+          "name": "Francesco Pinna",
+          "aff": "CNR-OVI"
         }
       ],
       "gigliozzi": false
@@ -2068,11 +2068,11 @@
       "authors": [
         {
           "name": "Andrea Lamberti",
-          "aff": "Università di Cagliari"
+          "aff": "Università degli Studi di Cagliari"
         },
         {
           "name": "Giovanna Granata",
-          "aff": "Università di Cagliari"
+          "aff": "Università degli Studi di Cagliari"
         }
       ],
       "gigliozzi": false
@@ -2151,8 +2151,20 @@
       "area_it": "Dati e rappresentazione conoscenza",
       "authors": [
         {
+          "name": "Federico Meschini",
+          "aff": "Università degli studi della Tuscia"
+        },
+        {
           "name": "Biancamaria Hermanin",
-          "aff": "Ministero della Cultura"
+          "aff": "Istituto centrale per la digitalizzazione del patrimonio culturale – Digital Library"
+        },
+        {
+          "name": "Antonella Negri",
+          "aff": "Istituto centrale per la digitalizzazione del patrimonio culturale – Digital Library"
+        },
+        {
+          "name": "Giuliano Romalli",
+          "aff": ""
         }
       ],
       "gigliozzi": false
@@ -2167,7 +2179,7 @@
       "authors": [
         {
           "name": "Amalia Carrano",
-          "aff": "Independent Researcher"
+          "aff": "Ricercatrice Indipendente"
         }
       ],
       "gigliozzi": false
@@ -2362,7 +2374,7 @@
       "authors": [
         {
           "name": "Vittoria Fabiani",
-          "aff": "ILIESI-CNR"
+          "aff": "CNR-ILIESI"
         }
       ],
       "gigliozzi": false
@@ -2376,7 +2388,7 @@
       "area_it": "DH e co-costruzione di conoscenza",
       "authors": [
         {
-          "name": "Pietro  Restaneo",
+          "name": "Pamela Barletta",
           "aff": "CNR-ILIESI"
         },
         {
@@ -2384,7 +2396,7 @@
           "aff": "CNR-ILIESI"
         },
         {
-          "name": "Pamela Barletta",
+          "name": "Pietro Restaneo",
           "aff": "CNR-ILIESI"
         }
       ],
@@ -2737,15 +2749,15 @@
       "authors": [
         {
           "name": "Giovanni Serreli",
-          "aff": "CNR ISEM"
+          "aff": "CNR-ISEM"
         },
         {
           "name": "Maria Grazia Rosaria Mele",
-          "aff": "CNR ISEM"
+          "aff": "CNR-ISEM"
         },
         {
           "name": "Luigi Serra",
-          "aff": "CNR ISEM"
+          "aff": "CNR-ISEM"
         },
         {
           "name": "Samuel Aldo Iacolina",
@@ -2894,10 +2906,8 @@
     "Bibliotheca Hertziana - Max Planck Institute for Art History",
     "Bibliotheca Hertziana – Max Planck Institute for Art History",
     "CHAM - Centro de Humanidades",
-    "CNR",
     "CNR - ISTC",
     "CNR ILIESI",
-    "CNR ISEM",
     "CNR-IIT",
     "CNR-ILC",
     "CNR-ILIESI",
@@ -2905,12 +2915,13 @@
     "CNR-ISPC",
     "CNR-ISTC",
     "CNR-ISTI",
+    "CNR-OVI",
     "CREA",
     "CRS4",
     "Ca' Foscari University of Venice",
     "Cambridge University",
     "Centre fort Ibero-American Studies, Faculty of Arts, Charles University",
-    "Centro Conservazione Restauro La Venaria Reale",
+    "Centro Conservazione Restauro \"La Venaria Reale\"",
     "Cineca",
     "Consiglio Nazionale delle Ricerche",
     "DH UNICA - Università degli Studi di Cagliari",
@@ -2918,11 +2929,8 @@
     "DHLab - KNAW Humanities Cluster",
     "DSWLab",
     "Dedagroup",
-    "Dipartimento di Filologia, Letteratura e Linguistica, Università di Pisa",
     "Dipartimento di Informatica, Università degli Studi di Milano",
-    "Dottorato in Editoria e Innovazione",
     "Fondazione 1563 per l’Arte e la Cultura",
-    "Fondazione Centro Conservazione e Restauro La Venaria Reale",
     "Fondazione Federico Zeri - University of Bologna",
     "Fondazione Federico Zeri, Università di Bologna",
     "Fondazione Luigi Micheletti",
@@ -2940,6 +2948,7 @@
     "ISTITUTO ITALIANO DI STUDI GERMANICI",
     "Independent Researcher",
     "Istituto Storico Italiano per l'Età Moderna e Contemporanea",
+    "Istituto centrale per la digitalizzazione del patrimonio culturale – Digital Library",
     "Istituto di Informatica e Telematica - Consiglio Nazionale delle Ricerche",
     "Johannes Gutenberg-Universität Mainz",
     "King's College London",
@@ -2948,11 +2957,11 @@
     "MIM: Ministero dell'Istruzione e del Merito",
     "Malin",
     "Marburg University",
-    "Ministero della Cultura",
+    "Museo San Giacomo di Lu",
     "None",
     "RS WORKS EE",
     "RWTH Aachen University",
-    "Responsabile area Documentazione e Comunicazione Centro Conservazione Restauro \"La Venaria Reale\"",
+    "Ricercatrice Indipendente",
     "SRCTS",
     "Sapienza Università di Roma",
     "Schola Cantorum Basiliensis",
@@ -2977,7 +2986,6 @@
     "University of Helsinki",
     "University of Lausanne",
     "University of Milano",
-    "University of Naples \"L'Orientale\"",
     "University of Oxfird",
     "University of Oxford",
     "University of Pavia",
@@ -2988,7 +2996,6 @@
     "University of Salento",
     "University of Turin",
     "University of Verona",
-    "Università Ca Foscari Venezia",
     "Università Ca' Foscari Venezia",
     "Università Cagliari",
     "Università G. d'Annunzio Chieti-Pescara",
@@ -3010,9 +3017,8 @@
     "Università degli Studi di Salerno",
     "Università degli Studi di Sassari",
     "Università degli Studi di Trieste",
+    "Università degli studi della Tuscia",
     "Università degli studi di Catania",
-    "Università degli studi di Genova",
-    "Università degli studi di Napoli \"Federico II\"",
     "Università degli studi di Teramo",
     "Università degli studi di Trieste",
     "Università della Calabria / Istituto di Informatica e Telematica - Consiglio Nazionale delle Ricerche",
@@ -3025,12 +3031,14 @@
     "Università di Genova",
     "Università di Macerata",
     "Università di Milano",
+    "Università di Napoli \"L'Orientale\"",
     "Università di Napoli Federico II",
     "Università di Pisa",
     "Università di Roma 'Tor Vergata'",
     "Università di Roma Tor Vergata",
     "Università di Siena",
     "Università di Teramo",
+    "Università di Tor Vergata",
     "Università di Torino",
     "Università di Torino, Italia",
     "Università di Verona",
@@ -3038,7 +3046,6 @@
     "Universität Augsburg",
     "Universität Bern",
     "VeDPH",
-    "Venice Centre for Digital and Public Humanities, Department of Humanities, Ca’ Foscari University Venice",
-    "storica dell'arte specialista,conservatore Museo San Giacomo di Lu"
+    "Venice Centre for Digital and Public Humanities, Department of Humanities, Ca’ Foscari University Venice"
   ]
 }
