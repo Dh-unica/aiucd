@@ -599,6 +599,13 @@
   transform: none;
   box-shadow: none;
 }
+.talk-cell.discussion .discussion-label {
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
 
 /* session block container: 3 colonne con header sessione + talks */
 .session-block {

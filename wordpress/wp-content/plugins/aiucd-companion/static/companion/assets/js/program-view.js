@@ -272,6 +272,10 @@ function createSessionBlock(block, day) {
     for (const tk of (t.talks || [])) {
       if (tk.start && tk.end) slotKeys.add(`${tk.start}-${tk.end}`);
     }
+    // Slot della discussione di chiusura sessione (se presente).
+    if (t.discussion && t.discussion.start && t.discussion.end) {
+      slotKeys.add(`${t.discussion.start}-${t.discussion.end}`);
+    }
   }
   const slotMinutes = (slot) => {
     const [h, m] = slot.split("-")[0].split(":").map(Number);
@@ -331,6 +335,23 @@ function createSessionBlock(block, day) {
           cell.style.gridRow = String(slotRow.get(sk));
         }
         col.append(cell);
+      }
+
+      // Discussione di chiusura sessione: fascia oraria di Q&A dopo l'ultimo
+      // talk, così non resta un buco visivo fino alla pausa successiva.
+      const disc = track.discussion;
+      if (disc && disc.start && disc.end) {
+        const dcell = document.createElement("div");
+        dcell.className = "talk-cell discussion is-discussion";
+        dcell.dataset.start = disc.start;
+        dcell.dataset.end = disc.end;
+        dcell.innerHTML = `
+          <div class="talk-time">${disc.start}–${disc.end}</div>
+          <div class="discussion-label">${escapeHtml(field(disc, "label") || "Discussione")}</div>
+        `;
+        const dsk = `${disc.start}-${disc.end}`;
+        if (slotRow.has(dsk)) dcell.style.gridRow = String(slotRow.get(dsk));
+        col.append(dcell);
       }
     }
     wrap.append(col);

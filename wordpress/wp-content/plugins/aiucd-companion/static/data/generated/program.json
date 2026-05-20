@@ -49,7 +49,13 @@
                   "start": "16:00",
                   "end": "16:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "16:20",
+                "end": "16:40"
+              }
             },
             {
               "code": "1B",
@@ -72,7 +78,13 @@
                   "start": "15:40",
                   "end": "16:00"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "16:20",
+                "end": "16:40"
+              }
             },
             {
               "code": "1C",
@@ -100,7 +112,13 @@
                   "start": "16:00",
                   "end": "16:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "16:20",
+                "end": "16:40"
+              }
             }
           ]
         },
@@ -141,7 +159,13 @@
                   "start": "18:30",
                   "end": "18:50"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "18:50",
+                "end": "19:00"
+              }
             },
             {
               "code": "2B",
@@ -169,7 +193,13 @@
                   "start": "18:30",
                   "end": "18:50"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "18:50",
+                "end": "19:00"
+              }
             },
             {
               "code": "2C",
@@ -197,7 +227,13 @@
                   "start": "18:30",
                   "end": "18:50"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "18:50",
+                "end": "19:00"
+              }
             }
           ]
         }
@@ -237,7 +273,13 @@
                   "start": "10:00",
                   "end": "10:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "10:20",
+                "end": "10:40"
+              }
             },
             {
               "code": "3B",
@@ -265,7 +307,13 @@
                   "start": "10:00",
                   "end": "10:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "10:20",
+                "end": "10:40"
+              }
             },
             {
               "code": "3C",
@@ -293,7 +341,13 @@
                   "start": "10:00",
                   "end": "10:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "10:20",
+                "end": "10:40"
+              }
             }
           ]
         },
@@ -334,7 +388,13 @@
                   "start": "12:30",
                   "end": "12:50"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "12:50",
+                "end": "13:00"
+              }
             },
             {
               "code": "4B",
@@ -357,7 +417,13 @@
                   "start": "12:10",
                   "end": "12:30"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "12:50",
+                "end": "13:00"
+              }
             },
             {
               "code": "4C",
@@ -380,7 +446,13 @@
                   "start": "12:10",
                   "end": "12:30"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "12:50",
+                "end": "13:00"
+              }
             }
           ]
         },
@@ -429,7 +501,13 @@
                   "start": "16:00",
                   "end": "16:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "16:20",
+                "end": "16:40"
+              }
             },
             {
               "code": "5B",
@@ -457,7 +535,13 @@
                   "start": "16:00",
                   "end": "16:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "16:20",
+                "end": "16:40"
+              }
             },
             {
               "code": "5C",
@@ -485,7 +569,13 @@
                   "start": "16:00",
                   "end": "16:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "16:20",
+                "end": "16:40"
+              }
             }
           ]
         },
@@ -540,7 +630,13 @@
                   "start": "10:00",
                   "end": "10:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "10:20",
+                "end": "10:40"
+              }
             },
             {
               "code": "6B",
@@ -568,7 +664,13 @@
                   "start": "10:00",
                   "end": "10:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "10:20",
+                "end": "10:40"
+              }
             },
             {
               "code": "6C",
@@ -591,7 +693,13 @@
                   "start": "9:40",
                   "end": "10:00"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "10:20",
+                "end": "10:40"
+              }
             }
           ]
         },
@@ -632,7 +740,13 @@
                   "start": "12:30",
                   "end": "12:50"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "12:50",
+                "end": "13:00"
+              }
             },
             {
               "code": "7B",
@@ -660,7 +774,13 @@
                   "start": "12:30",
                   "end": "12:50"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "12:50",
+                "end": "13:00"
+              }
             },
             {
               "code": "7C",
@@ -688,7 +808,13 @@
                   "start": "12:30",
                   "end": "12:50"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "12:50",
+                "end": "13:00"
+              }
             }
           ]
         },
@@ -737,7 +863,13 @@
                   "start": "16:00",
                   "end": "16:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "16:20",
+                "end": "16:40"
+              }
             },
             {
               "code": "8B",
@@ -765,7 +897,13 @@
                   "start": "16:00",
                   "end": "16:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "16:20",
+                "end": "16:40"
+              }
             },
             {
               "code": "8C",
@@ -793,7 +931,13 @@
                   "start": "16:00",
                   "end": "16:20"
                 }
-              ]
+              ],
+              "discussion": {
+                "label": "Discussione",
+                "label_en": "Discussion",
+                "start": "16:20",
+                "end": "16:40"
+              }
             }
           ]
         },
