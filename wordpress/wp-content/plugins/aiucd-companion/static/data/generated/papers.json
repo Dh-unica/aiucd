@@ -13,7 +13,8 @@
         "aff": "Università Cagliari"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 4,
@@ -29,7 +30,8 @@
         "aff": "Unimore"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 5,
@@ -45,7 +47,8 @@
         "aff": "University of Bari Aldo Moro"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 7,
@@ -101,7 +104,8 @@
         "aff": "CNR-ILC"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 8,
@@ -117,7 +121,8 @@
         "aff": "UniCA"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 10,
@@ -133,7 +138,8 @@
         "aff": "Università di Pisa"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 11,
@@ -149,7 +155,8 @@
         "aff": "Università di Roma 'Tor Vergata'"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 12,
@@ -165,7 +172,8 @@
         "aff": "University of Turin"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 14,
@@ -181,7 +189,8 @@
         "aff": "Dottorato in Editoria e Innovazione"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 16,
@@ -197,7 +206,8 @@
         "aff": "Independent Researcher"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Other contributions"
   },
   {
     "id": 17,
@@ -213,7 +223,8 @@
         "aff": "Università di Siena"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 18,
@@ -229,7 +240,8 @@
         "aff": "Università degli Studi di Cagliari"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 19,
@@ -253,7 +265,8 @@
         "aff": "Universität Bern"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 20,
@@ -285,7 +298,8 @@
         "aff": "University of Graz"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 21,
@@ -337,7 +351,8 @@
         "aff": "King's College London"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 22,
@@ -357,7 +372,8 @@
         "aff": "Università degli Studi di Genova"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 23,
@@ -385,7 +401,8 @@
         "aff": "University of Graz"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 24,
@@ -405,7 +422,8 @@
         "aff": "Universität Augsburg"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 26,
@@ -421,7 +439,8 @@
         "aff": "Università di Bologna"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 27,
@@ -441,7 +460,8 @@
         "aff": "University of Graz"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 28,
@@ -457,7 +477,8 @@
         "aff": "University of Naples \"L'Orientale\""
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 29,
@@ -477,7 +498,8 @@
         "aff": "Accademia di Belle Arti di Verona"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 30,
@@ -493,7 +515,8 @@
         "aff": "University of Bologna"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 31,
@@ -509,7 +532,8 @@
         "aff": "Accademia di Belle Arti di Bari"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 32,
@@ -541,7 +565,8 @@
         "aff": "University of Pavia"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 33,
@@ -577,7 +602,8 @@
         "aff": "University of Lausanne"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 34,
@@ -593,7 +619,8 @@
         "aff": "Malin"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 35,
@@ -609,7 +636,8 @@
         "aff": "Università di Verona"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Other contributions"
   },
   {
     "id": 36,
@@ -629,7 +657,8 @@
         "aff": "Università degli Studi di Sassari"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Digital textualities"
   },
   {
     "id": 37,
@@ -661,7 +690,8 @@
         "aff": "Università Normale Pisa"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 38,
@@ -677,7 +707,8 @@
         "aff": "Centre fort Ibero-American Studies, Faculty of Arts, Charles University"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 40,
@@ -701,7 +732,8 @@
         "aff": "University of Bologna"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 41,
@@ -745,7 +777,8 @@
         "aff": "Kunsthistorisches Institut in Florenz – Max-Planck-Institut"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 42,
@@ -773,7 +806,8 @@
         "aff": "Alma Mater Studiorum - University of Bologna"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 43,
@@ -789,7 +823,8 @@
         "aff": "Università degli studi di Teramo"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 44,
@@ -809,7 +844,8 @@
         "aff": "Università degli Studi di Trieste"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 45,
@@ -825,7 +861,8 @@
         "aff": "Università degli Studi di Bari Aldo Moro - Dipartimento di Ricerca e Innovazione Umanistica"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 46,
@@ -845,7 +882,8 @@
         "aff": "ISTI CNR"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 47,
@@ -873,7 +911,8 @@
         "aff": "DHLab - KNAW Humanities Cluster"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Digital textualities"
   },
   {
     "id": 48,
@@ -889,7 +928,8 @@
         "aff": "ISTITUTO ITALIANO DI STUDI GERMANICI"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 49,
@@ -933,7 +973,8 @@
         "aff": "University of Bologna"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 50,
@@ -949,11 +990,12 @@
         "aff": "Università di Bari"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 51,
-    "title": "[hidden]: A Workflow for the Preservation and Collaborative Reuse of Analog Oral History Collections",
+    "title": "FAIR Memories: A Workflow for the Preservation and Collaborative Reuse of Analog Oral History Collections",
     "abstract": "This paper presents [hidden], a Horizon Europe-funded project developing a reusable workflow for the FAIR-ification of legacy oral history collections to allow for the transition of these important but underused collections to current Open Science standards. Making use of a unique analog collection about Italian mass culture, the workflow is being developed jointly by domain experts and digital humanists with particular attention to the preservation of the recorded voice as a core epistemic dimension, standards-based interoperability and semantic enrichment, and compliance with contemporary privacy regulations. This paper presents the initial stages of the project, detailing the collection used, the elements of the workflow, and approaches through which FAIR-ification is reframed as a process of co-produced knowledge.",
     "mode": "Poster",
     "area_code": "memories",
@@ -973,7 +1015,8 @@
         "aff": "University of Bologna"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 52,
@@ -997,7 +1040,8 @@
         "aff": "CNR-ILC"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 53,
@@ -1013,7 +1057,8 @@
         "aff": "Università di Roma Tor Vergata"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 54,
@@ -1033,7 +1078,8 @@
         "aff": "University of Potsdam"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 55,
@@ -1049,7 +1095,8 @@
         "aff": "Università di Bologna"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 56,
@@ -1065,7 +1112,8 @@
         "aff": "University of Bologna"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 57,
@@ -1081,7 +1129,8 @@
         "aff": "University of Bologna"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 58,
@@ -1097,7 +1146,8 @@
         "aff": "Consiglio Nazionale delle Ricerche"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 59,
@@ -1133,7 +1183,8 @@
         "aff": ""
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 60,
@@ -1153,7 +1204,8 @@
         "aff": "Università di Teramo"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 61,
@@ -1181,7 +1233,8 @@
         "aff": "Dipartimento di Filologia, Letteratura e Linguistica, Università di Pisa"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 62,
@@ -1205,7 +1258,8 @@
         "aff": "Università degli studi di Napoli \"Federico II\""
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 63,
@@ -1237,7 +1291,8 @@
         "aff": "CREA"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 64,
@@ -1269,7 +1324,8 @@
         "aff": "CNR-ILIESI"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 65,
@@ -1289,7 +1345,8 @@
         "aff": "Sapienza Università di Roma"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Digital textualities"
   },
   {
     "id": 66,
@@ -1309,7 +1366,8 @@
         "aff": "Dipartimento di Informatica, Università degli Studi di Milano"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 67,
@@ -1337,7 +1395,8 @@
         "aff": "CNR-ILC"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 68,
@@ -1357,7 +1416,8 @@
         "aff": "CNR-ILC"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Other contributions"
   },
   {
     "id": 69,
@@ -1377,7 +1437,8 @@
         "aff": "University of Pisa"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 70,
@@ -1397,7 +1458,8 @@
         "aff": "Università degli Studi di Cagliari"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 71,
@@ -1413,7 +1475,8 @@
         "aff": "Università di Bologna"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 72,
@@ -1433,7 +1496,8 @@
         "aff": "Università degli Studi di Milano"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Digital textualities"
   },
   {
     "id": 73,
@@ -1457,7 +1521,8 @@
         "aff": "Highly Qualified Expert Sapienza University of Rome"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Other contributions"
   },
   {
     "id": 74,
@@ -1481,7 +1546,8 @@
         "aff": "IHC/IN2PAST"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 75,
@@ -1501,7 +1567,8 @@
         "aff": "DH UNICA - Università degli Studi di Cagliari"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 77,
@@ -1517,7 +1584,8 @@
         "aff": "Università Ca Foscari Venezia"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 78,
@@ -1533,7 +1601,8 @@
         "aff": "Bibliotheca Hertziana – Max Planck Institute for Art History"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 80,
@@ -1549,7 +1618,8 @@
         "aff": "Università La Sapienza di Roma"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 81,
@@ -1573,7 +1643,8 @@
         "aff": "Centro Conservazione Restauro La Venaria Reale"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Other contributions"
   },
   {
     "id": 82,
@@ -1589,7 +1660,8 @@
         "aff": "Fondazione Centro Conservazione e Restauro La Venaria Reale"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 83,
@@ -1605,7 +1677,8 @@
         "aff": "Università degli studi di Genova"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 84,
@@ -1621,7 +1694,8 @@
         "aff": "Università di Pisa"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 85,
@@ -1641,7 +1715,8 @@
         "aff": "University of Catania"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 86,
@@ -1665,7 +1740,8 @@
         "aff": "Cineca"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 88,
@@ -1685,7 +1761,8 @@
         "aff": "ISSASCO"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 89,
@@ -1705,7 +1782,8 @@
         "aff": "Università degli Studi di Cagliari"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Digital textualities"
   },
   {
     "id": 90,
@@ -1733,7 +1811,8 @@
         "aff": "Alma Mater Studiorum - Università di Bologna"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 91,
@@ -1749,7 +1828,8 @@
         "aff": "Università di Pisa"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 93,
@@ -1785,7 +1865,8 @@
         "aff": "Università di Bologna"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 94,
@@ -1801,7 +1882,8 @@
         "aff": "University of Bologna"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 95,
@@ -1825,7 +1907,8 @@
         "aff": "IMATI-CNR"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 96,
@@ -1849,7 +1932,8 @@
         "aff": "UNIBO"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 98,
@@ -1869,7 +1953,8 @@
         "aff": "University of Bologna"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 99,
@@ -1885,7 +1970,8 @@
         "aff": "University of Turin"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 100,
@@ -1913,7 +1999,8 @@
         "aff": "Alexandru Ioan Cuza University of Iași"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 101,
@@ -1933,7 +2020,8 @@
         "aff": "Università di Firenze"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 102,
@@ -1949,7 +2037,8 @@
         "aff": "University of Salento"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 103,
@@ -1973,7 +2062,8 @@
         "aff": "IIIF Consortium"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 104,
@@ -1989,7 +2079,8 @@
         "aff": "Università di Verona"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 107,
@@ -2017,7 +2108,8 @@
         "aff": "CNR-ILC"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 108,
@@ -2033,7 +2125,8 @@
         "aff": "Alma Mater Studiorum - University of Bologna"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 109,
@@ -2053,7 +2146,8 @@
         "aff": "Università di Verona"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Other contributions"
   },
   {
     "id": 110,
@@ -2073,7 +2167,8 @@
         "aff": "CNR"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 111,
@@ -2097,7 +2192,8 @@
         "aff": "CNR-ILC"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 112,
@@ -2129,7 +2225,8 @@
         "aff": "Silentwave"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 113,
@@ -2153,7 +2250,8 @@
         "aff": "Università G. d'Annunzio Chieti-Pescara"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 117,
@@ -2173,7 +2271,8 @@
         "aff": "Università di Cagliari"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 118,
@@ -2205,7 +2304,8 @@
         "aff": "Università di Bologna"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 119,
@@ -2225,7 +2325,8 @@
         "aff": "Università degli studi di Trieste"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Digital textualities"
   },
   {
     "id": 120,
@@ -2241,11 +2342,12 @@
         "aff": "Università degli Studi di Parma"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 121,
-    "title": "La Digital Library e l’Ecosistema digitale per la cultura come  opportunità di public engagement",
+    "title": "La Digital Library e l’Ecosistema digitale per la cultura come opportunità di public engagement",
     "abstract": "The concept of the digital library, although common for thirty years, remains difficult to define due to its \nintrinsic complexity. This complexity stems from the multidimensional nature of the system, combining \ntechnological, cultural, and social factors typical of memory institutions. Digital libraries are not mere IT \narchitectures but complex systems where components interact dynamically and non-linearly, following the \nlogic that “everything depends on everything else” (Rickles et al., 2007). Their development requires \ncritical choices that affect both processes and final products, highlighting essential (domain modeling) and \naccidental (technological) complexity.\nThe evolution of the World Wide Web has transformed digital libraries into increasingly accessible public \ninfrastructures, redefining the role of humanistic research and promoting public engagement. In this \ncontext, Ecomic, the digital ecosystem for culture promoted by the Central Institute for the Digitization of \nCultural Heritage of Italian Ministry of Culture, is a dynamic network of subjects, data, and technologies, \nbased on the Data as a Service and Knowledge as a Service paradigms. A key element of Ecomic is its \nknowledge graphs, which transform digital resources from isolated elements into nodes of a relational \nsystem. The integration of graphs from different domains overcomes the fragmentation between archives, \nlibraries, and museums, creating a heritage explorable from multiple perspectives. Artificial Intelligence \nsupports data cleaning and enrichment without overwriting catalogers’ information.\nIn conclusion, Ecomic offers a concrete response to the complexity of digital libraries, promoting a public \nengagement model based on open and participatory infrastructures.",
     "mode": "Poster",
     "area_code": "data",
@@ -2257,7 +2359,8 @@
         "aff": "Ministero della Cultura"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 122,
@@ -2273,7 +2376,8 @@
         "aff": "Independent Researcher"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 123,
@@ -2305,7 +2409,8 @@
         "aff": "CRS4"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 124,
@@ -2325,7 +2430,8 @@
         "aff": "Università degli Studi di Cagliari"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Other contributions"
   },
   {
     "id": 125,
@@ -2341,7 +2447,8 @@
         "aff": "Università di Catania"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Other contributions"
   },
   {
     "id": 126,
@@ -2361,7 +2468,8 @@
         "aff": "Alma Mater Studiorum Università di Bologna"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 127,
@@ -2385,7 +2493,8 @@
         "aff": "Università della Calabria / Istituto di Informatica e Telematica - Consiglio Nazionale delle Ricerche"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 128,
@@ -2409,7 +2518,8 @@
         "aff": "CNR-ILC"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 129,
@@ -2441,7 +2551,8 @@
         "aff": "Università degli Studi di Napoli"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 130,
@@ -2461,7 +2572,8 @@
         "aff": "Scuola superiore Sant'Anna - Pisa"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 131,
@@ -2477,7 +2589,8 @@
         "aff": "ILIESI-CNR"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Other contributions"
   },
   {
     "id": 132,
@@ -2501,7 +2614,8 @@
         "aff": "CNR-ILIESI"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 133,
@@ -2525,7 +2639,8 @@
         "aff": "University of Saarbrücken"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Digital textualities"
   },
   {
     "id": 134,
@@ -2541,7 +2656,8 @@
         "aff": "Università di Firenze"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 136,
@@ -2561,7 +2677,8 @@
         "aff": "ICCU"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 137,
@@ -2581,7 +2698,8 @@
         "aff": "Università degli Studi di Cagliari"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 138,
@@ -2605,7 +2723,8 @@
         "aff": "University of Bologna"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 139,
@@ -2641,7 +2760,8 @@
         "aff": "Gruppo META"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 140,
@@ -2669,7 +2789,8 @@
         "aff": "Università di Torino"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 141,
@@ -2697,7 +2818,8 @@
         "aff": "University of Helsinki"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 142,
@@ -2733,7 +2855,8 @@
         "aff": "UNICA"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 143,
@@ -2749,7 +2872,8 @@
         "aff": "CNR-ISEM"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 144,
@@ -2789,7 +2913,8 @@
         "aff": "Dedagroup"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 145,
@@ -2805,7 +2930,8 @@
         "aff": "University of Bologna, Department of Computer Science and Engineering"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 146,
@@ -2821,11 +2947,12 @@
         "aff": ""
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 147,
-    "title": "Commedia: un caso di studio sulla pertinenza lessicale e sulla visualizzazione",
+    "title": "Il campo semantico del fuoco nella Commedia: un caso di studio sulla pertinenza lessicale e sulla visualizzazione",
     "abstract": "Questo contributo presenta un framework configurabile di visualizzazione per motivi tematici in testi poetici di lunga estensione, sviluppato sul caso di studio del fuoco nella Commedia dantesca. Il lavoro nasce nel contesto di ricerche sull’“antica fiamma” e sui rimandi fra Virgilio e Dante, ma sposta l’attenzione dalle relazioni tra autori alla dinamica interna dei motivi nel poema.\nIl modello assegna a ogni verso un punteggio di intensità del fuoco combinando una lessicografia gerarchica e sentence embeddings con una finestra contestuale di tre versi. La sequenza di valori viene trasformata in una heatmap che mostra la distribuzione del fuoco nelle tre cantiche attraverso blocchi di canti e valori normalizzati. La figura conferma il passaggio dal fuoco punitivo alla luce paradisiaca, ma mette in evidenza anche micro-pattern meno intuitivi, come zone localmente “fredde” o rialzi inattesi, che suggeriscono nuove domande esegetiche.\nIl framework è progettato come piattaforma riusabile: sostituendo il lessico del fuoco con quello di acqua, luce o memoria si ottengono mappe per motivi meno evidenti. Tramite un’interfaccia configurabile, utenti diversi possono modificare liste di lemmi, pesi e ampiezza della finestra, generando versioni alternative delle mappe. Lettori e studenti diventano così co-interpreti e il caso del fuoco funziona da banco di prova per una infrastruttura più ampia di esplorazione visuale della Commedia.",
     "mode": "Oral communication",
     "area_code": "textualities",
@@ -2837,7 +2964,8 @@
         "aff": "Cambridge University"
       }
     ],
-    "gigliozzi": true
+    "gigliozzi": true,
+    "area_label_en": "Digital textualities"
   },
   {
     "id": 148,
@@ -2853,7 +2981,8 @@
         "aff": "Ca' Foscari University of Venice"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 149,
@@ -2881,7 +3010,8 @@
         "aff": "CRS4"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 150,
@@ -2897,7 +3027,8 @@
         "aff": "Società Umanitaria - Cineteca Sarda di Cagliari"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 151,
@@ -2917,7 +3048,8 @@
         "aff": "Consiglio Nazionale delle Ricerche"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 152,
@@ -2941,7 +3073,8 @@
         "aff": "Università degli studi di Catania"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 153,
@@ -2973,6 +3106,7 @@
         "aff": "Università di Catania"
       }
     ],
-    "gigliozzi": false
+    "gigliozzi": false,
+    "area_label_en": "Archives and editions"
   }
 ]

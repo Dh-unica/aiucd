@@ -8,14 +8,16 @@
           "type": "break",
           "label": "Colazione di benvenuto",
           "start": "12:00",
-          "end": "13:00"
+          "end": "13:15",
+          "label_en": "Welcome breakfast"
         },
         {
           "type": "plenary",
           "start": "13:30",
           "end": "14:45",
           "room": "Aula Capitini",
-          "title": "Apertura dei lavori"
+          "title": "Apertura dei lavori",
+          "title_en": "Conference opening"
         },
         {
           "type": "session",
@@ -106,7 +108,8 @@
           "type": "break",
           "label": "Network caffè",
           "start": "16:45",
-          "end": "17:30"
+          "end": "17:30",
+          "label_en": "Coffee break"
         },
         {
           "type": "session",
@@ -121,11 +124,11 @@
                 {
                   "paper_id": 47,
                   "start": "17:30",
-                  "end": "17:40"
+                  "end": "17:50"
                 },
                 {
                   "paper_id": 68,
-                  "start": "17:40",
+                  "start": "17:50",
                   "end": "18:10"
                 },
                 {
@@ -136,7 +139,7 @@
                 {
                   "paper_id": 128,
                   "start": "18:30",
-                  "end": "18:40"
+                  "end": "18:50"
                 }
               ]
             },
@@ -149,11 +152,11 @@
                 {
                   "paper_id": 145,
                   "start": "17:30",
-                  "end": "17:40"
+                  "end": "17:50"
                 },
                 {
                   "paper_id": 63,
-                  "start": "17:40",
+                  "start": "17:50",
                   "end": "18:10"
                 },
                 {
@@ -164,7 +167,7 @@
                 {
                   "paper_id": 10,
                   "start": "18:30",
-                  "end": "18:40"
+                  "end": "18:50"
                 }
               ]
             },
@@ -177,11 +180,11 @@
                 {
                   "paper_id": 38,
                   "start": "17:30",
-                  "end": "17:40"
+                  "end": "17:50"
                 },
                 {
                   "paper_id": 66,
-                  "start": "17:40",
+                  "start": "17:50",
                   "end": "18:10"
                 },
                 {
@@ -192,7 +195,7 @@
                 {
                   "paper_id": 29,
                   "start": "18:30",
-                  "end": "18:40"
+                  "end": "18:50"
                 }
               ]
             }
@@ -298,7 +301,8 @@
           "type": "break",
           "label": "Network caffè",
           "start": "10:45",
-          "end": "11:30"
+          "end": "11:30",
+          "label_en": "Coffee break"
         },
         {
           "type": "session",
@@ -313,22 +317,22 @@
                 {
                   "paper_id": 35,
                   "start": "11:30",
-                  "end": "11:40"
+                  "end": "11:50"
                 },
                 {
                   "paper_id": 56,
-                  "start": "11:40",
-                  "end": "12:00"
+                  "start": "11:50",
+                  "end": "12:10"
                 },
                 {
                   "paper_id": 119,
-                  "start": "12:00",
-                  "end": "12:20"
+                  "start": "12:10",
+                  "end": "12:30"
                 },
                 {
                   "paper_id": 138,
-                  "start": "12:20",
-                  "end": "12:40"
+                  "start": "12:30",
+                  "end": "12:50"
                 }
               ]
             },
@@ -341,17 +345,17 @@
                 {
                   "paper_id": 5,
                   "start": "11:30",
-                  "end": "11:40"
+                  "end": "11:50"
                 },
                 {
                   "paper_id": 8,
-                  "start": "11:40",
-                  "end": "12:00"
+                  "start": "11:50",
+                  "end": "12:10"
                 },
                 {
                   "paper_id": 80,
-                  "start": "12:00",
-                  "end": "12:20"
+                  "start": "12:10",
+                  "end": "12:30"
                 }
               ]
             },
@@ -364,17 +368,17 @@
                 {
                   "paper_id": 46,
                   "start": "11:30",
-                  "end": "11:40"
+                  "end": "11:50"
                 },
                 {
                   "paper_id": 49,
-                  "start": "11:40",
-                  "end": "12:00"
+                  "start": "11:50",
+                  "end": "12:10"
                 },
                 {
                   "paper_id": 124,
-                  "start": "12:00",
-                  "end": "12:20"
+                  "start": "12:10",
+                  "end": "12:30"
                 }
               ]
             }
@@ -384,14 +388,16 @@
           "type": "break",
           "label": "PRANZO",
           "start": "13:00",
-          "end": "14:30"
+          "end": "14:30",
+          "label_en": "LUNCH"
         },
         {
           "type": "plenary",
           "start": "14:30",
           "end": "15:00",
           "room": "Aula Capitini",
-          "title": "POSTER SESSION"
+          "title": "POSTER SESSION",
+          "title_en": "POSTER SESSION"
         },
         {
           "type": "session",
@@ -487,14 +493,16 @@
           "type": "break",
           "label": "Network caffè",
           "start": "16:45",
-          "end": "17:25"
+          "end": "17:25",
+          "label_en": "Coffee break"
         },
         {
           "type": "plenary",
           "start": "17:30",
           "end": "19:30",
           "room": "Aula Capitini",
-          "title": "ASSEMBLEA DEI SOCI AIUCD"
+          "title": "ASSEMBLEA DEI SOCI AIUCD",
+          "title_en": "AIUCD MEMBERS' ASSEMBLY"
         }
       ]
     },
@@ -591,7 +599,8 @@
           "type": "break",
           "label": "Network caffè",
           "start": "10:45",
-          "end": "11:30"
+          "end": "11:30",
+          "label_en": "Coffee break"
         },
         {
           "type": "session",
@@ -606,22 +615,22 @@
                 {
                   "paper_id": 7,
                   "start": "11:30",
-                  "end": "11:40"
+                  "end": "11:50"
                 },
                 {
                   "paper_id": 64,
-                  "start": "11:40",
-                  "end": "12:00"
+                  "start": "11:50",
+                  "end": "12:10"
                 },
                 {
                   "paper_id": 42,
-                  "start": "12:00",
-                  "end": "12:20"
+                  "start": "12:10",
+                  "end": "12:30"
                 },
                 {
                   "paper_id": 78,
-                  "start": "12:20",
-                  "end": "12:40"
+                  "start": "12:30",
+                  "end": "12:50"
                 }
               ]
             },
@@ -634,22 +643,22 @@
                 {
                   "paper_id": 99,
                   "start": "11:30",
-                  "end": "11:40"
+                  "end": "11:50"
                 },
                 {
                   "paper_id": 137,
-                  "start": "11:40",
-                  "end": "12:00"
+                  "start": "11:50",
+                  "end": "12:10"
                 },
                 {
                   "paper_id": 100,
-                  "start": "12:00",
-                  "end": "12:20"
+                  "start": "12:10",
+                  "end": "12:30"
                 },
                 {
                   "paper_id": 151,
-                  "start": "12:20",
-                  "end": "12:40"
+                  "start": "12:30",
+                  "end": "12:50"
                 }
               ]
             },
@@ -662,22 +671,22 @@
                 {
                   "paper_id": 23,
                   "start": "11:30",
-                  "end": "11:40"
+                  "end": "11:50"
                 },
                 {
                   "paper_id": 37,
-                  "start": "11:40",
-                  "end": "12:00"
+                  "start": "11:50",
+                  "end": "12:10"
                 },
                 {
                   "paper_id": 139,
-                  "start": "12:00",
-                  "end": "12:20"
+                  "start": "12:10",
+                  "end": "12:30"
                 },
                 {
                   "paper_id": 45,
-                  "start": "12:20",
-                  "end": "12:40"
+                  "start": "12:30",
+                  "end": "12:50"
                 }
               ]
             }
@@ -687,14 +696,16 @@
           "type": "break",
           "label": "PRANZO",
           "start": "13:00",
-          "end": "14:30"
+          "end": "14:30",
+          "label_en": "LUNCH"
         },
         {
           "type": "plenary",
           "start": "14:30",
           "end": "15:00",
           "room": "Aula Capitini",
-          "title": "POSTER SESSION"
+          "title": "POSTER SESSION",
+          "title_en": "POSTER SESSION"
         },
         {
           "type": "session",
@@ -791,21 +802,22 @@
           "start": "17:00",
           "end": "18:00",
           "room": "Aula Capitini",
-          "title": "KEYNOTE » Philp Crowe (University College Dublin -TtbD- dialoga con Arianna Ciula (King's College London) e Francesca Tomasi (Alma Mater Studiorum Università di Bologna)"
+          "title": "KEYNOTE » Philp Crowe (University College Dublin) dialoga con Arianna Ciula (King's College London) e Francesca Tomasi (Alma Mater Studiorum Università di Bologna)"
         },
         {
           "type": "plenary",
           "start": "18:00",
           "end": "18:15",
           "room": "Aula Capitini",
-          "title": "PREMIO GIGLIOZZI"
+          "title": "PREMIO GIGLIOZZI",
+          "title_en": "GIGLIOZZI AWARD"
         },
         {
           "type": "plenary",
           "start": "18:15",
           "end": "18:45",
           "room": "Aula Capitini",
-          "title": "CONCLUSIONI"
+          "title": "CONCLUSIONI e SALUTI FINALI"
         }
       ]
     }

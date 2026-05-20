@@ -912,7 +912,7 @@
     },
     {
       "id": 51,
-      "title": "[hidden]: A Workflow for the Preservation and Collaborative Reuse of Analog Oral History Collections",
+      "title": "FAIR Memories: A Workflow for the Preservation and Collaborative Reuse of Analog Oral History Collections",
       "abstract": "This paper presents [hidden], a Horizon Europe-funded project developing a reusable workflow for the FAIR-ification of legacy oral history collections to allow for the transition of these important but underused collections to current Open Science standards. Making use of a unique analog collection about Italian mass culture, the workflow is being developed jointly by domain experts and digital humanists with particular attention to the preservation of the recorded voice as a core epistemic dimension, standards-based interoperability and semantic enrichment, and compliance with contemporary privacy regulations. This paper presents the initial stages of the project, detailing the collection used, the elements of the workflow, and approaches through which FAIR-ification is reframed as a process of co-produced knowledge.",
       "mode": "Poster",
       "area": "Memories, History, and digital cultural heritage",
@@ -2144,7 +2144,7 @@
     },
     {
       "id": 121,
-      "title": "La Digital Library e l’Ecosistema digitale per la cultura come  opportunità di public engagement",
+      "title": "La Digital Library e l’Ecosistema digitale per la cultura come opportunità di public engagement",
       "abstract": "The concept of the digital library, although common for thirty years, remains difficult to define due to its \nintrinsic complexity. This complexity stems from the multidimensional nature of the system, combining \ntechnological, cultural, and social factors typical of memory institutions. Digital libraries are not mere IT \narchitectures but complex systems where components interact dynamically and non-linearly, following the \nlogic that “everything depends on everything else” (Rickles et al., 2007). Their development requires \ncritical choices that affect both processes and final products, highlighting essential (domain modeling) and \naccidental (technological) complexity.\nThe evolution of the World Wide Web has transformed digital libraries into increasingly accessible public \ninfrastructures, redefining the role of humanistic research and promoting public engagement. In this \ncontext, Ecomic, the digital ecosystem for culture promoted by the Central Institute for the Digitization of \nCultural Heritage of Italian Ministry of Culture, is a dynamic network of subjects, data, and technologies, \nbased on the Data as a Service and Knowledge as a Service paradigms. A key element of Ecomic is its \nknowledge graphs, which transform digital resources from isolated elements into nodes of a relational \nsystem. The integration of graphs from different domains overcomes the fragmentation between archives, \nlibraries, and museums, creating a heritage explorable from multiple perspectives. Artificial Intelligence \nsupports data cleaning and enrichment without overwriting catalogers’ information.\nIn conclusion, Ecomic offers a concrete response to the complexity of digital libraries, promoting a public \nengagement model based on open and participatory infrastructures.",
       "mode": "Poster",
       "area": "Data and Knowledge Representation",
@@ -2699,7 +2699,7 @@
     },
     {
       "id": 147,
-      "title": "Commedia: un caso di studio sulla pertinenza lessicale e sulla visualizzazione",
+      "title": "Il campo semantico del fuoco nella Commedia: un caso di studio sulla pertinenza lessicale e sulla visualizzazione",
       "abstract": "Questo contributo presenta un framework configurabile di visualizzazione per motivi tematici in testi poetici di lunga estensione, sviluppato sul caso di studio del fuoco nella Commedia dantesca. Il lavoro nasce nel contesto di ricerche sull’“antica fiamma” e sui rimandi fra Virgilio e Dante, ma sposta l’attenzione dalle relazioni tra autori alla dinamica interna dei motivi nel poema.\nIl modello assegna a ogni verso un punteggio di intensità del fuoco combinando una lessicografia gerarchica e sentence embeddings con una finestra contestuale di tre versi. La sequenza di valori viene trasformata in una heatmap che mostra la distribuzione del fuoco nelle tre cantiche attraverso blocchi di canti e valori normalizzati. La figura conferma il passaggio dal fuoco punitivo alla luce paradisiaca, ma mette in evidenza anche micro-pattern meno intuitivi, come zone localmente “fredde” o rialzi inattesi, che suggeriscono nuove domande esegetiche.\nIl framework è progettato come piattaforma riusabile: sostituendo il lessico del fuoco con quello di acqua, luce o memoria si ottengono mappe per motivi meno evidenti. Tramite un’interfaccia configurabile, utenti diversi possono modificare liste di lemmi, pesi e ampiezza della finestra, generando versioni alternative delle mappe. Lettori e studenti diventano così co-interpreti e il caso del fuoco funziona da banco di prova per una infrastruttura più ampia di esplorazione visuale della Commedia.",
       "mode": "Oral communication",
       "area": "Digital textualities: perspectives, developments, and experimentations",

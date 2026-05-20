@@ -19,7 +19,8 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 18,
@@ -41,7 +42,8 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 19,
@@ -69,7 +71,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 20,
@@ -105,7 +108,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 22,
@@ -131,7 +135,8 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 24,
@@ -157,7 +162,8 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 26,
@@ -177,7 +183,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 27,
@@ -201,7 +208,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 28,
@@ -223,7 +231,8 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 30,
@@ -243,7 +252,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 31,
@@ -263,7 +273,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 40,
@@ -291,11 +302,12 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 51,
-    "title": "[hidden]: A Workflow for the Preservation and Collaborative Reuse of Analog Oral History Collections",
+    "title": "FAIR Memories: A Workflow for the Preservation and Collaborative Reuse of Analog Oral History Collections",
     "authors_raw": "Nike del Quercio, Laurent Antoine Fintoni e Costanza Paollilo (Alma Mater Studiorum Università di Bologna)",
     "authors": [
       {
@@ -319,7 +331,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 52,
@@ -347,7 +360,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 58,
@@ -367,7 +381,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 61,
@@ -399,7 +414,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 62,
@@ -427,7 +443,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 67,
@@ -459,7 +476,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 70,
@@ -485,7 +503,8 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 77,
@@ -505,7 +524,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 81,
@@ -533,7 +553,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Other contributions"
   },
   {
     "id": 82,
@@ -553,7 +574,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 83,
@@ -573,7 +595,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 84,
@@ -593,7 +616,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 89,
@@ -619,7 +643,8 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Digital textualities"
   },
   {
     "id": 91,
@@ -641,7 +666,8 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 108,
@@ -661,7 +687,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 110,
@@ -685,7 +712,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 111,
@@ -713,7 +741,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 117,
@@ -737,7 +766,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 122,
@@ -759,7 +789,8 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 131,
@@ -779,7 +810,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Other contributions"
   },
   {
     "id": 132,
@@ -810,7 +842,8 @@
     ],
     "poster_pdf": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 134,
@@ -830,7 +863,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 136,
@@ -854,7 +888,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 143,
@@ -874,7 +909,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 149,
@@ -906,7 +942,8 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 120,
@@ -926,6 +963,28 @@
     "photos": [],
     "poster_pdf": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
+  },
+  {
+    "id": 121,
+    "title": "La Digital Library e l’Ecosistema digitale per la cultura come opportunità di public engagement",
+    "authors_raw": "Federico Meschini, Università degli studi della Tuscia; Biancamaria Hermanin, Istituto centrale per la digitalizzazione del patrimonio culturale – Digital Library,, Antonella Negri, Istituto centrale per la digitalizzazione del patrimonio culturale – Digital Library;  Giuliano Romalli",
+    "authors": [
+      {
+        "name": "Biancamaria Hermanin",
+        "aff": "Ministero della Cultura"
+      }
+    ],
+    "abstract": "The concept of the digital library, although common for thirty years, remains difficult to define due to its \nintrinsic complexity. This complexity stems from the multidimensional nature of the system, combining \ntechnological, cultural, and social factors typical of memory institutions. Digital libraries are not mere IT \narchitectures but complex systems where components interact dynamically and non-linearly, following the \nlogic that “everything depends on everything else” (Rickles et al., 2007). Their development requires \ncritical choices that affect both processes and final products, highlighting essential (domain modeling) and \naccidental (technological) complexity.\nThe evolution of the World Wide Web has transformed digital libraries into increasingly accessible public \ninfrastructures, redefining the role of humanistic research and promoting public engagement. In this \ncontext, Ecomic, the digital ecosystem for culture promoted by the Central Institute for the Digitization of \nCultural Heritage of Italian Ministry of Culture, is a dynamic network of subjects, data, and technologies, \nbased on the Data as a Service and Knowledge as a Service paradigms. A key element of Ecomic is its \nknowledge graphs, which transform digital resources from isolated elements into nodes of a relational \nsystem. The integration of graphs from different domains overcomes the fragmentation between archives, \nlibraries, and museums, creating a heritage explorable from multiple perspectives. Artificial Intelligence \nsupports data cleaning and enrichment without overwriting catalogers’ information.\nIn conclusion, Ecomic offers a concrete response to the complexity of digital libraries, promoting a public \nengagement model based on open and participatory infrastructures.",
+    "area_code": "data",
+    "area_label": "Dati e rappresentazione conoscenza",
+    "iscritto": true,
+    "photo": null,
+    "photos": [],
+    "poster_pdf": null,
+    "consent_photo": false,
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Data and knowledge"
   }
 ]
