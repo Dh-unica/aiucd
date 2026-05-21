@@ -64,7 +64,7 @@ export async function loadI18n() {
 /**
  * Lookup di una chiave, con interpolazione opzionale di placeholder.
  *
- *   t("topbar.t_minus_days", { n: 22 })  →  "T-22 giorni"
+ *   t("topbar.days_left", { n: 22 })  →  "22 giorni"
  *
  * Se la chiave non esiste in nessun dizionario, ritorna la chiave stessa
  * (utile in dev per scoprire chiavi mancanti).

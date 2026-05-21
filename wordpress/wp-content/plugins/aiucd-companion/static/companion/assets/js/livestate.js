@@ -133,6 +133,27 @@ export function getOpeningTime(program) {
   return parseTime(firstDay.date, firstBlock.start);
 }
 
+// Numero di giorni di CALENDARIO (fuso Europe/Rome) che separano `from` da
+// `target`. A differenza di una differenza in millisecondi divisa per 24h,
+// questo conteggio cambia a MEZZANOTTE: due istanti dello stesso giorno
+// solare danno sempre lo stesso risultato, indipendentemente dall'orario
+// di apertura del convegno.
+export function calendarDaysUntil(target, from) {
+  const romeMidnightTs = (date) => {
+    const fmt = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Rome",
+      year: "numeric", month: "2-digit", day: "2-digit",
+    });
+    const p = Object.fromEntries(
+      fmt.formatToParts(date)
+        .filter(x => x.type !== "literal")
+        .map(x => [x.type, +x.value])
+    );
+    return Date.UTC(p.year, p.month - 1, p.day);
+  };
+  return Math.round((romeMidnightTs(target) - romeMidnightTs(from)) / 86400000);
+}
+
 // Conta quanti talk paralleli sono in corso "ora" e calcola il minuto del prossimo
 // cambio (fine talk, fine break o inizio sessione). Usato dal countdown topbar.
 function liveSnapshotInfo(program) {
@@ -231,7 +252,9 @@ export function getCountdownInfo(program) {
   const diffMs = opening - now;
   const diffMin = Math.round(diffMs / 60000);
   const diffHr  = Math.round(diffMs / 3600000);
-  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  // Giorni mancanti contati sul calendario: il valore decrementa a mezzanotte
+  // (Europe/Rome), non all'orario di apertura del convegno.
+  const diffDays = calendarDaysUntil(opening, now);
 
   const dayShort  = opening.toLocaleDateString("it-IT", { weekday: "short", day: "numeric", month: "short" });
   const timeShort = opening.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
@@ -242,7 +265,7 @@ export function getCountdownInfo(program) {
   const progressPre = Math.min(1, Math.max(0, 1 - (diffMs / preWindowMs)));
 
   if (diffDays > 1) {
-    return { state: "pre", label: `T-${diffDays} giorni`, detail: `${dayShort} ${timeShort}`, progress: progressPre, lastDay: false };
+    return { state: "pre", label: `${diffDays} giorni`, detail: `${dayShort} ${timeShort}`, progress: progressPre, lastDay: false };
   }
   if (diffHr > 1) {
     return { state: "pre-soon", label: "Domani", detail: `apre ${timeShort}`, progress: progressPre, lastDay: false };

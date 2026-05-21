@@ -1,7 +1,7 @@
 // AIUCD 2026 Companion · entry point
 
 import { loadAllData } from "./data.js?v=f4-6";
-import { liveState, getCountdownInfo, getOpeningTime, getNow, checkClockSkew } from "./livestate.js?v=f4-6";
+import { liveState, getCountdownInfo, getOpeningTime, getNow, calendarDaysUntil, checkClockSkew } from "./livestate.js?v=f4-7";
 import { renderProgram } from "./program-view.js?v=f4-8";
 import { renderMineList, renderPathsOverlay } from "./path-view.js?v=f4-6";
 import { renderMappa } from "./mappa-view.js?v=f4-6";
@@ -114,8 +114,8 @@ async function init() {
   refreshLiveIndicator();
   setInterval(refreshLiveIndicator, 30_000);
 
-  // Countdown T-N nel tab "Programma" quando mancano <=10 giorni all'apertura.
-  // Il prefisso compare sia nel tab top sia nel mobile-bottom-tab; classe
+  // Countdown nel tab "Programma" quando mancano <=10 giorni all'apertura.
+  // Il numero compare sia nel tab top sia nel mobile-bottom-tab; classe
   // .tab-btn--countdown rende rust il tab per attirare l'attenzione.
   function refreshProgramCountdown() {
     const opening = getOpeningTime(data.program);
@@ -134,8 +134,8 @@ async function init() {
       mobBtn?.classList.remove("tab-btn--countdown");
       return;
     }
-    const diffMs = opening - getNow();
-    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+    // Giorni di calendario: decrementa a mezzanotte, non all'ora di apertura.
+    const diffDays = calendarDaysUntil(opening, getNow());
     if (diffDays > 10 || diffDays <= 0) {
       topBadge.hidden = true; topBadge.textContent = "";
       mobBadge.hidden = true; mobBadge.textContent = "";
@@ -143,7 +143,7 @@ async function init() {
       mobBtn?.classList.remove("tab-btn--countdown");
       return;
     }
-    const label = `T-${diffDays} `;
+    const label = `${diffDays} `;
     topBadge.textContent = label;
     topBadge.hidden = false;
     mobBadge.textContent = label;
