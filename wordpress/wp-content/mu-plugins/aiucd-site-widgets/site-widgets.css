@@ -7,7 +7,7 @@
  *   .aiucd-chip.aiucd-chip--countdown
  *     .aiucd-chip-icon      // ● ▮ ▸ ◉ ✓
  *     .aiucd-chip-text
- *       .aiucd-chip-label   // "In corso" / "T-22 giorni" / …
+ *       .aiucd-chip-label   // "In corso" / "22 giorni" / …
  *       .aiucd-chip-detail  // (opzionale) "cambio fra 12 min"
  *     .aiucd-chip-progress  // barra di avanzamento
  *       .aiucd-chip-progress-fill
@@ -189,7 +189,7 @@ body.admin-bar #aiucd-site-widgets.aiucd-site-widgets--floating {
 .aiucd-chip--countdown[data-state="pre"] .aiucd-chip-icon         { color: #94a3b8; }
 .aiucd-chip--countdown[data-state="pre"] .aiucd-chip-progress-fill { background: linear-gradient(to right, #cbd5e1, #94a3b8); }
 
-/* pre-soon (T-1 giorno): azzurro */
+/* pre-soon (Domani / Oggi): azzurro */
 .aiucd-chip--countdown[data-state="pre-soon"] .aiucd-chip-icon         { color: #2a6fa1; }
 .aiucd-chip--countdown[data-state="pre-soon"] .aiucd-chip-progress-fill { background: linear-gradient(to right, #6ea7d5, #2a6fa1); }
 

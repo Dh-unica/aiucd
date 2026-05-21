@@ -5,8 +5,8 @@
  *   1. Live-indicator del convegno (countdown / live / break / post),
  *      con detail granulare, icona e barra di progressione. Recupera il
  *      programma da `program.json` del plugin companion: senza programma
- *      degrada a logica grossa (T-N giorni / Domani / Apre tra X min / In
- *      corso / Concluso) basata su `openingISO` / `closingISO`.
+ *      degrada a logica grossa (N giorni / Domani / Oggi / Apre tra X min /
+ *      In corso / Concluso) basata su `openingISO` / `closingISO`.
  *   2. Contatore agenda ("★ Il mio AIUCD26 N") che riflette il localStorage
  *      del companion; visibile anche se N=0 con stile "empty".
  *

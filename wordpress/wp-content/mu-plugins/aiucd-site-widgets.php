@@ -2,7 +2,7 @@
 /**
  * Plugin Name: AIUCD Site Widgets
  * Description: Mostra in tutte le pagine del sito (header) due piccoli widget:
- *              (1) countdown verso l'apertura del convegno (T-N giorni / In corso / …)
+ *              (1) countdown verso l'apertura del convegno (N giorni / In corso / …)
  *              (2) contatore "★ Il mio AIUCD26" che riflette il localStorage
  *                  popolato dal companion. Click → /companion/?action=open-agenda.
  *              I widget si attaccano allo slot <div id="aiucd-site-widgets">
