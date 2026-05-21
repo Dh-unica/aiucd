@@ -133,6 +133,27 @@
     return parseTime(firstDay.date, firstBlock.start);
   }
 
+  // Numero di giorni di CALENDARIO (fuso Europe/Rome) che separano `from` da
+  // `target`. A differenza di una differenza in millisecondi divisa per 24h,
+  // questo conteggio cambia a MEZZANOTTE: due istanti dello stesso giorno
+  // solare danno sempre lo stesso risultato, indipendentemente dall'orario
+  // di apertura del convegno.
+  function calendarDaysUntil(target, from) {
+    const romeMidnightTs = (date) => {
+      const fmt = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Europe/Rome",
+        year: "numeric", month: "2-digit", day: "2-digit",
+      });
+      const p = Object.fromEntries(
+        fmt.formatToParts(date)
+          .filter(x => x.type !== "literal")
+          .map(x => [x.type, +x.value])
+      );
+      return Date.UTC(p.year, p.month - 1, p.day);
+    };
+    return Math.round((romeMidnightTs(target) - romeMidnightTs(from)) / 86400000);
+  }
+
   function liveSnapshotInfo(program) {
     const ls = liveState(program);
     if (!ls.day) return { liveCount: 0, nextChangeMin: null };
@@ -189,8 +210,9 @@
       break:          "Pausa",
       break_resume:   (m) => `riprende fra ${m} min`,
       pre_static:     "Pre-convegno",
-      pre_days:       (d) => `T-${d} giorni`,
+      pre_days:       (d) => `${d} giorni`,
       tomorrow:       "Domani",
+      today:          "Oggi",
       opens_at:       (t) => `apre ${t}`,
       opens_in:       (m) => `Apre tra ${m} min`,
       locale:         "it-IT",
@@ -204,8 +226,9 @@
       break:          "Break",
       break_resume:   (m) => `resumes in ${m}m`,
       pre_static:     "Pre-conference",
-      pre_days:       (d) => `T-${d} days`,
+      pre_days:       (d) => `${d} days`,
       tomorrow:       "Tomorrow",
+      today:          "Today",
       opens_at:       (t) => `opens at ${t}`,
       opens_in:       (m) => `Opens in ${m}m`,
       locale:         "en-GB",
@@ -261,8 +284,10 @@
 
     const diffMs = opening - now;
     const diffMin = Math.round(diffMs / 60000);
-    const diffHr  = Math.round(diffMs / 3600000);
-    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+    // Giorni mancanti contati sul calendario (Europe/Rome): il valore resta
+    // costante per tutto il giorno solare e decrementa a mezzanotte, non
+    // all'orario di apertura del convegno.
+    const diffDays = calendarDaysUntil(opening, now);
 
     const dayShort  = opening.toLocaleDateString(T.locale, { weekday: "short", day: "numeric", month: "short" });
     const timeShort = opening.toLocaleTimeString(T.locale, { hour: "2-digit", minute: "2-digit" });
@@ -270,11 +295,17 @@
     const preWindowMs = 30 * 24 * 60 * 60 * 1000;
     const progressPre = Math.min(1, Math.max(0, 1 - (diffMs / preWindowMs)));
 
-    if (diffDays > 1) {
+    // diffDays >= 2 → "N giorni"; == 1 → "Domani"; == 0 → l'apertura è oggi.
+    if (diffDays >= 2) {
       return { state: "pre", label: T.pre_days(diffDays), detail: `${dayShort} ${timeShort}`, progress: progressPre, lastDay: false };
     }
-    if (diffHr > 1) {
+    if (diffDays === 1) {
       return { state: "pre-soon", label: T.tomorrow, detail: T.opens_at(timeShort), progress: progressPre, lastDay: false };
+    }
+    // Apertura oggi: finché manca piu di un'ora mostra "Oggi", poi il
+    // conto alla rovescia in minuti.
+    if (diffMin > 60) {
+      return { state: "pre-soon", label: T.today, detail: T.opens_at(timeShort), progress: progressPre, lastDay: false };
     }
     if (diffMin > 0) {
       const progressImm = Math.min(0.99, 1 - (diffMin / 60));

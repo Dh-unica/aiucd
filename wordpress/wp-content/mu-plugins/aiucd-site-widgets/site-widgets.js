@@ -167,9 +167,28 @@
   // Mini-dizionario per il fallback (quando program.json non è disponibile
   // o livestate.js fallisce); coerente con I18N di livestate.js.
   const FALLBACK_I18N = {
-    it: { post: "Convegno concluso", live: "In corso", pre_days: (d) => `T-${d} giorni`, tomorrow: "Domani", opens_in: (m) => `Apre tra ${m} min` },
-    en: { post: "Conference concluded", live: "Live now", pre_days: (d) => `T-${d} days`, tomorrow: "Tomorrow", opens_in: (m) => `Opens in ${m}m` },
+    it: { post: "Convegno concluso", live: "In corso", pre_days: (d) => `${d} giorni`, tomorrow: "Domani", today: "Oggi", opens_in: (m) => `Apre tra ${m} min` },
+    en: { post: "Conference concluded", live: "Live now", pre_days: (d) => `${d} days`, tomorrow: "Tomorrow", today: "Today", opens_in: (m) => `Opens in ${m}m` },
   };
+
+  // Giorni di CALENDARIO (fuso Europe/Rome) tra due istanti epoch-ms. Usato
+  // dal fallback per far decrementare il contatore a mezzanotte e non a una
+  // finestra mobile di 24h ancorata all'ora di apertura.
+  function calendarDaysBetween(targetMs, fromMs) {
+    const romeMidnightTs = (ms) => {
+      const fmt = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Europe/Rome",
+        year: "numeric", month: "2-digit", day: "2-digit",
+      });
+      const p = Object.fromEntries(
+        fmt.formatToParts(new Date(ms))
+          .filter(x => x.type !== "literal")
+          .map(x => [x.type, +x.value])
+      );
+      return Date.UTC(p.year, p.month - 1, p.day);
+    };
+    return Math.round((romeMidnightTs(targetMs) - romeMidnightTs(fromMs)) / 86400000);
+  }
 
   function computeInfo() {
     const lang = cfg.lang === "en" ? "en" : "it";
@@ -188,10 +207,12 @@
     if (now >= OPENING_MS) return { state: "live", label: T.live, detail: "", progress: 0 };
     const diffMs = OPENING_MS - now;
     const diffMin = Math.round(diffMs / 60000);
-    const diffDays = Math.ceil(diffMs / 86400000);
-    if (diffDays > 1) return { state: "pre", label: T.pre_days(diffDays), detail: "", progress: 0 };
-    if (diffMin > 60) return { state: "pre-soon", label: T.tomorrow, detail: "", progress: 0 };
-    if (diffMin > 0)  return { state: "pre-imminent", label: T.opens_in(diffMin), detail: "", progress: 0 };
+    const diffDays = calendarDaysBetween(OPENING_MS, now);
+    // diffDays >= 2 → "N giorni"; == 1 → "Domani"; == 0 → apertura oggi.
+    if (diffDays >= 2)  return { state: "pre", label: T.pre_days(diffDays), detail: "", progress: 0 };
+    if (diffDays === 1) return { state: "pre-soon", label: T.tomorrow, detail: "", progress: 0 };
+    if (diffMin > 60)   return { state: "pre-soon", label: T.today, detail: "", progress: 0 };
+    if (diffMin > 0)    return { state: "pre-imminent", label: T.opens_in(diffMin), detail: "", progress: 0 };
     return { state: "live", label: T.live, detail: "", progress: 0 };
   }
 

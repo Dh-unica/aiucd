@@ -1,7 +1,7 @@
 // AIUCD 2026 Companion · entry point
 
 import { loadAllData } from "./data.js?v=f4-6";
-import { liveState, getCountdownInfo, getOpeningTime, getNow, calendarDaysUntil, checkClockSkew } from "./livestate.js?v=f4-7";
+import { liveState, getCountdownInfo, getOpeningTime, getNow, calendarDaysUntil, checkClockSkew } from "./livestate.js?v=f4-8";
 import { renderProgram } from "./program-view.js?v=f4-8";
 import { renderMineList, renderPathsOverlay } from "./path-view.js?v=f4-6";
 import { renderMappa } from "./mappa-view.js?v=f4-6";

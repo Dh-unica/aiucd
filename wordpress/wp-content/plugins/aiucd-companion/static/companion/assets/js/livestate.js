@@ -251,9 +251,9 @@ export function getCountdownInfo(program) {
 
   const diffMs = opening - now;
   const diffMin = Math.round(diffMs / 60000);
-  const diffHr  = Math.round(diffMs / 3600000);
-  // Giorni mancanti contati sul calendario: il valore decrementa a mezzanotte
-  // (Europe/Rome), non all'orario di apertura del convegno.
+  // Giorni mancanti contati sul calendario: il valore resta costante per
+  // tutto il giorno solare e decrementa a mezzanotte (Europe/Rome), non
+  // all'orario di apertura del convegno.
   const diffDays = calendarDaysUntil(opening, now);
 
   const dayShort  = opening.toLocaleDateString("it-IT", { weekday: "short", day: "numeric", month: "short" });
@@ -264,11 +264,17 @@ export function getCountdownInfo(program) {
   const preWindowMs = 30 * 24 * 60 * 60 * 1000;
   const progressPre = Math.min(1, Math.max(0, 1 - (diffMs / preWindowMs)));
 
-  if (diffDays > 1) {
+  // diffDays >= 2 → "N giorni"; == 1 → "Domani"; == 0 → l'apertura è oggi.
+  if (diffDays >= 2) {
     return { state: "pre", label: `${diffDays} giorni`, detail: `${dayShort} ${timeShort}`, progress: progressPre, lastDay: false };
   }
-  if (diffHr > 1) {
+  if (diffDays === 1) {
     return { state: "pre-soon", label: "Domani", detail: `apre ${timeShort}`, progress: progressPre, lastDay: false };
+  }
+  // Apertura oggi: finché manca più di un'ora mostra "Oggi", poi il conto
+  // alla rovescia in minuti.
+  if (diffMin > 60) {
+    return { state: "pre-soon", label: "Oggi", detail: `apre ${timeShort}`, progress: progressPre, lastDay: false };
   }
   if (diffMin > 0) {
     // pre-imminent: progress riempito quasi del tutto, con ultimo 5% riservato all'apertura
