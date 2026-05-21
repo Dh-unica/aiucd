@@ -2,12 +2,14 @@
 /**
  * Plugin Name: AIUCD Canonical Host (no-www)
  * Description: Forza il dominio canonico di produzione SENZA www
- *              (https://aiucd2026.unica.it): allinea home/siteurl e mantiene
- *              coerente la cache lingue di Polylang. Senza questo, col
- *              redirect www -> non-www del reverse proxy si creerebbe un
- *              loop infinito (proxy: www -> non-www ; WordPress/Polylang:
- *              non-www -> www). In sviluppo locale (localhost / IP LAN) e' un
- *              NO-OP completo.
+ *              (https://aiucd2026.unica.it): allinea home/siteurl, riscrive
+ *              gli URL di plugin/contenuti/asset e mantiene coerente la cache
+ *              lingue di Polylang. Senza questo, col redirect www -> non-www
+ *              del reverse proxy si creerebbe un loop infinito (proxy: www ->
+ *              non-www ; WordPress/Polylang: non-www -> www) e gli asset del
+ *              plugin aiucd-companion resterebbero su www (fetch cross-origin
+ *              fallite -> pagina /companion/ vuota). In sviluppo locale
+ *              (localhost / IP LAN) e' un NO-OP completo.
  *
  *              NOTA: .env (WORDPRESS_URL) e wp-config.php non sono versionati
  *              e il deploy preserva le copie presenti sul server, quindi
@@ -91,7 +93,35 @@ if ( aiucd_is_production_host() ) {
 	add_filter( 'pre_option_home', $aiucd_force_canonical, PHP_INT_MAX );
 	add_filter( 'pre_option_siteurl', $aiucd_force_canonical, PHP_INT_MAX );
 
-	// 2) Allinea subito la cache lingue di Polylang, prima che il plugin la
+	// 2) Riscrive da www a non-www gli URL di plugin/contenuti/asset.
+	//    Le costanti WP_CONTENT_URL / WP_PLUGIN_URL vengono congelate da
+	//    WordPress (wp_plugin_directory_constants) a partire da `siteurl`
+	//    PRIMA che i mu-plugin vengano caricati: il filtro pre_option_siteurl
+	//    del punto 1 arriva troppo tardi per loro, quindi plugins_url() /
+	//    content_url() resterebbero su www. Lo str_replace tocca solo il
+	//    nostro host www (mai URL esterni tipo unpkg.com / Google Fonts).
+	$aiucd_rewrite_url = static function ( $url ) {
+		if ( ! is_string( $url ) || '' === $url ) {
+			return $url;
+		}
+		return str_replace(
+			array( 'https://www.aiucd2026.unica.it', 'http://www.aiucd2026.unica.it' ),
+			AIUCD_CANONICAL_URL,
+			$url
+		);
+	};
+	$aiucd_url_filters = array(
+		'plugins_url', 'content_url', 'includes_url',
+		'home_url', 'site_url', 'admin_url', 'rest_url',
+		'network_site_url', 'network_home_url',
+		'theme_root_uri', 'stylesheet_directory_uri', 'template_directory_uri',
+		'script_loader_src', 'style_loader_src',
+	);
+	foreach ( $aiucd_url_filters as $aiucd_url_filter ) {
+		add_filter( $aiucd_url_filter, $aiucd_rewrite_url, PHP_INT_MAX );
+	}
+
+	// 3) Allinea subito la cache lingue di Polylang, prima che il plugin la
 	//    legga (mu-plugin caricato prima dei plugin normali).
 	aiucd_heal_polylang_languages_cache();
 }
