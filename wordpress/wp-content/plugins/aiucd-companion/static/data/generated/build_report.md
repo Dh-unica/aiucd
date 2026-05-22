@@ -1,6 +1,6 @@
-# Build report · 20260520-1508
+# Build report · 20260522-1743
 
-Generated: 2026-05-20T13:08:49+00:00
+Generated: 2026-05-22T15:43:33+00:00
 
 ## Stats
 
@@ -20,5 +20,12 @@ Generated: 2026-05-20T13:08:49+00:00
 - paper #85: title in Programma Dettaglio diverges from Esiti Call (likely editorial rewrite, no matching swap found). prog='MeMo: mappe digitali, memoria letteraria e public engagement nel Mezzo' | esiti='MeMo: Digital Maps, Literary Memory, and Public Engagement in Southern'
 - paper #147: title in Programma Dettaglio diverges from Esiti Call (likely editorial rewrite, no matching swap found). prog='Il campo semantico del fuoco nella Commedia: un caso di studio sulla p' | esiti='Dal fuoco alla mappa dei motivi: un framework di visualizzazione dell’'
 - paper #121: POSTER sheet AUTORI cell uses a non-standard format (affiliation without parentheses) — parsed 4 author(s) heuristically; consider reformatting as 'Name (Affiliation); Name (Affiliation); …'
+- author photo 'Amalia carrano- foto.jpg': no matching poster found (normalized 'amalia carrano-')
+- author photo 'ChristianMarcantonio_GiuseppeConsolo.png': no matching poster found (normalized 'christianmarcantonio'giuseppeconsolo')
+- author photo 'Eva_Sassolini.png': no matching poster found (normalized 'eva'sassolini')
+- author photo 'Lisa_Reggiani.JPG': no matching poster found (normalized 'lisa'reggiani')
+- author photo 'Michela_Parma.jpg': no matching poster found (normalized 'michela'parma')
+- author photo 'Stefania De Blasi_CCR.jpg': no matching poster found (normalized 'stefania de blasi'ccr')
+- author photo 'federico_meschini.jpg': no matching poster found (normalized 'federico'meschini')
 - 2 oral talk(s) accepted but not scheduled in program: [43, 150]
 - 1 catalog Poster(s) not in Sessione Poster sheet: [146]

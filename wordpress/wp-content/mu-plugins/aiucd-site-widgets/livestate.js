@@ -79,6 +79,36 @@
     return [first, last];
   }
 
+  // Prossimo evento del giorno che inizia dopo `now`. Usato per i buchi di
+  // programma: il badge annuncia cosa sta per iniziare invece di "Pausa".
+  // I blocchi sessione non hanno start a livello di blocco → primo talk.
+  function nextEventOfDay(day, now) {
+    let best = null;
+    for (const block of (day.blocks || [])) {
+      let start = block.start ? parseTime(day.date, block.start) : null;
+      if (block.type === "session") {
+        let sFirst = null;
+        for (const t of (block.tracks || [])) {
+          for (const tk of (t.talks || [])) {
+            if (tk.start) {
+              const s = parseTime(day.date, tk.start);
+              if (!sFirst || s < sFirst) sFirst = s;
+            }
+          }
+        }
+        if (sFirst && (!start || sFirst < start)) start = sFirst;
+      }
+      if (start && start > now && (!best || start < best.when)) {
+        best = {
+          when: start,
+          name: block.title || block.label || null,
+          name_en: block.title_en || block.label_en || null,
+        };
+      }
+    }
+    return best;
+  }
+
   function liveState(program) {
     const now = getNow();
     const days = (program && program.days) || [];
@@ -117,11 +147,17 @@
         const e = parseTime(day.date, block.end);
         if (now >= s && now < e) {
           if (block.type === "plenary") return { state: "live", now, day, block };
-          if (block.type === "break") return { state: "break", now, day, block };
+          if (block.type === "break") {
+            // La colazione di benvenuto è l'apertura, non una pausa.
+            if (block.opening) return { state: "live", now, day, block };
+            return { state: "break", now, day, block };
+          }
         }
       }
     }
-    return { state: "break", now, day };
+    // Buco di programma: stato "break" senza blocco-pausa reale; `next`
+    // permette al badge di annunciare il prossimo evento.
+    return { state: "break", now, day, next: nextEventOfDay(day, now) };
   }
 
   function getOpeningTime(program) {
@@ -215,6 +251,8 @@
       today:          "Oggi",
       opens_at:       (t) => `apre ${t}`,
       opens_in:       (m) => `Apre tra ${m} min`,
+      soon:           "A breve",
+      sessions_generic: "Sessioni parallele",
       locale:         "it-IT",
     },
     en: {
@@ -231,6 +269,8 @@
       today:          "Today",
       opens_at:       (t) => `opens at ${t}`,
       opens_in:       (m) => `Opens in ${m}m`,
+      soon:           "Soon",
+      sessions_generic: "Parallel sessions",
       locale:         "en-GB",
     },
   };
@@ -255,7 +295,15 @@
         if (e > s) progress = Math.min(1, Math.max(0, (now - s) / (e - s)));
       }
       const label = snap.liveCount > 1 ? T.live_multi(snap.liveCount) : T.live_single;
-      const detail = snap.nextChangeMin != null ? T.live_change_in(snap.nextChangeMin) : "";
+      let detail = snap.nextChangeMin != null ? T.live_change_in(snap.nextChangeMin) : "";
+      // Evento plenario/inaugurale in corso (colazione di benvenuto, apertura
+      // dei lavori, keynote…): il badge annuncia il nome dell'evento.
+      if (ls.block && !ls.talk) {
+        const evName = (lang === "en"
+          ? (ls.block.title_en || ls.block.label_en)
+          : null) || ls.block.title || ls.block.label;
+        if (evName) detail = evName;
+      }
       return { state: "live", label, detail, progress,
                liveCount: snap.liveCount, nextChangeMin: snap.nextChangeMin,
                lastDay, talk: ls.talk || null, room: ls.track && ls.track.room || null };
@@ -266,6 +314,18 @@
     }
 
     if (ls.state === "break") {
+      // Buco di programma (nessun blocco-pausa reale copre "now"): non è una
+      // pausa, è un intervallo tra eventi → annuncia il prossimo evento con
+      // lo stile "imminente" invece del generico "Pausa".
+      if (!ls.block && ls.next) {
+        const nx = ls.next;
+        const whenShort = nx.when.toLocaleTimeString(T.locale, { hour: "2-digit", minute: "2-digit" });
+        const nm = (lang === "en" ? nx.name_en : null) || nx.name || T.sessions_generic;
+        const minsTo = Math.max(0, Math.round((nx.when - now) / 60000));
+        const prog = Math.min(0.99, Math.max(0, 1 - (minsTo / 60)));
+        return { state: "pre-imminent", label: T.soon,
+                 detail: `${nm} · ${whenShort}`, progress: prog, lastDay };
+      }
       const snap = liveSnapshotInfo(program);
       let progress = 0;
       if (ls.block && ls.block.start && ls.block.end && ls.day) {
