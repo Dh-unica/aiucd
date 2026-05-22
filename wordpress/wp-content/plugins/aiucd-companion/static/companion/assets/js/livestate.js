@@ -266,7 +266,7 @@ export function getCountdownInfo(program) {
 
   // diffDays >= 2 → "N giorni"; == 1 → "Domani"; == 0 → l'apertura è oggi.
   if (diffDays >= 2) {
-    return { state: "pre", label: `${diffDays} giorni`, detail: `${dayShort} ${timeShort}`, progress: progressPre, lastDay: false };
+    return { state: "pre", label: `-${diffDays} giorni`, detail: `${dayShort} ${timeShort}`, progress: progressPre, lastDay: false };
   }
   if (diffDays === 1) {
     return { state: "pre-soon", label: "Domani", detail: `apre ${timeShort}`, progress: progressPre, lastDay: false };

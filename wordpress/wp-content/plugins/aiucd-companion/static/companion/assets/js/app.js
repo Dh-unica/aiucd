@@ -143,7 +143,7 @@ async function init() {
       mobBtn?.classList.remove("tab-btn--countdown");
       return;
     }
-    const label = `${diffDays} `;
+    const label = `-${diffDays} `;
     topBadge.textContent = label;
     topBadge.hidden = false;
     mobBadge.textContent = label;

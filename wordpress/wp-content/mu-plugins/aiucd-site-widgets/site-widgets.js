@@ -167,8 +167,8 @@
   // Mini-dizionario per il fallback (quando program.json non è disponibile
   // o livestate.js fallisce); coerente con I18N di livestate.js.
   const FALLBACK_I18N = {
-    it: { post: "Convegno concluso", live: "In corso", pre_days: (d) => `${d} giorni`, tomorrow: "Domani", today: "Oggi", opens_in: (m) => `Apre tra ${m} min` },
-    en: { post: "Conference concluded", live: "Live now", pre_days: (d) => `${d} days`, tomorrow: "Tomorrow", today: "Today", opens_in: (m) => `Opens in ${m}m` },
+    it: { post: "Convegno concluso", live: "In corso", pre_days: (d) => `-${d} giorni`, tomorrow: "Domani", today: "Oggi", opens_in: (m) => `Apre tra ${m} min` },
+    en: { post: "Conference concluded", live: "Live now", pre_days: (d) => `-${d} days`, tomorrow: "Tomorrow", today: "Today", opens_in: (m) => `Opens in ${m}m` },
   };
 
   // Giorni di CALENDARIO (fuso Europe/Rome) tra due istanti epoch-ms. Usato
