@@ -198,12 +198,17 @@ function renderGrid(area) {
 
 function makeGridCard(poster) {
   const a = AREA_BY_CODE[poster.area_code] || AREA_BY_CODE.other;
-  const author = (poster.authors && poster.authors[0]?.name) || extractFirstAuthor(poster.authors_raw);
-  const initials = makeInitials(author);
+  // L'avatar resta legato al primo autore (foto/iniziali); il testo della
+  // card invece elenca tutti i coautori (richiesta 2026-05-23, "appariva
+  // solo il primo"). Il line-clamp CSS limita l'altezza per i poster
+  // con molti autori.
+  const firstAuthor = (poster.authors && poster.authors[0]?.name) || extractFirstAuthor(poster.authors_raw);
+  const authorsText = joinAuthorNames(poster.authors) || firstAuthor;
+  const initials = makeInitials(firstAuthor);
   const photos = poster.photos && poster.photos.length
     ? poster.photos
     : (poster.photo ? [poster.photo] : []);
-  const photoMarkup = buildPhotoMarkup(photos, author);
+  const photoMarkup = buildPhotoMarkup(photos, firstAuthor);
   const card = document.createElement("div");
   card.className = "poster-card";
   card.dataset.posterId = poster.id;
@@ -214,7 +219,7 @@ function makeGridCard(poster) {
     <div class="pc-photo" data-photos="${photos.length}">${photoMarkup || initials}</div>
     <div class="pc-id">#${poster.id}</div>
     <div class="pc-title">${escapeHtml(poster.title)}</div>
-    <div class="pc-author">${escapeHtml(author || "—")}</div>
+    <div class="pc-author">${escapeHtml(authorsText || "—")}</div>
     <span class="pc-area">${a.label}</span>
   `;
   if (photos.length > 1) {
@@ -622,6 +627,17 @@ function extractFirstAuthor(raw) {
   // Forma tipica: "Cognome Nome (Affiliazione); Altro Autore (...)"
   const first = String(raw).split(/[;,(]/)[0].trim();
   return first;
+}
+
+// Concatena i nomi degli autori in stile italiano: "A", "A e B",
+// "A, B e C" (Oxford-comma omessa, "e" prima dell'ultimo).
+function joinAuthorNames(authors) {
+  if (!authors || !authors.length) return "";
+  const names = authors.map(a => a && a.name).filter(Boolean);
+  if (!names.length) return "";
+  if (names.length === 1) return names[0];
+  if (names.length === 2) return `${names[0]} e ${names[1]}`;
+  return `${names.slice(0, -1).join(", ")} e ${names[names.length - 1]}`;
 }
 
 function escapeHtml(s) {

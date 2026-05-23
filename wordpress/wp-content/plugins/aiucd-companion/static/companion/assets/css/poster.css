@@ -460,6 +460,14 @@
   font-size: var(--fs-xs);
   color: var(--muted);
   font-style: italic;
+  line-height: 1.35;
+  /* Limita l'altezza dell'elenco coautori: max 3 righe, troncate con
+     ellissi. I poster con 5 autori (es. P20) restano contenuti senza
+     far esplodere la card. */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .poster-card .pc-area {
   font-size: 9.5px;
