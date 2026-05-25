@@ -633,6 +633,32 @@
   text-transform: uppercase;
 }
 
+/* Sezione "Poster da vedere" nel drawer (senza orario specifico, sessione
+ * unica giovedì 14:30) */
+.my-agenda-posters-hint {
+  font-size: 12px;
+  color: var(--text-muted, #666);
+  margin: 0 0 var(--space-sm);
+  padding: 0 var(--space-sm);
+  font-style: italic;
+}
+.my-agenda-row--poster .when {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.my-agenda-row--poster .when .poster-tag {
+  display: inline-block;
+  padding: 3px 8px;
+  background: rgba(80,55,140,0.12);
+  color: #5037a8;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 /* Pulsante "aggiungi tutto il percorso" nel detail di un percorso */
 .add-all-btn {
   margin-top: var(--space-sm);

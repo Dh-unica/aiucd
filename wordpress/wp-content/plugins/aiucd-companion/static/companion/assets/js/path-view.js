@@ -9,6 +9,7 @@
 import * as agenda from "./agenda.js";
 import { getNow } from "./livestate.js";
 import { showAgendaMenu } from "./calendar-menu.js?v=f4-6";
+import { openPosterById } from "./poster-view.js?v=f4-10";
 import { t, formatDay, getLang, translateRoom, field } from "./i18n.js?v=f4-6";
 
 // Etichette user-facing dei tre criteri di costruzione dei percorsi.
@@ -99,11 +100,19 @@ function renderMyAgenda() {
     return;
   }
 
-  // Resolve each id to its (day, time, room)
-  const items = ids.map(id => {
+  // Resolve each id to its (day, time, room). Items WITHOUT a slot but that
+  // exist in posters.json finiscono nella sezione "Poster" più sotto.
+  const postersById = new Map((_mineState.data.posters || []).map(p => [p.id, p]));
+  const items = [];
+  const posterItems = [];
+  for (const id of ids) {
     const slot = findSlot(_mineState.data, id);
-    return slot ? { id, ...slot } : null;
-  }).filter(Boolean);
+    if (slot) {
+      items.push({ id, ...slot });
+    } else if (postersById.has(id)) {
+      posterItems.push(postersById.get(id));
+    }
+  }
 
   // Sort chronologically
   items.sort((a, b) => (a.day + a.start).localeCompare(b.day + b.start));
@@ -167,9 +176,28 @@ function renderMyAgenda() {
     traveler = isEn ? "Done for today: all the talks in your agenda are over." : "Per oggi è fatta: tutte le relazioni in agenda sono già passate.";
   }
 
+  const totalCount = items.length + posterItems.length;
+  let bannerLabel;
+  if (posterItems.length === 0) {
+    bannerLabel = isEn ? "talks in your agenda" : "relazioni in agenda";
+  } else if (items.length === 0) {
+    bannerLabel = isEn
+      ? (posterItems.length === 1 ? "poster in your agenda" : "posters in your agenda")
+      : (posterItems.length === 1 ? "poster in agenda" : "poster in agenda");
+  } else {
+    bannerLabel = isEn
+      ? `in your agenda · ${items.length} talk${items.length === 1 ? "" : "s"} + ${posterItems.length} poster${posterItems.length === 1 ? "" : "s"}`
+      : `in agenda · ${items.length} talk + ${posterItems.length} poster`;
+  }
+
+  const postersTitle = isEn ? "Posters to see" : "Poster da vedere";
+  const postersHint = isEn
+    ? "Poster session: Thursday 4 June · 14:30 · Aula Capitini"
+    : "Sessione poster: giovedì 4 giugno · 14:30 · Aula Capitini";
+
   root.innerHTML = `
     <div class="my-agenda-banner">
-      <div class="stat"><span class="count">${items.length}</span> ${isEn ? "talks in your agenda" : "relazioni in agenda"}</div>
+      <div class="stat"><span class="count">${totalCount}</span> ${bannerLabel}</div>
       <div class="traveler">${traveler}</div>
       <div class="actions">
         <button class="btn btn-calendar" id="export-cal"><span class="icon icon--calendar" aria-hidden="true"></span> ${t("calendar.menu_label")}</button>
@@ -182,6 +210,13 @@ function renderMyAgenda() {
         ${dayItems.map(it => myAgendaRow(it, statusOf(it), conflictKeys.has(`${it.day}|${it.start}`))).join("")}
       </div>
     `).join("")}
+    ${posterItems.length > 0 ? `
+      <div class="my-agenda-day my-agenda-posters">
+        <h3>${postersTitle}</h3>
+        <p class="my-agenda-posters-hint">${postersHint}</p>
+        ${posterItems.map(p => myAgendaPosterRow(p)).join("")}
+      </div>
+    ` : ""}
   `;
 
   // Wire row clicks (open modal)
@@ -207,6 +242,22 @@ function renderMyAgenda() {
     });
   });
 
+  // Wire poster rows
+  root.querySelectorAll(".my-agenda-row[data-poster-id]").forEach(row => {
+    row.addEventListener("click", e => {
+      if (e.target.closest(".remove-btn")) return;
+      const pid = parseInt(row.dataset.posterId, 10);
+      openPosterById(pid);
+    });
+  });
+  root.querySelectorAll(".remove-btn[data-poster-id]").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      const pid = parseInt(btn.dataset.posterId, 10);
+      agenda.toggle(pid);
+    });
+  });
+
   // Calendar export menu (Google / Apple / Outlook / .ics)
   const calBtn = root.querySelector("#export-cal");
   if (calBtn) calBtn.addEventListener("click", e => {
@@ -217,7 +268,10 @@ function renderMyAgenda() {
   // Clear all
   const clearBtn = root.querySelector("#clear-all");
   if (clearBtn) clearBtn.addEventListener("click", () => {
-    if (confirm("Svuotare l'agenda? Verranno rimosse tutte le relazioni salvate.")) {
+    const msg = isEn
+      ? "Empty your agenda? All saved talks and posters will be removed."
+      : "Svuotare l'agenda? Verranno rimossi tutti i contributi salvati.";
+    if (confirm(msg)) {
       agenda.clear();
     }
   });
@@ -239,6 +293,23 @@ function myAgendaRow(it, status, isConflict) {
         <span class="who">${escapeHtml(authors)}</span>
       </div>
       <button class="remove-btn" data-paper-id="${paper.id}" aria-label="Rimuovi" title="Rimuovi dall'agenda">×</button>
+    </div>
+  `;
+}
+
+function myAgendaPosterRow(poster) {
+  const authors = (poster.authors || []).slice(0, 2).map(a => a.name).join(", ")
+    || (poster.authors_raw ? String(poster.authors_raw).split(/[;,]/)[0].trim() : "");
+  return `
+    <div class="my-agenda-row my-agenda-row--poster" data-poster-id="${poster.id}">
+      <div class="when">
+        <span class="poster-tag">Poster</span>
+      </div>
+      <div class="what">
+        <span class="talk-id">#${poster.id}</span>${escapeHtml(poster.title)}
+        <span class="who">${escapeHtml(authors)}</span>
+      </div>
+      <button class="remove-btn" data-poster-id="${poster.id}" aria-label="Rimuovi" title="Rimuovi dall'agenda">×</button>
     </div>
   `;
 }

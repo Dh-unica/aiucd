@@ -501,6 +501,16 @@ function countByArea() {
 
 // ========== SIDE SHEET ==========
 
+export function openPosterById(id) {
+  // Apre il side-sheet del poster da fuori (es. drawer "Il mio AIUCD26").
+  // _state.data viene popolato al boot da renderPoster() in app.js.
+  if (!_state.data) return false;
+  const poster = _state.data.posters.find(p => p.id === id);
+  if (!poster) return false;
+  openPoster(poster);
+  return true;
+}
+
 function openPoster(poster) {
   _state.selectedPoster = poster;
   let side = document.getElementById("poster-side");
