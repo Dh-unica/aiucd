@@ -302,6 +302,56 @@ jobs:
           echo "Plugin aiucd-companion status:"
           run_wp wp plugin status aiucd-companion 2>&1 | head -5 || true
 
+      - name: 🔄 Database schema migration (wp core update-db)
+        env:
+          WPCLI_IMAGE: wordpress:cli-2.10
+        run: |
+          # Allinea lo schema del DB al filesystem WP. Necessario quando il repo
+          # ha appena bumpato $wp_db_version (es. check-updates.yml settimanale)
+          # e il DB di prod e' rimasto indietro. Senza, wp-admin mostra "E'
+          # richiesto l'aggiornamento del database" finche' qualcuno non clicca.
+          #
+          # Operazione idempotente: se il DB e' gia' allineato, e' un no-op.
+          # Eseguita con .maintenance ancora attivo, per evitare race con
+          # richieste utente durante eventuali ALTER TABLE.
+          WP_ENV_FILE="$(mktemp)"
+          trap 'rm -f "$WP_ENV_FILE"' EXIT
+          docker inspect aiucd_wordpress --format '{{range .Config.Env}}{{println .}}{{end}}' \
+            | grep -E '^WORDPRESS_' > "$WP_ENV_FILE"
+          run_wp() {
+            docker run --rm \
+              --env-file "$WP_ENV_FILE" \
+              --network aiucd_aiucd_network \
+              --volumes-from aiucd_wordpress \
+              --workdir /var/www/html \
+              -u 1001:1001 \
+              "$WPCLI_IMAGE" "$@"
+          }
+
+          echo "Current schema version (pre-migration):"
+          DB_VER_BEFORE=$(run_wp wp option get db_version 2>/dev/null || echo "?")
+          FILE_VER=$(run_wp wp eval 'global $wp_db_version; echo $wp_db_version;' 2>/dev/null || echo "?")
+          echo "  db_version (DB):   $DB_VER_BEFORE"
+          echo "  wp_db_version (FS): $FILE_VER"
+
+          if [ "$DB_VER_BEFORE" = "$FILE_VER" ] && [ "$DB_VER_BEFORE" != "?" ]; then
+            echo "✅ DB schema already aligned — skip update-db"
+            exit 0
+          fi
+
+          echo ""
+          echo "Running wp core update-db ..."
+          if run_wp wp core update-db; then
+            DB_VER_AFTER=$(run_wp wp option get db_version 2>/dev/null || echo "?")
+            echo "✅ Schema migrated · db_version: $DB_VER_BEFORE → $DB_VER_AFTER"
+          else
+            # Non bloccante: meglio un warning visibile nel log che un deploy
+            # rotto. L'utente vedra' il prompt "DB upgrade required" in admin
+            # e potra' cliccare manualmente per indagare l'errore vero.
+            echo "::warning::wp core update-db FAILED — verificare manualmente."
+            echo "⚠️  update-db non completato. Deploy prosegue ma admin mostrera' il prompt di upgrade."
+          fi
+
       - name: ✅ Maintenance Mode OFF
         if: success()
         env:
