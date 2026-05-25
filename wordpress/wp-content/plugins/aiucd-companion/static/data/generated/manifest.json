@@ -1,12 +1,12 @@
 {
-  "version": "20260522-1743",
-  "generated_at": "2026-05-22T15:43:33+00:00",
+  "version": "20260525-1624",
+  "generated_at": "2026-05-25T14:24:39+00:00",
   "files": {
-    "papers.json": "45441508ed1bb8fe4c51b9b94099535f4f6cf957d12f923707f5488eda3e39e4",
-    "program.json": "1f440a9cd56d0df6584647f7e73560a91a28fb54c8e1277383c3a98d9578fb2e",
-    "posters.json": "ff5908300419d72fe53fc8b1246e4ce77e9f9f80abcdedc4bdf48a7621c6cd56",
+    "papers.json": "83f82dd39b8c051b341061174629b8d61a58098190efa5f0bf43ba646ffda57f",
+    "program.json": "a4a3f62252daada29160a7b766d0833c075349ab1ad488457398e751c46f453e",
+    "posters.json": "10e7f7673cbaa4dcf183770232facd56327553cbbb161530203509bfd5fcf51d",
     "paths.json": "def3d9b2ce57b789c0079258740af7d92be74af507aab1ec0251a78cbec38088",
-    "catalogo.json": "beeecac0496f6b9227d2043081b2230fae956b6a7599b35729473c30c445f872",
+    "catalogo.json": "54fbf6c00811e86fde72e5303fa3fc436863ef010b4f6cf40e1546c2ded0ef1d",
     "poi.json": "7a4046e6b90311f36ef4d84666b8f94504223cb574c287be170ae77a4f59f260"
   },
   "stats": {
