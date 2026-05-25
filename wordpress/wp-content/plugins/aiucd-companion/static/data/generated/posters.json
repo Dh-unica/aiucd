@@ -206,10 +206,13 @@
     "area_code": "archives",
     "area_label": "Archivi ed edizioni",
     "iscritto": true,
-    "photo": null,
-    "photos": [],
+    "photo": "assets/img/poster-authors/27.jpg",
+    "photos": [
+      "assets/img/poster-authors/27.jpg",
+      "assets/img/poster-authors/27-2.jpg"
+    ],
     "poster_pdf": null,
-    "consent_photo": false,
+    "consent_photo": true,
     "session": "2026-06-04T14:30",
     "area_label_en": "Archives and editions"
   },
@@ -580,10 +583,12 @@
     "area_code": "memories",
     "area_label": "Memorie, Storia, patrimonio",
     "iscritto": true,
-    "photo": null,
-    "photos": [],
+    "photo": "assets/img/poster-authors/82.jpg",
+    "photos": [
+      "assets/img/poster-authors/82.jpg"
+    ],
     "poster_pdf": null,
-    "consent_photo": false,
+    "consent_photo": true,
     "session": "2026-06-04T14:30",
     "area_label_en": "Memories and heritage"
   },
