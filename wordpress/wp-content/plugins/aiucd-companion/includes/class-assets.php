@@ -149,9 +149,20 @@ class AIUCD_Companion_Assets {
             : 'Posso guidarti tra le tre giornate di AIUCD 2026: percorsi, agenda, cose da fare a Cagliari.';
         $bub_x   = $is_en ? 'Close' : 'Chiudi';
 
-        // Glifo SVG inline — minimale, evita dipendenze da glyphs.css.
-        $icon = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
-              . '<path d="M12 2a7 7 0 0 0-7 7v3.27c0 .55-.22 1.08-.61 1.46L3 15.12V17h18v-1.88l-1.39-1.39A2.07 2.07 0 0 1 19 12.27V9a7 7 0 0 0-7-7Zm-2 18a2 2 0 1 0 4 0h-4Z" fill="currentColor"/>'
+        // Glifo Noa (memories) inline — identico a quello del FAB nel companion
+        // (span.glyph--memories → memories.svg). Inline per non dipendere da
+        // glyphs.css, che non è caricato fuori dalla pagina del companion.
+        $icon = '<svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false">'
+              . '<rect x="6" y="0" width="3" height="1"/><rect x="5" y="1" width="1" height="2"/>'
+              . '<rect x="9" y="1" width="1" height="2"/><rect x="6" y="3" width="3" height="1"/>'
+              . '<rect x="5" y="4" width="5" height="1"/><rect x="4" y="5" width="7" height="1"/>'
+              . '<rect x="11" y="5" width="2" height="1"/><rect x="4" y="6" width="7" height="1"/>'
+              . '<rect x="11" y="6" width="2" height="2"/><rect x="4" y="7" width="3" height="1"/>'
+              . '<rect x="8" y="7" width="3" height="1"/><rect x="4" y="8" width="3" height="1"/>'
+              . '<rect x="8" y="8" width="3" height="1"/><rect x="4" y="9" width="7" height="2"/>'
+              . '<rect x="5" y="11" width="5" height="2"/><rect x="5" y="13" width="1" height="2"/>'
+              . '<rect x="9" y="13" width="1" height="2"/><rect x="4" y="15" width="2" height="1"/>'
+              . '<rect x="9" y="15" width="2" height="1"/>'
               . '</svg>';
         ?>
         <a id="noa-fab-global"
