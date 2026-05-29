@@ -37,6 +37,7 @@ class AIUCD_PWA {
 		add_action( 'init',     array( __CLASS__, 'maybe_serve_virtual' ), 0 );
 		add_action( 'wp_head',  array( __CLASS__, 'head_tags' ), 5 );
 		add_action( 'wp_footer', array( __CLASS__, 'register_sw' ), 99 );
+		add_action( 'wp_footer', array( __CLASS__, 'install_ui' ), 100 );
 	}
 
 	/* --------------------------------------------------------------------- *
@@ -241,6 +242,187 @@ if ('serviceWorker' in navigator) {
       .catch(function (e) { console.warn('AIUCD PWA: SW registration failed', e); });
   });
 }
+</script>
+		<?php
+	}
+
+	/* --------------------------------------------------------------------- *
+	 * UI di installazione (banner "Installa l'app")
+	 * --------------------------------------------------------------------- */
+
+	/**
+	 * Inietta un banner dismissibile "Installa l'app" sulla pagina del companion.
+	 *
+	 * Razionale: il prompt nativo del browser è inaffidabile (Chrome lo mostra
+	 * una sola volta e poi lo sopprime ~90 giorni; iOS non lo mostra affatto).
+	 * Catturando `beforeinstallprompt` mostriamo una nostra CTA "Installa" che
+	 * riapre il dialog nativo on-demand; su iOS mostriamo le istruzioni manuali
+	 * (Condividi → Aggiungi a Home). Non possiamo forzare l'installazione dove
+	 * l'app è già installata o i criteri non sono soddisfatti: in quei casi il
+	 * banner semplicemente non appare.
+	 *
+	 * Stato "rifiutato" salvato in localStorage (30 gg) per non essere invadenti.
+	 */
+	public static function install_ui() {
+		if ( ! self::is_companion_page() ) {
+			return;
+		}
+
+		$lang  = self::current_lang();
+		$is_en = ( $lang === 'en' );
+		$icon  = self::assets_url() . 'icon-192.png';
+
+		$strings = $is_en ? array(
+			'title' => 'Install the AIUCD 2026 app',
+			'sub'   => 'Add it to your Home Screen: programme, map and your agenda always at hand, even offline.',
+			'cta'   => 'Install',
+			'ios'   => 'To install: tap Share, then “Add to Home Screen”.',
+			'close' => 'Close',
+		) : array(
+			'title' => 'Installa l’app AIUCD 2026',
+			'sub'   => 'Aggiungila alla schermata Home: programma, mappa e la tua agenda sempre a portata, anche offline.',
+			'cta'   => 'Installa',
+			'ios'   => 'Per installarla: tocca Condividi e poi «Aggiungi a Home».',
+			'close' => 'Chiudi',
+		);
+		?>
+<style>
+.aiucd-install-banner{
+  display:flex; align-items:center; gap:12px;
+  margin:12px; padding:12px 38px 12px 14px;
+  background:#fff; border:1px solid #e2e5ee; border-left:4px solid #000060;
+  border-radius:14px; box-shadow:0 6px 20px rgba(0,0,32,.08);
+  font-family:"Inter",system-ui,-apple-system,sans-serif; position:relative;
+}
+.aiucd-install-banner[hidden]{display:none;}
+.aiucd-install-icon{width:44px;height:44px;border-radius:10px;flex-shrink:0;}
+.aiucd-install-text{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1;}
+.aiucd-install-text strong{font-size:14px;color:#000060;font-weight:700;line-height:1.2;}
+.aiucd-install-sub{font-size:12px;color:#5b6478;line-height:1.35;}
+.aiucd-install-cta{
+  flex-shrink:0; border:0; cursor:pointer; background:#d8613c; color:#fff;
+  font:700 13px/1 "Inter",system-ui,-apple-system,sans-serif;
+  padding:10px 16px; border-radius:999px;
+  transition:background .15s ease, transform .15s ease;
+}
+.aiucd-install-cta:hover{background:#c2542f;transform:translateY(-1px);}
+.aiucd-install-cta:active{transform:translateY(0);}
+.aiucd-install-cta:focus-visible{outline:2px solid #000060;outline-offset:2px;}
+.aiucd-install-close{
+  position:absolute; top:6px; right:8px; border:0; background:transparent;
+  cursor:pointer; font-size:20px; line-height:1; color:#9aa1b2;
+  width:28px; height:28px; border-radius:50%;
+}
+.aiucd-install-close:hover{color:#5b6478;background:#f1f2f6;}
+.aiucd-install-banner--ios .aiucd-install-cta{display:none;}
+@media (max-width:420px){
+  .aiucd-install-text strong{font-size:13px;}
+  .aiucd-install-sub{font-size:11px;}
+  .aiucd-install-cta{padding:9px 13px;font-size:12px;}
+}
+@media (prefers-reduced-motion:reduce){
+  .aiucd-install-cta{transition:none;}
+}
+</style>
+<script>
+(function () {
+  var S    = <?php echo wp_json_encode( $strings ); ?>;
+  var ICON = <?php echo wp_json_encode( esc_url_raw( $icon ) ); ?>;
+  var DISMISS_KEY = 'aiucd-pwa-install-dismissed';
+  var DISMISS_DAYS = 30;
+
+  function isStandalone() {
+    return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+           window.navigator.standalone === true;
+  }
+  // Già installata → niente banner.
+  if (isStandalone()) return;
+  // Rifiutata di recente → rispetta la scelta.
+  try {
+    var d = localStorage.getItem(DISMISS_KEY);
+    if (d && (Date.now() - parseInt(d, 10)) < DISMISS_DAYS * 864e5) return;
+  } catch (e) {}
+
+  var ua = navigator.userAgent || '';
+  var isIOS = /iphone|ipad|ipod/i.test(ua) ||
+              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  var deferred = null;
+  var banner = null;
+
+  function persistDismiss() {
+    try { localStorage.setItem(DISMISS_KEY, String(Date.now())); } catch (e) {}
+  }
+  function dismiss() {
+    persistDismiss();
+    if (banner) banner.hidden = true;
+  }
+  function ready(fn) {
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+  function build(mode) {
+    if (banner) return banner;
+    var root = document.getElementById('aiucd-companion-root') || document.body;
+    banner = document.createElement('div');
+    banner.className = 'aiucd-install-banner' + (mode === 'ios' ? ' aiucd-install-banner--ios' : '');
+    banner.setAttribute('role', 'region');
+    banner.setAttribute('aria-label', S.title);
+    banner.hidden = true;
+
+    var img = document.createElement('img');
+    img.className = 'aiucd-install-icon'; img.src = ICON; img.alt = '';
+    var txt = document.createElement('div'); txt.className = 'aiucd-install-text';
+    var strong = document.createElement('strong'); strong.textContent = S.title;
+    var sub = document.createElement('span'); sub.className = 'aiucd-install-sub';
+    sub.textContent = (mode === 'ios' ? S.ios : S.sub);
+    txt.appendChild(strong); txt.appendChild(sub);
+    var cta = document.createElement('button');
+    cta.type = 'button'; cta.className = 'aiucd-install-cta'; cta.textContent = S.cta;
+    var close = document.createElement('button');
+    close.type = 'button'; close.className = 'aiucd-install-close';
+    close.setAttribute('aria-label', S.close); close.innerHTML = '&times;';
+
+    cta.addEventListener('click', function () {
+      if (!deferred) return;
+      deferred.prompt();
+      deferred.userChoice.then(function (choice) {
+        if (choice && choice.outcome === 'accepted') {
+          if (banner) banner.hidden = true;
+        } else {
+          dismiss();
+        }
+        deferred = null;
+      });
+    });
+    close.addEventListener('click', dismiss);
+
+    banner.appendChild(img); banner.appendChild(txt);
+    banner.appendChild(cta); banner.appendChild(close);
+    root.insertBefore(banner, root.firstChild);
+    return banner;
+  }
+  function show(mode) {
+    ready(function () { build(mode).hidden = false; });
+  }
+
+  // Android / Chromium: cattura l'evento e mostra la CTA "Installa".
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferred = e;
+    show('android');
+  });
+  // Installata con successo → nascondi e ricorda.
+  window.addEventListener('appinstalled', function () {
+    persistDismiss();
+    if (banner) banner.hidden = true;
+    deferred = null;
+  });
+  // iOS: nessun beforeinstallprompt → istruzioni manuali (solo se non già a Home).
+  if (isIOS) {
+    ready(function () { if (!isStandalone()) show('ios'); });
+  }
+})();
 </script>
 		<?php
 	}
