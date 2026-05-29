@@ -59,6 +59,19 @@ function buildPhotoMarkup(photos, alt) {
     .join("");
 }
 
+// ---------------------------------------------------------------------------
+// Anteprima poster
+//
+// I poster sono archiviati in formato aperto nella community Zenodo aiucd2026,
+// ma l'endpoint file di Zenodo è rate-limited/instabile e i file hanno
+// `x-frame-options: sameorigin` (niente <iframe>) e pesano anche decine di MB.
+// Per questo la pipeline (scripts/match_zenodo_posters.py) genera un'ANTEPRIMA
+// LEGGERA della 1ª pagina (JPG ridimensionato) salvata in
+// companion/assets/poster-files/<id>.jpg (campo `poster_file`): la mostriamo con
+// un semplice <img>. Il poster completo si apre dal link "Apri su Zenodo"
+// (pagina record, con DOI).
+// ---------------------------------------------------------------------------
+
 let _state = {
   data: null,
   root: null,
@@ -561,6 +574,22 @@ function openPoster(poster) {
         <div class="ps-section">
           <h4>Abstract</h4>
           <div class="ps-abstract">${escapeHtml(poster.abstract.slice(0, 800))}${poster.abstract.length > 800 ? "…" : ""}</div>
+        </div>
+      ` : ""}
+      ${poster.zenodo_url ? `
+        <div class="ps-section ps-poster-file">
+          <h4>${t("poster.file_heading")}</h4>
+          ${poster.poster_file ? `
+            <div class="ps-poster-preview">
+              <a href="${poster.zenodo_url}" target="_blank" rel="noopener" class="ps-poster-imglink"
+                 title="${escapeHtml(t("poster.open_zenodo"))}">
+                <img src="${ASSET_BASE}${poster.poster_file}" alt="${escapeHtml(poster.title)}" loading="lazy">
+              </a>
+            </div>
+          ` : ""}
+          <a class="ps-zenodo-link" href="${poster.zenodo_url}" target="_blank" rel="noopener">
+            ${t("poster.open_zenodo")} ↗
+          </a>
         </div>
       ` : ""}
       ${related.length > 0 ? `

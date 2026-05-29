@@ -120,6 +120,8 @@
   "poster.view.gallery": "Gallery",
   "poster.view.graph": "Graph",
   "poster.view.grid": "Grid",
+  "poster.file_heading": "The poster",
+  "poster.open_zenodo": "Open on Zenodo",
 
   "talk.in_agenda": "In agenda",
   "talk.add_to_agenda": "Add to agenda",

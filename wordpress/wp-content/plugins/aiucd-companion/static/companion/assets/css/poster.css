@@ -339,6 +339,33 @@
   color: var(--ink);
 }
 
+/* --- Anteprima poster: immagine della 1ª pagina (locale) + link a Zenodo --- */
+.poster-side .ps-poster-file .ps-poster-preview {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  background: var(--base);
+}
+.poster-side .ps-poster-imglink { display: block; width: 100%; }
+.poster-side .ps-poster-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform var(--t-fast);
+}
+.poster-side .ps-poster-preview a:hover img { transform: scale(1.02); }
+.poster-side .ps-zenodo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: none;
+}
+.poster-side .ps-zenodo-link:hover { text-decoration: underline; }
+
 .poster-side .ps-related h4 { margin-bottom: 10px; }
 .poster-side .related-grid {
   display: grid;
