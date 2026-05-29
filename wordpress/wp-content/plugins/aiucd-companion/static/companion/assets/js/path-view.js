@@ -105,12 +105,19 @@ function renderMyAgenda() {
   const postersById = new Map((_mineState.data.posters || []).map(p => [p.id, p]));
   const items = [];
   const posterItems = [];
+  // Contributi salvati che non hanno uno slot in programma e non sono in
+  // posters.json (es. orali non schedulati, o il poster #146 assente dal
+  // foglio POSTER). Senza questa terza categoria finivano contati dal badge
+  // ma invisibili nella lista → il numero non coincideva.
+  const otherItems = [];
   for (const id of ids) {
     const slot = findSlot(_mineState.data, id);
     if (slot) {
       items.push({ id, ...slot });
     } else if (postersById.has(id)) {
       posterItems.push(postersById.get(id));
+    } else {
+      otherItems.push(id);
     }
   }
 
@@ -176,18 +183,30 @@ function renderMyAgenda() {
     traveler = isEn ? "Done for today: all the talks in your agenda are over." : "Per oggi è fatta: tutte le relazioni in agenda sono già passate.";
   }
 
-  const totalCount = items.length + posterItems.length;
+  const totalCount = items.length + posterItems.length + otherItems.length;
   let bannerLabel;
-  if (posterItems.length === 0) {
+  // Categorie effettivamente presenti, in ordine talk → poster → altri.
+  const segments = [];
+  if (items.length) {
+    segments.push(isEn ? `${items.length} talk${items.length === 1 ? "" : "s"}` : `${items.length} relazion${items.length === 1 ? "e" : "i"}`);
+  }
+  if (posterItems.length) {
+    segments.push(`${posterItems.length} poster${isEn && posterItems.length !== 1 ? "s" : ""}`);
+  }
+  if (otherItems.length) {
+    segments.push(isEn ? `${otherItems.length} other${otherItems.length === 1 ? "" : "s"}` : `${otherItems.length} altr${otherItems.length === 1 ? "o" : "i"}`);
+  }
+  if (segments.length <= 1 && items.length && !posterItems.length && !otherItems.length) {
+    // Solo relazioni: dicitura piena classica.
     bannerLabel = isEn ? "talks in your agenda" : "relazioni in agenda";
-  } else if (items.length === 0) {
+  } else if (segments.length <= 1 && posterItems.length && !items.length && !otherItems.length) {
+    // Solo poster.
     bannerLabel = isEn
       ? (posterItems.length === 1 ? "poster in your agenda" : "posters in your agenda")
-      : (posterItems.length === 1 ? "poster in agenda" : "poster in agenda");
+      : "poster in agenda";
   } else {
-    bannerLabel = isEn
-      ? `in your agenda · ${items.length} talk${items.length === 1 ? "" : "s"} + ${posterItems.length} poster${posterItems.length === 1 ? "" : "s"}`
-      : `in agenda · ${items.length} talk + ${posterItems.length} poster`;
+    // Mix di categorie: mostra la ripartizione.
+    bannerLabel = (isEn ? "in your agenda · " : "in agenda · ") + segments.join(" + ");
   }
 
   const postersTitle = isEn ? "Posters to see" : "Poster da vedere";
@@ -215,6 +234,15 @@ function renderMyAgenda() {
         <h3>${postersTitle}</h3>
         <p class="my-agenda-posters-hint">${postersHint}</p>
         ${posterItems.map(p => myAgendaPosterRow(p)).join("")}
+      </div>
+    ` : ""}
+    ${otherItems.length > 0 ? `
+      <div class="my-agenda-day my-agenda-others">
+        <h3>${isEn ? "Other saved contributions" : "Altri contributi salvati"}</h3>
+        <p class="my-agenda-posters-hint">${isEn
+          ? "Not scheduled in the programme grid."
+          : "Senza orario nella griglia del programma."}</p>
+        ${otherItems.map(id => myAgendaOtherRow(id)).join("")}
       </div>
     ` : ""}
   `;
@@ -258,6 +286,23 @@ function renderMyAgenda() {
     });
   });
 
+  // Wire "altri contributi" rows (aprono la modale del talk se il paper esiste)
+  root.querySelectorAll(".my-agenda-row[data-other-id]").forEach(row => {
+    row.addEventListener("click", e => {
+      if (e.target.closest(".remove-btn")) return;
+      const pid = parseInt(row.dataset.otherId, 10);
+      const paper = _mineState.data.papersById.get(pid);
+      if (paper && _mineState.onTalkClick) _mineState.onTalkClick(paper, null, null, null);
+    });
+  });
+  root.querySelectorAll(".remove-btn[data-other-id]").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      const pid = parseInt(btn.dataset.otherId, 10);
+      agenda.toggle(pid);
+    });
+  });
+
   // Calendar export menu (Google / Apple / Outlook / .ics)
   const calBtn = root.querySelector("#export-cal");
   if (calBtn) calBtn.addEventListener("click", e => {
@@ -293,6 +338,36 @@ function myAgendaRow(it, status, isConflict) {
         <span class="who">${escapeHtml(authors)}</span>
       </div>
       <button class="remove-btn" data-paper-id="${paper.id}" aria-label="Rimuovi" title="Rimuovi dall'agenda">×</button>
+    </div>
+  `;
+}
+
+function myAgendaOtherRow(id) {
+  const isEn = getLang() === "en";
+  const paper = _mineState.data.papersById.get(id);
+  // ID salvato ma non più presente nei dati (build vecchia): riga minimale
+  // così l'utente può comunque rimuoverlo.
+  if (!paper) {
+    return `
+      <div class="my-agenda-row my-agenda-row--other">
+        <div class="when"><span class="poster-tag">${isEn ? "n/a" : "n.d."}</span></div>
+        <div class="what">
+          <span class="talk-id">#${id}</span>${isEn ? "Contribution not available" : "Contributo non disponibile"}
+        </div>
+        <button class="remove-btn" data-other-id="${id}" aria-label="${isEn ? "Remove" : "Rimuovi"}" title="${isEn ? "Remove from agenda" : "Rimuovi dall'agenda"}">×</button>
+      </div>
+    `;
+  }
+  const authors = (paper.authors || []).slice(0, 2).map(a => a.name).join(", ");
+  const tag = paper.mode === "Poster" ? "Poster" : (isEn ? "Talk" : "Relazione");
+  return `
+    <div class="my-agenda-row my-agenda-row--other" data-other-id="${paper.id}">
+      <div class="when"><span class="poster-tag">${tag}</span></div>
+      <div class="what">
+        <span class="talk-id">#${paper.id}</span>${escapeHtml(paper.title)}
+        <span class="who">${escapeHtml(authors)}</span>
+      </div>
+      <button class="remove-btn" data-other-id="${paper.id}" aria-label="${isEn ? "Remove" : "Rimuovi"}" title="${isEn ? "Remove from agenda" : "Rimuovi dall'agenda"}">×</button>
     </div>
   `;
 }
