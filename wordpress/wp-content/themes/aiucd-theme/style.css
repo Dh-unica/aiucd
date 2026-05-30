@@ -4,7 +4,7 @@ Theme URI: https://example.org/
 Description: Child theme for Twenty Twenty-Four with custom feature symbol.
 Author: Unica-dh
 Template: twentytwentyfour
-Version: 1.3
+Version: 1.4
 */
 
 /* Add custom child theme styles below. Parent styles are enqueued from the child functions.php */
@@ -426,18 +426,26 @@ ul#menu-menu-en a:hover {
    HEADER MOBILE COMPATTO
    (cfr. aiucd_stats/PIANO_header_mobile_compatto.md)
 
-   Obiettivo: ridurre l'altezza dell'header su mobile (~205px → ~125px),
-   recuperando spazio verticale prima del contenuto.
-   - logo a sinistra (già 60px nel template, fissa l'altezza);
-   - titolo testuale nascosto (ridondante col logo);
-   - chip countdown + agenda in linea sulla riga del logo (non più a tutta
-     larghezza su una riga propria);
-   - menu hamburger + bandierine sulla riga sotto.
+   Obiettivo: ridurre l'altezza dell'header su mobile (~205px → ~95px, ≈ logo),
+   recuperando spazio verticale prima del contenuto. Layout target ≤768px:
 
-   Solo CSS: il markup dell'header è un override del Site Editor in DB
-   (wp_template_part "header", ID 125 di aiucd-theme) e NON è modificabile dal
-   file parts/header.html; questi selettori agiscono sul DOM renderizzato.
-   Tutto scoped a ≤768px: nessun impatto sul layout desktop.
+     ┌──────────────────────────────────────────────┐
+     │  [LOGO]                       ☰  🇬🇧 🇮🇹        │ riga 1: menu + bandiere
+     │  ~60px                        ▸ -N GIORNI  ★   │ riga 2: countdown + agenda
+     └──────────────────────────────────────────────┘
+
+   - logo a sinistra (60px nel template, fissa l'altezza);
+   - titolo testuale nascosto (ridondante col logo);
+   - colonna destra (gruppo nav: menu + bandiere + chip) su 2 righe, a destra.
+
+   I chip #aiucd-site-widgets vengono ancorati nel gruppo destro su mobile da
+   site-widgets.js (mu-plugin, breakpoint-aware): qui li disponiamo su una riga
+   propria (riga 2) all'interno di quel gruppo.
+
+   NB: il markup dell'header è un override del Site Editor in DB (wp_template_part
+   "header" ID 125 di aiucd-theme), NON editabile da parts/header.html; questi
+   selettori + la modifica JS agiscono sul DOM renderizzato. Scoped ≤768px:
+   desktop invariato.
    ======================================== */
 @media (max-width: 768px) {
 	/* Titolo testuale nascosto: resta solo il logo a rappresentare il brand */
@@ -445,26 +453,44 @@ ul#menu-menu-en a:hover {
 		display: none !important;
 	}
 
-	/* Chip countdown/agenda in linea a destra sulla riga del logo,
-	   invece di occupare una riga propria a tutta larghezza (che è la causa
-	   principale dell'altezza extra dell'header). */
-	header #aiucd-site-widgets.aiucd-site-widgets--inline {
+	/* Riga esterna logo|colonna-destra: niente wrap, così la colonna destra
+	   resta accanto al logo invece di scendere sotto. */
+	header .wp-block-group.alignwide.is-content-justification-space-between {
+		flex-wrap: nowrap !important;
+		align-items: center !important;
+	}
+
+	/* Gruppo destro (menu + bandiere + chip) = colonna a 2 righe, a destra */
+	header .wp-block-group.is-content-justification-space-between:not(.alignwide) {
+		flex-wrap: wrap !important;
+		justify-content: flex-end !important;
+		align-items: center !important;
+		row-gap: 4px !important;
+		column-gap: 8px !important;
 		flex: 0 1 auto !important;
-		width: auto !important;
-		margin-left: auto !important;
+	}
+
+	/* Ordine riga 1: bandiere a sinistra, hamburger tutto a destra.
+	   I chip (order 3) restano in coda → riga 2 (flex-basis 100%). */
+	header .polylang-switcher { order: 1 !important; }
+	header .menu-menu-it-container,
+	header .menu-menu-en-container { order: 2 !important; }
+	header #aiucd-site-widgets.aiucd-site-widgets--inline { order: 3 !important; }
+
+	/* Chip countdown/agenda su una riga propria (riga 2) dentro la colonna
+	   destra, allineati a destra. */
+	header #aiucd-site-widgets.aiucd-site-widgets--inline {
+		flex: 0 0 100% !important;
+		width: 100% !important;
+		display: flex !important;
+		justify-content: flex-end !important;
+		margin: 0 !important;
 	}
 
 	/* Padding verticale dell'header ridotto */
 	header .wp-block-group.has-base-background-color.has-background {
-		padding-top: 8px !important;
-		padding-bottom: 8px !important;
-	}
-
-	/* Gap tra le righe dell'header più compatto */
-	header > div:first-child,
-	header > div:last-child {
-		gap: 6px !important;
-		row-gap: 6px !important;
+		padding-top: 6px !important;
+		padding-bottom: 6px !important;
 	}
 }
 

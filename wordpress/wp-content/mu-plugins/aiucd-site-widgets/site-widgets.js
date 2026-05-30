@@ -29,23 +29,33 @@
   // creiamo dinamicamente lo slot e lo inseriamo nel header del tema FSE
   // attivo; in fallback estremo, mostriamo il widget come banner flottante
   // top-right (mai bloccante, sempre dismissibile con un click esterno).
-  function ensureSlot() {
-    // Punto di ancoraggio preferito: il flex container del BRAND (riga 1
-    // dell'header), che contiene logo + site-title. Appendendovi i chip
-    // come ultimo figlio e portando il container a width:100% via CSS, il
-    // sub-gruppo "nav + polylang" finisce automaticamente sulla riga sotto.
-    // Risultato: chip a destra, sulla stessa riga del brand, sopra il menu
-    // e le bandierine — senza absolute, senza padding-reserve.
+  // Sceglie il contenitore in cui ancorare i chip in base al breakpoint:
+  // mobile → gruppo destro (nav+polylang); desktop → brand-row (logo).
+  function pickWidgetAnchor() {
+    const pll = document.querySelector(".polylang-switcher");
+    const navGroup = pll && pll.closest(".wp-block-group");
     const brand = document.querySelector(".wp-block-site-logo, .wp-block-site-title");
     const brandRow = brand && brand.closest(".wp-block-group");
+    const mobile = window.matchMedia("(max-width: 768px)").matches;
+    return mobile ? (navGroup || brandRow) : (brandRow || navGroup);
+  }
+
+  function ensureSlot() {
+    // PIANO header compatto: l'ancoraggio dei chip dipende dal breakpoint.
+    //  - DESKTOP: brand-row (riga del logo), come storicamente → header invariato.
+    //  - MOBILE (<=768px): gruppo DESTRO (con menu + bandierine), così la colonna
+    //    destra si impila su 2 righe (lingua+menu / countdown+agenda) e l'header
+    //    resta alto quanto il logo.
+    // Al cambio di breakpoint i chip vengono ri-ancorati (vedi listener sotto),
+    // senza mai ricreare il widget (si preservano stato ed event listener).
+    const anchor = pickWidgetAnchor();
 
     let s = document.getElementById("aiucd-site-widgets");
     if (s) {
-      // Slot pre-esistente nel tema (es. aiucd-theme via header.html FSE).
-      // Lo spostiamo nel brand row se non è già lì, così il layout è
-      // coerente tra temi che hanno lo slot pre-inserito e temi che no.
-      if (brandRow && s.parentElement !== brandRow) {
-        brandRow.appendChild(s);
+      // Slot pre-esistente nel markup (aiucd-theme: già nel gruppo destro).
+      // Lo portiamo nell'anchor solo se non ci è già.
+      if (anchor && s.parentElement !== anchor) {
+        anchor.appendChild(s);
       }
       if (s.closest("header")) {
         s.classList.add("aiucd-site-widgets--inline");
@@ -57,17 +67,9 @@
     s.className = "aiucd-site-widgets";
     s.setAttribute("aria-label", "Stato convegno AIUCD 2026");
 
-    // 1. Brand row: posizionamento ideale (riga 1, accanto a logo+title)
-    if (brandRow) {
-      brandRow.appendChild(s);
-      s.classList.add("aiucd-site-widgets--inline");
-      return s;
-    }
-
-    // 2. Fallback: container del Polylang switcher (riga nav)
-    const pll = document.querySelector(".polylang-switcher");
-    if (pll && pll.parentElement) {
-      pll.parentElement.appendChild(s);
+    // 1. Gruppo destro (nav + polylang) o, in fallback, brand-row
+    if (anchor) {
+      anchor.appendChild(s);
       s.classList.add("aiucd-site-widgets--inline");
       return s;
     }
@@ -97,6 +99,23 @@
 
   const slot = ensureSlot();
   if (!slot) return;
+
+  // Ri-ancoraggio responsive: al passaggio mobile<->desktop spostiamo lo slot
+  // (con tutto il suo contenuto e i listener) nel contenitore giusto, senza
+  // ricrearlo. Così desktop e mobile usano due posizioni diverse nello stesso
+  // DOM con una sola istanza del widget.
+  try {
+    const mq = window.matchMedia("(max-width: 768px)");
+    const reanchor = () => {
+      const target = pickWidgetAnchor();
+      if (target && slot.parentElement !== target) {
+        target.appendChild(slot);
+        if (slot.closest("header")) slot.classList.add("aiucd-site-widgets--inline");
+      }
+    };
+    if (mq.addEventListener) mq.addEventListener("change", reanchor);
+    else if (mq.addListener) mq.addListener(reanchor);
+  } catch (e) { /* matchMedia non disponibile: resta l'ancoraggio iniziale */ }
 
   // I chip in modalità inline stanno in flow statico su una propria riga
   // allineati a destra (vedi site-widgets.css → .aiucd-site-widgets--inline).
