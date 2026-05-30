@@ -594,10 +594,10 @@
       "assets/img/poster-authors/70.jpg"
     ],
     "poster_pdf": null,
-    "poster_file": null,
-    "poster_file_type": null,
-    "zenodo_url": null,
-    "zenodo_doi": null,
+    "poster_file": "assets/poster-files/70.jpg?v=5f3ccd77",
+    "poster_file_type": "image",
+    "zenodo_url": "https://zenodo.org/records/20459837",
+    "zenodo_doi": "10.5281/zenodo.20459837",
     "consent_photo": true,
     "session": "2026-06-04T14:30",
     "area_label_en": "Archives and editions"
