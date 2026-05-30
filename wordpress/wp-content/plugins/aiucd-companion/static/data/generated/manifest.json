@@ -1,13 +1,13 @@
 {
-  "version": "20260530-1810",
-  "generated_at": "2026-05-30T16:10:55+00:00",
+  "version": "20260530-1855",
+  "generated_at": "2026-05-30T16:55:33+00:00",
   "files": {
     "papers.json": "83f82dd39b8c051b341061174629b8d61a58098190efa5f0bf43ba646ffda57f",
     "program.json": "a4a3f62252daada29160a7b766d0833c075349ab1ad488457398e751c46f453e",
     "posters.json": "b565b037a907a426b1da89ceeaa418e5c6ace927f47de8e5c4ad1377106dafea",
     "paths.json": "def3d9b2ce57b789c0079258740af7d92be74af507aab1ec0251a78cbec38088",
     "catalogo.json": "54fbf6c00811e86fde72e5303fa3fc436863ef010b4f6cf40e1546c2ded0ef1d",
-    "poi.json": "2723925be7d0262c2bc1eca2fd1f929799e889fa91b0f1f404ac442621d275e3"
+    "poi.json": "8148f81007eff3b06e3ffa001c978131e792ba8b5bf6f0f528f233daccb7dfe4"
   },
   "stats": {
     "talks_total": 134,
