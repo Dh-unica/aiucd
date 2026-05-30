@@ -79,7 +79,7 @@
       "lat": 39.22649112083233,
       "lon": 9.111942527787507,
       "image_url": "https://cagliariturismo.comune.cagliari.it/sites/default/files/2022-06/268.%20Punto%20panoramico%20di%20Viale%20Buoncammino.jpg",
-      "description": "Centro culturale che ospita mostre, spettacoli e convegni. Sorge sui bastioni di Santa Croce, tra la via Santa Croce e il Cammino Nuovo, nel settore occidentale delle fortificazioni di Castello.",
+      "description": "Il Viale Buoncammino è una delle passeggiate più suggestive di Cagliari, famosa per la sua vista panoramica a 360 gradi sulla città, sullo stagno di Santa Gilla e sul Golfo degli Angeli",
       "distance_m": 336,
       "walking_min": 4,
       "driving_min": 7,
@@ -88,7 +88,7 @@
       "thumb": "assets/img/poi/buoncammino.thumb.jpg",
       "image_remote": false,
       "name_en": "Buoncammino",
-      "description_en": "A cultural centre hosting exhibitions, performances and conferences. It rises on the Santa Croce bastions, between Via Santa Croce and Cammino Nuovo, in the western sector of the Castello fortifications.",
+      "description_en": "Viale Buoncammino is one of the most scenic walks in Cagliari, famous for its 360-degree panoramic view over the city, the Santa Gilla lagoon and the Gulf of Angels.",
       "type_label_en": "Belvedere / aperitif"
     },
     {
@@ -119,7 +119,7 @@
       "lat": 39.22047066598198,
       "lon": 9.11473497997071,
       "image_url": "https://www.comune.cagliari.it/portale/protected/12364/0/def/ref/LGO12213/",
-      "description": null,
+      "description": "Centro culturale che ospita mostre, spettacoli e convegni. Sorge sui bastioni di Santa Croce, tra la via Santa Croce e il Cammino Nuovo, nel settore occidentale delle fortificazioni di Castello.",
       "distance_m": 1248,
       "walking_min": 17,
       "driving_min": 10,
@@ -128,6 +128,7 @@
       "thumb": "assets/img/poi/centro-comunale-d-arte-il-ghetto.thumb.jpg",
       "image_remote": false,
       "name_en": "Il Ghetto Municipal Art Centre",
+      "description_en": "A cultural centre hosting exhibitions, performances and conferences. It rises on the Santa Croce bastions, between Via Santa Croce and Cammino Nuovo, in the western sector of the Castello fortifications.",
       "type_label_en": "Cultural"
     },
     {
