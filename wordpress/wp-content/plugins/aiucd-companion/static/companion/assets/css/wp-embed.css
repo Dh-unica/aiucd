@@ -105,3 +105,13 @@ body.aiucd-companion-page.admin-bar #aiucd-companion-root > .topbar {
 body.aiucd-companion-page .noa-fab {
   bottom: clamp(16px, 4vh, 32px);
 }
+
+/* Su mobile (≤767px) compare la bottom-nav fissa (alta ~64px + safe-area):
+ * la regola desktop qui sopra (bottom ≤32px) lascia il FAB DENTRO la nav, dove
+ * si sovrappone all'ultima tab ("Cifre"). Lo solleviamo sopra la nav.
+ * Stessa specificità della regola sopra ma successiva → vince su mobile. */
+@media (max-width: 767px) {
+  body.aiucd-companion-page .noa-fab {
+    bottom: calc(64px + env(safe-area-inset-bottom) + 16px);
+  }
+}

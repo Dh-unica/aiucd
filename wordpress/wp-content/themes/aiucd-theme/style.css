@@ -4,7 +4,7 @@ Theme URI: https://example.org/
 Description: Child theme for Twenty Twenty-Four with custom feature symbol.
 Author: Unica-dh
 Template: twentytwentyfour
-Version: 1.2
+Version: 1.3
 */
 
 /* Add custom child theme styles below. Parent styles are enqueued from the child functions.php */
@@ -419,6 +419,52 @@ ul#menu-menu-en a:hover {
 		display: block !important; /* Sempre visibili su mobile */
 		opacity: 1 !important;
 		visibility: visible !important;
+	}
+}
+
+/* ========================================
+   HEADER MOBILE COMPATTO
+   (cfr. aiucd_stats/PIANO_header_mobile_compatto.md)
+
+   Obiettivo: ridurre l'altezza dell'header su mobile (~205px → ~125px),
+   recuperando spazio verticale prima del contenuto.
+   - logo a sinistra (già 60px nel template, fissa l'altezza);
+   - titolo testuale nascosto (ridondante col logo);
+   - chip countdown + agenda in linea sulla riga del logo (non più a tutta
+     larghezza su una riga propria);
+   - menu hamburger + bandierine sulla riga sotto.
+
+   Solo CSS: il markup dell'header è un override del Site Editor in DB
+   (wp_template_part "header", ID 125 di aiucd-theme) e NON è modificabile dal
+   file parts/header.html; questi selettori agiscono sul DOM renderizzato.
+   Tutto scoped a ≤768px: nessun impatto sul layout desktop.
+   ======================================== */
+@media (max-width: 768px) {
+	/* Titolo testuale nascosto: resta solo il logo a rappresentare il brand */
+	header .wp-block-site-title {
+		display: none !important;
+	}
+
+	/* Chip countdown/agenda in linea a destra sulla riga del logo,
+	   invece di occupare una riga propria a tutta larghezza (che è la causa
+	   principale dell'altezza extra dell'header). */
+	header #aiucd-site-widgets.aiucd-site-widgets--inline {
+		flex: 0 1 auto !important;
+		width: auto !important;
+		margin-left: auto !important;
+	}
+
+	/* Padding verticale dell'header ridotto */
+	header .wp-block-group.has-base-background-color.has-background {
+		padding-top: 8px !important;
+		padding-bottom: 8px !important;
+	}
+
+	/* Gap tra le righe dell'header più compatto */
+	header > div:first-child,
+	header > div:last-child {
+		gap: 6px !important;
+		row-gap: 6px !important;
 	}
 }
 

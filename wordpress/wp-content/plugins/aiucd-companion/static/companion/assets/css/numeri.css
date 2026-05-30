@@ -19,6 +19,18 @@
   padding: 56px 28px 84px;
   margin-bottom: -48px;
 }
+
+/* Difesa dal tema host (embed): style.css del tema applica a ≤768px
+   `header, header > div:last-child { display: flex !important }` — regola
+   pensata per l'header del sito ma il selettore generico `header` cattura
+   anche la nostra hero, che È un <header>, impilando eyebrow/titolo/lead in
+   riga e mandando il testo fuori dal viewport su mobile. Riaffermiamo il
+   layout verticale per cui la hero è progettata. !important obbligato per
+   battere il !important del tema (a pari specificità vinciamo per selettore). */
+.num-host .num-hero,
+.num-host .num-hero .hero-inner {
+  display: block !important;
+}
 .num-host .num-hero::before {
   content: "";
   position: absolute; inset: 0;
