@@ -31,6 +31,10 @@ class AIUCD_Companion_Shortcode {
           window.AIUCD_LANG     = <?php echo wp_json_encode( $lang ); ?>;
           window.AIUCD_BASE_URL = <?php echo wp_json_encode( $base_url ); ?>;
           window.AIUCD_DATA_URL = <?php echo wp_json_encode( $data_url ); ?>;
+          // Endpoint REST per la persistenza dell'agenda in un cookie server-set
+          // (resiste al cap di 7 giorni che Safari/ITP impone a localStorage).
+          // URL identico per tutti gli utenti → sicuro anche con page cache.
+          window.AIUCD_REST_AGENDA = <?php echo wp_json_encode( esc_url_raw( rest_url( AIUCD_Companion_Rest::ROUTE_NS . AIUCD_Companion_Rest::ROUTE ) ) ); ?>;
         </script>
         <div id="aiucd-companion-root" data-lang="<?php echo esc_attr( $lang ); ?>">
         <?php

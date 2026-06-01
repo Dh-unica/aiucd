@@ -23,11 +23,13 @@ define( 'AIUCD_COMPANION_URL', plugin_dir_url( __FILE__ ) );
 require_once AIUCD_COMPANION_DIR . 'includes/class-shortcode.php';
 require_once AIUCD_COMPANION_DIR . 'includes/class-assets.php';
 require_once AIUCD_COMPANION_DIR . 'includes/class-polylang.php';
+require_once AIUCD_COMPANION_DIR . 'includes/class-rest.php';
 
 add_action( 'plugins_loaded', function () {
     AIUCD_Companion_Shortcode::register();
     AIUCD_Companion_Assets::register();
     AIUCD_Companion_Polylang::register();
+    AIUCD_Companion_Rest::register();
 } );
 
 register_activation_hook( __FILE__, function () {
