@@ -814,23 +814,6 @@
     "area_label_en": "Archives and editions"
   },
   {
-    "id": 43,
-    "title": "Cultural heritage e rivoluzione digitale",
-    "abstract": "A dispetto di una sistematica del Codice dei beni culturali, che relega in posizione di marginalità complessiva la funzione di valorizzazione rispetto a quella della tutela, appare oggi indiscutibile l’incremento di strumenti e tecniche di valorizzazione del patrimonio culturale. Fra questi, un ruolo di grande rilievo assumono le strategie comunicative intro-dotte dalla rivoluzione digitale, in linea con un dibattito in cui il diritto ad una partecipa-zione culturale acquista il ruolo di carattere decisivo per l’esercizio delle funzioni democratiche.\nL’intervento esaminerà l’ampio ventaglio di possibilità aperto dalla rivoluzione digi-tale in relazione ai beni paesaggistici: dalla predisposizione di servizi personalizzati mediante contenuti georeferenziati, ai virtual tour delle aree protette, alla metodologia HBIM per la raffigurazione tridimensionale dei beni. Inoltre, verrà esaminato il livello di sviluppo della digitalizzazione del patrimonio in relazione agli interventi della pubblica amministrazione, investigando strumenti come il Vademecum per il trattamento delle fonti orali, le Linee guida per la digitalizzazione del patrimonio culturale, le differenti versioni del Piano Nazionale di Digitalizzazione del patrimonio culturale, sino alle prospettive configurate dai finanziamenti del PNRR. Altresì verranno esaminate gli scenari, aperti dalla fusione tra la dimensione materiale e digitale (c.d. patrimonio culturale phygital), per i paradigmi tradizionali del diritto del patrimonio culturale, sul piano della valorizzazione come dell’immaterialità del bene.\nInfine sarà illustrato il significato della tecnologia digitale, per l’attuazione dell’art. 9 della Costituzione italiana, vale a dire di quel principio fondamentale del nostro ordinamento giuridico che richiama le istituzioni ad un ruolo attivo nella promozione dello sviluppo della cultura, sul presupposto dell’accesso collettivo al sapere come fattore costitutivo di autentica cittadinanza politica.",
-    "mode": "Oral communication",
-    "area_code": "memories",
-    "area_label": "Memorie, Storia, patrimonio",
-    "area_full": "Memories, History, and digital cultural heritage",
-    "authors": [
-      {
-        "name": "Mario Fiorillo",
-        "aff": "Università degli studi di Teramo"
-      }
-    ],
-    "gigliozzi": false,
-    "area_label_en": "Memories and heritage"
-  },
-  {
     "id": 44,
     "title": "Sinergie ludonarrative: l'evoluzione del racconto videoludico tra divulgazione, tecnica ed intelligenza artificiale",
     "abstract": "Il presente elaborato si propone di analizzare il rapporto tra meccaniche di gioco (gameplay) e narrazione all'interno del medium videoludico, esplorando il concetto di \"piano ludonarrativo\". Attraverso l'esame di casi studio specifici (God of War, Dark Souls, The Stanley Parable, The Quarry e altri), viene indagato come il videogioco rielabori i canoni della letteratura e del cinema per offrire nuove forme di fruizione culturale e apprendimento (game-based learning), contribuendo così anche alla conservazione delle nozioni. Infine, si osservano le prospettive future legate all'intelligenza artificiale e all'impatto sociale del medium.",
@@ -3040,23 +3023,6 @@
       {
         "name": "Samuel Aldo Iacolina",
         "aff": "CRS4"
-      }
-    ],
-    "gigliozzi": false,
-    "area_label_en": "Memories and heritage"
-  },
-  {
-    "id": 150,
-    "title": "DAL CINEMA PRIVATO ALLA MEMORIA COLLETTIVA. Archivi cinematografici, Digital Humanities e pratiche partecipative a partire dal cinema di famiglia in Sardegna",
-    "abstract": "Il contributo propone una riflessione teorico-metodologica sul ruolo degli archivi cinematografici all’interno delle Digital Humanities partecipative, a partire dal cinema di famiglia realizzato in formati a passo ridotto (9,5mm, 8mm, Super8). Attraverso il caso studio del progetto La tua memoria è la nostra storia promosso dalla Cineteca Sarda, si analizza come il digitale consenta di ripensare l’archivio audiovisivo come infrastruttura di ricerca, spazio di co-creazione della memoria e luogo di negoziazione tra saperi esperti e conoscenze situate. Integrando il dibattito sviluppato nel progetto europeo Re-framing Home Movies, il cinema privato viene interpretato non solo come fonte umanistica “dal basso”, ma come campo di sperimentazione critica in cui partecipazione, riuso e responsabilità culturale ridefiniscono le pratiche archivistiche contemporanee.",
-    "mode": "Oral communication",
-    "area_code": "memories",
-    "area_label": "Memorie, Storia, patrimonio",
-    "area_full": "Memories, History, and digital cultural heritage",
-    "authors": [
-      {
-        "name": "Antonello Zanda",
-        "aff": "Società Umanitaria - Cineteca Sarda di Cagliari"
       }
     ],
     "gigliozzi": false,

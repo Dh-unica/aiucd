@@ -1,11 +1,11 @@
-# Build report · 20260601-1231
+# Build report · 20260601-1633
 
-Generated: 2026-06-01T10:31:22+00:00
+Generated: 2026-06-01T14:33:25+00:00
 
 ## Stats
 
-- **talks_total**: 134
-- **talks_oral**: 94
+- **talks_total**: 132
+- **talks_oral**: 92
 - **talks_poster**: 40
 - **scheduled_in_program**: 92
 - **posters_in_session**: 39
@@ -29,5 +29,10 @@ Generated: 2026-06-01T10:31:22+00:00
 - author photo 'Stefania De Blasi_CCR.jpg': no matching poster found (normalized 'stefania de blasi'ccr')
 - author photo 'ZAMBARDI ELVIRA.jpg': no matching poster found (normalized 'zambardi elvira')
 - author photo 'federico_meschini.jpg': no matching poster found (normalized 'federico'meschini')
-- 2 oral talk(s) accepted but not scheduled in program: [43, 150]
 - 1 catalog Poster(s) not in Sessione Poster sheet: [146]
+
+## Errors
+
+- Path 'a8' references unknown paper #43
+- Path 'b2' references unknown paper #150
+- Path 'b2' references unknown paper #43
