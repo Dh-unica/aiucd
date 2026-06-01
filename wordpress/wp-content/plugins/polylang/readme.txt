@@ -3,9 +3,9 @@ Contributors: Chouby, manooweb, raaaahman, marianne38, sebastienserre, greglone,
 Donate link: https://polylang.pro
 Tags: multilingual, translate, translation, language, localization
 Requires at least: 6.5
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.8.2
+Stable tag: 3.8.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -105,10 +105,33 @@ Wherever third party code has been used, credit has been given in the code’s c
 
 == Changelog ==
 
+= 3.8.4 (2026-05-18) =
+
+* Security: Fix an XSS in the multilingual biography
+* Pro: Fix draft post translations not shown in the languages sidebar in the block editor #3006
+* Pro: Fix compatibility with libxml 2.15.1 #2920
+* Pro: Fix Allowed memory size exhausted with Divi 5 #3008
+* Improve accessibility of the multilingual biography on user profile page #1869
+* Prevent using unsupported block fields in wpml-config.xml #1868
+
+= 3.8.3 (2026-04-27) =
+
+* Pro: Improve performance of the languages sidebar in the block editor #2989
+* Pro: Fix impossibility to add more than one translation at once from the block editor sidebar #2985
+* Pro: Fix HTML entities displayed in translation inputs in the block editor sidebar #2984
+* Pro: Fix error when editing a pattern from the post editor #2990
+* Pro: Fix sync icon incorrectly shown as active on new posts #2995
+* Pro: Fix `pll_sync_post` REST API field returning an empty array instead of an empty object #2995
+* Pro: Fix ACF fields in a repeater nested in a flexible content overwritten with wrong values #2975
+* Fix language switcher block error in Widget screen #1856
+* Fix PHP warning in site health #1862
+* Fix wrong cookie sent in some cases #1863
+* Fix error with WordPress Importer when the imported file has synchronized posts #1853
+
 = 3.8.2 (2026-04-07) =
 
 * Pro: Fix refresh issues in block editor languages panel #2965
-* Pro: Fix error when unlinking 2 translations in bkock editor #2970
+* Pro: Fix error when unlinking 2 translations in block editor #2970
 * Pro: Fix fatal error when a repeater is previously created in ACF Pro but ACF is active #2972
 * Fix settings redirect in Playground #1840
 * Fix possible fatal error when the default language has been corrupted in DB #1843
