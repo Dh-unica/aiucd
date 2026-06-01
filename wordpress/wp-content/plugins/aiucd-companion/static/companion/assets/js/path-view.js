@@ -105,12 +105,19 @@ function renderMyAgenda() {
   const postersById = new Map((_mineState.data.posters || []).map(p => [p.id, p]));
   const items = [];
   const posterItems = [];
+  // Salvati che non hanno uno slot in griglia né sono poster (es. paper del
+  // catalogo non schedulati). Li mostriamo comunque, così il dettaglio non
+  // diverge dal badge e l'utente può vederli/rimuoverli invece di "perderli".
+  const noSlotItems = [];
   for (const id of ids) {
     const slot = findSlot(_mineState.data, id);
     if (slot) {
       items.push({ id, ...slot });
     } else if (postersById.has(id)) {
       posterItems.push(postersById.get(id));
+    } else {
+      const paper = _mineState.data.papersById.get(id);
+      if (paper) noSlotItems.push(paper);
     }
   }
 
@@ -176,24 +183,35 @@ function renderMyAgenda() {
     traveler = isEn ? "Done for today: all the talks in your agenda are over." : "Per oggi è fatta: tutte le relazioni in agenda sono già passate.";
   }
 
-  const totalCount = items.length + posterItems.length;
+  const totalCount = items.length + posterItems.length + noSlotItems.length;
+  // Etichetta del banner: con una sola categoria usa la forma discorsiva, con
+  // più categorie elenca la ripartizione (deve sommare al totale = badge).
+  const parts = [];
+  if (items.length) parts.push(isEn ? `${items.length} talk${items.length === 1 ? "" : "s"}` : `${items.length} talk`);
+  if (posterItems.length) parts.push(isEn ? `${posterItems.length} poster${posterItems.length === 1 ? "" : "s"}` : `${posterItems.length} poster`);
+  if (noSlotItems.length) parts.push(isEn ? `${noSlotItems.length} without a time` : `${noSlotItems.length} senza orario`);
   let bannerLabel;
-  if (posterItems.length === 0) {
-    bannerLabel = isEn ? "talks in your agenda" : "relazioni in agenda";
-  } else if (items.length === 0) {
+  if (parts.length > 1) {
+    bannerLabel = (isEn ? "in your agenda · " : "in agenda · ") + parts.join(" + ");
+  } else if (posterItems.length) {
     bannerLabel = isEn
       ? (posterItems.length === 1 ? "poster in your agenda" : "posters in your agenda")
-      : (posterItems.length === 1 ? "poster in agenda" : "poster in agenda");
+      : "poster in agenda";
+  } else if (noSlotItems.length) {
+    bannerLabel = isEn ? "saved · time to be defined" : "salvati · orario da definire";
   } else {
-    bannerLabel = isEn
-      ? `in your agenda · ${items.length} talk${items.length === 1 ? "" : "s"} + ${posterItems.length} poster${posterItems.length === 1 ? "" : "s"}`
-      : `in agenda · ${items.length} talk + ${posterItems.length} poster`;
+    bannerLabel = isEn ? "talks in your agenda" : "relazioni in agenda";
   }
 
   const postersTitle = isEn ? "Posters to see" : "Poster da vedere";
   const postersHint = isEn
     ? "Poster session: Thursday 4 June · 14:30 · Aula Capitini"
     : "Sessione poster: giovedì 4 giugno · 14:30 · Aula Capitini";
+
+  const noSlotTitle = isEn ? "Saved · time to be defined" : "Salvati · orario da definire";
+  const noSlotHint = isEn
+    ? "These contributions are in your agenda but aren't scheduled in the programme grid yet."
+    : "Questi contributi sono in agenda ma non hanno (ancora) un orario nel programma.";
 
   root.innerHTML = `
     <div class="my-agenda-banner">
@@ -215,6 +233,13 @@ function renderMyAgenda() {
         <h3>${postersTitle}</h3>
         <p class="my-agenda-posters-hint">${postersHint}</p>
         ${posterItems.map(p => myAgendaPosterRow(p)).join("")}
+      </div>
+    ` : ""}
+    ${noSlotItems.length > 0 ? `
+      <div class="my-agenda-day my-agenda-noslot">
+        <h3>${noSlotTitle}</h3>
+        <p class="my-agenda-posters-hint">${noSlotHint}</p>
+        ${noSlotItems.map(p => myAgendaNoSlotRow(p)).join("")}
       </div>
     ` : ""}
   `;
@@ -310,6 +335,26 @@ function myAgendaPosterRow(poster) {
         <span class="who">${escapeHtml(authors)}</span>
       </div>
       <button class="remove-btn" data-poster-id="${poster.id}" aria-label="Rimuovi" title="Rimuovi dall'agenda">×</button>
+    </div>
+  `;
+}
+
+// Riga per i salvati senza slot/poster. Usa data-paper-id, così il click (apre
+// il modal, che gestisce slot nullo) e il bottone rimuovi sono già cablati come
+// per le righe normali.
+function myAgendaNoSlotRow(paper) {
+  const isEn = getLang() === "en";
+  const authors = (paper.authors || []).slice(0, 2).map(a => a.name).join(", ");
+  return `
+    <div class="my-agenda-row my-agenda-row--noslot" data-paper-id="${paper.id}">
+      <div class="when">
+        <span class="poster-tag noslot-tag">${isEn ? "No time" : "Senza orario"}</span>
+      </div>
+      <div class="what">
+        <span class="talk-id">#${paper.id}</span>${escapeHtml(paper.title)}
+        <span class="who">${escapeHtml(authors)}</span>
+      </div>
+      <button class="remove-btn" data-paper-id="${paper.id}" aria-label="${isEn ? "Remove" : "Rimuovi"}" title="${isEn ? "Remove from agenda" : "Rimuovi dall'agenda"}">×</button>
     </div>
   `;
 }

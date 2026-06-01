@@ -658,6 +658,23 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
+/* Riga "salvati · orario da definire": stesso layout dei poster, tag neutro */
+.my-agenda-row--noslot .when {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.my-agenda-row--noslot .when .noslot-tag {
+  display: inline-block;
+  padding: 3px 8px;
+  background: rgba(90,90,90,0.12);
+  color: #5a5a5a;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
 
 /* Pulsante "aggiungi tutto il percorso" nel detail di un percorso */
 .add-all-btn {
