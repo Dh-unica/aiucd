@@ -522,9 +522,9 @@
       "walking_min": 34,
       "driving_min": 10,
       "distance_source": "osrm-driving+haversine-walking",
-      "image_remote": false,
       "image": "assets/img/poi/quartiere-villanova.jpg",
       "thumb": "assets/img/poi/quartiere-villanova.thumb.jpg",
+      "image_remote": false,
       "name_en": "Villanova District",
       "description_en": "The Villanova district is one of the four historic neighbourhoods of Cagliari. Worth a visit are the San Domenico cloister and a stop in the small square facing it, the church of San Giacomo, and the tiny church of San Cesello. The initial stretch of Via San Saturnino (accessed from Viale Regina Elena just past the San Remy Bastion) is interesting, known for its street art; the flowered Via Piccioni is equally evocative.",
       "type_label_en": "Cultural"
