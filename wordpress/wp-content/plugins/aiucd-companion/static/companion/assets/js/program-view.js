@@ -53,11 +53,21 @@ export function renderProgram(rootEl, data, onTalkClick) {
   renderGrid(rootEl);
 
   // Auto-refresh now line e live snapshot ogni 30s
-  setInterval(() => {
+  const refreshLive = () => {
     updateNowLine(rootEl);
     refreshLiveSnapshot(rootEl);
-  }, 30_000);
+  };
+  setInterval(refreshLive, 30_000);
   updateNowLine(rootEl);
+
+  // Rientro in primo piano: i browser strozzano/sospendono i setInterval quando
+  // la pagina è in background (PWA chiusa, app cambiata, telefono bloccato, tab
+  // non a fuoco). Senza questo, al ritorno la linea "ora" e il badge live
+  // potrebbero restare indietro fino a ~30s. Forziamo un refresh immediato.
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) refreshLive();
+  });
+  window.addEventListener("pageshow", refreshLive);
 
   // Su mobile la now-line vive dentro le .track-column: il loro reflow su
   // resize/orientation-change richiede un ricomputo delle posizioni.

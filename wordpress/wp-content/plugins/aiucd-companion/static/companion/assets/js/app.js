@@ -1,9 +1,9 @@
 // AIUCD 2026 Companion · entry point
-// build marker: css-leaflet-isolate-fix (cache-bust asset version)
+// build marker: live-visibilitychange-refresh (cache-bust asset version)
 
 import { loadAllData } from "./data.js?v=f4-6";
 import { liveState, getCountdownInfo, getOpeningTime, getNow, calendarDaysUntil, checkClockSkew } from "./livestate.js?v=f4-8";
-import { renderProgram } from "./program-view.js?v=f4-9";
+import { renderProgram } from "./program-view.js?v=f4-12";
 import { renderMineList, renderPathsOverlay } from "./path-view.js?v=f4-9";
 import { renderMappa } from "./mappa-view.js?v=f4-6";
 import { renderCagliari, onCagliariVisible } from "./cagliari-view.js?v=f4-6";
@@ -154,6 +154,17 @@ async function init() {
   }
   refreshProgramCountdown();
   setInterval(refreshProgramCountdown, 60_000);
+
+  // Rientro in primo piano: i timer sopra vengono strozzati/sospesi quando la
+  // pagina è in background (PWA/app in secondo piano, telefono bloccato, tab non
+  // a fuoco). Forziamo l'aggiornamento immediato della pill live e del countdown
+  // al ritorno, così non restano indietro fino a 30/60s. (La linea "ora" e il
+  // badge del Programma hanno un handler analogo in program-view.js.)
+  const refreshTopbarLive = () => { refreshLiveIndicator(); refreshProgramCountdown(); };
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) refreshTopbarLive();
+  });
+  window.addEventListener("pageshow", refreshTopbarLive);
 
   // Deep-link adattivo: il click sul countdown porta al contesto rilevante per lo stato.
   document.getElementById("live-indicator")?.addEventListener("click", () => {
