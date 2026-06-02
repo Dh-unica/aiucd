@@ -366,14 +366,25 @@ function wireViewSwitch() {
   const wrap = _state.root.querySelector("#cat-view-switch");
   wrap.querySelectorAll("button[data-view]").forEach(btn => {
     btn.addEventListener("click", () => {
+      const prevView = _state.view;
       _state.view = btn.dataset.view;
-      // for "posters" view: force only Poster mode
+      // "Solo poster" forza la sola modalità Poster, ma in modo REVERSIBILE:
+      // memorizziamo le modalità correnti entrando, e le ripristiniamo uscendo,
+      // così tornando a "Griglia"/"Per area" i filtri di sinistra si riallineano.
       if (_state.view === "posters") {
+        if (prevView !== "posters") {
+          _state.modesBeforePosters = new Set(_state.selectedModes);
+        }
         _state.selectedModes = new Set(["Poster"]);
-        _state.root.querySelectorAll("[data-mode]").forEach(cb => {
-          cb.checked = cb.dataset.mode === "Poster";
-        });
+      } else if (prevView === "posters") {
+        _state.selectedModes = _state.modesBeforePosters
+          ? new Set(_state.modesBeforePosters)
+          : new Set(["Oral communication", "Poster"]);
       }
+      // riallinea sempre le checkbox di modalità allo stato effettivo
+      _state.root.querySelectorAll("[data-mode]").forEach(cb => {
+        cb.checked = _state.selectedModes.has(cb.dataset.mode);
+      });
       wrap.querySelectorAll("button").forEach(b => b.classList.toggle("active", b === btn));
       rerenderEverything();
     });
