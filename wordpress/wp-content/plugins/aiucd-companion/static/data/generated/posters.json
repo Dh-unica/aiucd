@@ -23,7 +23,8 @@
     "zenodo_url": "https://zenodo.org/records/20272478",
     "zenodo_doi": "10.5281/zenodo.20272478",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 18,
@@ -44,12 +45,13 @@
       "assets/img/poster-authors/18.png"
     ],
     "poster_pdf": null,
-    "poster_file": null,
-    "poster_file_type": null,
-    "zenodo_url": null,
-    "zenodo_doi": null,
+    "poster_file": "assets/poster-files/18.jpg?v=f239386b",
+    "poster_file_type": "image",
+    "zenodo_url": "https://zenodo.org/records/20506293",
+    "zenodo_doi": "10.5281/zenodo.20506293",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 19,
@@ -81,7 +83,8 @@
     "zenodo_url": "https://zenodo.org/records/20486698",
     "zenodo_doi": "10.5281/zenodo.20486698",
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 20,
@@ -121,7 +124,8 @@
     "zenodo_url": null,
     "zenodo_doi": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 22,
@@ -151,7 +155,8 @@
     "zenodo_url": "https://zenodo.org/records/20425225",
     "zenodo_doi": "10.5281/zenodo.20425225",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 24,
@@ -181,7 +186,8 @@
     "zenodo_url": "https://zenodo.org/records/20307181",
     "zenodo_doi": "10.5281/zenodo.20307181",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 26,
@@ -207,7 +213,8 @@
     "zenodo_url": "https://zenodo.org/records/20441805",
     "zenodo_doi": "10.5281/zenodo.20441805",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 27,
@@ -238,7 +245,8 @@
     "zenodo_url": "https://zenodo.org/records/20439930",
     "zenodo_doi": "10.5281/zenodo.20439930",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 28,
@@ -264,7 +272,8 @@
     "zenodo_url": "https://zenodo.org/records/20119863",
     "zenodo_doi": "10.5281/zenodo.20119863",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 30,
@@ -290,7 +299,8 @@
     "zenodo_url": null,
     "zenodo_doi": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 31,
@@ -316,7 +326,8 @@
     "zenodo_url": "https://zenodo.org/records/20440869",
     "zenodo_doi": "10.5281/zenodo.20440869",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 40,
@@ -351,7 +362,8 @@
     "zenodo_url": "https://zenodo.org/records/20485603",
     "zenodo_doi": "10.5281/zenodo.20485603",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 51,
@@ -383,7 +395,8 @@
     "zenodo_url": "https://zenodo.org/records/20374473",
     "zenodo_doi": "10.5281/zenodo.20374473",
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 52,
@@ -415,7 +428,8 @@
     "zenodo_url": "https://zenodo.org/records/20379063",
     "zenodo_doi": "10.5281/zenodo.20379063",
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 58,
@@ -441,7 +455,8 @@
     "zenodo_url": null,
     "zenodo_doi": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 61,
@@ -479,7 +494,8 @@
     "zenodo_url": "https://zenodo.org/records/20431340",
     "zenodo_doi": "10.5281/zenodo.20431340",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 62,
@@ -513,7 +529,8 @@
     "zenodo_url": "https://zenodo.org/records/20432132",
     "zenodo_doi": "10.5281/zenodo.20432132",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 67,
@@ -551,7 +568,8 @@
     "zenodo_url": null,
     "zenodo_doi": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 70,
@@ -581,7 +599,8 @@
     "zenodo_url": "https://zenodo.org/records/20459837",
     "zenodo_doi": "10.5281/zenodo.20459837",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 77,
@@ -605,7 +624,8 @@
     "zenodo_url": "https://zenodo.org/records/20490158",
     "zenodo_doi": "10.5281/zenodo.20490158",
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 81,
@@ -639,7 +659,8 @@
     "zenodo_url": "https://zenodo.org/records/20397294",
     "zenodo_doi": "10.5281/zenodo.20397294",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Other contributions"
   },
   {
     "id": 82,
@@ -665,7 +686,8 @@
     "zenodo_url": "https://zenodo.org/records/20443660",
     "zenodo_doi": "10.5281/zenodo.20443660",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 83,
@@ -689,7 +711,8 @@
     "zenodo_url": "https://zenodo.org/records/20425520",
     "zenodo_doi": "10.5281/zenodo.20425520",
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 84,
@@ -715,7 +738,8 @@
     "zenodo_url": null,
     "zenodo_doi": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 89,
@@ -746,7 +770,8 @@
     "zenodo_url": "https://zenodo.org/records/20451691",
     "zenodo_doi": "10.5281/zenodo.20451691",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Digital textualities"
   },
   {
     "id": 91,
@@ -772,7 +797,8 @@
     "zenodo_url": "https://zenodo.org/records/20440440",
     "zenodo_doi": "10.5281/zenodo.20440440",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 108,
@@ -793,12 +819,13 @@
       "assets/img/poster-authors/108.jpg"
     ],
     "poster_pdf": null,
-    "poster_file": null,
-    "poster_file_type": null,
-    "zenodo_url": null,
-    "zenodo_doi": null,
+    "poster_file": "assets/poster-files/108.jpg?v=e862e581",
+    "poster_file_type": "image",
+    "zenodo_url": "https://zenodo.org/records/20512190",
+    "zenodo_doi": "10.5281/zenodo.20512190",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Data and knowledge"
   },
   {
     "id": 110,
@@ -828,7 +855,8 @@
     "zenodo_url": "https://zenodo.org/records/20478094",
     "zenodo_doi": "10.5281/zenodo.20478094",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 111,
@@ -860,7 +888,8 @@
     "zenodo_url": "https://zenodo.org/records/20407827",
     "zenodo_doi": "10.5281/zenodo.20407827",
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 117,
@@ -883,12 +912,13 @@
     "photo": null,
     "photos": [],
     "poster_pdf": null,
-    "poster_file": null,
-    "poster_file_type": null,
-    "zenodo_url": null,
-    "zenodo_doi": null,
+    "poster_file": "assets/poster-files/117.jpg?v=d4ffeb76",
+    "poster_file_type": "image",
+    "zenodo_url": "https://zenodo.org/records/20513944",
+    "zenodo_doi": "10.5281/zenodo.20513944",
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 122,
@@ -914,7 +944,8 @@
     "zenodo_url": "https://zenodo.org/records/20311968",
     "zenodo_doi": "10.5281/zenodo.20311968",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 131,
@@ -940,7 +971,8 @@
     "zenodo_url": null,
     "zenodo_doi": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Other contributions"
   },
   {
     "id": 132,
@@ -975,7 +1007,8 @@
     "zenodo_url": "https://zenodo.org/records/20446711",
     "zenodo_doi": "10.5281/zenodo.20446711",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "DH and co-construction"
   },
   {
     "id": 134,
@@ -999,7 +1032,8 @@
     "zenodo_url": null,
     "zenodo_doi": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 136,
@@ -1030,7 +1064,8 @@
     "zenodo_url": null,
     "zenodo_doi": null,
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 143,
@@ -1054,7 +1089,8 @@
     "zenodo_url": null,
     "zenodo_doi": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 149,
@@ -1090,7 +1126,8 @@
     "zenodo_url": null,
     "zenodo_doi": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Memories and heritage"
   },
   {
     "id": 120,
@@ -1114,7 +1151,8 @@
     "zenodo_url": null,
     "zenodo_doi": null,
     "consent_photo": false,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Archives and editions"
   },
   {
     "id": 121,
@@ -1152,6 +1190,7 @@
     "zenodo_url": "https://zenodo.org/records/20364993",
     "zenodo_doi": "10.5281/zenodo.20364993",
     "consent_photo": true,
-    "session": "2026-06-04T14:30"
+    "session": "2026-06-04T14:30",
+    "area_label_en": "Data and knowledge"
   }
 ]
