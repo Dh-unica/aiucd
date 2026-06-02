@@ -260,6 +260,30 @@
   transition: width 0.4s ease;
 }
 
+/* Coda compatta collassabile: tutte le altre istituzioni (Proposta A) */
+.num-host .aff-tail-summary {
+  font-size: 13.5px; color: var(--muted); margin: 16px 4px 0;
+}
+.num-host .aff-tail-toggle {
+  margin-top: 12px; background: var(--navy); color: #fff; border: none;
+  border-radius: 999px; padding: 9px 18px; font-family: inherit;
+  font-size: 13.5px; font-weight: 600; cursor: pointer; min-height: var(--tap-min);
+  transition: background 0.12s;
+}
+.num-host .aff-tail-toggle:hover { background: #000040; }
+.num-host .aff-tail-panel { margin-top: 14px; }
+.num-host .aff-tail-panel.hidden { display: none; }
+.num-host .aff-tail-group { margin-bottom: 14px; }
+.num-host .aff-tail-group h4 {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--navy); margin: 0 0 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px;
+}
+.num-host .aff-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.num-host .aff-chip {
+  font-size: 13px; background: var(--base); border: 1px solid var(--line);
+  border-radius: 999px; padding: 4px 11px; color: var(--ink);
+}
+
 /* =============== Mappa =============== */
 .num-host #num-map {
   height: 480px;

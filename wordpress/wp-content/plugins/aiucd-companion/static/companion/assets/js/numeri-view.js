@@ -132,7 +132,7 @@ export async function renderNumeri(rootEl) {
     <section>
       <div class="section-head">
         <h2><span class="sub-mark"></span>${isEn ? "The institutional ecosystem" : "L'ecosistema istituzionale"}</h2>
-        <p class="section-sub">${isEn ? "Top 15 affiliations by author signatures. Data post-normalised for spelling variants." : "Top 15 affiliazioni per numero di firme d'autore. Dati post-normalizzazione delle grafie."}</p>
+        <p class="section-sub">${isEn ? "All institutions by number of author signatures. Data post-normalised for spelling variants." : "Tutte le istituzioni per numero di firme d'autore. Dati post-normalizzazione delle grafie."}</p>
       </div>
       <div class="panel">
         <div id="num-aff-list" class="aff-list"></div>
@@ -177,7 +177,10 @@ export async function renderNumeri(rootEl) {
 
   _state.root = rootEl;
   try {
-    const res = await fetch(STATS_URL);
+    // Cache-bust controllato: bumpare `v` quando cambia data.json (la nuova URL
+    // forza un fetch fresco anche col service worker; l'offline resta valido
+    // perché la nuova URL viene messa in cache al primo caricamento online).
+    const res = await fetch(STATS_URL + "?v=aff-full-1");
     _state.data = await res.json();
   } catch (e) {
     console.error("numeri: failed to load data.json", e);
@@ -386,18 +389,75 @@ function drawTimeline() {
   `;
 }
 
+// Affiliazioni: top 10 a barre + coda compatta collassabile con TUTTE le altre
+// istituzioni, raggruppate per numero di firme (Proposta A). Evita una classifica
+// lunghissima mantenendo la completezza a portata di clic.
+const AFF_TOP_N = 10;
+
 function drawAffiliations() {
   const list = $("#num-aff-list");
-  const top15 = _state.data.top_affiliations.slice(0, 15);
-  if (!top15.length) return;
-  const max = top15[0].count;
-  list.innerHTML = top15.map((a, i) => `
+  if (!list) return;
+  const all = _state.data.top_affiliations || [];
+  if (!all.length) return;
+  const isEn = getLang() === "en";
+  const max = all[0].count;
+  // Taglio testa/coda che NON spezza un pareggio: se al 10° posto ci sono più
+  // enti con lo stesso numero di firme, li includo tutti nelle barre, così nella
+  // coda non compare lo stesso valore di firme già mostrato come barra.
+  let cut = Math.min(AFF_TOP_N, all.length);
+  if (cut < all.length) {
+    const boundary = all[cut - 1].count;
+    while (cut < all.length && all[cut].count === boundary) cut++;
+  }
+  const head = all.slice(0, cut);
+  const tail = all.slice(cut);
+
+  list.innerHTML = head.map((a, i) => `
     <div class="aff-row${i === 0 ? " top1" : ""}">
       <div class="aff-name"><strong>${escapeHtml(a.name)}</strong></div>
       <div class="aff-count">${a.count}</div>
       <div class="aff-bar"><div class="aff-bar-fill" style="width:${(a.count/max*100).toFixed(1)}%"></div></div>
     </div>
   `).join("");
+
+  // Rimuovi un'eventuale coda precedente (re-render difensivo).
+  list.parentNode.querySelector(".aff-tail")?.remove();
+  if (!tail.length) return;
+
+  const ones = tail.filter(a => a.count === 1).length;
+  const counts = [...new Set(tail.map(a => a.count))].sort((x, y) => y - x);
+  const groups = counts.map(c => {
+    const grp = tail.filter(a => a.count === c);
+    const firmeLbl = isEn ? `${c} signature${c === 1 ? "" : "s"}` : `${c} firm${c === 1 ? "a" : "e"}`;
+    const entiLbl = isEn
+      ? `${grp.length} institution${grp.length === 1 ? "" : "s"}`
+      : `${grp.length} istituzion${grp.length === 1 ? "e" : "i"}`;
+    const chips = grp.map(a => `<span class="aff-chip">${escapeHtml(a.name)}</span>`).join("");
+    return `<div class="aff-tail-group"><h4>${firmeLbl} · ${entiLbl}</h4><div class="aff-chips">${chips}</div></div>`;
+  }).join("");
+
+  const summary = isEn
+    ? `Plus ${tail.length} more institutions — ${ones} with a single author signature.`
+    : `Altre ${tail.length} istituzioni — di cui ${ones} con una sola firma d'autore.`;
+  const showLbl = isEn ? "Show all institutions" : "Mostra tutte le istituzioni";
+  const hideLbl = isEn ? "Hide the list" : "Nascondi l'elenco";
+
+  const wrap = document.createElement("div");
+  wrap.className = "aff-tail";
+  wrap.innerHTML = `
+    <p class="aff-tail-summary">${summary}</p>
+    <button type="button" class="aff-tail-toggle" aria-expanded="false">${showLbl} ▾</button>
+    <div class="aff-tail-panel hidden">${groups}</div>
+  `;
+  list.parentNode.append(wrap);
+
+  const btn = wrap.querySelector(".aff-tail-toggle");
+  const panel = wrap.querySelector(".aff-tail-panel");
+  btn.addEventListener("click", () => {
+    const open = panel.classList.toggle("hidden") === false;
+    btn.setAttribute("aria-expanded", String(open));
+    btn.textContent = (open ? hideLbl : showLbl) + (open ? " ▴" : " ▾");
+  });
 }
 
 function drawMap() {

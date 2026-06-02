@@ -147,30 +147,34 @@
   "top_affiliations": [
     {
       "name": "Università di Bologna",
-      "count": 55
+      "count": 60
     },
     {
       "name": "CNR-ILC",
-      "count": 22
+      "count": 25
     },
     {
-      "name": "Università di Cagliari",
-      "count": 19
+      "name": "Università degli Studi di Cagliari",
+      "count": 21
     },
     {
       "name": "CNR-ILIESI",
-      "count": 17
+      "count": 19
     },
     {
-      "name": "Ca' Foscari Venezia",
-      "count": 9
+      "name": "Università Ca' Foscari Venezia",
+      "count": 11
+    },
+    {
+      "name": "Università di Catania",
+      "count": 10
     },
     {
       "name": "University of Graz",
       "count": 8
     },
     {
-      "name": "Università di Catania",
+      "name": "Università di Napoli Federico II",
       "count": 8
     },
     {
@@ -178,63 +182,55 @@
       "count": 7
     },
     {
-      "name": "Università di Salerno",
-      "count": 7
+      "name": "Bibliotheca Hertziana",
+      "count": 6
+    },
+    {
+      "name": "CNR-ISEM",
+      "count": 6
     },
     {
       "name": "CRS4",
       "count": 6
     },
     {
-      "name": "Università di Torino",
-      "count": 5
+      "name": "Sapienza Università di Roma",
+      "count": 6
     },
     {
       "name": "Università di Pisa",
+      "count": 6
+    },
+    {
+      "name": "Università di Torino",
+      "count": 6
+    },
+    {
+      "name": "Università Statale di Milano",
       "count": 5
+    },
+    {
+      "name": "ALexandru Ioan Cuza University of Iași",
+      "count": 4
+    },
+    {
+      "name": "CNR-ISTC",
+      "count": 4
     },
     {
       "name": "Università di Pavia",
       "count": 4
     },
     {
-      "name": "Università di Macerata",
+      "name": "Centro Conservazione Restauro \"La Venaria Reale\"",
       "count": 3
     },
     {
-      "name": "Universität Bern",
+      "name": "CNR-IIT",
       "count": 3
     },
     {
-      "name": "Università di Verona",
-      "count": 3
-    },
-    {
-      "name": "Consiglio Nazionale delle Ricerche",
-      "count": 3
-    },
-    {
-      "name": "Istituto di Linguistica Computazionale “Antonio Zampolli” (CNR-ILC",
-      "count": 3
-    },
-    {
-      "name": "Università degli studi di Napoli \"Federico II\"",
-      "count": 3
-    },
-    {
-      "name": "Sapienza Università di Roma",
-      "count": 3
-    },
-    {
-      "name": "Università di Firenze",
-      "count": 3
-    },
-    {
-      "name": "Alma Mater Studiorum - Università di Bologna",
-      "count": 3
-    },
-    {
-      "name": "Università degli Studi di Napoli",
+      "name": "CNR-OVI",
       "count": 3
     },
     {
@@ -242,8 +238,340 @@
       "count": 3
     },
     {
-      "name": "CNR ISEM",
+      "name": "Istituto Italiano di Studi Germanici",
       "count": 3
+    },
+    {
+      "name": "Università degli Studi di Genova",
+      "count": 3
+    },
+    {
+      "name": "Università degli Studi di Trieste",
+      "count": 3
+    },
+    {
+      "name": "Università di Firenze",
+      "count": 3
+    },
+    {
+      "name": "Università di Macerata",
+      "count": 3
+    },
+    {
+      "name": "Università di Roma Tor Vergata",
+      "count": 3
+    },
+    {
+      "name": "Universität Bern",
+      "count": 3
+    },
+    {
+      "name": "Biblioteca civica \"Attilio Hortis\" di Trieste",
+      "count": 2
+    },
+    {
+      "name": "CHAM - Centro de Humanidades",
+      "count": 2
+    },
+    {
+      "name": "CNR-ISTI",
+      "count": 2
+    },
+    {
+      "name": "ICCU",
+      "count": 2
+    },
+    {
+      "name": "Independent Researcher",
+      "count": 2
+    },
+    {
+      "name": "ISSASCO",
+      "count": 2
+    },
+    {
+      "name": "Istituto centrale per la digitalizzazione del patrimonio culturale – Digital Library",
+      "count": 2
+    },
+    {
+      "name": "RWTH Aachen University",
+      "count": 2
+    },
+    {
+      "name": "SRCTS",
+      "count": 2
+    },
+    {
+      "name": "University College Dublin",
+      "count": 2
+    },
+    {
+      "name": "University of Helsinki",
+      "count": 2
+    },
+    {
+      "name": "University of Lausanne",
+      "count": 2
+    },
+    {
+      "name": "University of Oxford",
+      "count": 2
+    },
+    {
+      "name": "Università degli Studi di Bari \"Aldo Moro\"",
+      "count": 2
+    },
+    {
+      "name": "Università degli Studi di Sassari",
+      "count": 2
+    },
+    {
+      "name": "Università di Verona",
+      "count": 2
+    },
+    {
+      "name": "Accademia di Belle Arti di Bari",
+      "count": 1
+    },
+    {
+      "name": "Accademia di Belle Arti di Verona",
+      "count": 1
+    },
+    {
+      "name": "Association 'Malin'",
+      "count": 1
+    },
+    {
+      "name": "Athens School of Fine Arts",
+      "count": 1
+    },
+    {
+      "name": "Cambridge University",
+      "count": 1
+    },
+    {
+      "name": "Charles University",
+      "count": 1
+    },
+    {
+      "name": "CINECA",
+      "count": 1
+    },
+    {
+      "name": "CNR-IMATI",
+      "count": 1
+    },
+    {
+      "name": "CNR-ISPC",
+      "count": 1
+    },
+    {
+      "name": "CNR-ISPF",
+      "count": 1
+    },
+    {
+      "name": "Computational Literary Research - Huygens Institute KNAW",
+      "count": 1
+    },
+    {
+      "name": "DH UNICA",
+      "count": 1
+    },
+    {
+      "name": "DHLab - KNAW Humanities Cluster",
+      "count": 1
+    },
+    {
+      "name": "DSWLab",
+      "count": 1
+    },
+    {
+      "name": "E-RIHS ERIC",
+      "count": 1
+    },
+    {
+      "name": "Fondazione 1563 per l’Arte e la Cultura",
+      "count": 1
+    },
+    {
+      "name": "Fondazione Luigi Micheletti",
+      "count": 1
+    },
+    {
+      "name": "Gruppo META",
+      "count": 1
+    },
+    {
+      "name": "IHC/IN2PAST",
+      "count": 1
+    },
+    {
+      "name": "IIIF Consortium",
+      "count": 1
+    },
+    {
+      "name": "IISCA 'Tacito-Metelli' (Terni)",
+      "count": 1
+    },
+    {
+      "name": "Independent Researcher - Wikimedia Italia",
+      "count": 1
+    },
+    {
+      "name": "Istituto Storico Germanico di Roma",
+      "count": 1
+    },
+    {
+      "name": "Istituto Storico Italiano per l'Età Moderna e Contemporanea",
+      "count": 1
+    },
+    {
+      "name": "Johannes Gutenberg-Universität Mainz",
+      "count": 1
+    },
+    {
+      "name": "Kunsthistorisches Institut in Florenz - Max-Planck-Institut",
+      "count": 1
+    },
+    {
+      "name": "Lund University",
+      "count": 1
+    },
+    {
+      "name": "Marburg University",
+      "count": 1
+    },
+    {
+      "name": "MIM",
+      "count": 1
+    },
+    {
+      "name": "Museo San Giacomo di Lu",
+      "count": 1
+    },
+    {
+      "name": "Ricercatrice Indipendente",
+      "count": 1
+    },
+    {
+      "name": "RS WORKS EE",
+      "count": 1
+    },
+    {
+      "name": "Schola Cantorum Basiliensis",
+      "count": 1
+    },
+    {
+      "name": "Scuola IMT Alti Studi Lucca",
+      "count": 1
+    },
+    {
+      "name": "Silentwave",
+      "count": 1
+    },
+    {
+      "name": "Studio Legale Ciurcina",
+      "count": 1
+    },
+    {
+      "name": "University of Cambridge",
+      "count": 1
+    },
+    {
+      "name": "University of Groningen",
+      "count": 1
+    },
+    {
+      "name": "University of Potsdam",
+      "count": 1
+    },
+    {
+      "name": "University of Saarbrücken",
+      "count": 1
+    },
+    {
+      "name": "Università degli studi della Tuscia",
+      "count": 1
+    },
+    {
+      "name": "Università degli Studi di Brescia",
+      "count": 1
+    },
+    {
+      "name": "Università degli Studi di Modena e Reggio Emilia",
+      "count": 1
+    },
+    {
+      "name": "Università degli Studi di Padova",
+      "count": 1
+    },
+    {
+      "name": "Università degli Studi di Parma",
+      "count": 1
+    },
+    {
+      "name": "Università degli Studi di Salerno",
+      "count": 1
+    },
+    {
+      "name": "Università del Salento",
+      "count": 1
+    },
+    {
+      "name": "Università della Calabria / CNR-IIT",
+      "count": 1
+    },
+    {
+      "name": "Università di Bari \"Aldo Moro\"",
+      "count": 1
+    },
+    {
+      "name": "Università di Genova",
+      "count": 1
+    },
+    {
+      "name": "Università di Modena e Reggio Emilia",
+      "count": 1
+    },
+    {
+      "name": "Università di Napoli \"L'Orientale\"",
+      "count": 1
+    },
+    {
+      "name": "Università di Siena",
+      "count": 1
+    },
+    {
+      "name": "Università di Teramo",
+      "count": 1
+    },
+    {
+      "name": "Università di Tor Vergata",
+      "count": 1
+    },
+    {
+      "name": "Università G. d'Annunzio Chieti-Pescara",
+      "count": 1
+    },
+    {
+      "name": "Università Normale di Pisa",
+      "count": 1
+    },
+    {
+      "name": "Università per Stranieri di Siena",
+      "count": 1
+    },
+    {
+      "name": "Università Telematica Pegaso",
+      "count": 1
+    },
+    {
+      "name": "Universität Augsburg",
+      "count": 1
+    },
+    {
+      "name": "VeDPH",
+      "count": 1
     }
   ],
   "map_points": [
