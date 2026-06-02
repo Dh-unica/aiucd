@@ -39,6 +39,7 @@
 
   "program.heading": "Programme",
   "program.intro": "Three days, four rooms. Tap a talk for details, tap the star to save it to your agenda.",
+  "program.registration_note": "Registration and welcome desk on the ground floor of the Central Building (entrance on Via Is Mirrionis 1). Sessions take place in the Annex Building.",
   "program.all_areas": "All areas",
   "program.search_placeholder": "Search by title or author…",
   "program.no_results": "No talk matches your search.",
@@ -107,6 +108,8 @@
   "mappa.heading": "Conference venue",
   "mappa.subtitle": "Sa Duchessa Campus — Annex Building. Tap a room for real-time status and directions.",
   "mappa.directions": "How to reach the venue · directions with Google Maps",
+  "mappa.registration.title": "Registration & welcome desk",
+  "mappa.registration.body": "The registration and welcome desk is in the Central Building of the Faculty of Humanities, on the ground floor, by the entrance on Via Is Mirrionis 1. From there, follow the signs to the Annex Building, where all sessions and plenaries take place.",
   "mappa.floor.primo_piano": "First floor",
   "mappa.floor.piano_terra": "Ground floor",
   "mappa.tap_room_hint": "Tap a room to see what's happening now and how to reach it.",

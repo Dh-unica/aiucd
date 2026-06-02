@@ -56,6 +56,44 @@
 }
 
 /* =========================================================
+   Avviso "Registrazione e segreteria" (Corpo centrale)
+   La segreteria/banco registrazioni è in un edificio diverso
+   (Corpo centrale, ingresso Via Is Mirrionis 1) rispetto alle
+   aule del convegno (Corpo aggiunto): lo segnaliamo in evidenza.
+   ========================================================= */
+
+.venue-registration-note {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-md);
+  padding: var(--space-md);
+  background: var(--line-soft);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--rust);
+  border-radius: var(--radius-md);
+}
+.venue-registration-note .icon--pin {
+  width: 22px;
+  height: 22px;
+  color: var(--rust);
+  margin-top: 1px;
+}
+.venue-registration-text strong {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--navy);
+  margin-bottom: 2px;
+}
+.venue-registration-text p {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* =========================================================
    Tabs piani (Primo piano / Piano terra)
    ========================================================= */
 

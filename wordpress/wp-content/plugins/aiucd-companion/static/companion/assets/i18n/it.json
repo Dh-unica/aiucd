@@ -39,6 +39,7 @@
 
   "program.heading": "Programma",
   "program.intro": "Tre giorni, quattro aule. Tocca una relazione per i dettagli, tocca la stella per salvarla nella tua agenda.",
+  "program.registration_note": "Registrazione e segreteria al piano terra del Corpo centrale (ingresso Via Is Mirrionis 1). Le sessioni si svolgono nel Corpo aggiunto.",
   "program.all_areas": "Tutte le aree",
   "program.search_placeholder": "Cerca per titolo o autore…",
   "program.no_results": "Nessun intervento corrisponde alla ricerca.",
@@ -107,6 +108,8 @@
   "mappa.heading": "Sede del convegno",
   "mappa.subtitle": "Campus Sa Duchessa — Corpo aggiunto. Tap su un'aula per stato in tempo reale e indicazioni.",
   "mappa.directions": "Come arrivare alla sede · indicazioni con Google Maps",
+  "mappa.registration.title": "Registrazione e segreteria",
+  "mappa.registration.body": "Il banco registrazioni e la segreteria si trovano nel Corpo centrale della Facoltà di Studi Umanistici, al piano terra, all'ingresso da Via Is Mirrionis 1. Da lì segui le indicazioni verso il Corpo aggiunto, dove si svolgono tutte le sessioni e le plenarie.",
   "mappa.floor.primo_piano": "Primo piano",
   "mappa.floor.piano_terra": "Piano terra",
   "mappa.tap_room_hint": "Tap su un'aula per vedere cosa avviene adesso e come arrivarci.",

@@ -58,6 +58,7 @@
 .icon--external     { -webkit-mask-image: url(../img/icons/external.svg);     mask-image: url(../img/icons/external.svg); }
 .icon--warning      { -webkit-mask-image: url(../img/icons/warning.svg);      mask-image: url(../img/icons/warning.svg); }
 .icon--close        { -webkit-mask-image: url(../img/icons/close.svg);        mask-image: url(../img/icons/close.svg); }
+.icon--pin          { -webkit-mask-image: url(../img/icons/pin.svg);          mask-image: url(../img/icons/pin.svg); }
 
 .icon--sm { width: 14px; height: 14px; }
 .icon--md { width: 18px; height: 18px; }

@@ -189,9 +189,16 @@ body.admin-bar #aiucd-site-widgets.aiucd-site-widgets--floating {
 .aiucd-chip--countdown[data-state="pre"] .aiucd-chip-icon         { color: #94a3b8; }
 .aiucd-chip--countdown[data-state="pre"] .aiucd-chip-progress-fill { background: linear-gradient(to right, #cbd5e1, #94a3b8); }
 
-/* pre-soon (Domani / Oggi): azzurro */
-.aiucd-chip--countdown[data-state="pre-soon"] .aiucd-chip-icon         { color: #2a6fa1; }
-.aiucd-chip--countdown[data-state="pre-soon"] .aiucd-chip-progress-fill { background: linear-gradient(to right, #6ea7d5, #2a6fa1); }
+/* pre-soon (Domani / Oggi): rosso/rust come nel companion (.live-indicator
+   data-variant="pre-soon"), così l'imminenza dell'apertura risalta già da
+   "Domani". Niente glow/pulse animato: quello resta riservato a `live`. */
+.aiucd-chip--countdown[data-state="pre-soon"] {
+  border-color: #d8613c;
+  background: linear-gradient(180deg, #ffeee6, #ffffff);
+}
+.aiucd-chip--countdown[data-state="pre-soon"] .aiucd-chip-icon         { color: #d8613c; }
+.aiucd-chip--countdown[data-state="pre-soon"] .aiucd-chip-label        { color: #b04a2a; }
+.aiucd-chip--countdown[data-state="pre-soon"] .aiucd-chip-progress-fill { background: linear-gradient(to right, #f0a17c, #d8613c); }
 
 /* pre-imminent (<60min): ambra, icona pulsa */
 .aiucd-chip--countdown[data-state="pre-imminent"] {

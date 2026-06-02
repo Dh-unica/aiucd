@@ -148,6 +148,13 @@ export function renderMappa(rootEl, data, onTalkClick) {
         <span>${t("mappa.directions")}</span>
       </a>
     </div>
+    <aside class="venue-registration-note" role="note">
+      <span class="icon icon--pin" aria-hidden="true"></span>
+      <div class="venue-registration-text">
+        <strong>${t("mappa.registration.title")}</strong>
+        <p>${t("mappa.registration.body")}</p>
+      </div>
+    </aside>
     <div class="mappa-layout">
       <div class="mappa-canvas">
         <div class="mappa-floors-tabs" role="tablist" aria-label="${isEn ? "Floors of the Annex Building" : "Piani del Corpo aggiunto"}">

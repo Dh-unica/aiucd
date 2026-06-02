@@ -29,6 +29,10 @@ export function renderProgram(rootEl, data, onTalkClick) {
     <div class="section-head bg-pibiones">
       <h2><span class="sub-mark"></span>${t("program.heading")}</h2>
       <p class="section-sub">${t("program.intro")}</p>
+      <p class="program-reg-note">
+        <span class="icon icon--pin" aria-hidden="true"></span>
+        ${t("program.registration_note")}
+      </p>
     </div>
     <div class="program-toolbar">
       <div class="day-tabs" role="tablist" id="day-tabs"></div>
