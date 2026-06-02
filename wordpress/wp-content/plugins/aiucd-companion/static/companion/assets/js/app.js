@@ -1,4 +1,5 @@
 // AIUCD 2026 Companion · entry point
+// build marker: css-leaflet-isolate-fix (cache-bust asset version)
 
 import { loadAllData } from "./data.js?v=f4-6";
 import { liveState, getCountdownInfo, getOpeningTime, getNow, calendarDaysUntil, checkClockSkew } from "./livestate.js?v=f4-8";

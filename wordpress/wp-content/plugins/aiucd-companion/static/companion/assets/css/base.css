@@ -271,6 +271,15 @@ main {
 }
 .placeholder strong { color: var(--navy); display: block; margin-bottom: 6px; }
 
+/* =============== MAPPE LEAFLET — stacking context =============== */
+/* I pane interni di Leaflet usano z-index alti (200–1000). Se il contenitore
+   non forma un proprio stacking context, questi "sfuggono" nel contesto radice
+   e si dipingono SOPRA la barra di navigazione fissa (z-index 100): è il bug
+   mobile di Esplora Cagliari, dove .cag-map-wrap perde il position:sticky
+   (→ static) sotto i 980px e quindi il contesto. `isolation: isolate` ricrea
+   il contesto senza toccare layout, posizione o dimensioni della mappa. */
+.leaflet-container { isolation: isolate; }
+
 /* =============== MODAL =============== */
 .modal-backdrop {
   position: fixed; inset: 0;
