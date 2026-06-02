@@ -1,12 +1,54 @@
-# WordPress Docker Compose Setup
+# AIUCD 2026 · Sito del convegno e Companion
 
-> 🚀 **Ambiente WordPress professionale con Docker Compose** - Deploy automatico, permessi corretti, upload fino a 100MB
+> Piattaforma ufficiale del **XV Convegno annuale AIUCD** — Associazione per l'Informatica Umanistica e la Cultura Digitale — **Cagliari, 3–5 giugno 2026**. WordPress dockerizzato + il **Companion**, la web-app d'aula del convegno.
+>
+> 🌐 **[aiucd2026.unica.it](https://www.aiucd2026.unica.it/)** · 📱 **[aiucd2026.unica.it/companion/](https://www.aiucd2026.unica.it/companion/)**
+
+---
+
+## 📱 Il Companion del convegno
+
+Il **Companion** è la web-app che accompagna i partecipanti nei tre giorni di AIUCD 2026: programma, mappa delle aule, poster, contributi e una guida a Cagliari, **in tempo reale e in tasca**. Si apre con un tap dal telefono — niente login, niente app store — ed è **installabile come PWA**, consultabile anche offline.
+
+Il suo cuore è lo **stato live**, calcolato dal browser confrontando l'ora con il programma: una linea "ora" attraversa la griglia tempo × aula, le aule sulla mappa di sede si accendono, l'indicatore in testata fa il conto alla rovescia e poi segue le sessioni una dopo l'altra. È un'applicazione **statica** (HTML/CSS/JavaScript vanilla, nessun framework) servita come plugin WordPress, **bilingue IT/EN**, con un'identità visiva radicata nella Sardegna: titoli serif Cardo, glifi nuragici e il pattern tessile *pibiones* sullo sfondo.
+
+> 📚 Documentazione di progettazione completa: **[docs/companion/](docs/companion/)** — [visione e funzionalità](docs/companion/01-visione-e-funzionalita.md) · [architettura](docs/companion/02-architettura.md) · [design system](docs/companion/03-design-system.md) · [pipeline dati e deploy](docs/companion/04-pipeline-dati-e-deploy.md).
+
+### Durante il convegno · tutto in tempo reale
+
+Il **Programma** è una griglia tempo × aula con una linea "ora" che scorre sulle sessioni; le relazioni in corso si evidenziano, l'indicatore "IN TEMPO REALE" annuncia il prossimo cambio. La **Sede** mostra la pianta delle aule che si **accendono in base allo stato live** (relazione in corso, discussione, pausa, conclusa), con un pannello che dice cosa c'è adesso e come arrivarci.
+
+| Programma in tempo reale | Sede · aule live + indicazioni |
+|---|---|
+| ![Programma con stato live](images/companion/programma-live.png) | ![Mappa della sede con stato live delle aule](images/companion/sede-mappa.png) |
+
+### Prima e dopo · esplorare l'intero convegno
+
+**Esplora** apre i contributi su una mappa delle affiliazioni con filtri e ricerca; le **Cifre del convegno** raccontano numeri e aree tematiche; i **Poster** sono navigabili come galleria o come grafo di autori e temi.
+
+| Esplora i contributi | Cifre del convegno | Poster (grafo) |
+|---|---|---|
+| ![Esplora: mappa affiliazioni e KPI](images/companion/esplora.png) | ![Cifre del convegno](images/companion/cifre.png) | ![Poster gallery come grafo](images/companion/poster.png) |
+
+### In tasca · mobile-first, agenda e assistente
+
+L'interfaccia è **mobile-first** con bottom-nav e tocco generoso. L'agenda personale **"Il mio AIUCD26"** salva le relazioni (persistente offline) ed è esportabile nel calendario. **Noa**, l'assistente, conosce lo stato del convegno e propone **percorsi tematici** cuciti sui contributi. Una sezione **Esplora Cagliari** raccoglie punti d'interesse e itinerari.
+
+| Mobile · Programma live | Assistente Noa + percorsi | Esplora Cagliari |
+|---|---|---|
+| ![Vista mobile del Programma](images/companion/mobile-programma.png) | ![Assistente Noa e percorsi tematici](images/companion/noa-drawer.png) | ![Esplora Cagliari: punti di interesse](images/companion/cagliari.png) |
+
+### Perché è curato
+
+- **Stato live affidabile** — orari interpretati in `Europe/Rome` (gestione ora legale), controllo di *clock-skew* del device, parametro `?simulate=` per il QA di ogni momento del convegno.
+- **Bilingue senza rotture** — l'italiano è la *source of truth*, l'inglese un overlay non distruttivo: nessuna schermata si rompe se manca una traduzione.
+- **Dati separati dal codice** — il contenuto vive in JSON rigenerati da un Excel sorgente tramite pipeline Python; aggiornare il programma non richiede di toccare il codice.
+- **Zero framework, longevo** — vanilla ES modules serviti come statici: niente bundler, niente obsolescenza da mode tecnologiche.
+- **Identità visiva del territorio** — palette navy + rust, tipografia Cardo/Inter, glifi nuragici e pattern *pibiones*.
 
 ---
 
 ## 🌐 Il Sito AIUCD2026 Cagliari
-
-![AIUCD2026 Homepage](images/aiucd2026-homepage.png)
 
 Il sito web **[AIUCD2026.unica.it](https://www.aiucd2026.unica.it/)** è la piattaforma ufficiale del **XV Convegno annuale dell'Associazione per l'Informatica Umanistica e la Cultura Digitale (AIUCD)**, che si terrà a **Cagliari dal 3 al 5 giugno 2026**.
 
@@ -83,7 +125,9 @@ Il convegno è attivo sui canali social:
 
 ---
 
-## 📋 Requisiti del Progetto
+## 🐳 Infrastruttura tecnica (WordPress + Docker)
+
+> La parte che segue documenta l'**ambiente di hosting**: lo stack WordPress dockerizzato che serve il sito e il Companion, con deploy automatico via GitHub Actions. È rilevante per chi mantiene l'infrastruttura; chi cerca il prodotto trova tutto sopra e in [docs/companion/](docs/companion/).
 
 ### Obiettivo
 
@@ -791,4 +835,4 @@ tar czf wordpress-backup.tar.gz ./wordpress/
 
 ---
 
-*Last updated: 10 Dicembre 2025*
+*Last updated: 2 giugno 2026*
