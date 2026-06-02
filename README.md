@@ -586,76 +586,6 @@ define('WP_MEMORY_LIMIT', '256M');
 define('WP_MAX_MEMORY_LIMIT', '256M');
 "
 ```
-
----
-
-## 📊 Checklist Pre-Produzione
-
-Prima di andare in produzione, verifica:
-
-- [ ] File `.env` configurato con valori sicuri
-- [ ] UID/GID configurato correttamente (`DOCKER_UID`, `DOCKER_GID`)
-- [ ] Chiavi WordPress generate e inserite
-- [ ] Password database sicure (no default)
-- [ ] GitHub Secrets configurati per deploy automatico
-- [ ] SSL configurato sul server (a monte di Docker)
-- [ ] Backup automatici attivi
-- [ ] Monitoring configurato (opzionale)
-- [ ] Test deploy funzionante
-- [ ] Test REST API: `curl http://tuo-dominio/wp-json/`
-- [ ] Test upload file in WordPress
-- [ ] Permalink salvati (Impostazioni → Permalink)
-
----
-
-## 🚀 Prossimi Sviluppi
-
-Possibili miglioramenti futuri:
-
-- 🔄 **Redis cache** per migliorare performance
-- 📧 **Email SMTP** configurazione
-- 🔍 **Elasticsearch** per search avanzata
-- 📈 **Monitoring** con Prometheus/Grafana
-- 🔐 **2FA** per login WordPress
-- 🌍 **CDN integration** per assets statici
-- 🤖 **Automated testing** con Playwright
-- 📱 **Mobile app** integrazione
-
----
-
-## 🤝 Contribuire
-
-Per contribuire al progetto:
-
-1. Fork del repository
-2. Crea feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit modifiche (`git commit -m 'Add some AmazingFeature'`)
-4. Push al branch (`git push origin feature/AmazingFeature`)
-5. Apri Pull Request
-
----
-
-## 📝 Changelog
-
-### v1.0.0 - 17 Ottobre 2025
-
-**Features**:
-
-- ✅ Setup completo WordPress + MariaDB + phpMyAdmin
-- ✅ Deploy automatico via GitHub Actions
-- ✅ User mapping per permessi corretti
-- ✅ REST API configurate e funzionanti
-- ✅ Upload file fino a 100MB
-- ✅ Scripts di diagnostica e fix
-- ✅ Documentazione completa
-
-**Bug Fixes**:
-
-- 🐛 Fix permission denied durante deploy
-- 🐛 Fix REST API "not valid JSON response"
-- 🐛 Fix upload file directory creation error
-- 🐛 Fix GitHub Actions workflow syntax error
-
 ---
 
 ## 📞 Supporto
@@ -666,21 +596,6 @@ Per problemi o domande:
 2. Esegui script di diagnostica appropriato
 3. Controlla i logs: `docker compose logs`
 4. Cerca nel README nella sezione Troubleshooting
-
----
-
-## 📄 Licenza
-
-Questo progetto è distribuito con licenza MIT. Vedi file `LICENSE` per dettagli.
-
----
-
-## 🙏 Ringraziamenti
-
-- WordPress Team per l'eccellente CMS
-- Docker Team per la containerizzazione
-- MariaDB Team per il database performante
-- Community open source per supporto e feedback
 
 ---
 
