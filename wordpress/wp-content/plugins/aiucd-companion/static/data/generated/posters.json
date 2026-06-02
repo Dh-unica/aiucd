@@ -619,10 +619,10 @@
     "photo": null,
     "photos": [],
     "poster_pdf": null,
-    "poster_file": "assets/poster-files/77.jpg?v=e9e057f4",
+    "poster_file": "assets/poster-files/77.jpg?v=0f341092",
     "poster_file_type": "image",
-    "zenodo_url": "https://zenodo.org/records/20487354",
-    "zenodo_doi": "10.5281/zenodo.20487354",
+    "zenodo_url": "https://zenodo.org/records/20490158",
+    "zenodo_doi": "10.5281/zenodo.20490158",
     "consent_photo": false,
     "session": "2026-06-04T14:30",
     "area_label_en": "Data and knowledge"
