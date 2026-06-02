@@ -255,6 +255,64 @@
   }
 }
 
+/* ---- ricerca per titolo / autore ---- */
+.program-search {
+  position: relative;
+  flex: 1 1 220px;
+  min-width: 200px;
+  max-width: 360px;
+  margin-left: auto;
+}
+.program-search input {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  outline: none;
+  min-height: var(--tap-min);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast), background var(--t-fast);
+}
+.program-search input::placeholder { color: #777; font-weight: 400; }
+.program-search input:focus {
+  border-color: var(--navy);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 0, 96, 0.14);
+}
+.program-search::before {
+  content: "";
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  width: 17px; height: 17px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000060' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+  background-size: contain; background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* messaggio "nessun risultato" della ricerca */
+.program-empty {
+  margin: 0 0 var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--paper);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .program-search {
+    flex-basis: 100%;
+    max-width: none;
+    margin-left: 0;
+  }
+}
+
 /* ---- griglia ---- */
 .program-grid-wrap {
   background: var(--paper);
@@ -503,7 +561,8 @@
    compresi le track-column e session-block che restano vuoti. */
 .talk-cell.filtered-out,
 .track-column.filtered-out,
-.session-block.filtered-out {
+.session-block.filtered-out,
+.block-full.filtered-out {
   display: none !important;
 }
 

@@ -11,6 +11,7 @@ const ROOMS_ORDER = ["Aula 5A", "Aula 6A", "Aula 8A"];
 let _state = {
   selectedDay: null,
   selectedAreas: new Set(AREAS.map(a => a.code)),
+  query: "",
   data: null,
   onTalkClick: null,
 };
@@ -32,8 +33,15 @@ export function renderProgram(rootEl, data, onTalkClick) {
     <div class="program-toolbar">
       <div class="day-tabs" role="tablist" id="day-tabs"></div>
       <div class="area-filters" id="area-filters"></div>
+      <div class="program-search">
+        <input type="search" id="program-search-input"
+          placeholder="${escapeHtml(t("program.search_placeholder"))}"
+          aria-label="${escapeHtml(t("program.search_placeholder"))}"
+          autocomplete="off" inputmode="search" value="${escapeHtml(_state.query)}">
+      </div>
     </div>
     <div id="live-snapshot-host"></div>
+    <p class="program-empty" id="program-empty" role="status" hidden>${escapeHtml(t("program.no_results"))}</p>
     <div class="program-grid-wrap">
       <div class="program-grid" id="program-grid"></div>
     </div>
@@ -41,6 +49,7 @@ export function renderProgram(rootEl, data, onTalkClick) {
 
   renderDayTabs(rootEl);
   renderAreaFilters(rootEl);
+  renderSearch(rootEl);
   renderGrid(rootEl);
 
   // Auto-refresh now line e live snapshot ogni 30s
@@ -95,6 +104,28 @@ function renderDayTabs(rootEl) {
   });
 }
 
+function renderSearch(rootEl) {
+  const input = rootEl.querySelector("#program-search-input");
+  if (!input) return;
+  input.value = _state.query;
+  let timer;
+  input.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      _state.query = input.value.trim().toLowerCase();
+      applyFilters(rootEl);
+    }, 120);
+  });
+  // Esc azzera la ricerca.
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && input.value) {
+      input.value = "";
+      _state.query = "";
+      applyFilters(rootEl);
+    }
+  });
+}
+
 function renderAreaFilters(rootEl) {
   const wrap = rootEl.querySelector("#area-filters");
   // Stato iniziale: nessun filtro attivo = "mostra tutto"
@@ -117,7 +148,7 @@ function renderAreaFilters(rootEl) {
   wrap.querySelector(".area-filter[data-area-all]").addEventListener("click", () => {
     _state.selectedAreas = new Set(AREAS.map(a => a.code));
     refreshFilterUI(wrap);
-    applyAreaFilter(rootEl);
+    applyFilters(rootEl);
   });
 
   wrap.querySelectorAll(".area-filter[data-area]").forEach(btn => {
@@ -144,7 +175,7 @@ function renderAreaFilters(rootEl) {
         }
       }
       refreshFilterUI(wrap);
-      applyAreaFilter(rootEl);
+      applyFilters(rootEl);
     });
   });
 }
@@ -160,17 +191,17 @@ function refreshFilterUI(wrap) {
   });
 }
 
-function applyAreaFilter(rootEl) {
+function applyFilters(rootEl) {
   const allSelected = _state.selectedAreas.size === AREAS.length;
+  const q = _state.query;
+  const matchesText = (el) => !q || (el.dataset.search || "").includes(q);
 
-  // 1. Nascondi le talk-cell di aree non selezionate.
+  // 1. Nascondi le talk-cell che non superano filtro area E ricerca testo.
   rootEl.querySelectorAll(".talk-cell[data-area-code]").forEach(cell => {
     const code = cell.dataset.areaCode;
     cell.classList.remove("dim");
-    cell.classList.toggle(
-      "filtered-out",
-      !(allSelected || _state.selectedAreas.has(code)),
-    );
+    const areaOk = allSelected || _state.selectedAreas.has(code);
+    cell.classList.toggle("filtered-out", !(areaOk && matchesText(cell)));
   });
 
   // 2. Nascondi le track-column dove tutti i talk sono filtrati.
@@ -191,6 +222,20 @@ function applyAreaFilter(rootEl) {
     const allHidden = [...cols].every(c => c.classList.contains("filtered-out"));
     block.classList.toggle("filtered-out", allHidden);
   });
+
+  // 4. Blocchi plenari/pause (no aree): li tocca solo la ricerca testuale.
+  rootEl.querySelectorAll(".block-full").forEach(b => {
+    b.classList.toggle("filtered-out", !matchesText(b));
+  });
+
+  // 5. Empty-state: mostrato quando la ricerca non trova nulla.
+  const empty = rootEl.querySelector("#program-empty");
+  if (empty) {
+    const hasResults =
+      rootEl.querySelector(".talk-cell[data-area-code]:not(.filtered-out)") !== null ||
+      rootEl.querySelector(".block-full:not(.filtered-out)") !== null;
+    empty.hidden = hasResults;
+  }
 
   // Riposiziona la linea now (la posizione potrebbe essere cambiata).
   updateNowLine(rootEl);
@@ -218,7 +263,7 @@ function renderGrid(rootEl) {
     }
   }
 
-  applyAreaFilter(rootEl);
+  applyFilters(rootEl);
   refreshLiveSnapshot(rootEl);
 }
 
@@ -251,6 +296,10 @@ function createFullBlock(type, block) {
   // Etichetta blocco: legge title/label/name (fallback chain). field() applica
   // automaticamente la versione _en quando lang=en e disponibile.
   const label = field(block, "title") || field(block, "label") || field(block, "name") || "";
+  // Testo cercabile: include IT + EN così la ricerca funziona in entrambe le lingue.
+  div.dataset.search = [
+    block.title, block.title_en, block.label, block.label_en, block.name, block.name_en,
+  ].filter(Boolean).join(" ").toLowerCase();
   div.innerHTML = `
     ${time ? `<span class="time">${time}</span>` : ""}
     <span class="label">${escapeHtml(label)}</span>
@@ -375,6 +424,12 @@ function createTalkCell(talk, track, day) {
   cell.dataset.day = day.date;
   if (talk.start) cell.dataset.start = talk.start;
   if (talk.end)   cell.dataset.end = talk.end;
+
+  // Testo cercabile: titolo (IT+EN) + nomi di TUTTI gli autori, lowercase.
+  cell.dataset.search = [
+    paper.title, paper.title_en,
+    ...(paper.authors || []).map(a => a.name),
+  ].filter(Boolean).join(" ").toLowerCase();
 
   const authors = paper.authors?.map(a => a.name).slice(0, 2).join(", ") +
     (paper.authors?.length > 2 ? ", …" : "");

@@ -40,6 +40,8 @@
   "program.heading": "Programme",
   "program.intro": "Three days, four rooms. Tap a talk for details, tap the star to save it to your agenda.",
   "program.all_areas": "All areas",
+  "program.search_placeholder": "Search by title or author…",
+  "program.no_results": "No talk matches your search.",
   "program.in_agenda": "In agenda",
   "program.live_now": "LIVE",
   "program.all_rooms_break": "All rooms in break",

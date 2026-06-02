@@ -40,6 +40,8 @@
   "program.heading": "Programma",
   "program.intro": "Tre giorni, quattro aule. Tocca una relazione per i dettagli, tocca la stella per salvarla nella tua agenda.",
   "program.all_areas": "Tutte le aree",
+  "program.search_placeholder": "Cerca per titolo o autore…",
+  "program.no_results": "Nessun intervento corrisponde alla ricerca.",
   "program.in_agenda": "In agenda",
   "program.live_now": "IN TEMPO REALE",
   "program.all_rooms_break": "Tutte le aule in pausa",
