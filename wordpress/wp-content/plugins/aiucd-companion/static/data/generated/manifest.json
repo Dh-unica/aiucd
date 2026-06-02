@@ -1,18 +1,18 @@
 {
-  "version": "20260602-1324",
-  "generated_at": "2026-06-02T11:24:15+00:00",
+  "version": "20260602-2208",
+  "generated_at": "2026-06-02T20:08:59+00:00",
   "files": {
-    "papers.json": "1cf86be17079760713c786be40e5cfea8c5772a40443ff6beb59b56a3ba9f6d5",
+    "papers.json": "7b017f7a0af91b83f3e70a0fc549e7725748f3046130aef46481991ef636cfe9",
     "program.json": "a4a3f62252daada29160a7b766d0833c075349ab1ad488457398e751c46f453e",
     "posters.json": "12b881f1d50b8d0789d9f0bf10241f666371378c29930179e5eb300d5af80a8d",
     "paths.json": "def3d9b2ce57b789c0079258740af7d92be74af507aab1ec0251a78cbec38088",
-    "catalogo.json": "29037fb56010483c8a5d7a3869de477b019be73e9a8b6cbe4f4c63b50c758e8d",
-    "poi.json": "d2957fae8a963383ec6ea66ed13bb6416f5086782ac8fe6eec08f29c54374cbf"
+    "catalogo.json": "fb46e9fa1c59f289564608547512072da2f287cfebe7cfe8c9fa8bbe57e2ef6a",
+    "poi.json": "ecdeeec53b9efd01bfd34aac57d90a4e741c7e96837ed3859b044d4ca76d01b4"
   },
   "stats": {
-    "talks_total": 132,
+    "talks_total": 131,
     "talks_oral": 92,
-    "talks_poster": 40,
+    "talks_poster": 39,
     "scheduled_in_program": 92,
     "posters_in_session": 39,
     "paths": 14,

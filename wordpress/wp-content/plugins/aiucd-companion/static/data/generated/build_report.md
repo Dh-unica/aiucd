@@ -1,12 +1,12 @@
-# Build report · 20260602-1324
+# Build report · 20260602-2208
 
-Generated: 2026-06-02T11:24:15+00:00
+Generated: 2026-06-02T20:08:59+00:00
 
 ## Stats
 
-- **talks_total**: 132
+- **talks_total**: 131
 - **talks_oral**: 92
-- **talks_poster**: 40
+- **talks_poster**: 39
 - **scheduled_in_program**: 92
 - **posters_in_session**: 39
 - **paths**: 14
@@ -17,6 +17,7 @@ Generated: 2026-06-02T11:24:15+00:00
 ## Warnings
 
 - paper #10: CONDIVISO Esiti Call has 1 author(s) but submissions.xls has 2 — check for truncated cell
+- paper #146: esito=POSTER in Esiti Call but absent from the POSTER sheet — treated as withdrawn, dropped from Esplora/catalogo (remove from Esiti Call too to silence this warning)
 - paper #85: title in Programma Dettaglio diverges from Esiti Call (likely editorial rewrite, no matching swap found). prog='MeMo: mappe digitali, memoria letteraria e public engagement nel Mezzo' | esiti='MeMo: Digital Maps, Literary Memory, and Public Engagement in Southern'
 - paper #147: title in Programma Dettaglio diverges from Esiti Call (likely editorial rewrite, no matching swap found). prog='Il campo semantico del fuoco nella Commedia: un caso di studio sulla p' | esiti='Dal fuoco alla mappa dei motivi: un framework di visualizzazione dell’'
 - paper #121: POSTER sheet AUTORI cell uses a non-standard format (affiliation without parentheses) — parsed 4 author(s) heuristically; consider reformatting as 'Name (Affiliation); Name (Affiliation); …'
@@ -29,7 +30,6 @@ Generated: 2026-06-02T11:24:15+00:00
 - author photo 'Stefania De Blasi_CCR.jpg': no matching poster found (normalized 'stefania de blasi'ccr')
 - author photo 'ZAMBARDI ELVIRA.jpg': no matching poster found (normalized 'zambardi elvira')
 - author photo 'federico_meschini.jpg': no matching poster found (normalized 'federico'meschini')
-- 1 catalog Poster(s) not in Sessione Poster sheet: [146]
 
 ## Errors
 

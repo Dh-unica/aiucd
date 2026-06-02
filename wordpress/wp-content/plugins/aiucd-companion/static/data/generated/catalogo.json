@@ -2700,21 +2700,6 @@
       "gigliozzi": false
     },
     {
-      "id": 146,
-      "title": "Digital Humanities e Liceo Classico: un laboratorio di Learning Design",
-      "abstract": "L’informatica umanistica, nelle sue varie declinazioni, si sta gradualmente facendo strada anche nei percorsi formativi della scuola secondaria di secondo grado, in particolare al Liceo Classico. La sua introduzione nelle attività didattiche è di grande importanza per dare forma alle competenze digitali previste nei piani formativi della scuola secondaria e per orientare i discenti alle professioni digitali del futuro, e in particolare a quelle nel settore culturale. Il Liceo Classico rappresenta il tipo di scuola che più di altre può trarre beneficio dall’inserimento di percorsi formativi nelle Digital Humanities per quanto concerne il rinnovamento del piano di studi, la diversificazione delle metodologie didattiche e la formazione di profili in uscita capaci tanto nelle competenze umanistiche quanto in quelle digitali, e per orientare gli studi classici verso le professioni digitali in ambito culturale, ampliando il tradizionale pubblico di riferimento per il Liceo Classico.\nLe sperimentazioni didattiche in corso di sviluppo mostrano la necessità di una progettazione sistematica di un curriculum formativo tanto per alunni quanto per docenti, che coinvolga scuole, ministeri, università ed enti certificatori, per evitare la dispersione e l’indebolimento di iniziative e risultati attesi, e per mettere a punto un sistema formativo che congiunga verticalmente e in modo organico scuola ed università.\nIl presente contributo intende dare conto degli ultimi sviluppi della didattica orientata verso le Digital Humanities e suggerire alcuni principi per la progettazione di percorsi formativi rivolti tanto agli studenti di liceo quanto agli insegnanti che devono acquisire le competenze necessarie per introdurre attivamente le Digital Humanities nella didattica in un contesto formativo ancora ristretto dal punto di vista del numero di centri erogatori di formazione, della quantità di formatori disponibili e delle modalità di fruizione della formazione.",
-      "mode": "Poster",
-      "area": "DH and co-construction of knowledge with communities: challenges, methods, tools",
-      "area_it": "DH e co-costruzione di conoscenza",
-      "authors": [
-        {
-          "name": "Paolo Sartori",
-          "aff": "IISCA 'Tacito-Metelli' (Terni)"
-        }
-      ],
-      "gigliozzi": false
-    },
-    {
       "id": 147,
       "title": "Il campo semantico del fuoco nella Commedia: un caso di studio sulla pertinenza lessicale e sulla visualizzazione",
       "abstract": "Questo contributo esamina il motivo del fuoco nella Commedia dantesca come caso filologicamente controllato di visualizzazione dell’intensità tematica. Il lavoro nasce nel contesto delle ricerche sull’“antica fiamma” e sui rimandi fra Virgilio e Dante, e concentra l’attenzione sulla distribuzione interna del fuoco nel poema. Il lessico del fuoco prende forma da una ricognizione di lessemi effettivamente presenti nella Commedia, discussi alla luce della tradizione filologica, in particolare Pertile (1991), e organizzati in tre livelli di pertinenza per fini operativi e interpretativi. Su questa base, il modello assegna a ogni verso un punteggio di intensità del fuoco combinando lessicografia gerarchica, sentence embeddings e una finestra contestuale di tre versi. La sequenza dei valori viene trasformata in una heatmap che rende visibili concentrazioni, gradienti e anomalie locali. La visualizzazione conferma la trasformazione del fuoco dal registro punitivo dell’Inferno alla luce e all’ardore del Paradiso e mette in evidenza micro-pattern da restituire alla lettura ravvicinata e alla discussione esegetica. L’integrazione del modulo nell’ambiente già esistente di commento digitale ddpcommentary.com rende inoltre ispezionabili e documentabili le scelte lessicali e i parametri locali.",
@@ -2928,7 +2913,6 @@
     "ICCU",
     "IHC/IN2PAST",
     "IIIF Consortium",
-    "IISCA 'Tacito-Metelli' (Terni)",
     "ISSASCO",
     "Independent Researcher",
     "Independent Researcher - Wikimedia Italia",
