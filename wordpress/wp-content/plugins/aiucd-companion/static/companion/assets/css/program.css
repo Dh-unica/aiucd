@@ -2,21 +2,43 @@
    AIUCD 2026 Companion — tab Programma (griglia tempo × aula)
    ========================================================= */
 
-/* ---- rimando registrazione/segreteria (Corpo centrale) ---- */
+/* ---- rimando registrazione/segreteria (Corpo centrale) → apre la Sede ---- */
 .program-reg-note {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-top: var(--space-sm);
+  padding: 8px 12px;
   font-size: var(--fs-xs);
   color: var(--muted);
   max-width: 760px;
+  text-align: left;
+  width: 100%;
+  background: var(--line-soft);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--rust);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--t-fast), border-color var(--t-fast);
+}
+.program-reg-note:hover {
+  background: rgba(216, 97, 60, 0.06);
+  border-color: var(--rust);
+}
+.program-reg-note:focus-visible {
+  outline: 3px solid var(--rust);
+  outline-offset: 2px;
 }
 .program-reg-note .icon--pin {
   width: 15px;
   height: 15px;
   color: var(--rust);
   flex-shrink: 0;
+}
+.program-reg-note-cta {
+  color: var(--rust-dark);
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 /* ---- toolbar (tab giorno + filtri area) ---- */

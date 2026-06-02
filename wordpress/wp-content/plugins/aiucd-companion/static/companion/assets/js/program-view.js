@@ -29,10 +29,10 @@ export function renderProgram(rootEl, data, onTalkClick) {
     <div class="section-head bg-pibiones">
       <h2><span class="sub-mark"></span>${t("program.heading")}</h2>
       <p class="section-sub">${t("program.intro")}</p>
-      <p class="program-reg-note">
+      <button type="button" class="program-reg-note" id="program-reg-note">
         <span class="icon icon--pin" aria-hidden="true"></span>
-        ${t("program.registration_note")}
-      </p>
+        <span>${t("program.registration_note")} <span class="program-reg-note-cta">${t("program.registration_cta")} ›</span></span>
+      </button>
     </div>
     <div class="program-toolbar">
       <div class="day-tabs" role="tablist" id="day-tabs"></div>
@@ -55,6 +55,12 @@ export function renderProgram(rootEl, data, onTalkClick) {
   renderAreaFilters(rootEl);
   renderSearch(rootEl);
   renderGrid(rootEl);
+
+  // Il rimando "Registrazione e segreteria" porta alla Sede (mappa), dove
+  // l'utente trova l'avviso completo e la pianta del Corpo centrale.
+  rootEl.querySelector("#program-reg-note")?.addEventListener("click", () => {
+    window.dispatchEvent(new CustomEvent("companion:goto-tab", { detail: { tab: "mappa" } }));
+  });
 
   // Auto-refresh now line e live snapshot ogni 30s
   const refreshLive = () => {
