@@ -81,6 +81,7 @@ const ASSET_BASE = (typeof window !== "undefined" && window.AIUCD_BASE_URL)
 function floorLabel(id) {
   if (id === "primo-piano") return t("mappa.floor.primo_piano");
   if (id === "piano-terra") return t("mappa.floor.piano_terra");
+  if (id === "corpo-centrale") return t("mappa.floor.corpo_centrale");
   return id;
 }
 
@@ -119,6 +120,21 @@ const FLOORS = [
         : "Ingressi al campus, area catering nel giardino esterno. Sali al primo piano per le aule del convegno.";
     },
   },
+  {
+    id: "corpo-centrale",
+    get label() { return floorLabel("corpo-centrale"); },
+    img: ASSET_BASE + "assets/img/mappa/corpo-centrale.jpg?v=" + MAPPA_IMG_VERSION,
+    get alt() {
+      return getLang() === "en"
+        ? "Ground floor plan of the Central Building (Faculty of Humanities, Sa Duchessa): registration and welcome desk by the entrance on Via Is Mirrionis 1, with the route to the Annex Building."
+        : "Pianta del piano terra del Corpo centrale (Facoltà di Studi Umanistici, Sa Duchessa): segreteria e banco registrazioni all'ingresso da Via Is Mirrionis 1, con il percorso verso il Corpo aggiunto.";
+    },
+    get caption() {
+      return getLang() === "en"
+        ? "Registration & welcome desk here, by the entrance on Via Is Mirrionis 1. From here follow the signs to the Annex Building (sessions and plenaries)."
+        : "Qui la segreteria e il banco registrazioni, all'ingresso da Via Is Mirrionis 1. Da qui segui le indicazioni verso il Corpo aggiunto (sessioni e plenarie).";
+    },
+  },
 ];
 
 export function renderMappa(rootEl, data, onTalkClick) {
@@ -153,11 +169,15 @@ export function renderMappa(rootEl, data, onTalkClick) {
       <div class="venue-registration-text">
         <strong>${t("mappa.registration.title")}</strong>
         <p>${t("mappa.registration.body")}</p>
+        <button type="button" class="venue-registration-link" data-goto-floor="corpo-centrale">
+          <span class="icon icon--compass" aria-hidden="true"></span>
+          <span>${t("mappa.registration.view_plan")}</span>
+        </button>
       </div>
     </aside>
     <div class="mappa-layout">
       <div class="mappa-canvas">
-        <div class="mappa-floors-tabs" role="tablist" aria-label="${isEn ? "Floors of the Annex Building" : "Piani del Corpo aggiunto"}">
+        <div class="mappa-floors-tabs" role="tablist" aria-label="${isEn ? "Venue floor plans" : "Piante della sede"}">
           ${FLOORS.map(f => `
             <button type="button"
                     role="tab"
@@ -187,6 +207,7 @@ export function renderMappa(rootEl, data, onTalkClick) {
 
   wireFloorTabs();
   wireRoomMarkers();
+  wireRegistrationLink();
   refreshStates();
   if (_state.timer) clearInterval(_state.timer);
   _state.timer = setInterval(refreshStates, 30_000);
@@ -260,6 +281,20 @@ function wireRoomMarkers() {
   const markers = _state.root.querySelectorAll(".room-marker[data-room]");
   markers.forEach(btn => {
     btn.addEventListener("click", () => selectRoom(btn.dataset.room));
+  });
+}
+
+// Link nell'avviso "Registrazione e segreteria" → apre la pianta del Corpo
+// centrale (dove sta la segreteria) riusando il tab del piano corrispondente.
+function wireRegistrationLink() {
+  const link = _state.root.querySelector(".venue-registration-link[data-goto-floor]");
+  if (!link) return;
+  link.addEventListener("click", () => {
+    const floor = link.dataset.gotoFloor;
+    const tab = _state.root.querySelector(`.mappa-floor-tab[data-floor="${floor}"]`);
+    if (tab) tab.click();
+    const stage = _state.root.querySelector("#mappa-floor-stage");
+    if (stage) stage.scrollIntoView({ behavior: "smooth", block: "nearest" });
   });
 }
 

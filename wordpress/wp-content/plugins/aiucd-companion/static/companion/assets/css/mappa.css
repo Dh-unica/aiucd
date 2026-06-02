@@ -92,6 +92,33 @@
   line-height: 1.45;
   color: var(--muted);
 }
+.venue-registration-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--space-sm);
+  padding: 6px 12px;
+  background: transparent;
+  color: var(--rust-dark);
+  border: 1px solid var(--rust);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.venue-registration-link:hover {
+  background: var(--rust);
+  color: var(--paper);
+}
+.venue-registration-link:focus-visible {
+  outline: 3px solid var(--rust);
+  outline-offset: 2px;
+}
+.venue-registration-link .icon {
+  width: 14px;
+  height: 14px;
+}
 
 /* =========================================================
    Tabs piani (Primo piano / Piano terra)
