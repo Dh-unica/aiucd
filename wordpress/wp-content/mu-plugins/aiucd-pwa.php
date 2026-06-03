@@ -486,7 +486,11 @@ if ('serviceWorker' in navigator) {
 
 	/** Versione per cache-busting del SW: mtime di questo file + delle icone. */
 	private static function version() {
-		$parts = array( '1.0.0' );
+		// Bump manuale di questa stringa per forzare l'aggiornamento del Service
+		// Worker (e quindi lo svuotamento della runtime cache) sui dispositivi che
+		// hanno già installato la PWA, anche quando cambiano solo gli asset del
+		// companion (il cui mtime non incide su questa versione).
+		$parts = array( '1.0.1' );
 		foreach ( array( __FILE__, __DIR__ . '/aiucd-pwa/icon-512.png' ) as $f ) {
 			if ( file_exists( $f ) ) {
 				$parts[] = (string) filemtime( $f );
