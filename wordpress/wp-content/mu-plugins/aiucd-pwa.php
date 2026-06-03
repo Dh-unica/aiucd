@@ -237,8 +237,33 @@ JS;
 		?>
 <script>
 if ('serviceWorker' in navigator) {
+  var aiucdSwUrl = <?php echo wp_json_encode( $sw ); ?>;
+  // Se la pagina è già controllata da un SW (PWA installata / visita di
+  // ritorno), ricaricala UNA volta quando il nuovo SW prende il controllo.
+  // Senza questo, dopo lo svuotamento cache la pagina aperta continua a
+  // girare con i moduli vecchi e l'aggiornamento (es. messaggio countdown)
+  // non si vede finché l'utente non chiude e riapre l'app a mano.
+  if (navigator.serviceWorker.controller) {
+    var aiucdReloading = false;
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (aiucdReloading) return;
+      aiucdReloading = true;
+      window.location.reload();
+    });
+  }
   window.addEventListener('load', function () {
-    navigator.serviceWorker.register(<?php echo wp_json_encode( $sw ); ?>, { scope: '/' })
+    // updateViaCache:'none' → lo script del SW non viene mai servito dalla
+    // cache HTTP, così un bump di versione è sempre rilevato.
+    navigator.serviceWorker.register(aiucdSwUrl, { scope: '/', updateViaCache: 'none' })
+      .then(function (reg) {
+        // Forza subito il controllo di una versione più recente (iOS in
+        // standalone non lo fa da solo) e ricontrolla a ogni ritorno in
+        // foreground per le sessioni di PWA aperte a lungo.
+        reg.update();
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'visible') reg.update();
+        });
+      })
       .catch(function (e) { console.warn('AIUCD PWA: SW registration failed', e); });
   });
 }
@@ -490,7 +515,7 @@ if ('serviceWorker' in navigator) {
 		// Worker (e quindi lo svuotamento della runtime cache) sui dispositivi che
 		// hanno già installato la PWA, anche quando cambiano solo gli asset del
 		// companion (il cui mtime non incide su questa versione).
-		$parts = array( '1.0.1' );
+		$parts = array( '1.0.2' );
 		foreach ( array( __FILE__, __DIR__ . '/aiucd-pwa/icon-512.png' ) as $f ) {
 			if ( file_exists( $f ) ) {
 				$parts[] = (string) filemtime( $f );
