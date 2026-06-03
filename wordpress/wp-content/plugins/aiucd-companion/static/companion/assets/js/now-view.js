@@ -54,11 +54,19 @@ export function renderLiveSnapshot(rootEl, data, opts = {}) {
   // Fuori orario sessioni in un giorno di convegno: messaggio breve.
   if (dayStart && now < dayStart) {
     const minTo = Math.round((dayStart - now) / 60000);
+    // Giorno d'apertura: la giornata non inizia con le sessioni ma con la
+    // colazione di benvenuto (blocco con flag `opening`). Messaggio dedicato.
+    const opening = (day.blocks || []).some(b => b.opening);
+    const inner = opening
+      ? `<span class="snap-pulse" aria-hidden="true"></span>
+        Il convegno inizia <strong>tra ${minTo} min</strong>
+        (${formatHHMM(dayStart)}) con la colazione di benvenuto.`
+      : `<span class="snap-pulse" aria-hidden="true"></span>
+        Le sessioni di oggi iniziano <strong>tra ${minTo} min</strong>
+        (${formatHHMM(dayStart)}).`;
     rootEl.innerHTML = `
       <div class="live-snapshot is-empty">
-        <span class="snap-pulse" aria-hidden="true"></span>
-        Le sessioni di oggi iniziano <strong>tra ${minTo} min</strong>
-        (${formatHHMM(dayStart)}).
+        ${inner}
       </div>`;
     return;
   }
