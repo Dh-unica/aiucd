@@ -54,7 +54,6 @@ use Google\Site_Kit\Core\Tags\Guards\Tag_Environment_Type_Guard;
 use Google\Site_Kit\Core\Tags\Guards\Tag_Verify_Guard;
 use Google\Site_Kit\Core\Util\BC_Functions;
 use Google\Site_Kit\Core\Util\Method_Proxy_Trait;
-use Google\Site_Kit\Core\Util\Sort;
 use Google\Site_Kit\Core\Util\URL;
 use Google\Site_Kit\Modules\AdSense\Settings as AdSense_Settings;
 use Google\Site_Kit\Modules\Analytics_4\Account_Ticket;
@@ -67,6 +66,8 @@ use Google\Site_Kit\Modules\Analytics_4\Datapoints\Create_Audience;
 use Google\Site_Kit\Modules\Analytics_4\Datapoints\Create_Custom_Dimension;
 use Google\Site_Kit\Modules\Analytics_4\Datapoints\Create_Property;
 use Google\Site_Kit\Modules\Analytics_4\Datapoints\Create_Webdatastream;
+use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Account_Summaries;
+use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Accounts;
 use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Ads_Links;
 use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Adsense_Links;
 use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Audience_Settings;
@@ -74,6 +75,8 @@ use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Container_Lookup;
 use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Container_Destinations;
 use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Enhanced_Measurement_Settings;
 use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Google_Tag_Settings;
+use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Properties;
+use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Property;
 use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Has_Property_Access;
 use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Key_Events;
 use Google\Site_Kit\Modules\Analytics_4\Datapoints\Get_Report;
@@ -693,8 +696,20 @@ final class Analytics_4 extends Module implements Module_With_Inline_Data, Modul
 	 */
 	protected function get_datapoint_definitions() {
 		$datapoints = array(
-			'GET:account-summaries'                     => array( 'service' => 'analyticsadmin' ),
-			'GET:accounts'                              => array( 'service' => 'analyticsadmin' ),
+			'GET:account-summaries'                     => new Get_Account_Summaries(
+				array(
+					'service' => function () {
+						return $this->get_service( 'analyticsadmin' );
+					},
+				)
+			),
+			'GET:accounts'                              => new Get_Accounts(
+				array(
+					'service' => function () {
+						return $this->get_service( 'analyticsadmin' );
+					},
+				)
+			),
 			'GET:ads-links'                             => new Get_Ads_Links(
 				array(
 					'service' => function () {
@@ -778,8 +793,20 @@ final class Analytics_4 extends Module implements Module_With_Inline_Data, Modul
 					'request_scopes_message' => __( 'You’ll need to grant Site Kit permission to create a new Analytics web data stream for this site on your behalf.', 'google-site-kit' ),
 				)
 			),
-			'GET:properties'                            => array( 'service' => 'analyticsadmin' ),
-			'GET:property'                              => array( 'service' => 'analyticsadmin' ),
+			'GET:properties'                            => new Get_Properties(
+				array(
+					'service' => function () {
+						return $this->get_service( 'analyticsadmin' );
+					},
+				)
+			),
+			'GET:property'                              => new Get_Property(
+				array(
+					'service' => function () {
+						return $this->get_service( 'analyticsadmin' );
+					},
+				)
+			),
 			'GET:has-property-access'                   => new Get_Has_Property_Access(
 				array(
 					'service' => function () {
@@ -1078,6 +1105,11 @@ final class Analytics_4 extends Module implements Module_With_Inline_Data, Modul
 			return;
 		}
 
+		// `show_progress` is set on the provisioning redirect URI by `Create_Account_Ticket`
+		// when the user is in the initial setup flow with the `setupFlowRefresh` feature
+		// flag enabled, and is therefore present on the callback URL when applicable.
+		$show_progress = (bool) $input->filter( INPUT_GET, 'show_progress' );
+
 		// First check that the accountTicketId matches one stored for the user.
 		// This is always provided, even in the event of an error.
 		$account_ticket_id = htmlspecialchars( $input->filter( INPUT_GET, 'accountTicketId' ) );
@@ -1094,28 +1126,28 @@ final class Analytics_4 extends Module implements Module_With_Inline_Data, Modul
 
 		if ( $account_ticket->get_id() !== $account_ticket_id ) {
 			wp_safe_redirect(
-				$this->context->admin_url( 'dashboard', array( 'error_code' => 'account_ticket_id_mismatch' ) )
+				$this->get_provisioning_callback_error_redirect_url( 'account_ticket_id_mismatch', $show_progress )
 			);
 			exit;
 		}
-
-		// At this point, the accountTicketId is a match and params are loaded, so we can safely delete the transient.
-		$this->transients->delete( $account_ticket_transient_key );
 
 		// Next, check for a returned error.
 		$error = $input->filter( INPUT_GET, 'error' );
 		if ( ! empty( $error ) ) {
 			wp_safe_redirect(
-				$this->context->admin_url( 'dashboard', array( 'error_code' => htmlspecialchars( $error ) ) )
+				$this->get_provisioning_callback_error_redirect_url( htmlspecialchars( $error ), $show_progress )
 			);
 			exit;
 		}
 
-		$account_id = htmlspecialchars( $input->filter( INPUT_GET, 'accountId' ) );
+		// As the account has been created without an error, we can safely delete the transient.
+		$this->transients->delete( $account_ticket_transient_key );
+
+		$account_id = htmlspecialchars( $input->filter( INPUT_GET, 'accountId' ) ?? '' );
 
 		if ( empty( $account_id ) ) {
 			wp_safe_redirect(
-				$this->context->admin_url( 'dashboard', array( 'error_code' => 'callback_missing_parameter' ) )
+				$this->get_provisioning_callback_error_redirect_url( 'callback_missing_parameter', $show_progress )
 			);
 			exit;
 		}
@@ -1130,8 +1162,6 @@ final class Analytics_4 extends Module implements Module_With_Inline_Data, Modul
 		$this->provision_property_webdatastream( $account_id, $account_ticket );
 
 		if ( Feature_Flags::enabled( 'setupFlowRefresh' ) ) {
-			$show_progress = (bool) $input->filter( INPUT_GET, 'show_progress' );
-
 			wp_safe_redirect(
 				$this->context->admin_url(
 					'key-metrics-setup',
@@ -1153,6 +1183,40 @@ final class Analytics_4 extends Module implements Module_With_Inline_Data, Modul
 			)
 		);
 		exit;
+	}
+
+	/**
+	 * Builds the redirect URL for an error encountered during the Analytics
+	 * account provisioning callback.
+	 *
+	 * When the `setupFlowRefresh` feature flag is enabled, the user is
+	 * redirected back to the Analytics setup screen so the error can be
+	 * surfaced inline. Otherwise, the legacy dashboard redirect with the
+	 * `error_code` query parameter is used.
+	 *
+	 * @since 1.180.0
+	 *
+	 * @param string $error_code    The error code to surface.
+	 * @param bool   $show_progress Whether the initial setup flow's progress
+	 *                              bar should be retained on the redirect URL.
+	 * @return string The URL to redirect to.
+	 */
+	private function get_provisioning_callback_error_redirect_url( $error_code, $show_progress ) {
+		if ( Feature_Flags::enabled( 'setupFlowRefresh' ) ) {
+			$args = array(
+				'slug'                     => 'analytics-4',
+				'reAuth'                   => 'true',
+				'accountCreationErrorCode' => $error_code,
+			);
+
+			if ( $show_progress ) {
+				$args['showProgress'] = 'true';
+			}
+
+			return $this->context->admin_url( 'dashboard', $args );
+		}
+
+		return $this->context->admin_url( 'dashboard', array( 'error_code' => $error_code ) );
 	}
 
 	/**
@@ -1276,43 +1340,6 @@ final class Analytics_4 extends Module implements Module_With_Inline_Data, Modul
 	 */
 	protected function create_data_request( Data_Request $data ) {
 		switch ( "{$data->method}:{$data->datapoint}" ) {
-			case 'GET:accounts':
-				return $this->get_service( 'analyticsadmin' )->accounts->listAccounts();
-			case 'GET:account-summaries':
-				return $this->get_service( 'analyticsadmin' )->accountSummaries->listAccountSummaries(
-					array(
-						'pageSize'  => 200,
-						'pageToken' => $data['pageToken'],
-					)
-				);
-			case 'GET:properties':
-				if ( ! isset( $data['accountID'] ) ) {
-					return new WP_Error(
-						'missing_required_param',
-						/* translators: %s: Missing parameter name */
-						sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'accountID' ),
-						array( 'status' => 400 )
-					);
-				}
-
-				return $this->get_service( 'analyticsadmin' )->properties->listProperties(
-					array(
-						'filter'   => 'parent:' . self::normalize_account_id( $data['accountID'] ),
-						'pageSize' => 200,
-					)
-				);
-			case 'GET:property':
-				if ( ! isset( $data['propertyID'] ) ) {
-					return new WP_Error(
-						'missing_required_param',
-						/* translators: %s: Missing parameter name */
-						sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'propertyID' ),
-						array( 'status' => 400 )
-					);
-				}
-
-				return $this->get_service( 'analyticsadmin' )->properties->get( self::normalize_property_id( $data['propertyID'] ) );
-
 			case 'GET:batch-report':
 				if ( empty( $data['requests'] ) ) {
 					return new WP_Error(
@@ -1367,32 +1394,6 @@ final class Analytics_4 extends Module implements Module_With_Inline_Data, Modul
 		}
 
 		return parent::create_data_request( $data );
-	}
-
-	/**
-	 * Parses a response for the given datapoint.
-	 *
-	 * @since 1.30.0
-	 *
-	 * @param Data_Request $data     Data request object.
-	 * @param mixed        $response Request response.
-	 *
-	 * @return mixed Parsed response data on success, or WP_Error on failure.
-	 */
-	protected function parse_data_response( Data_Request $data, $response ) {
-		switch ( "{$data->method}:{$data->datapoint}" ) {
-			case 'GET:accounts':
-				return array_map( array( self::class, 'filter_account_with_ids' ), $response->getAccounts() );
-			case 'GET:properties':
-				return Sort::case_insensitive_list_sort(
-					array_map( array( self::class, 'filter_property_with_ids' ), $response->getProperties() ),
-					'displayName'
-				);
-			case 'GET:property':
-				return self::filter_property_with_ids( $response );
-		}
-
-		return parent::parse_data_response( $data, $response );
 	}
 
 	/**
