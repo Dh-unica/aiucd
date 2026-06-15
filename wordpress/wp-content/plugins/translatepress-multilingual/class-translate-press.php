@@ -45,6 +45,7 @@ class TRP_Translate_Press{
     protected $preferred_user_language;
     protected $gutenberg_blocks;
     protected $onboarding_setup;
+    protected $abilities;
     protected $language_switcher_tab;
     protected $ai_words_notification;
 
@@ -79,7 +80,7 @@ class TRP_Translate_Press{
         define( 'TRP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
         define( 'TRP_PLUGIN_BASE', plugin_basename( __DIR__ . '/index.php' ) );
         define( 'TRP_PLUGIN_SLUG', 'translatepress-multilingual' );
-        define( 'TRP_PLUGIN_VERSION', '3.1.7' );
+        define( 'TRP_PLUGIN_VERSION', '3.2.1' );
 
 	    wp_cache_add_non_persistent_groups(array('trp'));
 
@@ -158,6 +159,7 @@ class TRP_Translate_Press{
         require_once TRP_PLUGIN_DIR . 'includes/class-preferred-user-language.php';
         require_once TRP_PLUGIN_DIR . 'includes/gutenberg-blocks/class-gutenberg-blocks.php';
         require_once TRP_PLUGIN_DIR . 'includes/class-onboarding.php';
+        require_once TRP_PLUGIN_DIR . 'includes/class-abilities.php';
         require_once TRP_PLUGIN_DIR . 'includes/class-language-switcher-tab.php';
         require_once TRP_PLUGIN_DIR . 'includes/class-ai-words-notification.php';
         require_once TRP_PLUGIN_DIR . 'includes/class-support-chat.php';
@@ -211,6 +213,7 @@ class TRP_Translate_Press{
         $this->woocommerce_emails         = new TRP_Woocommerce_Emails();
         $this->preferred_user_language    = new TRP_Preferred_User_Language();
         $this->onboarding_setup           = new TRP_Onboarding( $this->settings->get_settings() );
+        $this->abilities                  = new TRP_Abilities();
         $this->ai_words_notification      = new TRP_AI_Words_Notification( $this->settings->get_settings() );
         $this->batch_processor            = new TRP_Batch_Processor();
 
@@ -432,6 +435,7 @@ class TRP_Translate_Press{
         $this->loader->add_filter( "trp_allow_machine_translation_for_string", $this->translation_render, 'skip_strings_that_cannot_be_auto_translated', 10, 5 );
         $this->loader->add_filter( "rest_pre_echo_response", $this->translation_render, 'handle_generic_rest_api_translations', 10, 3 );
         $this->loader->add_filter( "oembed_response_data", $this->translation_render, 'oembed_response_data', 10, 4 );
+        $this->loader->add_filter( "trp_translated_html", $this->translation_render, 'restore_feed_camelcase_tags', 10, 4 );
 
         /* add custom containers for post content and pots title so we can identify string that are part of them */
         $this->loader->add_filter( "the_content", $this->translation_render, 'wrap_with_post_id', 1000 );
@@ -561,7 +565,44 @@ class TRP_Translate_Press{
      * Load plugin textdomain
      */
     public function init_translation(){
-        load_plugin_textdomain( 'translatepress-multilingual', false, basename(dirname(__FILE__)) . '/languages/' );
+        if ( apply_filters( 'trp_use_bundled_translations', true ) ) {
+            // OVERRIDE: hijack the load filters so WP uses the merged community+AI files
+            // bundled in this plugin's /languages/ over anything WordPress.org installs into
+            // wp-content/languages/plugins/. The third arg to load_plugin_textdomain still
+            // points at our /languages/ as a belt-and-suspenders fallback in case the filter
+            // somehow doesn't fire (e.g. another plugin removed it).
+            add_filter( 'load_textdomain_mofile',       array( $this, 'prefer_bundled_translation_file' ), 10, 2 );
+            add_filter( 'load_translation_file',        array( $this, 'prefer_bundled_translation_file' ), 10, 2 );
+            add_filter( 'load_script_translation_file', array( $this, 'prefer_bundled_script_translation_file' ), 10, 3 );
+
+            load_plugin_textdomain( 'translatepress-multilingual', false, basename(dirname(__FILE__)) . '/languages/' );
+        } else {
+            // DISABLED (toggle on, or `trp_use_bundled_translations` filter returned false):
+            // omit the plugin-folder path so WordPress only consults wp-content/languages/plugins/
+            // (the WP.org pack location). If a community pack is installed there it loads; if
+            // not, gettext falls back to the English source.
+            //
+            // JS script translations are already in this "WP.org-only" mode by default because
+            // the wp_set_script_translations() call elsewhere in the plugin doesn't pass a
+            // $path argument either — no further wiring needed for the JSON side.
+            load_plugin_textdomain( 'translatepress-multilingual' );
+        }
+    }
+
+    public function prefer_bundled_translation_file( $file, $domain ) {
+        if ( 'translatepress-multilingual' !== $domain ) {
+            return $file;
+        }
+        $bundled = TRP_PLUGIN_DIR . 'languages/' . basename( $file );
+        return file_exists( $bundled ) ? $bundled : $file;
+    }
+
+    public function prefer_bundled_script_translation_file( $file, $handle, $domain ) {
+        if ( 'translatepress-multilingual' !== $domain ) {
+            return $file;
+        }
+        $bundled = TRP_PLUGIN_DIR . 'languages/' . basename( $file );
+        return file_exists( $bundled ) ? $bundled : $file;
     }
 
     public function init_machine_translation(){
