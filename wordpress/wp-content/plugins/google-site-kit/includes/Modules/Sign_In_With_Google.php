@@ -6,6 +6,8 @@
  * @copyright 2024 Google LLC
  * @license   https://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://sitekit.withgoogle.com
+ *
+ * phpcs:disable PHPCS.Commenting.RequireDocTagDescription -- Pre-existing violations; tracked for follow-up cleanup.
  */
 
 namespace Google\Site_Kit\Modules;
@@ -22,7 +24,6 @@ use Google\Site_Kit\Core\Modules\Module_With_Assets_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Deactivation;
 use Google\Site_Kit\Core\Modules\Module_With_Debug_Fields;
 use Google\Site_Kit\Core\Modules\Module_With_Inline_Data;
-use Google\Site_Kit\Core\Modules\Module_With_Inline_Data_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Settings;
 use Google\Site_Kit\Core\Modules\Module_With_Settings_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Tag;
@@ -73,7 +74,6 @@ final class Sign_In_With_Google extends Module implements Module_With_Inline_Dat
 	 */
 	use Module_With_Settings_Trait;
 	use Module_With_Tag_Trait;
-	use Module_With_Inline_Data_Trait;
 	use Feature_Metrics_Trait;
 
 	/**
@@ -147,7 +147,6 @@ final class Sign_In_With_Google extends Module implements Module_With_Inline_Dat
 	 * @since 1.141.0 Add functionality to allow users to disconnect their own account and admins to disconnect any user.
 	 */
 	public function register() {
-		$this->register_inline_data();
 		$this->register_feature_metrics();
 
 		add_filter( 'wp_login_errors', array( $this, 'handle_login_errors' ) );
@@ -696,8 +695,15 @@ final class Sign_In_With_Google extends Module implements Module_With_Inline_Dat
 	 * Registers the Sign in with Google tag.
 	 *
 	 * @since 1.159.0
+	 * @since 1.180.0 Skip on the WordPress email verification interstitial.
 	 */
 	public function register_tag() {
+		// Skip on the WordPress email verification interstitial (wp-login.php?action=confirm_admin_email).
+		$is_wp_login = false !== stripos( wp_login_url(), $_SERVER['SCRIPT_NAME'] ?? '' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+		if ( $is_wp_login && 'confirm_admin_email' === $this->context->input()->filter( INPUT_GET, 'action' ) ) {
+			return;
+		}
+
 		$settings  = $this->get_settings()->get();
 		$client_id = $settings['clientID'];
 
@@ -714,7 +720,7 @@ final class Sign_In_With_Google extends Module implements Module_With_Inline_Dat
 		}
 
 		$tag->set_settings( $this->get_settings()->get() );
-		$tag->set_is_wp_login( false !== stripos( wp_login_url(), $_SERVER['SCRIPT_NAME'] ?? '' ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+		$tag->set_is_wp_login( $is_wp_login );
 		$tag->set_redirect_to( $this->context->input()->filter( INPUT_GET, 'redirect_to' ) );
 		$tag->register();
 	}
@@ -885,11 +891,12 @@ final class Sign_In_With_Google extends Module implements Module_With_Inline_Dat
 	 * @since 1.142.0
 	 * @since 1.146.0 Added isWooCommerceActive and isWooCommerceRegistrationEnabled to the inline data.
 	 * @since 1.158.0 Renamed method to `get_inline_data()`, and modified it to return a new array rather than populating a passed filter value.
+	 * @since 1.160.0 Include $modules_data parameter to match the interface.
+	 * @since 1.181.0 Remove $modules_data parameter as per updated interface.
 	 *
-	 * @param array $modules_data Inline modules data.
 	 * @return array An array of the module's inline data.
 	 */
-	public function get_inline_data( $modules_data ) {
+	public function get_inline_data() {
 		$inline_data = array();
 
 		$existing_client_id = $this->existing_client_id->get();
@@ -904,9 +911,7 @@ final class Sign_In_With_Google extends Module implements Module_With_Inline_Dat
 		$inline_data['isWooCommerceActive']              = $is_woocommerce_active;
 		$inline_data['isWooCommerceRegistrationEnabled'] = $is_woocommerce_active && 'yes' === $woocommerce_registration_enabled;
 
-		$modules_data[ self::MODULE_SLUG ] = $inline_data;
-
-		return $modules_data;
+		return $inline_data;
 	}
 
 	/**
