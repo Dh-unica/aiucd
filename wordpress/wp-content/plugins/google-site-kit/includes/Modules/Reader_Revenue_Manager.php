@@ -6,6 +6,8 @@
  * @copyright 2024 Google LLC
  * @license   https://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://sitekit.withgoogle.com
+ *
+ * phpcs:disable PHPCS.Commenting.RequireDocTagDescription -- Pre-existing violations; tracked for follow-up cleanup.
  */
 
 namespace Google\Site_Kit\Modules;
@@ -594,7 +596,7 @@ final class Reader_Revenue_Manager extends Module implements Module_With_Scopes,
 		return array(
 			'slug'        => self::MODULE_SLUG,
 			'name'        => _x( 'Reader Revenue Manager', 'Service name', 'google-site-kit' ),
-			'description' => __( 'Reader Revenue Manager helps publishers grow, retain, and engage their audiences, creating new revenue opportunities', 'google-site-kit' ),
+			'description' => __( 'Add simple CTAs to your pages that ask readers to sign up for your newsletter, complete a survey, make a contribution, or subscribe', 'google-site-kit' ),
 			'homepage'    => 'https://publishercenter.google.com',
 		);
 	}

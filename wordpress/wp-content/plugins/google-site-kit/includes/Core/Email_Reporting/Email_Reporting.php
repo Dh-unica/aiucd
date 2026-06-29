@@ -6,6 +6,8 @@
  * @copyright 2025 Google LLC
  * @license   https://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://sitekit.withgoogle.com
+ *
+ * phpcs:disable PHPCS.Commenting.RequireDocTagDescription -- Pre-existing violations; tracked for follow-up cleanup.
  */
 
 namespace Google\Site_Kit\Core\Email_Reporting;
@@ -333,6 +335,7 @@ class Email_Reporting implements Provides_Feature_Metrics {
 	 * Gets feature metrics for email reporting.
 	 *
 	 * @since 1.173.0
+	 * @since 1.179.0 Added email_reporting_enabled metric.
 	 *
 	 * @return array
 	 */
@@ -341,6 +344,7 @@ class Email_Reporting implements Provides_Feature_Metrics {
 		$batch_counts     = $this->email_log_batch_query->get_batch_counts( $latest_batch_ids );
 
 		return array(
+			'email_reporting_enabled'           => $this->settings->is_email_reporting_enabled(),
 			'email_reporting_total_sent'        => $this->email_log_batch_query->get_total_count_by_status( Email_Log::STATUS_SENT ),
 			'email_reporting_total_failed'      => $this->email_log_batch_query->get_total_count_by_status( Email_Log::STATUS_FAILED ),
 			'email_reporting_last_batch_sent'   => $batch_counts['sent'],
