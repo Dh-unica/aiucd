@@ -5,54 +5,11 @@ Author: the WordPress team
 Author URI: https://wordpress.org
 Description: Twenty Twenty-Four is designed to be flexible, versatile and applicable to any website. Its collection of templates and patterns tailor to different needs, such as presenting a business, blogging and writing or showcasing work. A multitude of possibilities open up with just a few adjustments to color and typography. Twenty Twenty-Four comes with style variations and full page designs to help speed up the site building process, is fully compatible with the site editor, and takes advantage of new design tools introduced in WordPress 6.4.
 Requires at least: 6.4
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.0
-Version: 1.4
+Version: 1.5
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: twentytwentyfour
 Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready, wide-blocks, block-styles, style-variations, accessibility-ready, blog, portfolio, news
 */
-
-/* Custom AIUCD Styles */
-body,
-html,
-.wp-site-blocks,
-.wp-block-group,
-body > *,
-.has-base-background-color {
-	background-color: #ffffff !important;
-}
-
-.wp-block-site-logo img {
-	border: none !important;
-	box-shadow: none !important;
-	outline: none !important;
-	/* Crop the white border from the image */
-	padding: 0 !important;
-	object-fit: cover !important;
-	clip-path: inset(2px) !important;
-}
-
-.wp-block-site-logo a {
-	border: none !important;
-	outline: none !important;
-	box-shadow: none !important;
-}
-
-.wp-block-site-logo {
-	border: none !important;
-}
-
-/* Remove borders from navigation menu */
-.wp-block-navigation,
-.wp-block-navigation ul,
-.wp-block-navigation li,
-.wp-block-navigation a,
-.wp-block-navigation__submenu-container,
-.wp-block-navigation .wp-block-navigation-item,
-.wp-block-navigation .has-child .wp-block-navigation__submenu-container {
-	border: none !important;
-	box-shadow: none !important;
-	outline: none !important;
-}

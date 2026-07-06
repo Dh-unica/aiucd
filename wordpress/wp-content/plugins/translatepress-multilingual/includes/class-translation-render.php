@@ -592,6 +592,11 @@ class TRP_Translation_Render{
         if ($language_code === false) {
             /* add back the excluded tags like script and style to the html */
             $output = $this->add_excluded_tags_after_translation( $output, $output_with_excluded_tags_removed['excluded_tags'] );
+            /* strip leftover trp-gettext markers. Direct callers (wp_mail_filter, oembed,
+               REST) hit this path when $TRP_LANGUAGE is the default language; the regular
+               frontend output buffer handles default-language stripping via
+               render_default_language() instead. */
+            $output = $this->remove_trp_html_tags( $output );
             return $output;
         }
         if ( $language_code == $this->settings['default-language'] ){
@@ -1211,6 +1216,32 @@ class TRP_Translation_Render{
 	    return apply_filters( 'trp_translated_html', $final_html, $TRP_LANGUAGE, $language_code, $preview_mode );
     }
 
+    /**
+     * Restore camelCase XML element names in syndication feeds.
+     *
+     * The HTML DOM parser used by translate_page() lowercases tag names. RSS 2.0
+     * defines <pubDate> and <lastBuildDate> in camelCase, so the lowercased output
+     * is not valid per the syndication spec and is rejected by some readers.
+     */
+    public function restore_feed_camelcase_tags( $final_html, $TRP_LANGUAGE = null, $language_code = null, $preview_mode = false ) {
+        if ( ! is_feed() || ! is_string( $final_html ) ) {
+            return $final_html;
+        }
+
+        $camelcase_tags = apply_filters( 'trp_feed_camelcase_tags', array( 'pubDate', 'lastBuildDate' ) );
+
+        foreach ( $camelcase_tags as $tag ) {
+            $lowercase = strtolower( $tag );
+            $final_html = str_replace(
+                array( '<' . $lowercase . '>', '</' . $lowercase . '>' ),
+                array( '<' . $tag . '>',       '</' . $tag . '>' ),
+                $final_html
+            );
+        }
+
+        return $final_html;
+    }
+
 
     public function handle_custom_links_and_forms( $html ){
         global $TRP_LANGUAGE;
@@ -1823,10 +1854,62 @@ class TRP_Translation_Render{
         $update_strings                                                       = array();
         $unique_original_strings_with_machine_translations                    = array();
 
-        // machine translate new strings
+        // machine translate new strings in chunks, saving each chunk to the dictionary right away.
+        // Saving per-chunk (instead of once at the end) means an aborted or overlapping page load
+        // never re-sends, and re-bills, a chunk that was already translated and saved.
+        $machine_strings = false;
         if ( $machine_translation_available ) {
-            $machine_strings                                                      = $this->machine_translator->translate( $machine_translatable_strings, $language_code, $this->settings['default-language'] );
-            $unique_original_strings_with_machine_translations                    = array_keys( $machine_strings );
+            $machine_strings = array();
+
+            // Request-wide time budget: once we pass the deadline we stop sending chunks and let the
+            // page finish loading; the remaining strings are translated on future page loads. The
+            // deadline is kept in a global so it is shared across the whole request - regular/DOM
+            // strings (translated while the page renders) use up the budget before gettext strings
+            // (translated on shutdown), so regular strings are prioritised.
+            global $trp_machine_translation_deadline;
+            if ( ! isset( $trp_machine_translation_deadline ) ) {
+                $trp_machine_translation_deadline = microtime( true ) + apply_filters( 'trp_machine_translation_time_budget', 10 );
+            }
+
+            // Deduplicate before chunking so a string repeated across the page (e.g. "Read more") is
+            // sent to the engine, and billed, only once. Downstream lookups are all keyed by the
+            // original string, so the single translation is applied to every occurrence.
+            $strings_to_machine_translate = array_unique( $machine_translatable_strings );
+
+            foreach ( array_chunk( $strings_to_machine_translate, $this->machine_translator->get_chunk_size(), true ) as $strings_chunk ) {
+                if ( microtime( true ) > $trp_machine_translation_deadline ) {
+                    break;
+                }
+
+                $chunk_machine_strings = $this->machine_translator->translate( $strings_chunk, $language_code, $this->settings['default-language'] );
+                if ( empty( $chunk_machine_strings ) ) {
+                    continue;
+                }
+                $machine_strings += $chunk_machine_strings;
+
+                // save this chunk to the dictionary before requesting the next one
+                $chunk_originals        = array_keys( $chunk_machine_strings );
+                $chunk_original_inserts = $this->trp_query->original_strings_sync( $language_code, $chunk_originals );
+                $chunk_untranslated     = $this->trp_query->get_untranslated_strings( $chunk_originals, $language_code );
+                $chunk_update_strings   = array();
+                foreach ( $chunk_machine_strings as $original => $translated ) {
+                    if ( ! isset( $chunk_original_inserts[ $original ] ) ) {
+                        continue;
+                    }
+                    $id = ( isset( $chunk_untranslated[ $original ] ) ) ? $chunk_untranslated[ $original ]->id : NULL;
+                    $chunk_update_strings[] = array(
+                        'id'          => $id,
+                        'original_id' => $chunk_original_inserts[ $original ]->id,
+                        'original'    => trp_sanitize_string( $original, false ),
+                        'translated'  => trp_sanitize_string( $translated ),
+                        'status'      => $this->trp_query->get_constant_machine_translated() );
+                }
+                if ( ! empty( $chunk_update_strings ) && apply_filters( 'trp_allow_string_saving', true, array(), $chunk_update_strings ) ) {
+                    $this->trp_query->update_strings( $chunk_update_strings, $language_code, array( 'id', 'original', 'translated', 'status', 'original_id' ) );
+                }
+            }
+
+            $unique_original_strings_with_machine_translations = array_keys( $machine_strings );
         }
 
         /**
@@ -1837,20 +1920,10 @@ class TRP_Translation_Render{
 
         $original_inserts = $this->trp_query->original_strings_sync( $language_code, $originals_to_be_synced );
 
-        if ( $machine_translation_available ) {
-            // insert unique machine translations into db. Only for strings newly discovered
-            foreach ( $unique_original_strings_with_machine_translations as $string ) {
-                $id = ( isset( $untranslated_list[ $string ] ) ) ? $untranslated_list[ $string ]->id : NULL;
-                array_push( $update_strings, array(
-                    'id'          => $id,
-                    'original_id' => $original_inserts[ $string ]->id,
-                    'original'    => trp_sanitize_string( $string, false ),
-                    'translated'  => trp_sanitize_string( $machine_strings[ $string ] ),
-                    'status'      => $this->trp_query->get_constant_machine_translated() ) );
-            }
-        }else{
-            $machine_strings = false;
-        }
+        /* Machine-translated rows were saved per-chunk in the loop above, so they are intentionally
+         * not added to $update_strings here. $update_strings below carries only the "similar strings"
+         * rows. $machine_strings is still used further down to populate $translated_strings for
+         * rendering this request. */
 
         // update existing strings without translation if we have one now. also, do not insert duplicates for existing untranslated strings in db
         foreach( $new_strings as $i => $string ){
@@ -2203,8 +2276,10 @@ class TRP_Translation_Render{
         // Keep only the first comma-separated entry if multiple are present in the string
         $recipient = trim( strtok( $recipient, ',' ) );
 
+        $did_switch_language = false;
+
         if ( $recipient !== '' ) {
-            trp_switch_to_preffered_language( $recipient );
+            $did_switch_language = trp_switch_to_preffered_language( $recipient );
         }
 
         $whitelisted_shortcodes = apply_filters(
@@ -2224,8 +2299,12 @@ class TRP_Translation_Render{
             );
         }
 
-        // Switch back to the language used initially
-        $TRP_LANGUAGE = $initial_language;
+        if ( $did_switch_language ) {
+            trp_restore_language();
+        } else {
+            // No preferred-language switch happened, so restore only the request language.
+            $TRP_LANGUAGE = $initial_language;
+        }
 
         return $args;
     }

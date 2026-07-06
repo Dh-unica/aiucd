@@ -6,6 +6,8 @@
  * @copyright 2025 Google LLC
  * @license   https://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  * @link      https://sitekit.withgoogle.com
+ *
+ * phpcs:disable PHPCS.Commenting.RequireDocTagDescription -- Pre-existing violations; tracked for follow-up cleanup.
  */
 
 namespace Google\Site_Kit\Core\Email_Reporting;
@@ -402,7 +404,7 @@ class REST_Email_Reporting_Controller {
 			$user->user_email,
 			$template_data['subject'],
 			$html_content,
-			array(),
+			$this->email_sender->build_headers(),
 			$text_content
 		);
 
@@ -440,12 +442,13 @@ class REST_Email_Reporting_Controller {
 		$settings = get_user_meta( $user->ID, $meta_key, true );
 
 		return array(
-			'id'          => (int) $user->ID,
-			'displayName' => $user->display_name,
-			'email'       => $user->user_email,
-			'role'        => $this->get_primary_role( $user ),
-			'subscribed'  => is_array( $settings ) && ! empty( $settings['subscribed'] ),
-			'invited'     => $this->is_invite_rate_limited( $user->ID ),
+			'id'              => (int) $user->ID,
+			'displayName'     => $user->display_name,
+			'email'           => $user->user_email,
+			'role'            => $this->get_primary_role( $user ),
+			'roleDisplayName' => $this->get_primary_role_display_name( $user ),
+			'subscribed'      => is_array( $settings ) && ! empty( $settings['subscribed'] ),
+			'invited'         => $this->is_invite_rate_limited( $user->ID ),
 		);
 	}
 
@@ -465,6 +468,22 @@ class REST_Email_Reporting_Controller {
 		$roles = array_values( $user->roles );
 
 		return (string) reset( $roles );
+	}
+
+	/**
+	 * Gets the primary role display name of the user.
+	 *
+	 * @since 1.178.0
+	 *
+	 * @param WP_User $user User object.
+	 * @return string
+	 */
+	private function get_primary_role_display_name( WP_User $user ) {
+		$role_slug = $this->get_primary_role( $user );
+
+		$role_name = wp_roles()->get_names()[ $role_slug ] ?? $role_slug;
+
+		return translate_user_role( $role_name );
 	}
 
 	/**
@@ -580,7 +599,7 @@ class REST_Email_Reporting_Controller {
 			),
 			'body'                   => Content_Map::get_body( 'invitation-email' ),
 			'inviter_email'          => $inviter_email,
-			'learn_more_url'         => add_query_arg( 'doc', 'email-reporting', 'https://sitekit.withgoogle.com/support/' ),
+			'learn_more_url'         => 'https://sitekit.withgoogle.com/support/?doc=email-reporting',
 			'primary_call_to_action' => array(
 				'label' => __( 'Get your report', 'google-site-kit' ),
 				'url'   => $this->golinks->get_url( 'manage-subscription-email-reporting' ),
