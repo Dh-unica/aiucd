@@ -526,19 +526,76 @@ jQuery( function() {
             });
         }
 
-        function populatePopup( response ){
-            const popupReferrer = testPopup.querySelector('.trp-referrer-name');
-            const popupResponse = testPopup.querySelector('.trp-test-api-key-response .trp-settings-container');
-            const popupResponseBody = testPopup.querySelector('.trp-test-api-key-response-body .trp-settings-container');
-            const popupResponseFull = testPopup.querySelector('.trp-test-api-key-response-full .trp-settings-container');
-            const responseBody = typeof response.response.body === 'string'
-                ? response.response.body
-                : JSON.stringify( response.response.body );
+        function prettyFormat( value, tryQueryString ){
+            if ( value === null || typeof value === 'undefined' ) {
+                return '';
+            }
 
-            popupReferrer.textContent     = response.referrer || '';
-            popupResponse.textContent     = JSON.stringify( response.response.response );
-            popupResponseBody.textContent = responseBody || '';
-            popupResponseFull.textContent = response.raw_response;
+            if ( typeof value === 'string' ) {
+                const trimmed = value.trim();
+
+                if ( !trimmed ) {
+                    return '';
+                }
+
+                try {
+                    return JSON.stringify( JSON.parse( trimmed ), null, 2 );
+                } catch ( e ) { /* not JSON */ }
+
+                if ( tryQueryString && /^[A-Za-z0-9_\[\]\-\.%]+=/.test( trimmed ) && trimmed.indexOf( '\n' ) === -1 ) {
+                    try {
+                        const params = new URLSearchParams( trimmed );
+                        const obj = {};
+
+                        for ( const [ key, val ] of params.entries() ) {
+                            if ( Object.prototype.hasOwnProperty.call( obj, key ) ) {
+                                if ( Array.isArray( obj[ key ] ) ) {
+                                    obj[ key ].push( val );
+                                } else {
+                                    obj[ key ] = [ obj[ key ], val ];
+                                }
+                            } else {
+                                obj[ key ] = val;
+                            }
+                        }
+
+                        if ( Object.keys( obj ).length ) {
+                            return JSON.stringify( obj, null, 2 );
+                        }
+                    } catch ( e ) { /* not a query string */ }
+                }
+
+                return value;
+            }
+
+            try {
+                return JSON.stringify( value, null, 2 );
+            } catch ( e ) {
+                return String( value );
+            }
+        }
+
+        function populatePopup( response ){
+            const popupReferrer       = testPopup.querySelector('.trp-referrer-name');
+            const popupRequestUrl     = testPopup.querySelector('.trp-test-api-key-request-url .trp-settings-container');
+            const popupRequestHeaders = testPopup.querySelector('.trp-test-api-key-request-headers .trp-settings-container');
+            const popupRequestBody    = testPopup.querySelector('.trp-test-api-key-request-body .trp-settings-container');
+            const popupResponse       = testPopup.querySelector('.trp-test-api-key-response .trp-settings-container');
+            const popupResponseBody   = testPopup.querySelector('.trp-test-api-key-response-body .trp-settings-container');
+            const popupResponseFull   = testPopup.querySelector('.trp-test-api-key-response-full .trp-settings-container');
+
+            popupReferrer.textContent = response.referrer || '';
+
+            const request = response.request || {};
+            const method  = request.method ? String( request.method ).toUpperCase() : '';
+            const url     = request.url || '';
+            popupRequestUrl.textContent     = ( method && url ) ? ( method + ' ' + url ) : ( method || url );
+            popupRequestHeaders.textContent = prettyFormat( request.headers );
+            popupRequestBody.textContent    = prettyFormat( request.body, true );
+
+            popupResponse.textContent     = prettyFormat( response.response && response.response.response );
+            popupResponseBody.textContent = prettyFormat( response.response && response.response.body, true );
+            popupResponseFull.textContent = response.raw_response || '';
         }
     }
     TRP_test_API_key();
@@ -629,7 +686,8 @@ jQuery( function() {
 //Advanced Settings Tabs
 function TRP_Advanced_Settings_Tabs() {
     function init() {
-        if (!window.location.search.includes('trp_advanced_page')) return;
+        const page = new URLSearchParams(window.location.search).get('page');
+        if (page !== 'trp_advanced_page' && page !== 'trp_machine_translation' && page !== 'trp_machine_translation_glossary') return;
 
         jQuery('.trp-settings-container').hide();
 
@@ -641,7 +699,8 @@ function TRP_Advanced_Settings_Tabs() {
             document.querySelectorAll(".trp-settings-container") :
             [...document.querySelectorAll(".trp-settings-container"), aldSettingsContainer];
 
-        let settingsReferer = document.querySelector("#trp_advanced_settings_referer"); // Hidden input field
+        let settingsReferer = document.querySelector("#trp_advanced_settings_referer")
+            || document.querySelector("#trp_machine_translation_settings_referer"); // Hidden input field
 
         function getURLParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
@@ -669,17 +728,30 @@ function TRP_Advanced_Settings_Tabs() {
                 el.classList.remove("trp-nav-active");
             });
 
-            let activeNavItem = document.querySelector(`.trp_advanced_tab_content_table_item a.${targetClass}`);
-            if (activeNavItem) {
-                activeNavItem.closest(".trp_advanced_tab_content_table_item").classList.add("trp-nav-active");
+            // Anchor may be inside the span (hash-anchor layout) or wrap it (real-URL layout).
+            let activeAnchor = document.querySelector(`a.${targetClass}`);
+            if (activeAnchor) {
+                let itemSpan = activeAnchor.querySelector(".trp_advanced_tab_content_table_item")
+                    || activeAnchor.closest(".trp_advanced_tab_content_table_item");
+                if (itemSpan) itemSpan.classList.add("trp-nav-active");
             }
         }
 
         navItems.forEach(item => {
             item.addEventListener("click", function (event) {
+                const anchor = this.querySelector("a");
+
+                // Real-URL layout: span is inside the anchor; no descendant <a>. Let the browser navigate.
+                if (!anchor) return;
+
+                const href = anchor.getAttribute("href") || "";
+
+                // If it's a real URL (not a hash anchor) let the browser navigate.
+                if (href && !href.startsWith("#")) return;
+
                 event.preventDefault();
 
-                let targetClass = this.querySelector("a").classList[0];
+                let targetClass = anchor.classList[0];
 
                 updateURLParameter("tab", targetClass);
                 if (settingsReferer) settingsReferer.value = targetClass;

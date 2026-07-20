@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Themes - Twenty Twenty-Three package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2024-06-10 07:13:10+0000\n"
+"PO-Revision-Date: 2026-06-11 20:08:30+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.1\n"
+"X-Generator: GlotPress/4.0.3\n"
 "Language: en_GB\n"
 "Project-Id-Version: Themes - Twenty Twenty-Three\n"
 
@@ -22,6 +22,31 @@ msgstr "Twenty Twenty-Three is designed to take advantage of the new design tool
 #, gp-priority: high
 msgid "Twenty Twenty-Three"
 msgstr "Twenty Twenty-Three"
+
+#: patterns/hidden-heading.php:9
+msgctxt "Main heading for homepage"
+msgid "Mindblown: a blog about philosophy."
+msgstr "Mindblown: a blog about philosophy."
+
+#: patterns/hidden-heading.php
+msgctxt "Pattern title"
+msgid "Hidden Heading for Homepage"
+msgstr "Hidden Heading for Homepage"
+
+#: patterns/post-meta.php
+msgctxt "Pattern description"
+msgid "Post meta information with separator on the top."
+msgstr "Post meta information with separator on the top."
+
+#: patterns/footer-default.php
+msgctxt "Pattern description"
+msgid "Footer with site title and powered by WordPress."
+msgstr "Footer with site title and powered by WordPress."
+
+#: patterns/call-to-action.php
+msgctxt "Pattern description"
+msgid "Left-aligned text with a CTA button and a separator."
+msgstr "Left-aligned text with a CTA button and a separator."
 
 #: theme.json
 msgctxt "Template part name"
