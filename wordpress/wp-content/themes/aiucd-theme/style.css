@@ -422,6 +422,62 @@ ul#menu-menu-en a:hover {
 	}
 }
 
+/* Selettore lingua Polylang nell'header. Il markup è generato dallo shortcode
+   [polylang_switcher] del MU-plugin polylang-menu-setup. */
+header .polylang-switcher {
+	display: inline-flex;
+	align-items: center;
+	flex: 0 0 auto;
+}
+
+header .polylang-switcher__list {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+header .polylang-switcher__item {
+	display: inline-flex;
+	margin: 0;
+	padding: 0;
+}
+
+header .polylang-switcher__item a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 3px;
+	border-radius: 3px;
+	line-height: 0;
+	opacity: 0.72;
+	transition: opacity 120ms ease, box-shadow 120ms ease;
+}
+
+header .polylang-switcher__item a:hover,
+header .polylang-switcher__item a:focus-visible,
+header .polylang-switcher__item.current-lang a {
+	opacity: 1;
+}
+
+header .polylang-switcher__item a:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+header .polylang-switcher__item.current-lang a {
+	box-shadow: 0 0 0 1px rgba(29, 38, 64, 0.22);
+}
+
+header .polylang-switcher__item img {
+	display: block;
+	width: 16px;
+	height: 11px;
+	object-fit: cover;
+}
+
 /* ========================================
    HEADER MOBILE COMPATTO
    (cfr. aiucd_stats/PIANO_header_mobile_compatto.md)
@@ -493,5 +549,3 @@ ul#menu-menu-en a:hover {
 		padding-bottom: 6px !important;
 	}
 }
-
-
