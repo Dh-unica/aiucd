@@ -82,7 +82,7 @@ git commit -m "Add custom theme/plugin"
 # docker-compose.prod.yml
 services:
   wordpress:
-    image: wordpress:6.8.3-apache  # 🔒 STESSA VERSIONE
+    image: wordpress:7.0.2-apache  # 🔒 STESSA VERSIONE
     volumes:
       - ./wordpress:/var/www/html:ro  # Read-only in produzione
       - wordpress_uploads_prod:/var/www/html/wp-content/uploads

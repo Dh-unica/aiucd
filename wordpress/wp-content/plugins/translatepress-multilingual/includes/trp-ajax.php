@@ -21,7 +21,13 @@ class TRP_Ajax{
             die();
         }
 
-        include './external-functions.php';
+        // Anchor to this file's directory. A cwd-relative include fails on PHP-FPM pools
+        // where the working directory of a directly-requested script is not the script's own directory.
+        include dirname( __FILE__ ) . '/external-functions.php';
+        if ( ! function_exists( 'trp_is_valid_language_code' ) ) {
+            // Include failed: degrade to the admin-ajax fallback instead of a fatal error.
+            $this->return_error();
+        }
         if ( !trp_is_valid_language_code( $_POST['language'] ) || !trp_is_valid_language_code( $_POST['original_language'] ) ) {//phpcs:ignore
             echo json_encode( 'TranslatePress Error: Invalid language code' );
             exit;
@@ -98,17 +104,31 @@ class TRP_Ajax{
 
         foreach ( $credentials as $credential => $constant_name ) {
             if ( preg_match_all( "/define\s*\(\s*['\"]" . $constant_name . "['\"]\s*,\s*['\"](.*?)['\"]\s*\)/", $content, $result ) ) {
-                $credentials[ $credential ] = $result[1][0];
+                // The WP installer writes these values through addslashes(), so backslashes and
+                // quotes are escaped in the raw file text. Mirror it, otherwise such credentials
+                // are passed to mysqli_connect() corrupted.
+                $credentials[ $credential ] = stripslashes( $result[1][0] );
             } else {
                 return false;
             }
         }
 
 
-        $this->connection = mysqli_connect( $credentials['db_host'], $credentials['db_user'], $credentials['db_password'], $credentials['db_name'] );
+        // Parse DB_HOST to support host:port and UNIX socket configurations (e.g. localhost:/var/run/mysqld/mysqld.sock or :/path/to/socket).
+        $db_host_parsed = $this->parse_db_host( $credentials['db_host'] );
+        if ( false === $db_host_parsed ) {
+            return false;
+        }
+        list( $db_host, $db_port, $db_socket ) = $db_host_parsed;
+
+        // Since PHP 8.1 mysqli throws exceptions by default; silence them so a failed
+        // connection returns false and the admin-ajax fallback takes over instead of a fatal error.
+        mysqli_report( MYSQLI_REPORT_OFF );
+
+        $this->connection = @mysqli_connect( $db_host, $credentials['db_user'], $credentials['db_password'], $credentials['db_name'], $db_port, $db_socket );
 
         // Check connection
-        if ( mysqli_connect_errno() ) {
+        if ( mysqli_connect_errno() || ! $this->connection ) {
             //Failed to connect to MySQL.
             return false;
         }
@@ -124,6 +144,46 @@ class TRP_Ajax{
         }
 
         return true;
+    }
+
+    /**
+     * Parse the DB_HOST string into host, port and socket components.
+     *
+     * Mirrors the parsing logic from WordPress core wpdb so that configurations
+     * relying solely on UNIX socket connections (e.g. ":/var/run/mysqld/mysqld.sock"
+     * or "localhost:/var/run/mysqld/mysqld.sock") are connected to correctly.
+     *
+     * @param string $db_host Raw DB_HOST value from wp-config.php.
+     * @return array|false    [ host, port|null, socket|null ] or false on parse failure.
+     */
+    protected function parse_db_host( $db_host ) {
+        $host   = $db_host;
+        $port   = null;
+        $socket = null;
+
+        // First peel off the socket parameter from the right, if it exists.
+        $socket_pos = strpos( $host, ':/' );
+        if ( false !== $socket_pos ) {
+            $socket = substr( $host, $socket_pos + 1 );
+            $host   = substr( $host, 0, $socket_pos );
+        }
+
+        // IPv6 host: contains more than one colon and may be wrapped in [].
+        if ( substr_count( $host, ':' ) > 1 ) {
+            $pattern = '#^(?:\[)?(?P<host>[0-9a-fA-F:]+)(?:\]:(?P<port>[\d]+))?#';
+        } else {
+            $pattern = '#^(?P<host>[^:/]*)(?::(?P<port>[\d]+))?#';
+        }
+
+        $matches = array();
+        if ( 1 !== preg_match( $pattern, $host, $matches ) ) {
+            return false;
+        }
+
+        $host = isset( $matches['host'] ) ? $matches['host'] : '';
+        $port = ! empty( $matches['port'] ) ? (int) $matches['port'] : null;
+
+        return array( $host, $port, $socket );
     }
 
     /**

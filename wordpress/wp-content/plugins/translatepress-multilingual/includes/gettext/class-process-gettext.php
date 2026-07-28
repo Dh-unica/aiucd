@@ -19,6 +19,15 @@ class TRP_Process_Gettext {
     protected $plural_forms;
     protected $machine_translation_codes;
     protected $skip_gettext_querying;
+    /**
+     * Per-request, per-domain index of catalog (.po/.mo) entries that carry a real, non-empty
+     * translation — keyed by "context\4singular". Built lazily once per domain (see
+     * gettext_string_has_catalog_translation) because WP_Translations::entries rebuilds the whole
+     * entry list on every access and must not be touched inside the gettext filter loop repeatedly.
+     *
+     * @var array
+     */
+    protected $catalog_entry_index = array();
 
     /**
      * TRP_Gettext_Manager constructor.
@@ -28,6 +37,69 @@ class TRP_Process_Gettext {
     public function __construct( $settings, $plural_forms ) {
         $this->settings = $settings;
         $this->plural_forms = $plural_forms;
+    }
+
+    /**
+     * Whether the currently loaded translation catalog (.po/.mo) for a domain actually contains a
+     * real, non-empty translation entry for a string — even one identical to the original.
+     *
+     * WordPress' gettext filter only hands us the resolved translation, which equals the original
+     * both when there is no catalog entry and when the entry's msgstr equals the msgid. Only by
+     * inspecting the catalog can we tell the two apart and avoid machine-translating strings that
+     * are intentionally localized to the same value (e.g. proper nouns like "Åland Islands").
+     *
+     * The per-domain entry set is built once per request and cached, because WP_Translations::entries
+     * (WP 6.5+) rebuilds the whole list on every access.
+     *
+     * @param string      $domain          Text domain.
+     * @param string      $text            The original (singular) string.
+     * @param string      $context         Gettext context ('trp_context' when none).
+     * @param string|null $original_plural The plural source string, if any.
+     * @return bool
+     */
+    protected function gettext_string_has_catalog_translation( $domain, $text, $context, $original_plural = null ) {
+        if ( ! isset( $this->catalog_entry_index[ $domain ] ) ) {
+            $this->catalog_entry_index[ $domain ] = array();
+
+            $translations = get_translations_for_domain( $domain );
+            /* Access ->entries directly (not via isset): WP_Translations (WP 6.5+) exposes it through
+             * a magic __get without a matching __isset, so isset() would wrongly report it as unset. */
+            $entries = $translations ? $translations->entries : null;
+            if ( is_array( $entries ) ) {
+                foreach ( $entries as $entry ) {
+                    if ( ! is_object( $entry ) || ! isset( $entry->singular ) || ! isset( $entry->translations ) ) {
+                        continue;
+                    }
+
+                    // Only count entries that carry an actual translation (msgstr non-empty).
+                    $has_translation = false;
+                    foreach ( (array) $entry->translations as $entry_translation ) {
+                        if ( $entry_translation !== '' && $entry_translation !== null ) {
+                            $has_translation = true;
+                            break;
+                        }
+                    }
+                    if ( ! $has_translation ) {
+                        continue;
+                    }
+
+                    $entry_context = isset( $entry->context ) ? (string) $entry->context : '';
+                    $this->catalog_entry_index[ $domain ][ $entry_context . "\4" . $entry->singular ] = true;
+                }
+            }
+        }
+
+        $lookup_context = ( $context && $context !== 'trp_context' ) ? (string) $context : '';
+
+        if ( isset( $this->catalog_entry_index[ $domain ][ $lookup_context . "\4" . $text ] ) ) {
+            return true;
+        }
+
+        if ( $original_plural && isset( $this->catalog_entry_index[ $domain ][ $lookup_context . "\4" . $original_plural ] ) ) {
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -40,11 +112,6 @@ class TRP_Process_Gettext {
      * @return string
      */
     public function process_gettext_strings( $translation, $text, $domain, $context = 'trp_context', $number_of_items = null, $original_plural = null ) {
-        global $trp_wpdb_prefix, $wpdb;
-        if ( $trp_wpdb_prefix != $wpdb->get_blog_prefix() ){
-            return $translation;
-        }
-
         // if we have nested gettexts strip previous ones, and consider only the outermost
         $text        = TRP_Gettext_Manager::strip_gettext_tags( $text );
         $translation = TRP_Gettext_Manager::strip_gettext_tags( $translation );
@@ -70,6 +137,15 @@ class TRP_Process_Gettext {
             // Use trp_skip_gettext_processing hook for not adding wrappings.
             $this->skip_gettext_querying = apply_filters( 'trp_skip_gettext_querying', false, $translation, $text, $domain );
         }
+
+        global $trp_wpdb_prefix, $wpdb;
+        // When gettext querying is disabled, create_gettext_translated_global() never runs,
+        // so $trp_wpdb_prefix stays unset. In that case we still need to reach the
+        // gettext wrapper path so regular string detection can skip this output.
+        if ( !$this->skip_gettext_querying && $trp_wpdb_prefix != $wpdb->get_blog_prefix() ){
+            return $translation;
+        }
+
         /* get_locale() returns WP Settings Language (WPLANG). It might not be a language in TP so it may not have a TP table. */
         $current_locale = get_locale();
         global $trp_translated_gettext_texts_language;
@@ -121,7 +197,9 @@ class TRP_Process_Gettext {
                     if ( isset( $trp_translated_gettext_texts[ $context . '::' . $plural_form . '::' . $domain . '::' . $text ] ) ) {
                         $trp_translated_gettext_text = $trp_translated_gettext_texts[ $context . '::' . $plural_form  . '::' . $domain . '::' . $text ];
 
-                        if (!empty($trp_translated_gettext_text['translated']) && $translation != $trp_translated_gettext_text['translated'] && $this->is_sprintf_compatible( $trp_translated_gettext_text['translated'] ) ) {
+                        // plural-form rows are stored under the singular original, so compare placeholders against the plural source
+                        $sprintf_reference = ( $original_plural !== null && $plural_form != 0 ) ? $original_plural : $text;
+                        if (!empty($trp_translated_gettext_text['translated']) && $translation != $trp_translated_gettext_text['translated'] && $this->is_sprintf_compatible( $trp_translated_gettext_text['translated'], $sprintf_reference ) ) {
                             $translation = str_replace(trim($text), trp_sanitize_string($trp_translated_gettext_text['translated']), $text);
                         }
                         $db_id       = $trp_translated_gettext_text['id'];
@@ -196,21 +274,47 @@ class TRP_Process_Gettext {
                 if ( $this->machine_translation_codes[ $TRP_LANGUAGE ] != 'en' && $this->machine_translator->is_available( array( $TRP_LANGUAGE ) ) ) {
                     global $trp_gettext_strings_for_machine_translation;
                     if ( $text == $translation || $original_plural == $translation ) {
-                        foreach ( $trp_translated_gettext_texts as $trp_translated_gettext_text ) {
-                            if ( $trp_translated_gettext_text['id'] == $db_id ) {
-                                if ( $trp_translated_gettext_text['translated'] == '' && !isset( $trp_gettext_strings_for_machine_translation[ $db_id ] ) ) {
-                                    $trp_gettext_strings_for_machine_translation[ $db_id ] = array(
-                                        'id'         => $db_id,
-                                        'original'   => $text,
-                                        'translated' => '',
-                                        'domain'     => $domain,
-                                        'status'     => $this->trp_query->get_constant_machine_translated(),
-                                        'context'     => $context,
-                                        'plural_form' => $plural_form,
-                                        'original_plural' => $original_plural
-                                    );
+                        /* The string looks untranslated to us because WordPress handed us a translation equal
+                         * to the original. That happens both when the .po/.mo has no entry AND when it has an
+                         * entry whose msgstr equals the msgid (e.g. WooCommerce "Åland Islands"). The latter is
+                         * an intentional localization and must NOT be sent to machine translation. If the loaded
+                         * catalog actually contains an entry for this string, persist it as a reviewed
+                         * translation so the empty-'translated' guard below permanently excludes it on future
+                         * loads, and skip the machine-translation queue. */
+                        if ( $db_id && $this->gettext_string_has_catalog_translation( $domain, $text, $context, $original_plural ) ) {
+                            foreach ( $trp_translated_gettext_texts as $key => $trp_translated_gettext_text ) {
+                                if ( $trp_translated_gettext_text['id'] == $db_id ) {
+                                    if ( $trp_translated_gettext_text['translated'] == '' ) {
+                                        $gettext_insert_update = $this->trp_query->get_query_component( 'gettext_insert_update' );
+                                        $gettext_insert_update->update_gettext_strings( array(
+                                            array(
+                                                'id'         => $db_id,
+                                                'translated' => $translation,
+                                                'status'     => $this->trp_query->get_constant_human_reviewed(),
+                                            )
+                                        ), $current_locale, array( 'id', 'translated', 'status' ) );
+                                        $trp_translated_gettext_texts[ $key ]['translated'] = $translation;
+                                    }
+                                    break;
                                 }
-                                break;
+                            }
+                        } else {
+                            foreach ( $trp_translated_gettext_texts as $trp_translated_gettext_text ) {
+                                if ( $trp_translated_gettext_text['id'] == $db_id ) {
+                                    if ( $trp_translated_gettext_text['translated'] == '' && !isset( $trp_gettext_strings_for_machine_translation[ $db_id ] ) ) {
+                                        $trp_gettext_strings_for_machine_translation[ $db_id ] = array(
+                                            'id'         => $db_id,
+                                            'original'   => $text,
+                                            'translated' => '',
+                                            'domain'     => $domain,
+                                            'status'     => $this->trp_query->get_constant_machine_translated(),
+                                            'context'     => $context,
+                                            'plural_form' => $plural_form,
+                                            'original_plural' => $original_plural
+                                        );
+                                    }
+                                    break;
+                                }
                             }
                         }
                     }
@@ -269,7 +373,24 @@ class TRP_Process_Gettext {
 	                 * but for some reason it returns our gettext string without the stripped gettext.
 	                 */
 
-	                if ( ($text != 'Name: %1$s, Username: %2$s' && $text != 'Name: %1$s, Guest' && $domain == 'woocommerce-payments') || $domain != 'woocommerce-payments') {
+	                /**
+	                 * The bare year format ( 'Y' ) translated via _x() with a date/time format context must not be
+	                 * wrapped, otherwise the gettext markers are interpreted as format characters by date_i18n() /
+	                 * wp_date() and the output is broken (e.g. twentytwenty footer: _x( 'Y', 'copyright date format',
+	                 * 'twentytwenty' )). We restrict this to the exact 'Y' text so that date formats which contain
+	                 * actual translatable text (month or day names) keep being wrapped and translated normally and
+	                 * are not re-sent to automatic translation on every request.
+	                 *
+	                 * Note: we intentionally do not expose a dedicated filter here because this block runs on every
+	                 * gettext string; the existing 'trp_process_gettext_tags' filter below can be used to customize
+	                 * the wrapping behaviour without the per-call overhead.
+	                 */
+	                $is_date_format_context = $text === 'Y' && (
+		                stripos( $context, 'date format' ) !== false ||
+		                stripos( $context, 'time format' ) !== false
+	                );
+
+	                if ( !$is_date_format_context && ( ($text != 'Name: %1$s, Username: %2$s' && $text != 'Name: %1$s, Guest' && $domain == 'woocommerce-payments') || $domain != 'woocommerce-payments') ) {
 		                $translation = apply_filters( 'trp_process_gettext_tags', '#!trpst#trp-gettext data-trpgettextoriginal=' . $db_id . '#!trpen#' . $translation . '#!trpst#/trp-gettext#!trpen#', $translation, $this->skip_gettext_querying, $text, $domain );
 	                }
                 }
@@ -415,7 +536,7 @@ class TRP_Process_Gettext {
 
         if ( isset( $trp_translated_gettext_texts[ 'trp_context' . '::' . 0 . '::' . $domain . '::' . $text ] ) &&
             !empty($trp_translated_gettext_texts[ 'trp_context' . '::' . 0 . '::' . $domain . '::' . $text ]['translated']) &&
-            $this->is_sprintf_compatible( $trp_translated_gettext_texts[ 'trp_context' . '::' . 0 . '::' . $domain . '::' . $text ]['translated'] )
+            $this->is_sprintf_compatible( $trp_translated_gettext_texts[ 'trp_context' . '::' . 0 . '::' . $domain . '::' . $text ]['translated'], $text )
         ){
             $translation = str_replace(trim($text), trp_sanitize_string($trp_translated_gettext_texts[ 'trp_context' . '::' . 0 . '::' . $domain . '::' . $text ]['translated']), $text);
         }
@@ -423,12 +544,34 @@ class TRP_Process_Gettext {
         return $translation;
     }
 
-    public function is_sprintf_compatible($string){
+    public function is_sprintf_compatible($string, $original_text = null){
 
         if (! apply_filters('trp_check_sprintf_compatibility', true ) ){
             return true;
         }
-        // 200 arguments should be enough. If a string has more than 200 placeholders then it might cause "Warning: sprintf(): Too few arguments" on certain php versions
+
+        if ( $original_text !== null ) {
+            // Fast path: no '%' in either string means no placeholders to compare.
+            if ( strpos( $original_text, '%' ) === false && strpos( $string, '%' ) === false ) {
+                return true;
+            }
+            // sprintf placeholder grammar: %[argnum$][flags][width][.precision]specifier
+            $pattern = "/%(?:\d+\\\$)?[-+0 #]*(?:'.)?\d*(?:\.\d+)?[bcdeEfFgGhHosuxX%]/";
+
+            preg_match_all( $pattern, $original_text, $original_matches );
+            preg_match_all( $pattern, $string, $translated_matches );
+
+            // %% is a literal percent, not an argument consumer.
+            $original_placeholders   = array_values( array_filter( $original_matches[0],   function( $p ) { return $p !== '%%'; } ) );
+            $translated_placeholders = array_values( array_filter( $translated_matches[0], function( $p ) { return $p !== '%%'; } ) );
+
+            sort( $original_placeholders );
+            sort( $translated_placeholders );
+            return $original_placeholders === $translated_placeholders;
+        }
+
+        // Fallback when the original is unavailable: only catches malformed format
+        // specifiers and translations with >200 placeholders.
         $arr = array(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
         $is_compatible = true;
         try{

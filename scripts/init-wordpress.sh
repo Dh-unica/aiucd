@@ -27,7 +27,7 @@ if [ ! "$(ls -A $WP_DIR)" ]; then
     # Usa un container temporaneo per copiare i file WordPress
     docker run --rm \
         -v "$WP_DIR:/dest" \
-        wordpress:6.8.3-apache \
+        wordpress:7.0.2-apache \
         bash -c "cp -r /usr/src/wordpress/* /dest/ && chown -R $(id -u):$(id -g) /dest"
     
     echo "✅ WordPress core files copiati"

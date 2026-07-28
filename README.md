@@ -155,7 +155,7 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 
 #### 🐳 Servizi Docker
 
-1. **WordPress** (`wordpress:6.8.3-apache`)
+1. **WordPress** (`wordpress:7.0.2-apache`)
    - Container principale con WordPress + Apache + PHP
    - Esposto sulla porta 7000
    - User mapping per permessi corretti (UID/GID host)
@@ -241,7 +241,7 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 
 ### Core Features Implementate
 
-- ✅ **WordPress 6.8.3** con Apache
+- ✅ **WordPress 7.0.2** con Apache
 - ✅ **Database MariaDB 10.11.5** con persistenza
 - ✅ **Deploy automatico** via GitHub Actions
 - ✅ **User mapping** per permessi corretti

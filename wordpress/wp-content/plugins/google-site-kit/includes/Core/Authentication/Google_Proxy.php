@@ -140,6 +140,22 @@ class Google_Proxy {
 			throw new Exception( __( 'Missing site_id or site_code parameter for setup URL.', 'google-site-kit' ) );
 		}
 
+		if ( Feature_Flags::enabled( 'setupFlowRefreshPhase4' ) ) {
+			$query_params['steps'] = 5;
+
+			/**
+			 * Filters parameters included in the proxy setup URL.
+			 *
+			 * @since 1.184.0
+			 *
+			 * @param array $query_params Query parameters.
+			 */
+			$query_params = apply_filters(
+				'googlesitekit_proxy_setup_url_params',
+				$query_params,
+			);
+		}
+
 		return add_query_arg(
 			$query_params,
 			$this->url(
@@ -339,9 +355,14 @@ class Google_Proxy {
 	 * @return array Associative array of $query_arg => $value pairs.
 	 */
 	public function get_site_fields() {
-		$return_uri = Feature_Flags::enabled( 'setupFlowRefresh' )
-			? admin_url( 'plugins.php' )
+		$return_uri             = Feature_Flags::enabled( 'setupFlowRefresh' )
+			? admin_url( 'index.php' )
 			: $this->context->admin_url( 'splash' );
+		$analytics_redirect_uri = add_query_arg( 'gatoscallback', 1, admin_url( 'index.php' ) );
+
+		if ( Feature_Flags::enabled( 'setupFlowRefresh' ) ) {
+			$analytics_redirect_uri = add_query_arg( 'service_version', 'v3', $analytics_redirect_uri );
+		}
 
 		return array(
 			'name'                   => wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ),
@@ -349,7 +370,7 @@ class Google_Proxy {
 			'redirect_uri'           => add_query_arg( 'oauth2callback', 1, admin_url( 'index.php' ) ),
 			'action_uri'             => admin_url( 'index.php' ),
 			'return_uri'             => $return_uri,
-			'analytics_redirect_uri' => add_query_arg( 'gatoscallback', 1, admin_url( 'index.php' ) ),
+			'analytics_redirect_uri' => $analytics_redirect_uri,
 		);
 	}
 

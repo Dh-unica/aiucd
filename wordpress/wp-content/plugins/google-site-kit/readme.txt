@@ -4,7 +4,7 @@ Contributors:      google
 Requires at least: 5.2
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.177.0
+Stable tag:        1.184.0
 License:           Apache License 2.0
 License URI:       https://www.apache.org/licenses/LICENSE-2.0
 Tags:              google, search-console, analytics, adsense, pagespeed-insights
@@ -112,27 +112,31 @@ Please create a new topic on our [WordPress.org support forum](https://wordpress
 
 == Changelog ==
 
-= 1.177.0 =
+= 1.184.0 =
 
 **Enhanced**
 
-* Improve translation strings for some links in Email Reports. See [#12479](https://github.com/google/site-kit-wp/issues/12479).
-* Remove the "Conversions" section in email reports. See [#12466](https://github.com/google/site-kit-wp/issues/12466).
-* Ensure Email Reporting panel is dismissed during navigation. See [#12388](https://github.com/google/site-kit-wp/issues/12388).
-* Add error handling on the Key Metrics setup screen in the new setup flow. See [#12379](https://github.com/google/site-kit-wp/issues/12379).
-* Fix bug causing PageSpeed Insights widget tab to reset on device change. See [#12358](https://github.com/google/site-kit-wp/issues/12358).
-* Add documentation links to Email Reporting feature. See [#12327](https://github.com/google/site-kit-wp/issues/12327).
-* Add date range details to the Site Kit Summary widget on the WordPress admin dashboard. Props mxbclang, github-actions. See [#5589](https://github.com/google/site-kit-wp/issues/5589).
+* Update notice text for Site Goals. See [#13153](https://github.com/google/site-kit-wp/issues/13153).
+* Add Site Goals Survey Triggers. See [#13040](https://github.com/google/site-kit-wp/issues/13040).
+* Add the `steps` query parameter to the proxy's setup URL to specify the number of progress indicator elements in the new setup flow. See [#12953](https://github.com/google/site-kit-wp/issues/12953).
+* Prevent the Key Metrics widget area from appearing on the dashboard when Analytics is not connected in the new setup flow. See [#12906](https://github.com/google/site-kit-wp/issues/12906).
+* Ask the site purpose question when continuing without Analytics from the Analytics setup screen. See [#12819](https://github.com/google/site-kit-wp/issues/12819).
+* Improve PDF accessibility. Props Jaksenc. See [#12702](https://github.com/google/site-kit-wp/issues/12702).
+* Add new selector anchored notification highlighting the PDF download button. See [#12698](https://github.com/google/site-kit-wp/issues/12698).
+* Fix bug that could cause multiple modals from showing when Site Goals and the new setup flow are enabled on a new site. See [#12652](https://github.com/google/site-kit-wp/issues/12652).
+* Add surveys to PDF Report generation. See [#12649](https://github.com/google/site-kit-wp/issues/12649).
+* Implement the Key Metric PDF widget. See [#12554](https://github.com/google/site-kit-wp/issues/12554).
+* Add "Monetization" section to PDF Widgets. See [#12551](https://github.com/google/site-kit-wp/issues/12551).
+* Implement PDF Widgets for "Monetization" -> "Earning performance over time". See [#12550](https://github.com/google/site-kit-wp/issues/12550).
+* Add "Your visitor groups" section to PDF Reports. See [#12546](https://github.com/google/site-kit-wp/issues/12546).
+* Show an error notice on the dashboard when Audience Segmentation setup fails, with the option to retry or opt out. See [#12381](https://github.com/google/site-kit-wp/issues/12381).
+* Update the setup error notification shown on the splash screen. See [#12375](https://github.com/google/site-kit-wp/issues/12375).
 
 **Fixed**
 
-* Remove the "Connect more services" and "Got it" buttons from the gathering data notification. See [#12464](https://github.com/google/site-kit-wp/issues/12464).
-* Fixed the "Analytics is disconnected" CTA banner and tile to hide actionable connect buttons for view-only users. See [#12454](https://github.com/google/site-kit-wp/issues/12454).
-* Fix issues with multiple scheduled events for same email report frequency. See [#12419](https://github.com/google/site-kit-wp/issues/12419).
-* Fix monthly and quarterly email scheduling times. Props officialasishkumar. See [#12385](https://github.com/google/site-kit-wp/issues/12385).
-* Allow filtering users by role in email subscription invites. See [#12368](https://github.com/google/site-kit-wp/issues/12368).
-* Fix the issue with updating users for email reporting settings when dashboard sharing changed. See [#12367](https://github.com/google/site-kit-wp/issues/12367).
-* Fix bug preventing OAuth error notification when permissions are missing. See [#12281](https://github.com/google/site-kit-wp/issues/12281).
-* Fix data type inconsistency for Reader Revenue Manager content policy status settings. See [#12185](https://github.com/google/site-kit-wp/issues/12185).
+* Fix Site Goals tour issues with section highlights. See [#13146](https://github.com/google/site-kit-wp/issues/13146).
+* Fix bug in Email Reporting when Search Console requests fail. See [#13085](https://github.com/google/site-kit-wp/issues/13085).
+* Fix bug that could cause Site Goals widgets to re-render on load. See [#13058](https://github.com/google/site-kit-wp/issues/13058).
+* Fix the loading state issue for the `Get breakdown` button when custom dimensions already exist. See [#12983](https://github.com/google/site-kit-wp/issues/12983).
 
 [See changelog for all versions](https://raw.githubusercontent.com/google/site-kit-wp/main/changelog.txt).

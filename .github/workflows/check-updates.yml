@@ -80,6 +80,47 @@ jobs:
               "$WPCLI_IMAGE" "$@"
           }
 
+          echo "=== Security pre-flight ==="
+          # Il workspace del runner e' persistente (checkout clean:false per
+          # preservare .env). Blocca quindi plugin estranei rimasti sul disco:
+          # nell'incidente 2026-07-20/23 una webshell era stata installata in
+          # wp-content/plugins e il job del 27 luglio l'aveva inclusa nel commit.
+          UNKNOWN_PLUGIN=0
+          for PATHNAME in wordpress/wp-content/plugins/*; do
+            [ -e "$PATHNAME" ] || continue
+            ENTRY="$(basename "$PATHNAME")"
+            case "$ENTRY" in
+              aiucd-companion|akismet|google-site-kit|leaflet-map|polylang|translatepress-multilingual|wp-mail-smtp|index.php|hello.php)
+                ;;
+              *)
+                echo "❌ ABORT: unexpected plugin entry: $PATHNAME"
+                UNKNOWN_PLUGIN=1
+                ;;
+            esac
+          done
+          [ "$UNKNOWN_PLUGIN" -eq 0 ] || exit 1
+
+          # Il plugin custom, i MU-plugin e il tema non hanno checksum
+          # wordpress.org: per loro Git e' la fonte di integrita'.
+          CUSTOM_PATHS=(
+            wordpress/wp-content/plugins/aiucd-companion
+            wordpress/wp-content/mu-plugins
+            wordpress/wp-content/themes/aiucd-theme
+          )
+          if ! git diff --quiet -- "${CUSTOM_PATHS[@]}" \
+             || [ -n "$(git ls-files --others --exclude-standard -- "${CUSTOM_PATHS[@]}")" ]; then
+            echo "❌ ABORT: custom WordPress code differs from Git"
+            git status --short -- "${CUSTOM_PATHS[@]}"
+            exit 1
+          fi
+
+          # Verifica il core e tutti i plugin pubblici prima di eseguire
+          # aggiornamenti. I plugin custom senza checksum vengono segnalati
+          # come skipped da WP-CLI e sono gia' coperti dal controllo Git sopra.
+          run_wp wp core verify-checksums --locale=it_IT
+          run_wp wp plugin verify-checksums --all --strict
+          echo "✅ Security pre-flight passed"
+
           # Helper: conta le righe di dati (output - header). Usa --format=csv
           # che produce una riga header + N righe dati. Se N>=1 ci sono update.
           count_data_rows() { awk 'NR>1 && NF>0 { c++ } END { print c+0 }'; }
@@ -189,6 +230,10 @@ jobs:
 
           echo "=== Theme update ==="
           run_wp wp theme update --all || echo "themes skipped"
+
+          echo "=== Post-update integrity ==="
+          run_wp wp core verify-checksums --locale=it_IT
+          run_wp wp plugin verify-checksums --all --strict
 
           echo "=== Maintenance mode OFF ==="
           run_wp wp maintenance-mode deactivate || true

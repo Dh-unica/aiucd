@@ -1,7 +1,7 @@
 services:
   # WordPress Service
   wordpress:
-    image: wordpress:6.8.3-apache
+    image: wordpress:7.0.2-apache
     container_name: aiucd_wordpress
     restart: unless-stopped
     # Run as host user to avoid permission issues
