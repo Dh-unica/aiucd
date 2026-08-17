@@ -1564,25 +1564,48 @@ class TRP_Translation_Render{
 
     /**
      * function that removes any unwanted leftover <trp-gettext> tags
+     *
+     * Security ( CU-869eddnvm ): the opening-tag removals below used an unbounded inner match ( .*? ) that
+     * could bridge across html attribute/tag delimiters. TP emits these wrappers as real tags, but the same
+     * marker can also appear ENCODED ( percent-encoded, or html-entity escaped: %23%21trpst%23trp-gettext,
+     * &lt;trp-gettext ) inside an attribute value that survived wp_kses, because the marker text contains no
+     * html-special characters. A .*? there let a start marker inside one attribute ( href ) reach an end
+     * marker inside another ( title ) and collapse everything between them, splicing the two attributes into
+     * e.g. href="javascript:..." from an otherwise kses-clean, unauthenticated comment ( stored XSS ).
+     *
+     * The real-tag form ( <trp-gettext ...> ) is never attacker-reachable: wp_kses strips a literal <trp-*>
+     * tag from user input, so it stays permissive ( bounded only by the real angle brackets ). Only the
+     * encoded/entity form is attacker-reachable, so there the captured span excludes the raw attribute
+     * delimiters "'<> and can no longer leave a single attribute value / text node. Legitimately escaped
+     * wrappers carry &quot;/&#039; rather than raw quotes, so they are still removed.
+     *
      * @param $string
      * @return string|string[]|null
      */
     function remove_trp_html_tags( $string ){
-        $string = preg_replace( '/(<|&lt;)trp-gettext (.*?)(>|&gt;)/i', '', $string );
+        // trp-gettext opening tag: the real form ( <...> ) and the entity form ( &lt;...&gt; ) both carry an
+        // unquoted attribute ( data-trpgettextoriginal=123 ), so a single delimiter-constrained match is safe.
+        $string = preg_replace( '/(<|&lt;)trp-gettext ([^"\'<>]*?)(>|&gt;)/i', '', $string );
         $string = preg_replace( '/(<|&lt;)(\\\\)*\/trp-gettext(>|&gt;)/i', '', $string );
 
         // In case we have a gettext string which was run through rawurlencode(). See more details on iss6563
-        $string = preg_replace( '/%23%21trpst%23trp-gettext(.*?)%23%21trpen%23/i', '', $string );
+        $string = preg_replace( '/%23%21trpst%23trp-gettext([^"\'<>]*?)%23%21trpen%23/i', '', $string );
         $string = preg_replace( '/%23%21trpst%23%2Ftrp-gettext%23%21trpen%23/i', '', $string );
         $string = preg_replace( '/%23%21trpst%23%5C%2Ftrp-gettext%23%21trpen%23/i', '', $string );
 
         if (!isset($_REQUEST['trp-edit-translation']) || $_REQUEST['trp-edit-translation'] != 'preview') {
-            $string = preg_replace('/(<|&lt;)trp-wrap (.*?)(>|&gt;)/i', '', $string);
+            // Real trp-wrap tag carries a double-quoted attribute ( class="trp-wrap" ), so the real form stays
+            // permissive; only the attacker-reachable entity form is delimiter-constrained.
+            $string = preg_replace('/<trp-wrap [^<>]*?>/i', '', $string);
+            $string = preg_replace('/&lt;trp-wrap ([^"\'<>]*?)&gt;/i', '', $string);
             $string = preg_replace('/(<|&lt;)(\\\\)*\/trp-wrap(>|&gt;)/i', '', $string);
         }
 
         //remove post containers before outputting
-        $string = preg_replace( '/(<|&lt;)trp-post-container (.*?)(>|&gt;)/i', '', $string );
+        // Real trp-post-container carries a single-quoted attribute ( data-trp-post-id='123' ), so the real
+        // form stays permissive; only the attacker-reachable entity form is delimiter-constrained.
+        $string = preg_replace( '/<trp-post-container [^<>]*?>/i', '', $string );
+        $string = preg_replace( '/&lt;trp-post-container ([^"\'<>]*?)&gt;/i', '', $string );
         $string = preg_replace( '/(<|&lt;)(\\\\)*\/trp-post-container(>|&gt;)/i', '', $string );
 
         return $string;
@@ -2323,6 +2346,27 @@ class TRP_Translation_Render{
         }
 
         if ( empty( $args['to'] ) ) {
+            return $args;
+        }
+
+        /* Skip email translation in request contexts where TranslatePress does not wrap
+           gettext strings (wp-login.php, wp-admin, xmlrpc, TP editor requests). There the
+           email body carries no trp-gettext markers, so translate_page() would treat every
+           line - including security URLs like the password-reset link - as a regular
+           dynamic string and persist it to the dictionary, from where it can be disclosed.
+           This mirrors the condition in TRP_Gettext_Manager::processing_gettext_is_needed(),
+           so processing here would never match a marker anyway. See CU-869ehfvac. */
+        global $pagenow;
+        if ( ! $this->url_converter ) {
+            $trp                 = TRP_Translate_Press::get_trp_instance();
+            $this->url_converter = $trp->get_component( 'url_converter' );
+        }
+        if (
+            $pagenow === 'wp-login.php'
+            || $pagenow === 'xmlrpc.php'
+            || ( is_admin() && ! TRP_Gettext_Manager::is_ajax_on_frontend() )
+            || $this->url_converter->is_admin_request()
+        ) {
             return $args;
         }
 

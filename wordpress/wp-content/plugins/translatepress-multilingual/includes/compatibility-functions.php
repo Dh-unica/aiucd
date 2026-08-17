@@ -42,6 +42,57 @@ function trp_missing_mbstrings_library( $allow_to_run ){
 add_filter( 'trp_allow_tp_to_run', 'trp_missing_mbstrings_library' );
 
 /**
+ * robots.txt should never be handled by TranslatePress.
+ *
+ * Without this, the robots.txt file is processed by TranslatePress on secondary
+ * languages: it becomes accessible (and translated) on language URLs such as
+ * /es/robots.txt, and when "Use subdirectory for default language" is enabled the
+ * default robots.txt gets redirected to the language slug URL. Since the resulting
+ * file no longer matches the canonical one, this causes indexing issues.
+ *
+ * The check is based on the request URI (instead of is_robots()) because these
+ * filters run on 'plugins_loaded', before the query is parsed and conditional tags
+ * are available.
+ *
+ * @see https://app.clickup.com/t/qtc0c2
+ *
+ * @param string $url Optional URL to check. Defaults to the current request URI.
+ * @return bool        Whether the current request targets a robots.txt file.
+ */
+function trp_is_robots_txt_request( $url = '' ){
+    if ( empty( $url ) ) {
+        $url = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : ''; // phpcs:ignore
+    }
+    if ( empty( $url ) || ! is_string( $url ) ) {
+        return false;
+    }
+    // Only look at the path, ignoring any query string or fragment.
+    $path = wp_parse_url( $url, PHP_URL_PATH );
+    if ( empty( $path ) ) {
+        return false;
+    }
+    return (bool) preg_match( '#(^|/)robots\.txt$#i', $path );
+}
+
+// Don't run TranslatePress (no translation, no output buffering) on robots.txt requests.
+function trp_stop_running_on_robots_txt( $allow_to_run ){
+    if ( trp_is_robots_txt_request() ) {
+        return false;
+    }
+    return $allow_to_run;
+}
+add_filter( 'trp_allow_tp_to_run', 'trp_stop_running_on_robots_txt' );
+
+// Don't redirect robots.txt to a language URL (e.g. /robots.txt -> /en/robots.txt).
+function trp_stop_redirect_on_robots_txt( $allow_redirect, $needed_language, $current_page_url ){
+    if ( trp_is_robots_txt_request( $current_page_url ) || trp_is_robots_txt_request() ) {
+        return false;
+    }
+    return $allow_redirect;
+}
+add_filter( 'trp_allow_language_redirect', 'trp_stop_redirect_on_robots_txt', 10, 3 );
+
+/**
  * Don't have html inside menu title tags. Some themes just put in the title the content of the link without striping HTML
  */
 add_filter( 'nav_menu_link_attributes', 'trp_remove_html_from_menu_title', 10, 3);
@@ -829,7 +880,10 @@ if( class_exists( 'WooCommerce' ) ) {
 	function trp_woo_fix_product_remove_from_cart_notice($message, $cart_item){
 		$product = wc_get_product( $cart_item['product_id'] );
 		if ($product){
-			$message =  sprintf( _x( '&ldquo; %s &rdquo;', 'Item name in quotes', 'woocommerce' ), $product->get_name() ); //phpcs:ignore
+			$trp                = TRP_Translate_Press::get_trp_instance();
+			$translation_render = $trp->get_component( 'translation_render' );
+			$product_name       = $translation_render->translate_page( $product->get_name() );
+			$message            = sprintf( _x( '&ldquo; %s &rdquo;', 'Item name in quotes', 'woocommerce' ), $product_name ); //phpcs:ignore
 		}
 		return $message;
 	}
@@ -2194,11 +2248,128 @@ function trp_AIOSEO_remove_gettext_hooks($trp_loader){
 add_filter( 'trp_needed_language', 'trp_page_builders_compatibility_with_subdirectory_for_default_language', 10, 4 );
 function trp_page_builders_compatibility_with_subdirectory_for_default_language( $needed_language, $lang_from_url, $settings, $trp) {
     if ( ( ( isset( $_GET['action'] ) && $_GET['action'] === 'elementor' ) || isset( $_GET['elementor-preview'] ) ) //Elementor
-        || ( ( isset( $_GET['et_fb'] ) && $_GET['et_fb'] === '1' ) && ( isset( $_GET['PageSpeed'] ) && $_GET['PageSpeed'] === "off" ) ) //Divi
+        || trp_divi_is_builder_request() //Divi 4 & 5. Divi 4 appended PageSpeed=off to the builder URL, Divi 5 no longer does, so don't rely on it
         || ( ( isset( $_GET['vc_action'] ) && $_GET['vc_action'] === 'vc_inline' ) || ( isset( $_GET['vc_editable'] ) && $_GET['vc_editable'] === 'true' ) ) ) { //WPBakery
         $needed_language = $settings['default-language'];
     }
     return $needed_language;
+}
+
+/**
+ * Whether the current request is a Divi Builder session.
+ * et_fb=1  - Visual Builder (front-end)
+ * et_bfb=1 - Backend Builder iframe
+ */
+function trp_divi_is_builder_request() {
+    return ( isset( $_GET['et_fb'] ) && $_GET['et_fb'] === '1' ) || ( isset( $_GET['et_bfb'] ) && $_GET['et_bfb'] === '1' ); /* phpcs:ignore */
+}
+
+/**
+ * Redirect Divi Builder sessions opened on a secondary language URL to the default language.
+ *
+ * The Divi 5 Visual Builder loads its content over the REST API. On a secondary language URL
+ * the REST root advertised to the builder is language-prefixed and TranslatePress processes
+ * the page and the REST responses, so the builder fails to load the post content.
+ *
+ * Hooked before TRP_Language_Switcher::redirect_to_correct_language() so we don't redirect twice.
+ * The default language with "Use subdirectory for default language" enabled is left as is;
+ * trp_needed_language resolves it, and on the default language TranslatePress leaves both the
+ * page and the REST responses untouched.
+ */
+add_action( 'template_redirect', 'trp_divi_builder_redirect_to_default_language', 10 );
+function trp_divi_builder_redirect_to_default_language() {
+    if ( is_admin() || ! trp_divi_is_builder_request() || ! defined( 'ET_BUILDER_VERSION' ) ) {
+        return;
+    }
+
+    $trp           = TRP_Translate_Press::get_trp_instance();
+    $url_converter = $trp->get_component( 'url_converter' );
+    $settings      = ( new TRP_Settings() )->get_settings();
+
+    if ( ! $url_converter || empty( $settings['default-language'] ) ) {
+        return;
+    }
+
+    $current_url  = $url_converter->cur_page_url();
+    $current_lang = $url_converter->get_lang_from_url_string( $current_url );
+
+    if ( $current_lang != null && $current_lang != $settings['default-language'] ) {
+        $link_to_redirect = $url_converter->get_url_for_language( $settings['default-language'], null, '' );
+
+        if ( $link_to_redirect != $current_url ) {
+            wp_redirect( $link_to_redirect, 301 );
+            exit;
+        }
+    }
+}
+
+/**
+ * Disable the automatic language detection redirect script inside the Divi Builder.
+ * Otherwise it would redirect the builder page back to the visitor's preferred language,
+ * bouncing against the redirect to the default language above.
+ */
+add_filter( 'trp_ald_enqueue_redirecting_script', 'trp_divi_builder_disable_ald_redirect' );
+function trp_divi_builder_disable_ald_redirect( $enqueue_redirecting_script ) {
+    if ( trp_divi_is_builder_request() ) {
+        return false;
+    }
+    return $enqueue_redirecting_script;
+}
+
+/**
+ * Hide the floating language switcher inside the Divi Builder.
+ */
+add_filter( 'trp_floating_ls_html', 'trp_divi_builder_disable_language_switcher' );
+add_filter( 'trp_floater_ls_html_v2', 'trp_divi_builder_disable_language_switcher' );
+function trp_divi_builder_disable_language_switcher( $html ) {
+    if ( trp_divi_is_builder_request() ) {
+        return '';
+    }
+    return $html;
+}
+
+
+/**
+ * Compatibility with Elementor when editing the static front page while "Use a subdirectory for the
+ * default language" is enabled.
+ *
+ * Elementor builds the preview URL from get_permalink(). For the static front page that permalink is
+ * the bare home URL (no ?page_id=), and TP does not add the language subdirectory on admin requests,
+ * so the preview URL ends up as e.g. https://example.com/?elementor-preview=ID . On the front end that
+ * bare-home request no longer resolves to the front page (it now lives under /<default-language>/), so
+ * it returns a 404 and the Elementor editor hangs on the loading screen.
+ *
+ * Regular pages are not affected because their preview URL carries ?page_id=ID, which resolves fine.
+ *
+ * We fix it at the source by adding the default-language subdirectory to the front-page preview URL
+ * (e.g. https://example.com/<default-language>/?elementor-preview=ID), which resolves correctly (200)
+ * and lets the editor finish loading.
+ */
+add_filter( 'elementor/document/urls/preview', 'trp_elementor_front_page_preview_url_subdirectory', 10, 2 );
+function trp_elementor_front_page_preview_url_subdirectory( $url, $document ) {
+
+    $trp      = TRP_Translate_Press::get_trp_instance();
+    $settings = $trp->get_component( 'settings' )->get_settings();
+
+    // Only when the default language uses a subdirectory.
+    if ( ( isset( $settings['add-subdirectory-to-default-language'] ) ? $settings['add-subdirectory-to-default-language'] : 'no' ) !== 'yes' ) {
+        return $url;
+    }
+
+    // Only for the configured static front page.
+    if ( get_option( 'show_on_front' ) !== 'page' ) {
+        return $url;
+    }
+
+    $front_page_id = (int) get_option( 'page_on_front' );
+    if ( $front_page_id === 0 || ! is_object( $document ) || (int) $document->get_main_id() !== $front_page_id ) {
+        return $url;
+    }
+
+    $url_converter = $trp->get_component( 'url_converter' );
+
+    // Pass an empty processed marker so the URL is not suffixed with #TRPLINKPROCESSED.
+    return $url_converter->get_url_for_language( $settings['default-language'], $url, '' );
 }
 
 
@@ -3119,26 +3290,31 @@ function trp_is_breakdance_builder_request() {
  * site default that change_locale() forces on frontend requests.
  */
 function trp_breakdance_builder_respect_user_locale( $locale ) {
-    // Guard against infinite recursion: get_user_locale() falls back to
-    // get_locale() when the user has no profile language ("Site Default"),
-    // and get_locale() re-fires this very 'locale' filter. Without this guard
-    // that recurses until PHP exhausts memory / segfaults on the Breakdance
-    // builder endpoint.
+    // Guard against infinite recursion: both is_user_logged_in() (via
+    // wp_get_current_user() -> get_user_by() -> sanitize_user() ->
+    // remove_accents() on multibyte usernames) and get_user_locale() (falls
+    // back to get_locale() when the user has no profile language) re-fire
+    // this very 'locale' filter. Without this guard that recurses until PHP
+    // exhausts memory / segfaults.
     static $in_progress = false;
     if ( $in_progress ) {
         return $locale;
     }
 
-    // is_user_logged_in() is not yet available on the early load_default_textdomain() locale call.
-    if ( ! function_exists( 'is_user_logged_in' ) || ! is_user_logged_in() ) {
-        return $locale;
-    }
-
+    // Cheapest check first: on non-Breakdance-builder requests bail before
+    // touching any user functions that could re-enter this filter.
     if ( ! trp_is_breakdance_builder_request() ) {
         return $locale;
     }
 
     $in_progress = true;
+
+    // is_user_logged_in() is not yet available on the early load_default_textdomain() locale call.
+    if ( ! function_exists( 'is_user_logged_in' ) || ! is_user_logged_in() ) {
+        $in_progress = false;
+        return $locale;
+    }
+
     $user_locale = get_user_locale();
     $in_progress = false;
 
