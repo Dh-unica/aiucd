@@ -3,9 +3,9 @@ Contributors: cozmoslabs, razvan.mo, madalin.ungureanu, sareiodata, cristophor
 Donate link: https://www.translatepress.com/
 Tags: translate, translation, multilingual, automatic translation, ai translation, front-end translation, google translate, language
 Requires at least: 3.1.0
-Tested up to: 7.0.2
+Tested up to: 7.0.4
 Requires PHP: 7.4
-Stable tag: 3.2.6
+Stable tag: 3.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -153,6 +153,9 @@ Yes, TranslatePress works out of the box with WooCommerce. You can use to build 
 
 For more information please check out our [documentation](https://translatepress.com/docs/translatepress/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree).
 
+= Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the TranslatePress plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/55520b61-434d-4271-801d-b55f75b5cbe1). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Screenshots ==
 1. TranslatePress front-end visual translation editor in action
@@ -166,13 +169,9 @@ For more information please check out our [documentation](https://translatepress
 
 
 == Changelog ==
-= 3.2.6 =
-* Fixed XSS security vulnerability regarding gettext wrappers. Thanks to momopon1415 and the Wordfence team for the report
-* Fixed multisite add-on action security. Thanks to Jan Thiel for the report
-* Fixed plural gettext translations skipped by sprintf-compatibility check
-* Fixed edge cases of SQL syntax error in gettext table creation
-* Keep Translation Editor interface language unchanged while switching language of the site preview
-* Fixed CSS of Add Media button from Translation Editor
+= 3.3.3 =
+* Fixed XSS vulnerability in Translation Editor with gettext markers in search query parameter. Thanks to Quentin Lamour and the Patchstack team for the report
+* Fixed Breakdance product title search indexing
 
 = Older versions =
 [Click Here](https://translatepress.com/docs/translatepress-free-changelog/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree) to view the full changelog, or you can find it in the changelog.txt file in the plugin folder.
