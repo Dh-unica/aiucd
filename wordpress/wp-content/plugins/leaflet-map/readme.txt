@@ -6,9 +6,9 @@ Contributors: bozdoz, hupe13, jannefleischer, remigr, gerital, sal0max, thibault
 Donate link: https://www.paypal.me/bozdoz
 Tags: leaflet, map, openstreetmap, mapquest, interactive
 Requires at least: 4.6
-Tested up to: 6.9
-Version: 3.4.6
-Stable tag: 3.4.6
+Tested up to: 7.1
+Version: 3.4.7
+Stable tag: 3.4.7
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,6 +156,10 @@ For more FAQs, please visit the [FAQ section on GitHub here](https://github.com/
 8. MapQuest requires an app key, get it from their website; alternatively, you can use OpenStreetMap as a free tile service (remember to add an attribution where necessary).
 
 == Changelog ==
+
+= 3.4.7 =
+* Tested with WordPress 7.1
+* some corrections to option types
 
 = 3.4.6 =
 * [Bugfix] Fix to escaping geojson url's

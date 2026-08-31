@@ -82,7 +82,7 @@ class TRP_Translate_Press{
         define( 'TRP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
         define( 'TRP_PLUGIN_BASE', plugin_basename( __DIR__ . '/index.php' ) );
         define( 'TRP_PLUGIN_SLUG', 'translatepress-multilingual' );
-        define( 'TRP_PLUGIN_VERSION', '3.2.6' );
+        define( 'TRP_PLUGIN_VERSION', '3.3.4' );
 
 	    wp_cache_add_non_persistent_groups(array('trp'));
 
@@ -358,8 +358,11 @@ class TRP_Translate_Press{
         $this->loader->add_filter( 'trp_error_manager_page_output', $this->error_manager, 'output_db_errors', 10, 1 );
         $this->loader->add_action('load-admin_page_trp_error_manager', $this->error_manager, 'disable_error_after_click_link', 10);
 
-        $this->loader->add_action( 'wp_ajax_nopriv_trp_get_translations_regular', $this->editor_api_regular_strings, 'get_translations' );
+        // Front-end dynamic translation (DOM changes). Safe for logged-out visitors
+        $this->loader->add_action( 'wp_ajax_nopriv_trp_get_translations_domchanges', $this->editor_api_regular_strings, 'get_translations_domchanges' );
+        $this->loader->add_action( 'wp_ajax_trp_get_translations_domchanges', $this->editor_api_regular_strings, 'get_translations_domchanges' );
 
+        // Editor-only (authenticated + capability-gated inside get_translations).
 	    $this->loader->add_action( 'wp_ajax_trp_get_translations_regular', $this->editor_api_regular_strings, 'get_translations' );
         $this->loader->add_action( 'wp_ajax_trp_save_translations_regular', $this->editor_api_regular_strings, 'save_translations' );
         $this->loader->add_action( 'wp_ajax_trp_split_translation_block', $this->editor_api_regular_strings, 'split_translation_block' );
@@ -382,6 +385,7 @@ class TRP_Translate_Press{
 
 	    $this->loader->add_action( 'admin_menu', $this->upgrade, 'register_menu_page' );
         $this->loader->add_action( 'admin_init', $this->upgrade, 'show_admin_error_message' );
+        $this->loader->add_action( 'admin_init', $this->upgrade, 'maybe_start_gettext_tables_optimization_from_notice' );
 	    $this->loader->add_action( 'admin_init', $this->upgrade, 'show_admin_notice' );
 	    $this->loader->add_action( 'admin_init', $this->upgrade, 'show_notification_about_add_ons_removal' );
         $this->loader->add_action( 'admin_init', $this->upgrade, 'trp_prepare_options_for_database_optimization' );
@@ -614,16 +618,25 @@ class TRP_Translate_Press{
         if ( 'translatepress-multilingual' !== $domain ) {
             return $file;
         }
+        if ( ! is_string( $file ) || '' === trim( $file ) || is_dir( $file ) ) {
+            return '';
+        }
         $bundled = TRP_PLUGIN_DIR . 'languages/' . basename( $file );
-        return file_exists( $bundled ) ? $bundled : $file;
+        return is_file( $bundled ) ? $bundled : $file;
     }
 
     public function prefer_bundled_script_translation_file( $file, $handle, $domain ) {
+        if ( ! $file ) {
+            return $file;
+        }
         if ( 'translatepress-multilingual' !== $domain ) {
             return $file;
         }
+        if ( ! is_string( $file ) || '' === trim( $file ) || is_dir( $file ) ) {
+            return '';
+        }
         $bundled = TRP_PLUGIN_DIR . 'languages/' . basename( $file );
-        return file_exists( $bundled ) ? $bundled : $file;
+        return is_file( $bundled ) ? $bundled : $file;
     }
 
     public function init_machine_translation(){

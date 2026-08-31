@@ -1,3 +1,35 @@
+= 3.3.3 =
+* Fixed XSS vulnerability in Translation Editor with gettext markers in search query parameter. Thanks to Quentin Lamour and the Patchstack team for the report
+* Fixed Breakdance product title search indexing
+
+= 3.3.2 =
+* Fixed security issue regarding sensitive information exposure. Thanks to momopon1415 and the Wordfence team
+* Ensure Divi Builder always loads in the default language
+* Fixed infinite recursion on HTTPS REST requests with multibyte UTF-8 usernames
+
+= 3.3.1 =
+* Fixed cases of gettext database optimization failure due to index creation issues
+* Fixed cases of illegal mix of collation issues when running gettext database optimization
+
+= 3.3 =
+* Fixed XSS vulnerability with gettext markers in comments. Thanks to Pham Duc Anh and the Wordfence team for the report
+* Fixed XSS vulnerability in Translation Editor strings dropdown. Thanks to momopon1415 and the Wordfence team for the report
+* Improved page loading time by better handling gettext translations
+* Fixed WooCommerce remove from cart product title not translated
+* Fixed Elementor homepage editor hanging when default-language subdirectory is enabled
+* Fixed conflict with Mailster plugin
+* Fixed hidden API credential test fields
+* Fixed trp-ajax issues when having escaped db credentials
+* Prevent interference with robots.txt
+
+= 3.2.6 =
+* Fixed XSS security vulnerability regarding gettext wrappers. Thanks to momopon1415 and the Wordfence team for the report
+* Fixed multisite add-on action security. Thanks to Jan Thiel for the report
+* Fixed plural gettext translations skipped by sprintf-compatibility check
+* Fixed edge cases of SQL syntax error in gettext table creation
+* Keep Translation Editor interface language unchanged while switching language of the site preview
+* Fixed CSS of Add Media button from Translation Editor
+
 = 3.2.5 =
 * Added Elementor language switcher widget
 * Fixed some cases where language switcher was not showing newly added languages to logged out users
