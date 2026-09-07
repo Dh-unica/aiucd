@@ -751,7 +751,8 @@ class TRP_Translation_Render{
         ksort($trp_rows);
         foreach( $trp_rows as $level ){
             foreach( $level as $row ){
-                $original_gettext_translation_id = $row->getAttribute('data-trpgettextoriginal');
+                /* never write this value back out unvalidated, see sanitize_gettext_original_id() */
+                $original_gettext_translation_id = $this->sanitize_gettext_original_id( $row->getAttribute('data-trpgettextoriginal') );
                 /* Parent node has no other children and no other innertext besides the current node */
                 if( count( $row->parent()->children ) == 1 && $row->parent()->innertext == $row->outertext ){
                     $row->outertext = $row->innertext();
@@ -760,7 +761,8 @@ class TRP_Translation_Render{
                     // we are in the editor
                     if (isset($_REQUEST['trp-edit-translation']) && $_REQUEST['trp-edit-translation'] == 'preview') {
                         //move up the data-trpgettextoriginal attribute
-                        $row->parent()->setAttribute('data-trpgettextoriginal', $original_gettext_translation_id);
+                        /* esc_attr because simple_html_dom::makeup() writes the stored value verbatim */
+                        $row->parent()->setAttribute('data-trpgettextoriginal', esc_attr( $original_gettext_translation_id ));
                     }
                 }
                 else{
@@ -771,7 +773,7 @@ class TRP_Translation_Render{
                     /* Changes made to outertext take place only after saving the html object to a string */
                     $row->outertext = '<trp-wrap class="trp-wrap" data-no-translation';
                     if (isset($_REQUEST['trp-edit-translation']) && $_REQUEST['trp-edit-translation'] == 'preview') {
-                        $row->outertext .= ' data-trpgettextoriginal="'. $original_gettext_translation_id .'"';
+                        $row->outertext .= ' data-trpgettextoriginal="'. esc_attr( $original_gettext_translation_id ) .'"';
                     }
                     $row->outertext .= '>'.$row->innertext().'</trp-wrap>';
                 }
@@ -806,8 +808,10 @@ class TRP_Translation_Render{
                             $row->setAttribute($no_translate_attribute . '-' . $attr_name, '');
                             // we are in the editor
                             if (isset($_REQUEST['trp-edit-translation']) && $_REQUEST['trp-edit-translation'] == 'preview') {
-                                $original_gettext_translation_id = $nfv_row->getAttribute('data-trpgettextoriginal');
-                                $row->setAttribute('data-trpgettextoriginal-' . $attr_name, $original_gettext_translation_id);
+                                /* this node was rebuilt from a host attribute value that can carry reflected
+                                   user input, so the id is untrusted here. See sanitize_gettext_original_id() */
+                                $original_gettext_translation_id = $this->sanitize_gettext_original_id( $nfv_row->getAttribute('data-trpgettextoriginal') );
+                                $row->setAttribute('data-trpgettextoriginal-' . $attr_name, esc_attr( $original_gettext_translation_id ));
                             }
 
                         }
@@ -1564,28 +1568,90 @@ class TRP_Translation_Render{
 
     /**
      * function that removes any unwanted leftover <trp-gettext> tags
+     *
+     * Security ( CU-869eddnvm ): the opening-tag removals below used an unbounded inner match ( .*? ) that
+     * could bridge across html attribute/tag delimiters. TP emits these wrappers as real tags, but the same
+     * marker can also appear ENCODED ( percent-encoded, or html-entity escaped: %23%21trpst%23trp-gettext,
+     * &lt;trp-gettext ) inside an attribute value that survived wp_kses, because the marker text contains no
+     * html-special characters. A .*? there let a start marker inside one attribute ( href ) reach an end
+     * marker inside another ( title ) and collapse everything between them, splicing the two attributes into
+     * e.g. href="javascript:..." from an otherwise kses-clean, unauthenticated comment ( stored XSS ).
+     *
+     * The real-tag form ( <trp-gettext ...> ) is never attacker-reachable: wp_kses strips a literal <trp-*>
+     * tag from user input, so it stays permissive ( bounded only by the real angle brackets ). Only the
+     * encoded/entity form is attacker-reachable, so there the captured span excludes the raw attribute
+     * delimiters "'<> and can no longer leave a single attribute value / text node. Legitimately escaped
+     * wrappers carry &quot;/&#039; rather than raw quotes, so they are still removed.
+     *
      * @param $string
      * @return string|string[]|null
      */
     function remove_trp_html_tags( $string ){
-        $string = preg_replace( '/(<|&lt;)trp-gettext (.*?)(>|&gt;)/i', '', $string );
+        // trp-gettext opening tag: the real form ( <...> ) and the entity form ( &lt;...&gt; ) both carry an
+        // unquoted attribute ( data-trpgettextoriginal=123 ), so a single delimiter-constrained match is safe.
+        $string = preg_replace( '/(<|&lt;)trp-gettext ([^"\'<>]*?)(>|&gt;)/i', '', $string );
         $string = preg_replace( '/(<|&lt;)(\\\\)*\/trp-gettext(>|&gt;)/i', '', $string );
 
         // In case we have a gettext string which was run through rawurlencode(). See more details on iss6563
-        $string = preg_replace( '/%23%21trpst%23trp-gettext(.*?)%23%21trpen%23/i', '', $string );
+        $string = preg_replace( '/%23%21trpst%23trp-gettext([^"\'<>]*?)%23%21trpen%23/i', '', $string );
         $string = preg_replace( '/%23%21trpst%23%2Ftrp-gettext%23%21trpen%23/i', '', $string );
         $string = preg_replace( '/%23%21trpst%23%5C%2Ftrp-gettext%23%21trpen%23/i', '', $string );
 
         if (!isset($_REQUEST['trp-edit-translation']) || $_REQUEST['trp-edit-translation'] != 'preview') {
-            $string = preg_replace('/(<|&lt;)trp-wrap (.*?)(>|&gt;)/i', '', $string);
+            // Real trp-wrap tag carries a double-quoted attribute ( class="trp-wrap" ), so the real form stays
+            // permissive; only the attacker-reachable entity form is delimiter-constrained.
+            $string = preg_replace('/<trp-wrap [^<>]*?>/i', '', $string);
+            $string = preg_replace('/&lt;trp-wrap ([^"\'<>]*?)&gt;/i', '', $string);
             $string = preg_replace('/(<|&lt;)(\\\\)*\/trp-wrap(>|&gt;)/i', '', $string);
         }
 
         //remove post containers before outputting
-        $string = preg_replace( '/(<|&lt;)trp-post-container (.*?)(>|&gt;)/i', '', $string );
+        // Real trp-post-container carries a single-quoted attribute ( data-trp-post-id='123' ), so the real
+        // form stays permissive; only the attacker-reachable entity form is delimiter-constrained.
+        $string = preg_replace( '/<trp-post-container [^<>]*?>/i', '', $string );
+        $string = preg_replace( '/&lt;trp-post-container ([^"\'<>]*?)&gt;/i', '', $string );
         $string = preg_replace( '/(<|&lt;)(\\\\)*\/trp-post-container(>|&gt;)/i', '', $string );
 
         return $string;
+    }
+
+    /**
+     * Validate a data-trpgettextoriginal value before it is written back into the page.
+     *
+     * The value is always a row id from wp_trp_gettext_original_strings that TP itself placed in the
+     * wrapper ( see TRP_Process_Gettext::process_gettext_strings() ), and it is legitimately empty when
+     * the original was not in the database yet ( see strip_gettext_tags() ). Anything else means the
+     * wrapper did not come from us.
+     *
+     * Security ( follow-up to the CVE-2026-17505 marker hardening ): the wrapper IS
+     * attacker reachable, just not through the #!trpst# markers that replace_gettext_markers_with_html_tags()
+     * now constrains to data-trpgettextoriginal=\d{0,20}. A literal
+     *
+     *     <trp-gettext data-trpgettextoriginal='x"><img src=x onerror=alert(1)>'>X</trp-gettext>
+     *
+     * in reflected input ( ?s= ) is escaped to entities by WordPress and lands inside a host attribute
+     * ( title=, content=, value= ), and the trp_attr_rows loop in translate_page() deliberately
+     * html_entity_decodes that attribute and re-parses it, resurrecting the tag as a real node. The id was
+     * then written straight back out with setAttribute() / string concatenation. Neither escapes:
+     * simple_html_dom::makeup() concatenates the stored value between quotes verbatim, so a double quote
+     * in the id closed the attribute and injected live markup. Unauthenticated, because every preview
+     * branch only tests $_REQUEST['trp-edit-translation'] with no capability check.
+     *
+     * Constraining the value to digits removes the breakout at the source; callers additionally esc_attr()
+     * on output so the sink stays safe even if this ever loosens.
+     *
+     * @param mixed $id Raw attribute value as returned by simple_html_dom's getAttribute().
+     * @return string Digits-only id, or an empty string when the value is not a usable id.
+     */
+    protected function sanitize_gettext_original_id( $id ){
+        /* getAttribute() returns true for a valueless attribute and null/false for a removed one */
+        if ( ! is_string( $id ) ){
+            return '';
+        }
+
+        $id = trim( $id );
+
+        return ( $id !== '' && ctype_digit( $id ) ) ? $id : '';
     }
 
     /**
@@ -2326,6 +2392,25 @@ class TRP_Translation_Render{
             return $args;
         }
 
+        /* Skip full email translation in request contexts where TranslatePress does not wrap
+           gettext strings (wp-login.php, wp-admin, xmlrpc, TP editor requests). There the
+           email body carries no trp-gettext markers, so translate_page() would treat every
+           line - including security URLs like the password-reset link - as a regular
+           dynamic string and persist it to the dictionary, from where it can be disclosed.
+           Whitelisted conditional shortcodes must still be evaluated because WooCommerce
+           does not process them before wp_mail. See CU-869ehfvac and CU-869ekd2dw. */
+        global $pagenow;
+        if ( ! $this->url_converter ) {
+            $trp                 = TRP_Translate_Press::get_trp_instance();
+            $this->url_converter = $trp->get_component( 'url_converter' );
+        }
+        $skip_email_translation = (
+            $pagenow === 'wp-login.php'
+            || $pagenow === 'xmlrpc.php'
+            || ( is_admin() && ! TRP_Gettext_Manager::is_ajax_on_frontend() )
+            || $this->url_converter->is_admin_request()
+        );
+
         global $TRP_LANGUAGE;
 
         $initial_language = $TRP_LANGUAGE;
@@ -2355,15 +2440,19 @@ class TRP_Translation_Render{
         );
 
         if ( array_key_exists( 'subject', $args ) ) {
-            $args['subject'] = $this->translate_page(
-                trp_do_these_shortcodes( $args['subject'], $whitelisted_shortcodes )
-            );
+            $args['subject'] = trp_do_these_shortcodes( $args['subject'], $whitelisted_shortcodes );
+
+            if ( ! $skip_email_translation ) {
+                $args['subject'] = $this->translate_page( $args['subject'] );
+            }
         }
 
         if ( array_key_exists( 'message', $args ) ) {
-            $args['message'] = $this->translate_page(
-                trp_do_these_shortcodes( $args['message'], $whitelisted_shortcodes )
-            );
+            $args['message'] = trp_do_these_shortcodes( $args['message'], $whitelisted_shortcodes );
+
+            if ( ! $skip_email_translation ) {
+                $args['message'] = $this->translate_page( $args['message'] );
+            }
         }
 
         if ( $did_switch_language ) {
@@ -2545,7 +2634,7 @@ class TRP_Translation_Render{
             return $content;
 
         //we try to wrap only the actual content of the post and not when the filters are executed in SEO plugins for example
-        if( ( !$wp_query->in_the_loop || !is_main_query() ) && apply_filters('trp_wrap_with_post_id_overrule', true ) )
+        if( ( !$wp_query->in_the_loop || !is_main_query() ) && apply_filters( 'trp_wrap_with_post_id_overrule', true, $content, $id ) )
             return $content;
 
         //for the_tile filter we have an $id and we can compare it with the post we are on ..to avoid wrapping titles in menus for example

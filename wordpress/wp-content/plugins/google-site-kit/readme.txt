@@ -2,9 +2,9 @@
 
 Contributors:      google
 Requires at least: 5.2
-Tested up to:      7.0
+Tested up to:      7.1
 Requires PHP:      7.4
-Stable tag:        1.184.0
+Stable tag:        1.186.0
 License:           Apache License 2.0
 License URI:       https://www.apache.org/licenses/LICENSE-2.0
 Tags:              google, search-console, analytics, adsense, pagespeed-insights
@@ -112,31 +112,34 @@ Please create a new topic on our [WordPress.org support forum](https://wordpress
 
 == Changelog ==
 
-= 1.184.0 =
+= 1.186.0 =
 
 **Enhanced**
 
-* Update notice text for Site Goals. See [#13153](https://github.com/google/site-kit-wp/issues/13153).
-* Add Site Goals Survey Triggers. See [#13040](https://github.com/google/site-kit-wp/issues/13040).
-* Add the `steps` query parameter to the proxy's setup URL to specify the number of progress indicator elements in the new setup flow. See [#12953](https://github.com/google/site-kit-wp/issues/12953).
-* Prevent the Key Metrics widget area from appearing on the dashboard when Analytics is not connected in the new setup flow. See [#12906](https://github.com/google/site-kit-wp/issues/12906).
-* Ask the site purpose question when continuing without Analytics from the Analytics setup screen. See [#12819](https://github.com/google/site-kit-wp/issues/12819).
-* Improve PDF accessibility. Props Jaksenc. See [#12702](https://github.com/google/site-kit-wp/issues/12702).
-* Add new selector anchored notification highlighting the PDF download button. See [#12698](https://github.com/google/site-kit-wp/issues/12698).
-* Fix bug that could cause multiple modals from showing when Site Goals and the new setup flow are enabled on a new site. See [#12652](https://github.com/google/site-kit-wp/issues/12652).
-* Add surveys to PDF Report generation. See [#12649](https://github.com/google/site-kit-wp/issues/12649).
-* Implement the Key Metric PDF widget. See [#12554](https://github.com/google/site-kit-wp/issues/12554).
-* Add "Monetization" section to PDF Widgets. See [#12551](https://github.com/google/site-kit-wp/issues/12551).
-* Implement PDF Widgets for "Monetization" -> "Earning performance over time". See [#12550](https://github.com/google/site-kit-wp/issues/12550).
-* Add "Your visitor groups" section to PDF Reports. See [#12546](https://github.com/google/site-kit-wp/issues/12546).
-* Show an error notice on the dashboard when Audience Segmentation setup fails, with the option to retry or opt out. See [#12381](https://github.com/google/site-kit-wp/issues/12381).
-* Update the setup error notification shown on the splash screen. See [#12375](https://github.com/google/site-kit-wp/issues/12375).
+* Add new "content events" event provider in conversion event tracking to all sites. See [#13281](https://github.com/google/site-kit-wp/issues/13281).
+* Add the initial datastore for the Feature Discovery Hub. See [#13245](https://github.com/google/site-kit-wp/issues/13245).
+* Add the `featureDiscoveryHub` feature flag. See [#13243](https://github.com/google/site-kit-wp/issues/13243).
+* Align PDF export survey triggers with the survey audience segments. See [#13241](https://github.com/google/site-kit-wp/issues/13241).
+* Update PDF report titles in download options panel. See [#13214](https://github.com/google/site-kit-wp/issues/13214).
+* Show the title of Ninja Form's content in Site Goals. See [#13156](https://github.com/google/site-kit-wp/issues/13156).
+* Add the newsletter CTA preview with pop-up and inline views for the Reader Revenue Manager express setup. See [#13026](https://github.com/google/site-kit-wp/issues/13026).
+* Add features menu for mobile and tablet viewports. See [#13013](https://github.com/google/site-kit-wp/issues/13013).
+* Add Email Reporting icon to the header. See [#13010](https://github.com/google/site-kit-wp/issues/13010).
+* Add a dashboard notification prompting users to resume an abandoned Reader Revenue Manager express setup. See [#13009](https://github.com/google/site-kit-wp/issues/13009).
+* Update the Reader Revenue Manager setup CTA banner for the upcoming sign-up form express setup. See [#12946](https://github.com/google/site-kit-wp/issues/12946).
+* Fix the email report section builder leaking the recipient's locale on the success path. See [#12883](https://github.com/google/site-kit-wp/issues/12883).
+* Fix visual issues with email reports when viewed in Outlook 365 on Windows 11. See [#12428](https://github.com/google/site-kit-wp/issues/12428).
+* Fix various issues with email reports UI/layout. See [#12427](https://github.com/google/site-kit-wp/issues/12427).
+* Include site URL from PageSpeed Insights links. Props Solaris-star, giri256. See [#10870](https://github.com/google/site-kit-wp/issues/10870).
+* Update Sign in with Google to allow usage with sites using WooCommerce's "open registration". See [#9942](https://github.com/google/site-kit-wp/issues/9942).
 
 **Fixed**
 
-* Fix Site Goals tour issues with section highlights. See [#13146](https://github.com/google/site-kit-wp/issues/13146).
-* Fix bug in Email Reporting when Search Console requests fail. See [#13085](https://github.com/google/site-kit-wp/issues/13085).
-* Fix bug that could cause Site Goals widgets to re-render on load. See [#13058](https://github.com/google/site-kit-wp/issues/13058).
-* Fix the loading state issue for the `Get breakdown` button when custom dimensions already exist. See [#12983](https://github.com/google/site-kit-wp/issues/12983).
+* Fix key metrics click target in PDF report. See [#13370](https://github.com/google/site-kit-wp/issues/13370).
+* Prevent WooCommerce conversion tracking event provider from erroring when an order ID doesn't resolve to a `WC_Order`, for example when the order is a refund. Props mikejb37-byte. See [#13270](https://github.com/google/site-kit-wp/issues/13270).
+* Fix issues with long titles in "Top performing keyboards" section in PDF reports. See [#13213](https://github.com/google/site-kit-wp/issues/13213).
+* Fix click targets in PDF report. See [#13212](https://github.com/google/site-kit-wp/issues/13212).
+* Fix bug that could cause the PDF Report generation notice to disappear when the download panel is closed and opened again. Props jibin7jose. See [#13175](https://github.com/google/site-kit-wp/issues/13175).
+* Fix bug that could cause badges to show 0% in some locales. Props Grvilla71, gunjanjaswal. See [#12867](https://github.com/google/site-kit-wp/issues/12867).
 
 [See changelog for all versions](https://raw.githubusercontent.com/google/site-kit-wp/main/changelog.txt).
