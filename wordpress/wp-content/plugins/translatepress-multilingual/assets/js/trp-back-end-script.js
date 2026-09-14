@@ -693,15 +693,18 @@ function TRP_Advanced_Settings_Tabs() {
         const page = new URLSearchParams(window.location.search).get('page');
         if (page !== 'trp_advanced_page' && page !== 'trp_machine_translation' && page !== 'trp_machine_translation_glossary') return;
 
-        jQuery('.trp-settings-container').hide();
+        const settingsContainers = [...document.querySelectorAll(".trp-settings-container")]
+            .filter(container => !container.closest(".trp-test-api-key-popup"));
+
+        jQuery(settingsContainers).hide();
 
         // Backwards compatibility for old Pro versions. We did not have trp-settings-containers then
         const aldSettingsContainer = document.querySelector('.advanced_settings_class.ald_settings');
 
         let navItems = document.querySelectorAll(".trp_advanced_tab_content_table_item");
         let containers = !aldSettingsContainer ?
-            document.querySelectorAll(".trp-settings-container") :
-            [...document.querySelectorAll(".trp-settings-container"), aldSettingsContainer];
+            settingsContainers :
+            [...settingsContainers, aldSettingsContainer];
 
         let settingsReferer = document.querySelector("#trp_advanced_settings_referer")
             || document.querySelector("#trp_machine_translation_settings_referer"); // Hidden input field
@@ -719,10 +722,16 @@ function TRP_Advanced_Settings_Tabs() {
 
         function showTargetContainer(targetClass) {
             containers.forEach(container => container.style.display = "none");
+            const settingsSubmit = document.querySelector('#trp-settings__wrap > .trp-submit-btn');
+            const aldPopupConfigurator = document.getElementById('tp-ald-popup-configurator-root');
 
             let targetContainers = targetClass === 'ald_settings' && aldSettingsContainer ?
                 document.querySelectorAll('.advanced_settings_class.ald_settings') :
                 document.querySelectorAll(`.trp-settings-container-${targetClass}`);
+
+            if (settingsSubmit) {
+                settingsSubmit.style.display = targetClass === 'ald_settings' && aldPopupConfigurator ? 'none' : '';
+            }
 
             if (targetContainers.length > 0) {
                 targetContainers.forEach(container => container.style.display = "block");

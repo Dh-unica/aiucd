@@ -191,7 +191,7 @@ class Leaflet_Map_Plugin_Settings
 				'max' => 20,
 				'step' => 1,
                 'helptext' => sprintf(
-                    '%1$s %2%s <br /> <code>%3$s</code>', 
+                    '%1$s %2$s <br /> <code>%3$s</code>',
                     __('Restrict the viewer from zooming out past the maximum zoom.  Can set per map in shortcode or adjust for all maps here', 'leaflet-map'),
                     $foreachmap,
                     '[leaflet-map max_zoom="10"]'
@@ -209,7 +209,8 @@ class Leaflet_Map_Plugin_Settings
             ),
             'mapquest_appkey' => array(
                 'display_name'=>__('MapQuest API Key (optional)', 'leaflet-map'),
-                'default' => __('Supply an API key if you choose MapQuest', 'leaflet-map'),
+                'default' => '',
+                'placeholder'  => __('Supply an API key if you choose MapQuest', 'leaflet-map'),
                 'type' => 'text',
                 'noreset' => true,
                 'helptext' => sprintf(
@@ -236,7 +237,8 @@ class Leaflet_Map_Plugin_Settings
             ),
             'map_tile_url_subdomains' => array(
                 'display_name'=>__('Map Tile URL Subdomains', 'leaflet-map'),
-                'default'=>'abc',
+                'default'=>'',
+                'placeholder'=>'abc',
                 'type' => 'text',
                 'helptext' => sprintf(
                     '%1$s %2$s <br/> <code>[leaflet-map subdomains="1234"]</code>',
@@ -349,7 +351,7 @@ class Leaflet_Map_Plugin_Settings
             'nominatim_contact_email' => array(
                 'display_name'=>__('Nominatim Contact Email (optional)', 'leaflet-map'),
                 'default' => '',
-                'type' => 'text',
+                'type' => 'email',
                 'placeholder' => sprintf(
                     __('defaults to admin email (%s)', 'leaflet-map'),
                     get_bloginfo('admin_email')
@@ -361,7 +363,8 @@ class Leaflet_Map_Plugin_Settings
             ),
             'google_appkey' => array(
                 'display_name'=>__('Google API Key (optional)', 'leaflet-map'),
-                'default' => __('Supply a Google API Key', 'leaflet-map'),
+                'default' => '',
+                'placeholder'  => __('Supply a Google API Key', 'leaflet-map'),
                 'type' => 'text',
                 'noreset' => true,
                 'helptext' => sprintf(

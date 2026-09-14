@@ -40,7 +40,7 @@ class TRP_Gettext_Table_Creation extends TRP_Query{
 	 */
     public function check_gettext_table( $language_code ){
         $table_name = sanitize_text_field( $this->get_gettext_table_name($language_code) );
-        if ( $this->db->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) {
+        if ( ! $this->trp_table_exists_exact( $table_name ) ) {
             // table not in database. Create new table
             $charset_collate = $this->db->get_charset_collate();
 
@@ -52,7 +52,8 @@ class TRP_Gettext_Table_Creation extends TRP_Query{
                                     status int(20),
                                     original_id bigint(20),
                                     plural_form int(20),
-                                    UNIQUE KEY id (id) )
+                                    UNIQUE KEY id (id),
+                                    UNIQUE KEY gettext_original_plural_unique (original_id, plural_form) )
                                      $charset_collate;";
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             dbDelta( $sql );
@@ -66,6 +67,7 @@ class TRP_Gettext_Table_Creation extends TRP_Query{
             $sql_index = "CREATE FULLTEXT INDEX original_fulltext ON `" . $table_name . "`(original);";
             $this->db->query( $sql_index );
         }
+
     }
 
 
@@ -78,7 +80,7 @@ class TRP_Gettext_Table_Creation extends TRP_Query{
     public function check_gettext_original_table(){
 
         $table_name = $this->get_table_name_for_gettext_original_strings();
-        if ( $this->db->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) {
+        if ( ! $this->trp_table_exists_exact( $table_name ) ) {
             // table not in database. Create new table
             $charset_collate = $this->db->get_charset_collate();
 
@@ -86,8 +88,9 @@ class TRP_Gettext_Table_Creation extends TRP_Query{
                                     id bigint(20) AUTO_INCREMENT NOT NULL PRIMARY KEY,
                                     original TEXT NOT NULL,
                                     domain TEXT NOT NULL,
-                                    context TEXT DEFAULT NULL, 
-                                    original_plural TEXT DEFAULT NULL 
+                                    context TEXT DEFAULT NULL,
+	                                    original_plural TEXT DEFAULT NULL,
+	                                    lookup_hash char(32) NOT NULL
                                     )
                                      $charset_collate;";
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -95,6 +98,13 @@ class TRP_Gettext_Table_Creation extends TRP_Query{
 
             $sql_index = "CREATE INDEX gettext_index_original ON `" . $table_name . "` (original(100));";
             $this->db->query( $sql_index );
+
+	            $prefix_length = $this->get_gettext_original_lookup_index_prefix_length( $table_name );
+	            $sql_index = "CREATE INDEX gettext_lookup_original_domain_context ON `" . $table_name . "` (original($prefix_length), domain($prefix_length), context($prefix_length));";
+	            $this->db->query( $sql_index );
+
+	            $sql_index = "CREATE UNIQUE INDEX gettext_lookup_hash_unique ON `" . $table_name . "` (lookup_hash);";
+	            $this->db->query( $sql_index );
         }
     }
 
@@ -107,7 +117,7 @@ class TRP_Gettext_Table_Creation extends TRP_Query{
     public function check_gettext_original_meta_table(){
 
         $table_name = $this->get_table_name_for_gettext_original_meta();
-        if ( $this->db->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) {
+        if ( ! $this->trp_table_exists_exact( $table_name ) ) {
             // table not in database. Create new table
             $charset_collate = $this->db->get_charset_collate();
 

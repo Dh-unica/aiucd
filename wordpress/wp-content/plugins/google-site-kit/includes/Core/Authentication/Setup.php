@@ -325,7 +325,7 @@ class Setup {
 	 * Verifies the given nonce for a setup action.
 	 *
 	 * The nonce passed from the proxy will always be the one initially provided to it.
-	 * {@see Google_Proxy::setup_url()}
+	 * {@see Google_Proxy::setup_url()}.
 	 *
 	 * @since 1.48.0
 	 *
@@ -382,7 +382,7 @@ class Setup {
 
 			$this->user_options->set( OAuth_Client::OPTION_ERROR_CODE, $error_code );
 
-			throw new Exchange_Site_Code_Exception( $error_code );
+			throw new Exchange_Site_Code_Exception( $error_code ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Returned to the browser as JSON via WP_Error, escaping would show HTML entities to the user.
 		}
 
 		$this->credentials->set(

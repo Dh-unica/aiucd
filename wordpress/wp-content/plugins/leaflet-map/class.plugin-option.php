@@ -108,6 +108,7 @@ class Leaflet_Map_Plugin_Option
     {
         switch ($this->type) {
         case 'text':
+        case 'email':
             ?>
         <input 
             class="full-width" 
@@ -142,7 +143,7 @@ class Leaflet_Map_Plugin_Option
         <textarea 
             id="<?php echo esc_attr( $name ); ?>"
             class="full-width" 
-            name="<?php echo esc_attr( $name ); ?>"><?php echo esc_attr( $value ); ?></textarea>
+            name="<?php echo esc_attr( $name ); ?>"><?php echo esc_textarea( $value ); ?></textarea>
 
             <?php
             break;
