@@ -210,7 +210,10 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 #### 🔐 Configurazione Sicurezza
 
 - **Credenziali database**: Gestite tramite file `.env`
-- **WordPress secrets**: Chiavi di sicurezza generate automaticamente
+- **WordPress secrets**: salt e password del DB stanno solo nel `.env` del server. Si ruotano con
+  `scripts/ruota-segreti.sh`: backup, manutenzione per pochi secondi, ricifratura dei dati di
+  Google Site Kit (cifrati con `LOGGED_IN_KEY` e `LOGGED_IN_SALT`) e ripristino automatico se
+  qualcosa non torna. Tutti gli utenti devono rientrare
 - **Accesso database**: Solo rete interna Docker
 - **File sensibili**: `.env` escluso dal versioning
 - **User mapping**: Container gira con UID/GID utente host (no root)

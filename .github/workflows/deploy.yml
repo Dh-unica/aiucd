@@ -166,22 +166,11 @@ jobs:
         run: |
           echo "Checking configuration files..."
 
-          # Ensure .env exists (don't overwrite if exists)
-          if [ ! -f .env ]; then
-            if [ -f .env.example ]; then
-              echo "⚠️  .env not found, copying from .env.example"
-              cp .env.example .env
-              echo "⚠️  WARNING: Using default credentials from .env.example"
-              echo "⚠️  For production, update .env with secure credentials!"
-              echo ""
-              echo "To update credentials on production server:"
-              echo "  1. SSH into the server"
-              echo "  2. Edit the .env file in the project directory"
-              echo "  3. Run: docker compose down && docker compose up -d"
-            else
-              echo "❌ ERROR: Neither .env nor .env.example found!"
-              exit 1
-            fi
+          # Il .env di produzione contiene i segreti e vive solo sul server. Senza, il deploy si ferma:
+          # copiare .env.example vorrebbe dire partire con password scritte in un repo pubblico.
+          if [ ! -s .env ]; then
+            echo "❌ ERROR: .env non trovato: va ripristinato sul server, il deploy non lo crea"
+            exit 1
           fi
 
           # Idempotent: ensure persistent data dir vars are present and aligned

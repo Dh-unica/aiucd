@@ -1,5 +1,8 @@
 # Environment files
 .env
+# copie temporanee del .env (contengono segreti), tranne l'esempio
+.env.*
+!.env.example
 
 # WordPress - Ignora uploads ma mantieni codice versionabile
 # La directory uploads/ deve esistere come mountpoint per il bind di runtime
