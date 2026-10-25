@@ -6,9 +6,10 @@
 // Si lancia nel container wordpress, da scripts/ruota-segreti.sh:
 //   php -r "<questo file>" verso-stdin   porta i valori alla chiave e al sale letti da stdin (2 righe)
 //   php -r "<questo file>" verso-env     li porta a quelli del container (ripristino)
-//   php -r "<questo file>" verifica      controlla che si decifrino con quelli del container
-// "verso-*" è idempotente: un valore già cifrato con la destinazione resta com'è. Se un valore non si
-// decifra con nessuna delle due coppie non scrive niente ed esce con 1.
+//   php -r "<questo file>" verifica      conta quanti si decifrano con quelli del container
+// "verso-*" è idempotente: un valore già cifrato con la destinazione resta com'è. Un valore che non si
+// decifra con nessuna delle due coppie è già illeggibile per Site Kit: resta com'è e viene contato.
+// Stampa sempre "site kit: N leggibili, M illeggibili, K non cifrati" (N con la chiave d'arrivo).
 // Le credenziali del DB vengono dall'ambiente del container. Non stampa mai i valori.
 
 const METODO = 'aes-256-ctr';
@@ -48,7 +49,12 @@ if ('verifica' !== $modo) {
 		esci('servono chiave e sale su stdin');
 	}
 }
-list($da, $verso) = 'verso-env' === $modo ? array($in, $env) : array($env, $in);
+$coppie = array(
+	'verso-stdin' => array($env, $in),
+	'verso-env'   => array($in, $env),
+	'verifica'    => array($env, $env),
+);
+list($da, $verso) = $coppie[ $modo ];
 
 list($host, $port) = array_pad(explode(':', (string) getenv('WORDPRESS_DB_HOST')), 2, '3306');
 $db = new mysqli($host, getenv('WORDPRESS_DB_USER'), getenv('WORDPRESS_DB_PASSWORD'), getenv('WORDPRESS_DB_NAME'), (int) $port);
@@ -64,34 +70,28 @@ foreach ($db->query("SELECT umeta_id, meta_value FROM {$p}usermeta WHERE meta_ke
 }
 
 $nuovi = array();
-$conta = array('già a posto' => 0, 'non cifrati' => 0);
+$conta = array('leggibili' => 0, 'illeggibili' => 0, 'non cifrati' => 0);
 foreach ($righe as list($tabella, $colonna, $chiave, $id, $raw)) {
-	if ('verifica' === $modo) {
-		$v = decifra($raw, $env[0], $env[1]);
-		if (false === $v) {
-			esci("$tabella $id non si decifra con i salt del container");
-		}
-		$conta[null === $v ? 'non cifrati' : 'già a posto']++;
-		continue;
-	}
 	$v = decifra($raw, $verso[0], $verso[1]);
 	if (null === $v) {
 		$conta['non cifrati']++;
 		continue;
 	}
 	if (false !== $v) {
-		$conta['già a posto']++;
+		$conta['leggibili']++;
 		continue;
 	}
-	$v = decifra($raw, $da[0], $da[1]);
+	$v = 'verifica' === $modo ? false : decifra($raw, $da[0], $da[1]);
 	if (! is_string($v)) {
-		esci("$tabella $id non si decifra né con la chiave di partenza né con quella di arrivo");
+		$conta['illeggibili']++;
+		continue;
 	}
 	$c = cifra($v, $verso[0], $verso[1]);
 	if (decifra($c, $verso[0], $verso[1]) !== $v) {
 		esci('ricifratura non verificata');
 	}
 	$nuovi[] = array($tabella, $colonna, $chiave, $id, $c);
+	$conta['leggibili']++;
 }
 
 $db->begin_transaction();
@@ -101,4 +101,4 @@ foreach ($nuovi as list($tabella, $colonna, $chiave, $id, $c)) {
 	$st->execute();
 }
 $db->commit();
-printf("site kit: %d ricifrati, %d già a posto, %d non cifrati\n", count($nuovi), $conta['già a posto'], $conta['non cifrati']);
+printf("site kit: %d leggibili, %d illeggibili, %d non cifrati (%d ricifrati)\n", $conta['leggibili'], $conta['illeggibili'], $conta['non cifrati'], count($nuovi));

@@ -40,6 +40,7 @@ sql() {  # password di root, SQL da stdin. La password passa da stdin: non compa
 sitekit() {  # modo; chiave e sale su stdin per verso-stdin e verso-env
   docker exec -i "$WP" php -r "$(sed 1d scripts/sitekit-ricifra.php)" "$1"
 }
+leggibili() { sitekit verifica | sed -n 's/^site kit: \([0-9]*\) leggibili.*/\1/p'; }
 
 install_env() {  # file temporaneo -> .env, in modo atomico
   chmod 600 "$1"
@@ -80,12 +81,15 @@ check_site() {  # wp-login.php legge il DB: deve rispondere 200
 }
 
 cmd_ruota() {
-  local root_old root_new user_new dir tmp k
+  local root_old root_new user_new dir tmp k sk
   root_old=$(envget .env MYSQL_ROOT_PASSWORD)
   sql "$root_old" <<<'SELECT 1' >/dev/null || die "MYSQL_ROOT_PASSWORD del .env non entra nel DB"
   [ "$(env_of "$WP" WORDPRESS_LOGGED_IN_KEY | fp)" = "$(envget .env WORDPRESS_LOGGED_IN_KEY | fp)" ] ||
     die "i salt del .env non sono quelli del container: il .env è cambiato dopo l'ultimo deploy"
-  sitekit verifica || die "i dati di Site Kit non si decifrano già adesso: niente da ricifrare in sicurezza"
+  sk=$(sitekit verifica) || die "lettura dei dati di Site Kit non riuscita"
+  echo "$sk"
+  case "$sk" in *" 0 illeggibili"*) ;; *) echo "nota: i valori illeggibili lo sono già per Site Kit, che va ricollegato a Google" ;; esac
+  sk=$(echo "$sk" | sed -n 's/^site kit: \([0-9]*\) leggibili.*/\1/p')
 
   dir=$BACKUP_ROOT/segreti-$(date +%Y%m%d-%H%M%S)
   mkdir -m 700 "$dir"
@@ -120,7 +124,7 @@ cmd_ruota() {
      [ "$(env_of "$DB" MYSQL_ROOT_PASSWORD | fp)" != "$(echo "$root_new" | fp)" ]; then
     echo "i container non hanno i valori nuovi" >&2; cmd_ripristina "$dir"; exit 1
   fi
-  sitekit verifica || { cmd_ripristina "$dir"; exit 1; }
+  if [ "$(leggibili)" != "$sk" ]; then echo "Site Kit non legge più i dati che leggeva prima" >&2; cmd_ripristina "$dir"; exit 1; fi
   manutenzione off
   check_site || { cmd_ripristina "$dir"; exit 1; }
   echo "salt e password ruotati: tutti gli utenti devono rientrare. Quando il sito è verificato: rm -r $dir"
